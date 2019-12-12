@@ -69,19 +69,19 @@ ers_insitu <- function(species,Workspace,run_version) {
 }
 
 
-Workspace = "E:/CIAT/workspace/Workspace_test/workspace"
-run_version="v1"
-species_list <- c(
-  "Cucurbita_cordata",
-  "Cucurbita_digitata",
-  "Cucurbita_foetidissima",
-  "Cucurbita_palmata"
-)
-run_version <-"v1"
+#Workspace = "E:/CIAT/workspace/Workspace_test/workspace"
+#run_version="v1"
+#species_list <- c(
+# "Cucurbita_cordata",
+# "Cucurbita_digitata",
+# "Cucurbita_foetidissima",
+#  "Cucurbita_palmata"
+#)
+#run_version <-"v1"
 
-lapply(1:length(species_list),function(i){
-  species <- species_list[[i]]
-  x <- ers_insitu(species,Workspace,run_version)
-  cat(paste0(species," DONE!"),"\n")
-})
+#lapply(1:length(species_list),function(i){
+#  species <- species_list[[i]]
+#  x <- ers_insitu(species,Workspace,run_version)
+#  cat(paste0(species," DONE!"),"\n")
+#})
 
