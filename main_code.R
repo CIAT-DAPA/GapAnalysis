@@ -17,10 +17,12 @@ x <- create_folder_structure(species_list=species_list,dir="E:/CIAT/workspace/Wo
 x <- clean_records(Workspace,species_csv,species_list,run_version)
 x <- create_buffers(species,Workspace,bufferType,buff_dist,run_version)
 ###EX SITU ANALYSIS
-x <-  srs_exsitu(species,Workspace,run_version)
+x <- srs_exsitu(species,Workspace,run_version)
 x <- grs_exsitu(species,Workspace,run_version)
 x <- ers_exsitu(species,Workspace,run_version)
 x <- fcs_exsitu(species,Workspace,run_version)
+x <- gap_map_exsitu(species,Workspace,run_version)
+
 ###IN SITU ANALYSIS
 x <- srs_insitu(species,Workspace,run_version)
 x <- insitu_grs(species,Workspace,run_version)
