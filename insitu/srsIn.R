@@ -1,11 +1,3 @@
-###
-# Calculate the proportion of points that fall within a protected areas. Insitu SRS 
-# 20191002
-# carver.dan1@gmail.com
-###
-
-
-#species <- species1
 srs_insitu <- function(species,Workspace,run_version){
   
   par_dir <- paste0(Workspace,"/","parameters")
