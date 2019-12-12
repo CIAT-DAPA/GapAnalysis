@@ -46,7 +46,7 @@ write.csv(out_df,paste(sp_dir,"/gap_analysis/exsitu/grs_result.csv",sep=""),row.
 #  "Cucurbita_foetidissima",
 #  "Cucurbita_palmata"
 #)
-run_version <-"v1"
+#run_version <-"v1"
 
 
 # lapply(1:length(species_list),function(i){
