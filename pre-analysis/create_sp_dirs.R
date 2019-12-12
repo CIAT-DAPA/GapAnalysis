@@ -1,6 +1,3 @@
-# This function runs the entire process for a selected species
-# @param (chr) species: species ID
-# @return (dir): status of directory creation
 create_sp_dirs <- function(species,gap_dir,run_version) {
   #load config
   # config(dirs=T)
