@@ -38,14 +38,14 @@ write.csv(out_df,paste(sp_dir,"/gap_analysis/exsitu/grs_result.csv",sep=""),row.
   return(out_df)
 }
 
-Workspace = "E:/CIAT/workspace/Workspace_test/workspace"
-run_version="v1"
-species_list <- c(
-  "Cucurbita_cordata",
-  "Cucurbita_digitata",
-  "Cucurbita_foetidissima",
-  "Cucurbita_palmata"
-)
+#Workspace = "E:/CIAT/workspace/Workspace_test/workspace"
+#run_version="v1"
+#species_list <- c(
+#  "Cucurbita_cordata",
+#  "Cucurbita_digitata",
+#  "Cucurbita_foetidissima",
+#  "Cucurbita_palmata"
+#)
 run_version <-"v1"
 
 
