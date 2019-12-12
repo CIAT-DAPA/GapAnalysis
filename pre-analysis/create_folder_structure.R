@@ -1,6 +1,3 @@
-# This function runs the entire process for a selected species
-# @param (chr) species: species ID
-# @return (dir): status of directory creation
 create_folder_structure <- function(species_list,dir,run_version) {
   #Creating folder structure according to a given directory 
   folder_dir <- paste(dir,"/","workspace",sep = "")
