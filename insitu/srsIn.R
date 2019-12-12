@@ -45,17 +45,17 @@ srs_insitu <- function(species,Workspace,run_version){
   return(out_df)
 }
 
-Workspace = "E:/CIAT/workspace/Workspace_test/workspace"
-run_version="v1"
-species_list <- c(
-  "Cucurbita_cordata",
-  "Cucurbita_digitata",
-  "Cucurbita_foetidissima",
-  "Cucurbita_palmata"
-)
+#Workspace = "E:/CIAT/workspace/Workspace_test/workspace"
+#run_version="v1"
+#species_list <- c(
+#  "Cucurbita_cordata",
+#  "Cucurbita_digitata",
+#  "Cucurbita_foetidissima",
+#  "Cucurbita_palmata"
+#)
 
-lapply(1:length(species_list),function(i){
-  species <- species_list[[i]]
- x <-  srs_insitu(species_list[[i]],Workspace,run_version)
- cat(paste0(species," DONE!"),"\n")
- })
+#lapply(1:length(species_list),function(i){
+#  species <- species_list[[i]]
+# x <-  srs_insitu(species_list[[i]],Workspace,run_version)
+# cat(paste0(species," DONE!"),"\n")
+# })
