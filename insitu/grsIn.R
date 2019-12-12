@@ -1,11 +1,3 @@
-###
-# Calculate the GRSin = area in protect areas / total area * 100
-# 20190919
-# carver.dan1@gmail.com
-###
-
-#species=species1
-
 insitu_grs = function(species,Workspace,run_version) {
   
 suppressMessages(require(rgdal))
