@@ -2,6 +2,7 @@
 
 Workspace = "E:/CIAT/workspace/Workspace_test/workspace"
 run_version="v1"
+species_csv <- "Cucurbita_CWR_2019_09_30.csv"
 species_list <- c(
   "Cucurbita_cordata",
   "Cucurbita_digitata",
@@ -13,7 +14,10 @@ bufferType="G" # "G" or "total"
 buff_dist=50000 #50km radius
 species <- species_list[[1]]
 ###PRE-ANALYSIS
-x <- create_folder_structure(species_list=species_list,dir="E:/CIAT/workspace/Workspace_test",run_version = "v1")
+
+x <- create_folder_structure(species_list=species_list,dir="E:/CIAT/workspace/Workspace_test2",run_version = "v1")
+  #ALTERNATIVEs
+x <- get_sp_names(Workspace,species_csv)
 x <- clean_records(Workspace,species_csv,species_list,run_version)
 x <- create_buffers(species,Workspace,bufferType,buff_dist,run_version)
 ###EX SITU ANALYSIS

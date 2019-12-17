@@ -6,7 +6,7 @@ create_folder_structure <- function(species_list,dir,run_version) {
   if (!file.exists(paste(folder_dir,"/parameters",sep=""))) {dir.create(paste(folder_dir,"/parameters",sep=""),recursive=T)}
   if (!file.exists(paste(folder_dir,"/parameters/models",sep=""))) {dir.create(paste(folder_dir,"/parameters/models",sep=""),recursive=T)}
 
-  model_path_dir <- paste(folder_dir,"/parameters/models",sep="")
+  model_path_dir <- paste(folder_dir,"/parameters/inputs",sep="")
   
   lapply(1:length(species_list),function(i){
     sp <- species_list[[i]]
@@ -17,9 +17,9 @@ create_folder_structure <- function(species_list,dir,run_version) {
   
   if (!file.exists(paste(folder_dir,"/parameters/occurrrences",sep=""))) {dir.create(paste(folder_dir,"/parameters/occurrences",sep=""),recursive=T)}
   if (!file.exists(paste(folder_dir,"/parameters/occurrrences/original",sep=""))) {dir.create(paste(folder_dir,"/parameters/occurrences/original",sep=""),recursive=T)}
-  if (!file.exists(paste(folder_dir,"/parameters/occurrrences/filtered",sep=""))) {dir.create(paste(folder_dir,"/parameters/occurrences/filtered",sep=""),recursive=T)}
+  # if (!file.exists(paste(folder_dir,"/parameters/occurrrences/filtered",sep=""))) {dir.create(paste(folder_dir,"/parameters/occurrences/filtered",sep=""),recursive=T)}
   
-  if (!file.exists(paste(folder_dir,"/parameters/biolayers",sep=""))) {dir.create(paste(folder_dir,"/parameters/biolayers",sep=""),recursive=T)}
+  # if (!file.exists(paste(folder_dir,"/parameters/biolayers",sep=""))) {dir.create(paste(folder_dir,"/parameters/biolayers",sep=""),recursive=T)}
   if (!file.exists(paste(folder_dir,"/parameters/raster",sep=""))) {dir.create(paste(folder_dir,"/parameters/raster",sep=""),recursive=T)}
   
   if (!file.exists(paste(folder_dir,"/gap_analysis",sep=""))) {dir.create(paste(folder_dir,"/gap_analysis",sep=""),recursive=T)}

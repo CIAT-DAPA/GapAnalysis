@@ -1,0 +1,15 @@
+Package: GapAnalysisR
+Type: Package
+Title: An R package to calculate conservation indicators using species distribution models
+Date: 2019-12-10
+Version: 1.0
+Author: Dan Carver, Chrystian Sosa,Colin Khoury, Julian Ramirez-Villegas
+Maintainer: CIAT Decision and policy analysis research area  <J.R.Villegas@cgiar.org>
+Imports: dplyr,fasterize,ff,ffbase,geobuffer,raster,rgdal,tmap,sf,dplyr,BBmisc,lwgeom,utils,base,sp
+Description: This R package provides a consistent pipeline to calculate ex-situ and in-situ conservation indicators as well as basic functions to allow run
+ the gap analysis methodology based on the gap analysis methodology used in Khoury et al., 2019 article available at https://www.sciencedirect.com/science/article/pii/S1470160X18308781.
+ (This package does not include methods for modeling species distribution models)
+License: GPL (>= 2)
+LazyData: 
+Encoding: UTF-8
+RoxygenNote: 6.1.1
