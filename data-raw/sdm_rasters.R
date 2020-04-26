@@ -1,0 +1,5 @@
+cordata <- raster::raster("data-raw/exampleData/sdm_rasters/cordata.tif")
+digitata <- raster::raster("data-raw/exampleData/sdm_rasters/digitata.tif")
+palmata <- raster::raster("data-raw/exampleData/sdm_rasters/palmata.tif")
+sdm_rasters <- list(cordata,digitata,palmata)
+usethis::use_data(sdm_rasters, overwrite = TRUE,compress = "bzip2")
