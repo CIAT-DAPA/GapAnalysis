@@ -35,7 +35,7 @@ ERSex is calculated as:
 ##Obtaining occurrences from example
 data("cucurbitaData")
 speciesList <- unique(cucurbitaData$taxon)
-## Obtaining rasterList objet. ##
+## Obtaining rasterList object. ##
 data("sdm_rasters")
 ##Obtaining ecoregions shapefile
 data("ecoregions")
@@ -44,8 +44,7 @@ ERSex <- ers_Exsitu(species_list = speciesList,
                     occurrenceData = cucurbitaData,
                     raster_list = sdm_rasters,
                     bufferDistance = 50000,
-                    ecoReg=ecoregions
-                    )
+                    ecoReg=ecoregions)
 
 }
 \references{

@@ -15,7 +15,7 @@ This function creates the data_preloaded folder and it downloads datasets from d
 }
 \examples{
 \dontrun{
-preparingDatasets()
+preparing_Datasets()
 }
 
 }

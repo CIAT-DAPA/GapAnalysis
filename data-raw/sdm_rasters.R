@@ -1,3 +1,4 @@
+suppressWarnings(require(raster))
 cordata <- raster::raster("data-raw/exampleData/sdm_rasters/cordata.tif")
 digitata <- raster::raster("data-raw/exampleData/sdm_rasters/digitata.tif")
 palmata <- raster::raster("data-raw/exampleData/sdm_rasters/palmata.tif")

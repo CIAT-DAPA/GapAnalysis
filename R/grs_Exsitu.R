@@ -20,7 +20,6 @@
 #' @examples
 #' ##Obtaining occurrences from example
 #' data("cucurbitaData")
-#' countsDF <- generate_Counts(species = "Cucurbita_cordata", occurrenceData = cucurbitaData)
 #' speciesList <- unique(cucurbitaData$taxon)
 #' ## Obtaining rasterList objet. ##
 #' data("sdm_rasters")

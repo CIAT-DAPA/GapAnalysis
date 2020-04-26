@@ -18,7 +18,8 @@
 #' data("cucurbitaData")
 #' ##Obtaining species names from the data
 #' speciesList <- unique(cucurbitaData$taxon)
-#' SRSex <- srs_Exsitu(species_list = speciesList, occurrenceData = cucurbitaData)
+#' SRSex <- srs_Exsitu(species_list = speciesList,
+#'                     occurrenceData = cucurbitaData)
 #'
 #'@references
 #'
