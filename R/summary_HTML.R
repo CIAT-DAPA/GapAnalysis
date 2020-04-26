@@ -86,7 +86,7 @@ summary_HTML <- function(species_list,occurrenceData, raster_List,  proArea,buff
 out_dir <- system.file(package = "gapAnalysisR")
 
 if(!file.exists(paste0(out_dir,"/","preloaded_data","/","summaryHTML.Rmd"))){
-  stop("RMd file is not available yet. Please run the function preparingDatasets() and try again")
+  stop("Rmd file is not available yet. Please run the function preparingDatasets() and try again")
 } else {
 
 rmarkdown::render(input = paste0(out_dir,"/","preloaded_data","/","summaryHTML.Rmd"),

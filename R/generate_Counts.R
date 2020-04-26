@@ -22,7 +22,8 @@
 #' @examples
 #' data("cucurbitaData")
 #' ##Obtaining species names from the data
-#' #speciesList <- unique(cucurbitaData$taxon)
+#' speciesList <- unique(cucurbitaData$taxon)
+#' countDF <- generate_Counts(speciesList[[1]],cucurbitaData)
 #'
 #'@references
 #'

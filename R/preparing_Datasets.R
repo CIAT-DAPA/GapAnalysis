@@ -14,7 +14,6 @@
 #'
 #' @export
 #' @importFrom rlang .data
-#' @importFrom utils installed.packages read.table write.csv
 
 preparing_Datasets <- function(){
 
