@@ -1,7 +1,7 @@
 suppressWarnings(suppressMessages(library(raster)))
 #suppressWarnings(require(magrittr))
 suppressWarnings(suppressMessages(require(dplyr)))
-ecoregions <- raster::shapefile("data-raw/fileData/ecoRegion/tnc_terr_ecoregions.shp")
+ecoregions <- raster::shapefile("data-raw/fileData/Ecoregions//tnc_terr_ecoregions.shp")
 ecoregions@data <-  ecoregions@data %>%
  dplyr::mutate_if(is.character, iconv, to = 'UTF-8')
 
