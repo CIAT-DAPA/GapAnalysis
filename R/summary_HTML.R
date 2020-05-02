@@ -76,8 +76,8 @@
 #'
 #' @export
 #' @importFrom rmarkdown render
-#' @importFrom raster raster
-#' @import tmap
+#' @importFrom raster raster extend writeRaster crop extent
+#' @import tmap sp
 
 summary_HTML <- function(species_list,occurrenceData, raster_List,  proArea,bufferDistance,
                         #countsSummary,
