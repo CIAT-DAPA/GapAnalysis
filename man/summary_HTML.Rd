@@ -52,40 +52,40 @@ The content. The code also produces in situ and ex situ gap maps which can be wr
 \examples{
 \dontrun{
 ##Obtaining occurrences from example
-data(cucurbitaData)
+data(CucurbitaData)
 ##Obtaining species names from the data
-speciesList <- unique(cucurbitaData$taxon)
+speciesList <- unique(CucurbitaData$taxon)
 ##Obtaining raster_list
-data(sdm_rasters)
+data(CucurbitaRasters)
 ##Obtaining protected areas raster
-data(protectedArea)
+data(ProtectedAreas)
 ##Obtaining ecoregions shapefile
-data(ecoregions)
+data(Ecoregions)
 
 #Running all three Ex situ gap analysis steps using insituGapAnalysis function
-exsituGapMetrics <- exsitu_GapAnalysis(species_list=speciesList,
-                                      occurrenceData=cucurbitaData,
-                                      raster_list=sdm_rasters,
+exsituGapMetrics <- ExsituCompile(species_list=speciesList,
+                                      occurrenceData=CucurbitaData,
+                                      raster_list=CucurbitaRasters,
                                       bufferDistance=50000,
                                       ecoReg=ecoregions)
 
 
 #Running all three In situ gap analysis steps using insituGapAnalysis function
-insituGapMetrics <- insitu_GapAnalysis(species_list=speciesList,
-                                       occurrenceData=cucurbitaData,
-                                       raster_list=sdm_rasters,
-                                       proArea=protectedArea,
-                                       ecoReg=ecoregions)
+insituGapMetrics <- InsituCompile(species_list=speciesList,
+                                       occurrenceData=CucurbitaData,
+                                       raster_list=CucurbitaRasters,
+                                       proArea=ProtectedAreas,
+                                       ecoReg=Ecoregions)
 
 ## Obtaining AOO and EOO ##
 eooAoo_table <- gapAnalysisR::eooAoo(species_list = speciesList,
-                               occurrenceData = cucurbitaData)
+                               occurrenceData = CucurbitaData)
 
-fcsCombine <- fcs_Combine(fcsEx = exsituGapMetrics,fcsIn = insituGapMetrics)
+fcsCombine <- FCSc_mean(fcsEx = exsituGapMetrics,fcsIn = insituGapMetrics)
 
 summaryHTML_file <- summary_HTML(species_list=speciesList,
-                                occurrenceData = cucurbitaData,
-                                 raster_List=sdm_rasters,
+                                occurrenceData = CucurbitaData,
+                                 raster_List=CucurbitaRasters,
                                  proArea=protectedArea,
                                  bufferDistance=50000,
                                  insituSummary=insituGapMetrics,

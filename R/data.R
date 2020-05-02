@@ -1,5 +1,5 @@
 #' @title Cucurbita occurrences dataset
-#' @name cucurbitaData
+#' @name CucurbitaData
 #' @docType data
 #' @description This dataset is a subset of the original dataset for:
 #'  C. cordata, C. digitata and C. palmata used in Khoury et al., 2020
@@ -15,10 +15,10 @@
 #' and abiotic stress tolerance potential of wild cucurbita (Cucurbita L.).
 #' Plants, People, Planet. 2019; 00: 1– 15. https://doi.org/10.1002/ppp3.10085
 #' @source \url{https://dataverse.harvard.edu/dataverse/GapAnalysisR}
-"cucurbitaData"
+"CucurbitaData"
 
 #' @title Cucurbita species distribution models dataset
-#' @name sdm_rasters
+#' @name CucurbitaRasters
 #' @docType data
 #' @format raster files
 #' @description This dataset is a subset of thresholded species distribution models for:
@@ -28,18 +28,18 @@
 #'  and abiotic stress tolerance potential of wild cucurbita (Cucurbita L.).
 #'  Plants, People, Planet. 2019; 00: 1– 15. https://doi.org/10.1002/ppp3.10085
 #' @source \url{https://dataverse.harvard.edu/dataverse/GapAnalysisR}
-"sdm_rasters"
+"CucurbitaRasters"
 
 #' @title Ecoregions shapefile
-#' @name ecoregions
+#' @name Ecoregions
 #' @docType data
 #' @format Shapefile
 #' @description This dataset is a subset of the Terrestrial Ecoregions shapefile made by the Nature Conservancy
 #' @source \url{http://maps.tnc.org/gis_data.html}
-"ecoregions"
+"Ecoregions"
 
 #' @title Protected areas dataset in raster format
-#' @name  protectedArea
+#' @name  ProtectedAreas
 #' @docType data
 #' @format Raster file
 #' @description This dataset is a raster version of the world protected areas dataset used in Khoury et al., (2019)
@@ -48,5 +48,4 @@
 #' Khoury, C. K., Amariles, D., Soto, J. S., Diaz, M. V., Sotelo, S., Sosa, C. C., … Jarvis, A. (2019).
 #' Comprehensiveness of conservation of useful wild plants: An operational indicator for biodiversity
 #' and sustainable development targets. Ecological Indicators. https://doi.org/10.1016/j.ecolind.2018.11.016
-
-"protectedArea"
+"ProtectedAreas"
