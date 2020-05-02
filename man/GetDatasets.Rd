@@ -2,12 +2,12 @@
 % Please edit documentation in R/GetDatasets.R
 \name{GetDatasets}
 \alias{GetDatasets}
-\title{Preparing datasets to run gapAnalysisR functions}
+\title{Preparing datasets to run GapAnalysis functions}
 \usage{
 GetDatasets()
 }
 \value{
-This function downloads data required to run a full gap analysis. It creates the folder data_preloaded into the gapAnalysisR.
+This function downloads data required to run a full gap analysis. It creates the folder data_preloaded into the GapAnalysis.
 Please run this function after install the package.
 }
 \description{

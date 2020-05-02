@@ -9,9 +9,9 @@
 #' @param occurrenceData A data frame object with the species name, geographical coordinates, and type of records (G or H) for a given species
 #' @param raster_list A list representing the species distribution models for the species list provided loaded in raster format. This list must match the same order of the species list.
 #' @param proArea A raster file representing protected areas information. If proArea=NULL the funtion will use a protected area raster file
-#'  provided for your use after run preparing_Datasets()
+#'  provided for your use after run GetDatasets()
 #' @param ecoReg A shapefile representing ecoregions information with a field ECO_NUM representing ecoregions Ids. If ecoReg=NULL the function will use a shapefile
-#'  provided for your use after run preparing_Datasets()
+#'  provided for your use after run GetDatasets()
 #'
 #' @return This function returns a data frame with two columns:
 #'
@@ -78,8 +78,8 @@ ERSin <- function(species_list,occurrenceData,raster_list,proArea,ecoReg) {
   colnames(df) <- c("species", "ERSin")
   # load in protect area raster
   if(is.null(proArea)){
-    if(file.exists(system.file("data/preloaded_data/protectedArea/wdpa_reclass.tif",package = "gapAnalysisR"))){
-      proArea <- raster::raster(system.file("data/preloaded_data/protectedArea/wdpa_reclass.tif",package = "gapAnalysisR"))
+    if(file.exists(system.file("data/preloaded_data/protectedArea/wdpa_reclass.tif",package = "GapAnalysis"))){
+      proArea <- raster::raster(system.file("data/preloaded_data/protectedArea/wdpa_reclass.tif",package = "GapAnalysis"))
     } else {
       stop("Protected areas file is not available yet. Please run the function preparingDatasets()  and try again")
     }
@@ -88,8 +88,8 @@ ERSin <- function(species_list,occurrenceData,raster_list,proArea,ecoReg) {
   }
   # Load in ecoregions shp
   if(is.null(ecoReg)){
-    if(file.exists(system.file("data/preloaded_data/ecoRegion/tnc_terr_ecoregions.shp",package = "gapAnalysisR"))){
-      ecoReg <- raster::shapefile(system.file("data/preloaded_data/ecoRegion/tnc_terr_ecoregions.shp", package = "gapAnalysisR"))
+    if(file.exists(system.file("data/preloaded_data/ecoRegion/tnc_terr_ecoregions.shp",package = "GapAnalysis"))){
+      ecoReg <- raster::shapefile(system.file("data/preloaded_data/ecoRegion/tnc_terr_ecoregions.shp", package = "GapAnalysis"))
     } else {
       stop("Ecoregions file is not available yet. Please run the function preparingDatasets() and try again")
       }

@@ -95,7 +95,7 @@ GRSex <- function(occurrenceData, species_list, raster_list, bufferDistance) {
     sdmMask[sdmMask == 0] <- NA
     # buffer G points
 #    buffer <- geobuffer::geobuffer_pts(xy = occData,
-    buffer <- gapAnalysisR::geobuffer_pts(xy = occData,
+    buffer <- GapAnalysis::Gbuffer(xy = occData,
                                        dist_m = bufferDistance,
                                        output = 'sf')
 

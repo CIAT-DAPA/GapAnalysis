@@ -26,7 +26,7 @@ summary_HTML(
 \item{raster_List}{A list representing the species distribution models for the species list provided loaded in raster format. This list must match the same order of the species list.}
 
 \item{proArea}{A raster file representing protected areas information. If proArea=NULL the funtion will use a protected area raster file
-provided for your use after run preparing_Datasets()}
+provided for your use after run GetDatasets()}
 
 \item{bufferDistance}{Geographical distance used to create circular buffers around germplasm. Default: 50000 that is 50 km around germplasm accessions (CA50)}
 
@@ -78,7 +78,7 @@ insituGapMetrics <- InsituCompile(species_list=speciesList,
                                        ecoReg=Ecoregions)
 
 ## Obtaining AOO and EOO ##
-eooAoo_table <- gapAnalysisR::eooAoo(species_list = speciesList,
+eooAoo_table <- GapAnalysis::eooAoo(species_list = speciesList,
                                occurrenceData = CucurbitaData)
 
 fcsCombine <- FCSc_mean(fcsEx = exsituGapMetrics,fcsIn = insituGapMetrics)

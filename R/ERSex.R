@@ -9,7 +9,7 @@
 #' @param raster_list A list representing the species distribution models for the species list provided loaded in raster format. This list must match the same order of the species list.
 #' @param bufferDistance Geographical distance used to create circular buffers around germplasm. Default: 50000 that is 50 km around germplasm accessions (CA50)
 #' @param ecoReg A shapefile representing ecoregions information with a field ECO_NUM representing ecoregions Ids. If ecoReg=NULL the function will use a shapefile
-#'  provided for your use after run preparing_Datasets()
+#'  provided for your use after run GetDatasets()
 #'
 #' @return This function returns a data frame with two columns:
 #'
@@ -72,8 +72,8 @@ ERSex <- function(species_list,occurrenceData, raster_list, bufferDistance,ecoRe
   # load in ecoregion dataset
   # Load in ecoregions shp
   if(is.null(ecoReg)){
-    if(file.exists(system.file("data/preloaded_data/ecoRegion/tnc_terr_ecoregions.shp",package = "gapAnalysisR"))){
-      ecoReg <- raster::shapefile(system.file("data/preloaded_data/ecoRegion/tnc_terr_ecoregions.shp", package = "gapAnalysisR"),encoding = "UTF-8")
+    if(file.exists(system.file("data/preloaded_data/ecoRegion/tnc_terr_ecoregions.shp",package = "GapAnalysis"))){
+      ecoReg <- raster::shapefile(system.file("data/preloaded_data/ecoRegion/tnc_terr_ecoregions.shp", package = "GapAnalysis"),encoding = "UTF-8")
     } else {
       stop("Ecoregions file is not available yet. Please run the function preparingDatasets() and try again")
     }
@@ -117,7 +117,7 @@ ERSex <- function(species_list,occurrenceData, raster_list, bufferDistance,ecoRe
 
         # buffer G points
 #    buffer <- geobuffer::geobuffer_pts(xy = occData,
-    buffer <- gapAnalysisR::geobuffer_pts(xy = occDataG,
+    buffer <- GapAnalysis::Gbuffer(xy = occDataG,
                                              dist_m = bufferDistance,
                                              output = 'sf')
         # rasterizing and making it into a mask

@@ -1,6 +1,6 @@
-Package: gapAnalysisR
+Package: GapAnalysis
 Type: Package
-Title: An R package to calculate conservation indicators using species distribution models
+Title: An R package to calculate conservation indicators using spatial information
 Date: 2019-12-10
 Version: 1.0
 Author: Dan Carver, Chrystian Sosa,Colin Khoury, Julian Ramirez-Villegas

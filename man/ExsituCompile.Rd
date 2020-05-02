@@ -22,7 +22,7 @@ ExsituCompile(
 \item{bufferDistance}{Geographical distance used to create circular buffers around germplasm. Default: 50000 that is 50 km around germplasm accessions (CA50)}
 
 \item{ecoReg}{A shapefile representing ecoregions information with a field ECO_NUM representing ecoregions Ids. If ecoReg=NULL the funtion will use a shapefile
-provided for your use after run preparing_Datasets()}
+provided for your use after run GetDatasets()}
 }
 \value{
 This function returns a data frame summarizing the ex-situ gap analysis scores:

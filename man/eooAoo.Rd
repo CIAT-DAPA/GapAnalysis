@@ -29,7 +29,7 @@ data(CucurbitaData)
 ##Obtaining species names from the data
 speciesList <- unique(CucurbitaData$taxon)
 ## Obtaining AOO and EOO ##
-eooAoo <- gapAnalysisR::eooAoo(species_list = speciesList,
+eooAoo <- GapAnalysis::eooAoo(species_list = speciesList,
                                occurrenceData = CucurbitaData)
 
 }

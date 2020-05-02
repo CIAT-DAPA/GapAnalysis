@@ -6,9 +6,9 @@
 #' @param occurrenceData A data frame object with the species name, geographical coordinates, and type of records (G or H) for a given species
 #' @param raster_list A list representing the species distribution models for the species list provided loaded in raster format. This list must match the same order of the species list.
 #' @param proArea A raster file representing protected areas information. If proArea=NULL the function will use a protected area raster file
-#'  provided for your use after run preparing_Datasets()
+#'  provided for your use after run GetDatasets()
 #' @param ecoReg A shapefile representing ecoregions information with a field ECO_NUM representing ecoregions Ids. If ecoReg=NULL the function will use a shapefile
-#'  provided for your use after run preparing_Datasets()
+#'  provided for your use after run GetDatasets()
 #'
 #' @return This function returns a data frame summarizing the in-situ gap analysis scores:
 #'
@@ -52,24 +52,24 @@
 
 InsituCompile <- function(species_list, occurrenceData, raster_list,proArea,ecoReg){
   # call SRSin
-  srsIn_df <- gapAnalysisR::SRSin(species_list = species_list,
+  srsIn_df <- GapAnalysis::SRSin(species_list = species_list,
     occurrenceData = occurrenceData,
      raster_list = raster_list,
     proArea=proArea)
   # call GRSin
-  grsIn_df <- gapAnalysisR::GRSin(species_list = species_list,
+  grsIn_df <- GapAnalysis::GRSin(species_list = species_list,
     occurrenceData = occurrenceData,
     raster_list = raster_list,
     proArea=proArea)
   # call ERSin
-  ersIn_df <- gapAnalysisR::ERSin(species_list = species_list,
+  ersIn_df <- GapAnalysis::ERSin(species_list = species_list,
     occurrenceData =occurrenceData,
     raster_list = raster_list,
     proArea=proArea,
     ecoReg=ecoReg)
 
   # call FCSex
-  FCSin_df <- gapAnalysisR::FCSin(srsIn_df,grsIn_df,ersIn_df)
+  FCSin_df <- GapAnalysis::FCSin(srsIn_df,grsIn_df,ersIn_df)
 
   # return dataframe from FCSex
   return(FCSin_df)

@@ -8,7 +8,7 @@
 #' @param raster_List A list representing the species distribution models for the species list provided loaded in raster format. This list must match the same order of the species list.
 #' @param bufferDistance Geographical distance used to create circular buffers around germplasm. Default: 50000 that is 50 km around germplasm accessions (CA50)
 #' @param proArea A raster file representing protected areas information. If proArea=NULL the funtion will use a protected area raster file
-#'  provided for your use after run preparing_Datasets()
+#'  provided for your use after run GetDatasets()
 #' @param exsituSummary A data frame object result of the functions exsituGapAnalysis or fcs_exsitu
 #' @param insituSummary A data frame object result of the functions insituGapAnalysis or fcs_insitu
 #' @param fcsSummary A data frame object result of the function fcs_combine
@@ -46,7 +46,7 @@
 #'                                        ecoReg=Ecoregions)
 #'
 #' ## Obtaining AOO and EOO ##
-#' eooAoo_table <- gapAnalysisR::eooAoo(species_list = speciesList,
+#' eooAoo_table <- GapAnalysis::eooAoo(species_list = speciesList,
 #'                                occurrenceData = CucurbitaData)
 #'
 #' fcsCombine <- FCSc_mean(fcsEx = exsituGapMetrics,fcsIn = insituGapMetrics)
@@ -76,7 +76,8 @@
 #'
 #' @export
 #' @importFrom rmarkdown render
-
+#' @importFrom raster raster
+#' @import tmap
 
 summary_HTML <- function(species_list,occurrenceData, raster_List,  proArea,bufferDistance,
                         #countsSummary,
@@ -84,7 +85,7 @@ summary_HTML <- function(species_list,occurrenceData, raster_List,  proArea,buff
                         fcsSummary, eooAooSummary, outputFolder,
                         writeRasters){
 
-out_dir <- system.file(package = "gapAnalysisR")
+out_dir <- system.file(package = "GapAnalysis")
 
 if(!file.exists(paste0(out_dir,"/","preloaded_data","/","summaryHTML.Rmd"))){
   stop("Rmd file is not available yet. Please run the function preparingDatasets() and try again")

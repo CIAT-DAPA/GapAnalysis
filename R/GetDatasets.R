@@ -1,7 +1,7 @@
-#' @title Preparing datasets to run gapAnalysisR functions
+#' @title Preparing datasets to run GapAnalysis functions
 #' @name GetDatasets
 #' @description This function creates the data_preloaded folder and it downloads datasets from dataverse to allow run gapAnalysis package function.
-#' @return  This function downloads data required to run a full gap analysis. It creates the folder data_preloaded into the gapAnalysisR.
+#' @return  This function downloads data required to run a full gap analysis. It creates the folder data_preloaded into the GapAnalysis.
 #' Please run this function after install the package.
 #' @examples
 #' \dontrun{
@@ -18,7 +18,7 @@
 
 GetDatasets <- function(){
 
-out_dir <- system.file(package = "gapAnalysisR")#"E:/EG3TC"#system.file("", package = "gapAnalysisR")
+out_dir <- system.file(package = "GapAnalysis")#"E:/EG3TC"#system.file("", package = "GapAnalysis")
 example_dir <- paste0(out_dir,"/","preloaded_data");if(!file.exists(example_dir)){dir.create(example_dir)}
 prot_dir <- paste0(example_dir,"/","protectedArea");if(!file.exists(prot_dir)){dir.create(prot_dir)}
 ecoRegion_dir <- paste0(example_dir,"/","ecoRegion");if(!file.exists(ecoRegion_dir)){dir.create(ecoRegion_dir)}

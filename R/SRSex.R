@@ -47,7 +47,7 @@ SRSex <- function(species_list, occurrenceData) {
   colnames(dt1) <- c("species", "SRSex")
 
   for(i in 1:length(species_list)){
-    sp_counts <- gapAnalysisR::OccurrenceCounts(species_list[i], occurrenceData)
+    sp_counts <- GapAnalysis::OccurrenceCounts(species_list[i], occurrenceData)
 
     if(sp_counts$totalGRecords >= 1 & sp_counts$totalHRecords == 0){
       srs <-100

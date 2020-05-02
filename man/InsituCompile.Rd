@@ -14,10 +14,10 @@ InsituCompile(species_list, occurrenceData, raster_list, proArea, ecoReg)
 \item{raster_list}{A list representing the species distribution models for the species list provided loaded in raster format. This list must match the same order of the species list.}
 
 \item{proArea}{A raster file representing protected areas information. If proArea=NULL the function will use a protected area raster file
-provided for your use after run preparing_Datasets()}
+provided for your use after run GetDatasets()}
 
 \item{ecoReg}{A shapefile representing ecoregions information with a field ECO_NUM representing ecoregions Ids. If ecoReg=NULL the function will use a shapefile
-provided for your use after run preparing_Datasets()}
+provided for your use after run GetDatasets()}
 }
 \value{
 This function returns a data frame summarizing the in-situ gap analysis scores:

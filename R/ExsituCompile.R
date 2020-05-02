@@ -7,7 +7,7 @@
 #' @param raster_list A list representing the species distribution models for the species list provided loaded in raster format. This list must match the same order of the species list.
 #' @param bufferDistance Geographical distance used to create circular buffers around germplasm. Default: 50000 that is 50 km around germplasm accessions (CA50)
 #' @param ecoReg A shapefile representing ecoregions information with a field ECO_NUM representing ecoregions Ids. If ecoReg=NULL the funtion will use a shapefile
-#'  provided for your use after run preparing_Datasets()
+#'  provided for your use after run GetDatasets()
 #'
 #' @return This function returns a data frame summarizing the ex-situ gap analysis scores:
 #'
@@ -49,22 +49,22 @@
 
 ExsituCompile <- function(species_list, occurrenceData, raster_list, bufferDistance,ecoReg){
   # call SRSex
-  srsEx_df <- gapAnalysisR::SRSex(species_list = species_list,
+  srsEx_df <- GapAnalysis::SRSex(species_list = species_list,
                                     occurrenceData = occurrenceData)
   # call GRSex
-  grsEx_df <- gapAnalysisR::GRSex(occurrenceData = occurrenceData,
+  grsEx_df <- GapAnalysis::GRSex(occurrenceData = occurrenceData,
     species_list = species_list,
     raster_list = raster_list,
     bufferDistance = bufferDistance)
   # call ERSex
-  ersEx_df <- gapAnalysisR::ERSex(species_list = species_list,
+  ersEx_df <- GapAnalysis::ERSex(species_list = species_list,
     occurrenceData = occurrenceData,
     raster_list = raster_list,
     bufferDistance = bufferDistance,
     ecoReg=ecoReg)
 
   # call FCSex
-  fcsEx_df <- gapAnalysisR::FCSex(srsEx_df,grsEx_df,ersEx_df)
+  fcsEx_df <- GapAnalysis::FCSex(srsEx_df,grsEx_df,ersEx_df)
 
   # return dataframe from FCSex
   return(fcsEx_df)

@@ -8,7 +8,7 @@
 #' @param occurrenceData A data frame object with the species name, geographical coordinates, and type of records (G or H) for a given species
 #' @param raster_list A list representing the species distribution models for the species list provided loaded in raster format. This list must match the same order of the species list.
 #' @param proArea A raster file representing protected areas information. If proArea=NULL the function will use a protected area raster file
-#'  provided for your use after run preparing_Datasets()
+#'  provided for your use after run GetDatasets()
 #' @return This function returns a data frame with two columns:
 #'
 #' \tabular{lcc}{
@@ -56,8 +56,8 @@ SRSin <- function(species_list, occurrenceData, raster_list,proArea){
   # Load in protect areas
 
   if(is.null(proArea)){
-    if(file.exists(system.file("data/preloaded_data/protectedArea/wdpa_reclass.tif",package = "gapAnalysisR"))){
-      proArea <- raster::raster(system.file("data/preloaded_data/protectedArea/wdpa_reclass.tif",package = "gapAnalysisR"))
+    if(file.exists(system.file("data/preloaded_data/protectedArea/wdpa_reclass.tif",package = "GapAnalysis"))){
+      proArea <- raster::raster(system.file("data/preloaded_data/protectedArea/wdpa_reclass.tif",package = "GapAnalysis"))
     } else {
       stop("Protected areas file is not available yet. Please run the function preparingDatasets()  and try again")
     }
