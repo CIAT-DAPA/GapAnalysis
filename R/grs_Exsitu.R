@@ -47,7 +47,11 @@
 #'Geographic distribution of wild potato species. Am. J. Bot., 88: 2101-2112. doi:10.2307/3558435
 #'
 #' @export
-#' @importFrom rlang .data
+#' @import fasterize sp
+#' @importFrom tidyr drop_na
+#' @importFrom magrittr "%>%"
+#' @importFrom dplyr filter select
+#' @importFrom fasterize fasterize
 #' @importFrom stats median
 
 

@@ -62,6 +62,7 @@
 #'
 #' @export
 #' @importFrom magrittr %>%
+#' @importFrom dplyr left_join select
 
 fcs_Exsitu <- function(srsDF,grsDF,ersDF){
 
@@ -75,7 +76,7 @@ fcs_Exsitu <- function(srsDF,grsDF,ersDF){
     dplyr::select("species","SRSex", "GRSex", "ERSex")
   # calculate the mean value for each row to determine fcs per species
   for(i in 1:nrow(df2)){
-    df2$FCSex[i] <- mean(c(df2$SRSex[i], df2$GRSex[i], df2$ERSex[i]))
+    df2$FCSex[i] <- base::mean(c(df2$SRSex[i], df2$GRSex[i], df2$ERSex[i]))
   }
   return(df2)
 }

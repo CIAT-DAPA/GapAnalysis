@@ -50,6 +50,10 @@
 #'
 #' @export
 #' @importFrom magrittr %>%
+#' @importFrom stats median
+#' @importFrom rlang .data
+#' @importFrom raster raster crop area shapefile
+#' @importFrom dplyr filter mutate_if select distinct
 
 ers_Insitu <- function(species_list,occurrenceData,raster_list,proArea,ecoReg) {
 

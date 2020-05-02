@@ -42,6 +42,9 @@
 #'
 #' @export
 #' @importFrom rlang .data
+#' @importFrom raster raster crop
+#' @importFrom dplyr filter
+#' @importFrom tidyr drop_na
 
 srs_Insitu <- function(species_list, occurrenceData, raster_list,proArea){
 

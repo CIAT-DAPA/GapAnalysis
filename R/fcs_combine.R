@@ -60,6 +60,8 @@
 #'
 #' @export
 #' @importFrom magrittr %>%
+#' @importFrom rlang .data
+#' @importFrom dplyr left_join select
 
 
 fcs_Combine <- function(fcsEx, fcsIn) {

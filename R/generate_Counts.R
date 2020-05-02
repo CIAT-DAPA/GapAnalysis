@@ -38,6 +38,8 @@
 #' @export
 #' @importFrom rlang .data
 #' @importFrom methods as
+#' @importFrom magrittr "%>%"
+#' @importFrom dplyr filter mutate summarize group_by
 
 
 generate_Counts <- function(species,occurrenceData){

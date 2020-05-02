@@ -14,6 +14,8 @@
 #'
 #' @export
 #' @importFrom rlang .data
+#' @importFrom dataverse get_dataset
+#' @import utils
 
 preparing_Datasets <- function(){
 

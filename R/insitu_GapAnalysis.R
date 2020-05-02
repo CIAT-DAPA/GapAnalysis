@@ -49,7 +49,7 @@
 #' and sustainable development targets. Ecological Indicators. https://doi.org/10.1016/j.ecolind.2018.11.016
 #'
 #' @export
-
+#' @importFrom rlang .data
 
 insitu_GapAnalysis <- function(species_list, occurrenceData, raster_list,proArea,ecoReg){
   # call SRSin

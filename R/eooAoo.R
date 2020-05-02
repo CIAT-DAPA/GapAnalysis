@@ -34,6 +34,12 @@
 #' @export
 #' @importFrom magrittr %>%
 #' @importFrom rlang .data
+#' @importFrom raster crs
+#' @importFrom dplyr filter
+#' @importFrom redlistr makeEOO getAreaEOO makeAOOGrid gridUncertainty
+#' @import sp
+
+
 
 eooAoo <-function(species_list, occurrenceData){
 

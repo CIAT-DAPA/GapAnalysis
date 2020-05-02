@@ -65,8 +65,10 @@
 #'   [Euclidean and Geodesic Buffering in R](https://gis.stackexchange.com/questions/250389/euclidean-and-geodesic-buffering-in-r)
 #'   on gis.stackexchange. Also check [Understanding Geodesic Buffering](https://www.esri.com/news/arcuser/0111/geodesic.html).
 #'
+#' @importFrom methods as
 #' @import sp sf geosphere data.table
-#'
+#' @importFrom rlang .data
+#'@importFrom data.table as.data.table setorder
 #' @export
 #' @keywords internal
 
@@ -111,10 +113,10 @@ geobuffer_pts <- function(xy,
   buff_pts[, id := rep(1:n_points, times = length(dg))]
   # If the returns is desired as data.table or data.frame, then stop here.
   if(output == "data.table"){
-    setorder(buff_pts, id)
+    data.table::setorder(buff_pts, id)
     return(buff_pts)
   } else if(output == "data.frame"){
-    setorder(buff_pts, id)
+    data.table::setorder(buff_pts, id)
     return(as.data.frame(buff_pts))
   }
 

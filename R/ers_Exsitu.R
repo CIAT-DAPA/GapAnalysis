@@ -45,6 +45,12 @@
 #' @export
 #' @importFrom magrittr %>%
 #' @importFrom rlang .data
+#' @importFrom dplyr filter mutate mutate_if summarize group_by
+#' @importFrom tidyr drop_na
+#' @importFrom raster shapefile rasterToPoints crs
+#' @importFrom  fasterize fasterize
+#' @import sp
+
 
 ers_Exsitu <- function(species_list,occurrenceData, raster_list, bufferDistance,ecoReg) {
 

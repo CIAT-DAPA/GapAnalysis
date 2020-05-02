@@ -64,7 +64,7 @@
 #'
 #' @export
 #' @importFrom magrittr %>%
-
+#' @importFrom dplyr left_join select
 
 fcs_Insitu <- function(srsDF,grsDF,ersDF) {
     #importFrom("methods", "as")
@@ -77,7 +77,7 @@ fcs_Insitu <- function(srsDF,grsDF,ersDF) {
       dplyr::select("species","SRSin", "GRSin", "ERSin")
     # calculate the mean value for each row to determine fcs per species
     for(i in 1:nrow(df2)){
-      df2$FCSin[i] <- mean(c(df2$SRSin[i], df2$GRSin[i], df2$ERSin[i]))
+      df2$FCSin[i] <- base::mean(c(df2$SRSin[i], df2$GRSin[i], df2$ERSin[i]))
     }
     return(df2)
   }

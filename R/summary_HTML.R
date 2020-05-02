@@ -75,6 +75,8 @@
 #' and sustainable development targets. Ecological Indicators. https://doi.org/10.1016/j.ecolind.2018.11.016
 #'
 #' @export
+#' @importFrom rlang .data
+#' @importFrom rmarkdown render
 
 
 summary_HTML <- function(species_list,occurrenceData, raster_List,  proArea,bufferDistance,

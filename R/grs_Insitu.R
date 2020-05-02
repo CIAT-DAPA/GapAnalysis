@@ -44,6 +44,11 @@
 #'
 #' @export
 #' @importFrom stats median
+#' @importFrom rlang .data
+#' @importFrom raster raster crop area
+#' @importFrom dplyr filter
+#' @importFrom tidyr drop_na
+
 
 grs_Insitu = function(species_list,occurrenceData,raster_list,proArea){
 
@@ -91,7 +96,7 @@ grs_Insitu = function(species_list,occurrenceData,raster_list,proArea){
     # calculate area
     cell_size <- raster::area(proArea1, na.rm=TRUE, weights=FALSE)
     cell_size <- cell_size[!is.na(cell_size)]
-    protected_area <- length(cell_size)*median(cell_size)
+    protected_area <- length(cell_size)*stats::median(cell_size)
     if(!is.na(protected_area)){
       # calculate GRSin
       grs <- min(c(100, protected_area/thrshold_area*100))
