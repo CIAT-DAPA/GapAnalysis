@@ -31,13 +31,13 @@ This function performs an estimation of the sample representativeness score for 
 }
 \examples{
 ##Obtaining occurrences from example
-data("cucurbitaData")
+data(cucurbitaData)
 ##Obtaining species names from the data
 speciesList <- unique(cucurbitaData$taxon)
 ##Obtaining raster_list
-data("sdm_rasters")
+data(sdm_rasters)
 ##Obtaining protected areas raster
-data("protectedArea")
+data(protectedArea)
 srsIn <- srs_Insitu(species_list = speciesList,
                     occurrenceData = cucurbitaData,
                     raster_list=sdm_rasters,
@@ -45,7 +45,7 @@ srsIn <- srs_Insitu(species_list = speciesList,
 
 }
 \references{
-Ramírez-Villegas, J., Khoury, C., Jarvis, A., Debouck, D. G., & Guarino, L. (2010).
+Ramirez-Villegas, J., Khoury, C., Jarvis, A., Debouck, D. G., & Guarino, L. (2010).
 A Gap Analysis Methodology for Collecting Crop Genepools: A Case Study with Phaseolus Beans.
 PLOS ONE, 5(10), e13497. Retrieved from https://doi.org/10.1371/journal.pone.0013497
 

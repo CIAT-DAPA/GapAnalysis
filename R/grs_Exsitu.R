@@ -19,10 +19,10 @@
 #'
 #' @examples
 #' ##Obtaining occurrences from example
-#' data("cucurbitaData")
+#' data(cucurbitaData)
 #' speciesList <- unique(cucurbitaData$taxon)
 #' ## Obtaining rasterList objet. ##
-#' data("sdm_rasters")
+#' data(sdm_rasters)
 #' #Calculating GRSex value
 #' GRSex <- grs_Exsitu(species_list = speciesList,
 #'                     occurrenceData = cucurbitaData,
@@ -30,11 +30,11 @@
 #'                     bufferDistance = 50000)
 #'
 #' @references
-#' Ramírez-Villegas, J., Khoury, C., Jarvis, A., Debouck, D. G., & Guarino, L. (2010).
+#' Ramirez-Villegas, J., Khoury, C., Jarvis, A., Debouck, D. G., & Guarino, L. (2010).
 #' A Gap Analysis Methodology for Collecting Crop Genepools: A Case Study with Phaseolus Beans.
 #' PLOS ONE, 5(10), e13497. Retrieved from https://doi.org/10.1371/journal.pone.0013497
 #'
-#'Ramírez-Villegas, J., Khoury, C., Jarvis, A., Debouck, D. G., & Guarino, L. (2010).
+#'Ramirez-Villegas, J., Khoury, C., Jarvis, A., Debouck, D. G., & Guarino, L. (2010).
 #'A Gap Analysis Methodology for Collecting Crop Genepools: A Case Study with Phaseolus Beans.
 #'PLOS ONE, 5(10), e13497. Retrieved from https://doi.org/10.1371/journal.pone.0013497
 #'

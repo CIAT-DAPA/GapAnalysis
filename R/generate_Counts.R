@@ -20,14 +20,14 @@
 #'  }
 #'
 #' @examples
-#' data("cucurbitaData")
+#' data(cucurbitaData)
 #' ##Obtaining species names from the data
 #' speciesList <- unique(cucurbitaData$taxon)
 #' countDF <- generate_Counts(speciesList[[1]],cucurbitaData)
 #'
 #'@references
 #'
-#' Ramírez-Villegas, J., Khoury, C., Jarvis, A., Debouck, D. G., & Guarino, L. (2010).
+#' Ramirez-Villegas, J., Khoury, C., Jarvis, A., Debouck, D. G., & Guarino, L. (2010).
 #' A Gap Analysis Methodology for Collecting Crop Genepools: A Case Study with Phaseolus Beans.
 #' PLOS ONE, 5(10), e13497. Retrieved from https://doi.org/10.1371/journal.pone.0013497
 #'

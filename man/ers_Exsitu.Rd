@@ -33,12 +33,12 @@ ERSex is calculated as:
 }
 \examples{
 ##Obtaining occurrences from example
-data("cucurbitaData")
+data(cucurbitaData)
 speciesList <- unique(cucurbitaData$taxon)
 ## Obtaining rasterList object. ##
-data("sdm_rasters")
+data(sdm_rasters)
 ##Obtaining ecoregions shapefile
-data("ecoregions")
+data(ecoregions)
 
 ERSex <- ers_Exsitu(species_list = speciesList,
                     occurrenceData = cucurbitaData,
@@ -48,7 +48,7 @@ ERSex <- ers_Exsitu(species_list = speciesList,
 
 }
 \references{
-Ramírez-Villegas, J., Khoury, C., Jarvis, A., Debouck, D. G., & Guarino, L. (2010).
+Ramirez-Villegas, J., Khoury, C., Jarvis, A., Debouck, D. G., & Guarino, L. (2010).
 A Gap Analysis Methodology for Collecting Crop Genepools: A Case Study with Phaseolus Beans.
 PLOS ONE, 5(10), e13497. Retrieved from https://doi.org/10.1371/journal.pone.0013497
 
