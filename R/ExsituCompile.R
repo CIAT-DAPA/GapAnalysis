@@ -41,7 +41,6 @@
 #' A Gap Analysis Methodology for Collecting Crop Genepools: A Case Study with Phaseolus Beans.
 #' PLOS ONE, 5(10), e13497. Retrieved from https://doi.org/10.1371/journal.pone.0013497
 #'
-#'
 #' Khoury, C. K., Amariles, D., Soto, J. S., Diaz, M. V., Sotelo, S., Sosa, C. C., … Jarvis, A. (2019).
 #' Comprehensiveness of conservation of useful wild plants: An operational indicator for biodiversity
 #' and sustainable development targets. Ecological Indicators. https://doi.org/10.1016/j.ecolind.2018.11.016
