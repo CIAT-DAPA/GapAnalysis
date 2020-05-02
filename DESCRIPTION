@@ -13,12 +13,12 @@ Depends:
  R (>= 3.5.0)
 Imports:
   dplyr (>= 0.4.0),
-  rlang (>= 0.4.0),
   tidyselect (>= 0.4.0),
   raster (>= 3.0),
   rgdal(>= 1.4-8),
   tmap (>= 2.3),
   sf (>= 0.8),
+  rlang (>= 0.4.6),
   lwgeom (>= 0.2),
   utils (>= 3.5),
   base (>= 3.5),

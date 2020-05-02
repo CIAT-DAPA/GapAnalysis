@@ -67,8 +67,7 @@
 #'
 #' @importFrom methods as
 #' @import sp sf geosphere data.table
-#' @importFrom rlang .data
-#'@importFrom data.table as.data.table setorder
+#' @importFrom data.table as.data.table setorder
 #' @export
 #' @keywords internal
 
