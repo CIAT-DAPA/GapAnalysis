@@ -23,6 +23,7 @@
 #' speciesList <- unique(CucurbitaData$taxon)
 #' ##Obtaining raster_list
 #' data(CucurbitaRasters)
+#' CucurbitaRasters <- raster::unstack(CucurbitaRasters)
 #' ##Obtaining protected areas raster
 #' data(ProtectedAreas)
 #' SRSin_df <- SRSin(species_list = speciesList,

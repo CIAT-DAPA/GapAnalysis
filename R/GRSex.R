@@ -23,6 +23,7 @@
 #' speciesList <- unique(CucurbitaData$taxon)
 #' ## Obtaining rasterList objet. ##
 #' data(CucurbitaRasters)
+#' CucurbitaRasters <- raster::unstack(CucurbitaRasters)
 #' #Calculating GRSex value
 #' GRSex_df <- GRSex(species_list = speciesList,
 #'                     occurrenceData = CucurbitaData,

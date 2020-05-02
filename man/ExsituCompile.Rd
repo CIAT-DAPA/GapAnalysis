@@ -45,6 +45,7 @@ data(CucurbitaData)
 speciesList <- unique(CucurbitaData$taxon)
 ##Obtaining raster_list
 data(CucurbitaRasters)
+CucurbitaRasters <- raster::unstack(CucurbitaRasters)
 ##Obtaining ecoregions shapefile
 data(Ecoregions)
 
