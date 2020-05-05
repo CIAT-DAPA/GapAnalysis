@@ -1,13 +1,15 @@
 suppressWarnings(suppressMessages(library(raster)))
-lfiles <-list.files("data-raw/fileData/CucurbitaRasters",full.names = T,pattern = ".tif")
-CucurbitaRasters <- lapply(1:length(lfiles), function(i){
+setwd("~/Repositories/GapAnalysis")
+lfiles <-list.files("data-raw/fileData/cucurbitaRasters",full.names = T,pattern = ".tif")
+cucurbitaRasters <- lapply(1:length(lfiles), function(i){
   x <- raster::raster(lfiles[[i]])
   return(x)
 })
 
-names(CucurbitaRasters[[1]]) <- "cordata"
-names(CucurbitaRasters[[2]]) <- "digitata"
-names(CucurbitaRasters[[3]]) <- "palmata"
+names(cucurbitaRasters[[1]]) <- "cordata"
+names(cucurbitaRasters[[2]]) <- "digitata"
+names(cucurbitaRasters[[3]]) <- "palmata"
 
-CucurbitaRasters <- stack(CucurbitaRasters)
-usethis::use_data(CucurbitaRasters, overwrite = TRUE,compress = "bzip2")
+cucurbitaRasters <- stack(cucurbitaRasters)
+cucurbitaRasters <- readAll(cucurbitaRasters)
+usethis::use_data(cucurbitaRasters, overwrite = TRUE,compress = "bzip2")

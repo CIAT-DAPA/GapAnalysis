@@ -1,0 +1,29 @@
+Package: GapAnalysis
+Type: Package
+Title: An R package to calculate conservation indicators using spatial
+        information
+Date: 2019-12-10
+Version: 1.0
+Author: Dan Carver, Chrystian Sosa,Colin Khoury, Julian Ramirez-Villegas
+Maintainer: CIAT Decision and policy analysis research area  <J.R.Villegas@cgiar.org>
+Description: This R library  provides a consistent pipeline to calculate ex situ and in situ conservation indicators. 
+ Also, it provides basic functions to allow run the gap analysis methodology based on the gap analysis methodology 
+ used in developed by Ramirez-Villegas et al. (2010) and used in Khoury et al., (2019). Please note, that this 
+ library does not include methods for modeling species distribution models. Predicted habitats must be provided 
+ by users.
+Depends: R (>= 3.5.0)
+Imports: tmap (>= 2.3), dplyr (>= 0.4.0), tidyselect (>= 0.4.0), raster
+        (>= 3.0), rgdal(>= 1.4-8), sf (>= 0.8), rlang (>= 0.4.6),
+        lwgeom (>= 0.2), utils (>= 3.5), base (>= 3.5), methods (>=
+        3.5), magrittr (>= 1.5), geosphere (>= 1.5), dataverse (>=
+        0.2.0), data.table (>= 1.12), sp (>= 1.4.1), redlistr (>=
+        1.0.3), fasterize (>= 1.0.0), tidyr (>= 1.0.2), devtools (>=
+        2.2.0), usethis (>= 1.6.0), rmarkdown (>= 2.1)
+Suggests: knitr
+License: GPL-3
+LazyData: true
+Encoding: UTF-8
+RoxygenNote: 7.1.0
+NeedsCompilation: no
+Packaged: 2020-05-05 11:20:37 UTC; julian
+Built: R 3.5.2; ; 2020-05-05 11:20:44 UTC; unix

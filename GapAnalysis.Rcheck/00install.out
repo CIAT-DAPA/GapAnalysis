@@ -1,0 +1,12 @@
+* installing *source* package ‘GapAnalysis’ ...
+** R
+** data
+*** moving datasets to lazyload DB
+** byte-compile and prepare package for lazy loading
+Warning: replacing previous import ‘sf::st_make_valid’ by ‘lwgeom::st_make_valid’ when loading ‘tmap’
+** help
+*** installing help indices
+** building package indices
+** testing if installed package can be loaded
+Warning: replacing previous import ‘sf::st_make_valid’ by ‘lwgeom::st_make_valid’ when loading ‘tmap’
+* DONE (GapAnalysis)

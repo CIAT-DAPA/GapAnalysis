@@ -1,0 +1,36 @@
+ERSex                   Environmental representativeness score
+                        estimation (Ex-situ conservation)
+ERSin                   Environmental representativeness score
+                        estimation (In-situ conservation)
+ExsituCompile           Ex-situ gap analysis calculation (Ex-situ
+                        conservation)
+FCSc_mean               Combining Ex-situ and In-situ gap analysis
+                        results in one comprehensive conservation score
+                        (Summary Assessments)
+FCSex                   Final ex situ conservation score estimation
+                        (Ex-situ conservation)
+FCSin                   Final in-situ conservation score estimation
+                        (In-situ conservation)
+GRSex                   Geographical representativeness score
+                        estimation (Ex-situ conservation)
+GRSin                   Geographical representativeness score
+                        estimation (In-situ conservation)
+GapAnalysis-package     GapAnalysis: A gap analysis and conservation
+                        status tool
+GetDatasets             Preparing datasets to run GapAnalysis functions
+InsituCompile           In-situ gap analysis calculation (In-situ
+                        conservation)
+OccurrenceCounts        Generating Species Count Data Frame
+SRSex                   Sample representativeness score estimation
+                        (Ex-situ conservation)
+SRSin                   Sample representativeness score estimation
+                        (In-situ conservation)
+cucurbitaData           Cucurbita occurrences dataset
+cucurbitaRasters        Cucurbita species distribution models dataset
+ecoregions              Ecoregions shapefile
+eooAoo                  IUCN conservations status using Area of
+                        occupancy (AOO) and extent of occurrence (EOO)
+                        (IUCN Redlist)
+protectedAreas          Protected areas dataset in raster format
+summary_HTML            Creating a summary HTML document for gap
+                        analysis
