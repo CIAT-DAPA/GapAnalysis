@@ -21,31 +21,30 @@
 #'
 #' @examples
 #' ##Obtaining occurrences from example
-#' data(cucurbitaData)
+#' data(CucurbitaData)
 #' ##Obtaining species names from the data
-#' speciesList <- unique(cucurbitaData$taxon)
+#' speciesList <- unique(CucurbitaData$taxon)
 #' ##Obtaining raster_list
-#' data(cucurbitaRasters)
-#' cucurbitaRasters <- raster::unstack(cucurbitaRasters)
+#' data(CucurbitaRasters)
+#' CucurbitaRasters <- raster::unstack(CucurbitaRasters)
 #' ##Obtaining ecoregions shapefile
 #' data(ecoregions)
 #'
 #' #Calculating SRSex value
 #' SRSex_df <- SRSex(species_list = speciesList,
-#'                     occurrenceData = cucurbitaData)
+#'                     occurrenceData = CucurbitaData)
 #'
 #' #Calculating GRSex value
 #' GRSex_df <- GRSex(species_list = speciesList,
-#'                     occurrenceData = cucurbitaData,
-#'                     raster_list = cucurbitaRasters)
+#'                     occurrenceData = CucurbitaData,
+#'                     raster_list = CucurbitaRasters)
 #'
 #' #Calculating ERSex value
 #' ERSex_df <- ERSex(species_list = speciesList,
-#'                     occurrenceData = cucurbitaData,
-#'                     raster_list = cucurbitaRasters,
+#'                     occurrenceData = CucurbitaData,
+#'                     raster_list = CucurbitaRasters,
 #'                     bufferDistance = 50000,
-#'                     ecoReg=ecoregions
-#'                     )
+#'                     ecoReg=ecoregions)
 #'
 #' #Calculating final conservation for ex-situ gap analysis
 #'

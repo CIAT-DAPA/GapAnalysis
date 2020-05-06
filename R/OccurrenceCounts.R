@@ -20,10 +20,10 @@
 #'  }
 #'
 #' @examples
-#' data(cucurbitaData)
+#' data(CucurbitaData)
 #' ##Obtaining species names from the data
-#' speciesList <- unique(cucurbitaData$taxon)
-#' countDF <- OccurrenceCounts(speciesList[[1]],cucurbitaData)
+#' speciesList <- unique(CucurbitaData$taxon)
+#' countDF <- OccurrenceCounts(speciesList[[1]], CucurbitaData)
 #'
 #'@references
 #'

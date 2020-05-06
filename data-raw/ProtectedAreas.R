@@ -1,5 +1,5 @@
 suppressWarnings(suppressMessages(library(raster)))
-protectedAreas <- raster::raster("data-raw/fileData/protectedArea/wdpa_reclass.tif")
-protectedAreas <- readAll(protectedAreas)
-usethis::use_data(protectedAreas, overwrite = TRUE,compress = "bzip2")
+ProtectedAreas <- raster::raster("data-raw/fileData/ProtectedArea/wdpa_reclass.tif")
+ProtectedAreas <- readAll(ProtectedAreas)
+usethis::use_data(ProtectedAreas, overwrite = TRUE,compress = "bzip2")
 

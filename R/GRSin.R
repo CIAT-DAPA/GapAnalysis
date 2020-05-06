@@ -19,19 +19,19 @@
 #'
 #' @examples
 #' ##Obtaining occurrences from example
-#' data(cucurbitaData)
+#' data(CucurbitaData)
 #' ##Obtaining species names from the data
-#' speciesList <- unique(cucurbitaData$taxon)
+#' speciesList <- unique(CucurbitaData$taxon)
 #' ##Obtaining raster_list
-#' data(cucurbitaRasters)
-#' cucurbitaRasters <- raster::unstack(cucurbitaRasters)
+#' data(CucurbitaRasters)
+#' CucurbitaRasters <- raster::unstack(CucurbitaRasters)
 #' ##Obtaining protected areas raster
-#' data(protectedAreas)
+#' data(ProtectedAreas)
 #'
 #' GRSin_df <- GRSin(species_list = speciesList,
-#'                     occurrenceData = cucurbitaData,
-#'                     raster_list = cucurbitaRasters,
-#'                     proArea=protectedAreas)
+#'                     occurrenceData = CucurbitaData,
+#'                     raster_list = CucurbitaRasters,
+#'                     proArea=ProtectedAreas)
 #'
 #'
 #'@references

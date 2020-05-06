@@ -40,19 +40,19 @@ This function allows calculate all the three Ex situ gap analysis scores in one 
 }
 \examples{
 ##Obtaining occurrences from example
-data(cucurbitaData)
+data(CucurbitaData)
 ##Obtaining species names from the data
-speciesList <- unique(cucurbitaData$taxon)
+speciesList <- unique(CucurbitaData$taxon)
 ##Obtaining raster_list
-data(cucurbitaRasters)
-cucurbitaRasters <- raster::unstack(cucurbitaRasters)
+data(CucurbitaRasters)
+CucurbitaRasters <- raster::unstack(CucurbitaRasters)
 ##Obtaining ecoregions shapefile
 data(ecoregions)
 
 #Running all three Ex situ gap analysis steps using ExsituCompile function
 exsituGapMetrics <- ExsituCompile(species_list=speciesList,
-                                      occurrenceData=cucurbitaData,
-                                      raster_list=cucurbitaRasters,
+                                      occurrenceData=CucurbitaData,
+                                      raster_list=CucurbitaRasters,
                                       bufferDistance=50000,
                                       ecoReg=ecoregions)
 

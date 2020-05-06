@@ -25,12 +25,13 @@ This function calculates the species conservation status according IUCN paramete
 Area of occupancy (AOO) Area and extent of occurrence (EOO)
 }
 \examples{
-data(cucurbitaData)
+##Obtaining occurrences from example
+data(CucurbitaData)
 ##Obtaining species names from the data
-speciesList <- unique(cucurbitaData$taxon)
+speciesList <- unique(CucurbitaData$taxon)
 ## Obtaining AOO and EOO ##
 eooAoo <- GapAnalysis::eooAoo(species_list = speciesList,
-                               occurrenceData = cucurbitaData)
+                               occurrenceData = CucurbitaData)
 
 }
 \references{

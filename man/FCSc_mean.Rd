@@ -32,30 +32,30 @@ in one unique table and calculate the final conservation score for a species usi
 }
 \examples{
 ##Obtaining occurrences from example
-data(cucurbitaData)
+data(CucurbitaData)
 ##Obtaining species names from the data
-speciesList <- unique(cucurbitaData$taxon)
+speciesList <- unique(CucurbitaData$taxon)
 ##Obtaining raster_list
-data(cucurbitaRasters)
-cucurbitaRasters <- raster::unstack(cucurbitaRasters)
+data(CucurbitaRasters)
+CucurbitaRasters <- raster::unstack(CucurbitaRasters)
 ##Obtaining protected areas raster
-data(protectedAreas)
+data(ProtectedAreas)
 ##Obtaining ecoregions shapefile
 data(ecoregions)
 
 #Running all three Ex-situ gap analysis steps using ExsituCompile function
 exsituGapMetrics <- ExsituCompile(species_list=speciesList,
-                                      occurrenceData=cucurbitaData,
-                                      raster_list=cucurbitaRasters,
+                                      occurrenceData=CucurbitaData,
+                                      raster_list=CucurbitaRasters,
                                       bufferDistance=50000,
                                       ecoReg=ecoregions)
 
 
 #Running all three In-situ gap analysis steps using InsituCompile function
 insituGapMetrics <- InsituCompile(species_list=speciesList,
-                                       occurrenceData=cucurbitaData,
-                                       raster_list=cucurbitaRasters,
-                                       proArea=protectedAreas,
+                                       occurrenceData=CucurbitaData,
+                                       raster_list=CucurbitaRasters,
+                                       proArea=ProtectedAreas,
                                        ecoReg=ecoregions)
 
 fcsCombine <- FCSc_mean(fcsEx = exsituGapMetrics,fcsIn = insituGapMetrics)

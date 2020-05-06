@@ -31,15 +31,15 @@ using Ramirez-Villegas et al., (2010) methodology. GRS ex-situ score is calculat
 }
 \examples{
 ##Obtaining occurrences from example
-data(cucurbitaData)
-speciesList <- unique(cucurbitaData$taxon)
+data(CucurbitaData)
+speciesList <- unique(CucurbitaData$taxon)
 ## Obtaining rasterList objet. ##
-data(cucurbitaRasters)
-cucurbitaRasters <- raster::unstack(cucurbitaRasters)
+data(CucurbitaRasters)
+CucurbitaRasters <- raster::unstack(CucurbitaRasters)
 #Calculating GRSex value
 GRSex_df <- GRSex(species_list = speciesList,
-                    occurrenceData = cucurbitaData,
-                    raster_list = cucurbitaRasters,
+                    occurrenceData = CucurbitaData,
+                    raster_list = CucurbitaRasters,
                     bufferDistance = 50000)
 
 }

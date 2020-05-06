@@ -52,42 +52,42 @@ The content. The code also produces in situ and ex situ gap maps which can be wr
 \examples{
 \dontrun{
 ##Obtaining occurrences from example
-data(cucurbitaData)
+data(CucurbitaData)
 ##Obtaining species names from the data
-speciesList <- unique(cucurbitaData$taxon)
+speciesList <- unique(CucurbitaData$taxon)
 ##Obtaining raster_list
-data(cucurbitaRasters)
-cucurbitaRasters <- raster::unstack(cucurbitaRasters)
+data(CucurbitaRasters)
+CucurbitaRasters <- raster::unstack(CucurbitaRasters)
 ##Obtaining protected areas raster
-data(protectedAreas)
+data(ProtectedAreas)
 ##Obtaining ecoregions shapefile
 data(ecoregions)
 
 #Running all three Ex situ gap analysis steps using insituGapAnalysis function
 exsituGapMetrics <- ExsituCompile(species_list=speciesList,
-                                      occurrenceData=cucurbitaData,
-                                      raster_list=cucurbitaRasters,
+                                      occurrenceData=CucurbitaData,
+                                      raster_list=CucurbitaRasters,
                                       bufferDistance=50000,
                                       ecoReg=ecoregions)
 
 
 #Running all three In situ gap analysis steps using insituGapAnalysis function
 insituGapMetrics <- InsituCompile(species_list=speciesList,
-                                       occurrenceData=cucurbitaData,
-                                       raster_list=cucurbitaRasters,
-                                       proArea=protectedAreas,
+                                       occurrenceData=CucurbitaData,
+                                       raster_list=CucurbitaRasters,
+                                       proArea=ProtectedAreas,
                                        ecoReg=ecoregions)
 
 ## Obtaining AOO and EOO ##
 eooAoo_table <- GapAnalysis::eooAoo(species_list = speciesList,
-                               occurrenceData = cucurbitaData)
+                               occurrenceData = CucurbitaData)
 
 fcsCombine <- FCSc_mean(fcsEx = exsituGapMetrics,fcsIn = insituGapMetrics)
 
 summaryHTML_file <- summary_HTML(species_list=speciesList,
-                                 occurrenceData = cucurbitaData,
-                                 raster_List=cucurbitaRasters,
-                                 proArea=protectedArea,
+                                 occurrenceData = CucurbitaData,
+                                 raster_List=CucurbitaRasters,
+                                 proArea=ProtectedArea,
                                  bufferDistance=50000,
                                  insituSummary=insituGapMetrics,
                                  exsituSummary=exsituGapMetrics,

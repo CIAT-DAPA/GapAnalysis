@@ -20,17 +20,17 @@
 #'
 #' @examples
 #' ##Obtaining occurrences from example
-#' data(cucurbitaData)
-#' speciesList <- unique(cucurbitaData$taxon)
+#' data(CucurbitaData)
+#' speciesList <- unique(CucurbitaData$taxon)
 #' ## Obtaining rasterList object. ##
-#' data(cucurbitaRasters)
-#' cucurbitaRasters <- raster::unstack(cucurbitaRasters)
+#' data(CucurbitaRasters)
+#' CucurbitaRasters <- raster::unstack(CucurbitaRasters)
 #' ##Obtaining ecoregions shapefile
 #' data(ecoregions)
 #'
 #' ERSex_df <- ERSex(species_list = speciesList,
-#'                     occurrenceData = cucurbitaData,
-#'                     raster_list = cucurbitaRasters,
+#'                     occurrenceData = CucurbitaData,
+#'                     raster_list = CucurbitaRasters,
 #'                     bufferDistance = 50000,
 #'                     ecoReg=ecoregions)
 #'

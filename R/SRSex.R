@@ -15,11 +15,11 @@
 #'
 #' @examples
 #' ##Obtaining occurrences from example
-#' data(cucurbitaData)
+#' data(CucurbitaData)
 #' ##Obtaining species names from the data
-#' speciesList <- unique(cucurbitaData$taxon)
+#' speciesList <- unique(CucurbitaData$taxon)
 #' SRSex_df <- SRSex(species_list = speciesList,
-#'                     occurrenceData = cucurbitaData)
+#'                     occurrenceData = CucurbitaData)
 #'
 #'@references
 #'

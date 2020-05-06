@@ -23,13 +23,13 @@
 #'  Lee, C. K. F., Keith, D. A., Nicholson, E. and Murray, N. J. 2019.
 #' Redlistr: tools for the IUCN Red Lists of ecosystems and threatened species in R. – Ecography 42: 1050–1055 (ver. 0).
 #' @examples
-##Obtaining occurrences from example
-#' data(cucurbitaData)
+#' ##Obtaining occurrences from example
+#' data(CucurbitaData)
 #' ##Obtaining species names from the data
-#' speciesList <- unique(cucurbitaData$taxon)
+#' speciesList <- unique(CucurbitaData$taxon)
 #' ## Obtaining AOO and EOO ##
 #' eooAoo <- GapAnalysis::eooAoo(species_list = speciesList,
-#'                                occurrenceData = cucurbitaData)
+#'                                occurrenceData = CucurbitaData)
 #'
 #' @export
 #' @importFrom magrittr %>%

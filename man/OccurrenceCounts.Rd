@@ -30,10 +30,10 @@ This function returns a data frame object with the following columns:
 This function creates a summary file the summarizes the total number of germplasm and herbarium occurrences
 }
 \examples{
-data(cucurbitaData)
+data(CucurbitaData)
 ##Obtaining species names from the data
-speciesList <- unique(cucurbitaData$taxon)
-countDF <- OccurrenceCounts(speciesList[[1]],cucurbitaData)
+speciesList <- unique(CucurbitaData$taxon)
+countDF <- OccurrenceCounts(speciesList[[1]], CucurbitaData)
 
 }
 \references{
