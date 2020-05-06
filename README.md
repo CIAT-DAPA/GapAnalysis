@@ -122,7 +122,7 @@ More information and examples of how to make the distinction between “H” and
 
 **_Predicted Potential Habitat_**
 
-The `raster` representing the predicted potential extent of suitable habitat is used buy multiple functions to represent the maximum potential range of a species. This is then compared to what is conserved _ex-situ_ or _in-situ_.
+The `raster` representing the predicted potential extent of suitable habitat is used by multiple functions to represent the maximum potential range of a species. This is then compared to what is conserved _ex-situ_ or _in-situ_.
 
 ### Workflow
 Main_code - example of the recommend workflow.
