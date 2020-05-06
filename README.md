@@ -13,9 +13,6 @@ While each step of the process can be ran as a stand alone function the library 
 
 As with any evaluation the quality and completeness of the data used in the assessment is the limiting factor to the overall usefulness of these metrics. A full description of the application of this process can be found here(link to the paper eventually)
 
-## Table of Contents
-? doesn't seems like there is a clean way to automate this in git hub markup... Might have to look into intext reference once structure is finalized. It will be important to have sense this is a rather larger readme
-
 ## Installation
 GapAnalysis can be installed as follows
 ```r
@@ -94,7 +91,8 @@ summaryHTML_file <- summary_HTML(species_list=speciesList,
 The below sub-sections provide an explanation of data and individual gap analysis steps.
 
 ### Data inputs
-_Species occurrences_
+**_Species occurrences_**
+
 A `data.frame` of species occurrences and type. This process can handle single and multiple species.
 
 taxon | longitude | latitude | type
@@ -122,7 +120,7 @@ Other independent sources of data need to be evaluated for type on a case by cas
 More information and examples of how to make the distinction between “H” and “G” points can be found [here](link to either detailed tutorial or paper that defines these distinctions in more detail).
 
 
-_Predicted Potential Habitat_
+**_Predicted Potential Habitat_**
 
 The `raster` representing the predicted potential extent of suitable habitat is used buy multiple functions to represent the maximum potential range of a species. This is then compared to what is conserved _ex-situ_ or _in-situ_.
 
