@@ -7,7 +7,7 @@ The GapAnalysis functions requires the user to provide two inputs
 A `data.frame` of species occurrences
 A `raster` object of the predicted potential habitat
 
-This library consists of 17 functions. These are split between 4 categories; pre-analysis, in-situ, ex-situ, and summary results. The pre-analysis steps establishes the data structure and cleans the data. The in-situ and ex-situ fuctions produce the quantitative conservation assessments.
+This library consists of 14 functions. These are split between 4 categories; pre-analysis, in-situ, ex-situ, and summary results. The pre-analysis steps establishes the data structure and cleans the data. The in-situ and ex-situ fuctions produce the quantitative conservation assessments.
 
 While each step of the process can be ran as a stand alone function the library is intended to be used following the example workflow provided below.
 
