@@ -37,6 +37,9 @@ suppressMessages(require(dplyr))
 We provide the below reproducible example (also available in the package documentation)
 
 ```r
+##Load package
+library(GapAnalysis)
+
 ##Obtaining occurrences from example
 data(CucurbitaData)
 
