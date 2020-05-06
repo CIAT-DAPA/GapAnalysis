@@ -1,6 +1,4 @@
-# README
-
-## GapAnalysis R package
+# GapAnalysis R package
 
 ## Description
 The GapAnalysis R package provides a series of functions that allows the user to evaluate the in situ and ex situ conservation status of a plant species in a standardized and reproducible way. This method will generate quantitative metrics and spatial outputs which represent the need for conservation and where gap in the collection/conservation of the species exist on the landscape.
@@ -19,11 +17,12 @@ As with any evaluation the quality and completeness of the data used in the asse
 ? doesn't seems like there is a clean way to automate this in git hub markup... Might have to look into intext reference once structure is finalized. It will be important to have sense this is a rather larger readme
 
 ## Installation
-gapAnalysisR is currently in a testing phase. If you are interesting in using the product you can download the repo and source all the functions locally or use
+GapAnalysis can be installed as follows
 ```r
-install_github("gapAnalysisR")
+library(devtools)
+install_github("ccsosa/GapAnalysis")
 ```
-At the current time the install_github process is having some issues loading selected libraries. A full list of libraries needed for the package is included below.
+A full list of libraries needed for the package is included below.
 
 ```r
 ### this is not complete but I figure it is a reasonable placeholder for the time being.  
@@ -36,8 +35,9 @@ suppressMessages(require(ffbase))
 suppressMessages(require(sf))
 suppressMessages(require(dplyr))
 ```
+
 ## Usage
-We recommend downloading the following example [dataset][ link to download]. This is data for four species of the Cucurbita genus. A full gap analysis for this species was performed in 2019 and can be viewed [here](https://nph.onlinelibrary.wiley.com/doi/full/10.1002/ppp3.10085).
+We recommend downloading the following example [dataset][link to download]. This is data for four species of the Cucurbita genus. A full gap analysis for this species was performed in 2019 and can be viewed [here](https://nph.onlinelibrary.wiley.com/doi/full/10.1002/ppp3.10085).
 
 The taxon name used as a reference to connect all inputs and outputs throughout the various steps in this process. The name of the taxon must be present for all rows in the csv. This name much also be present in the file name of the raster used to represent the potential suitable habitat of the species.
 
@@ -226,18 +226,16 @@ Unlike many of the gapAnalysisR functions the EOO and AOO metrics generally more
 **speciesSummary**  
 As long as there are no major deviations from the established file structure the speciesSummary function calls a Rmarkdown file that compiles the results of all above metrics into a single interactive html document that can be shared and opened directly via a web browser. This user friendly format should help your own evaluations and assessments and allow you to share your work with colleagues.
 
-## Contributing
-
-
-## Credits
-Main: Daniel Carver, Chrystian C. Sosa
-Other contributors: Julian Ramirez-Villegas, Colin K. Khoury, Harold A. Achicanoy, Maria Victoria Diaz, Steven Sotelo, Nora P. Castaneda-Alvarez
+## Authors
+Main: Daniel Carver, Chrystian C. Sosa, Colin K. Khoury, and Julian Ramirez-Villegas
+Other contributors: Harold A. Achicanoy, Maria Victoria Diaz, Steven Sotelo, Nora P. Castaneda-Alvarez
 
 ## References
-Ramirez-Villegas J, Khoury CK, Jarvis A, Debouck DG, Guarino L (2010) A gap analysis methodology for collecting crop genepools: a case study with Phaseolus beans. PLoS One 5, e13497. doi:10.1371/journal.pone.0013497
+Ramirez-Villegas J, Khoury CK, Jarvis A, Debouck DG, Guarino L (2010) A gap analysis methodology for collecting crop genepools: a case study with Phaseolus beans. PLoS One 5, e13497. doi:10.1371/journal.pone.0013497[http://dx.doi.org/10.1371%2Fjournal.pone.0013497]
 
-Khoury CK, Amariles D, Soto JS, Diaz MV, Sotelo S, Sosa CC, Ramírez-Villegas J, Achicanoy HA, Velásquez-Tibatá J, Guarino L, León B, Navarro-Racines C, Castañeda-Álvarez NP, Dempewolf H, Wiersema JH, and Jarvis A (2019) Comprehensiveness of conservation of useful wild plants: an operational indicator for biodiversity and sustainable development targets. Ecological Indicators 98: 420-429. doi: 10.1016/j.ecolind.2018.11.016. https://doi.org/10.1016/j.ecolind.2018.11.016
+Khoury CK, Amariles D, Soto JS, Diaz MV, Sotelo S, Sosa CC, Ramírez-Villegas J, Achicanoy HA, Velásquez-Tibatá J, Guarino L, León B, Navarro-Racines C, Castañeda-Álvarez NP, Dempewolf H, Wiersema JH, and Jarvis A (2019) Comprehensiveness of conservation of useful wild plants: an operational indicator for biodiversity and sustainable development targets. Ecological Indicators 98: 420-429. doi: 10.1016/j.ecolind.2018.11.016[https://doi.org/10.1016/j.ecolind.2018.11.016]
 
-Castañeda-Álvarez NP*, Khoury CK*, Achicanoy HA, Bernau V, Dempewolf H, Eastwood RJ, Guarino L, Harker RH, Jarvis A, Maxted N, Mueller JV, Ramírez-Villegas J, Sosa CC, Struik PC, Vincent H, and Toll J (2016) Global conservation priorities for crop wild relatives. Nature Plants 2(4): 16022. doi: 10.1038/nplants.2016.22
+Castañeda-Álvarez NP*, Khoury CK*, Achicanoy HA, Bernau V, Dempewolf H, Eastwood RJ, Guarino L, Harker RH, Jarvis A, Maxted N, Mueller JV, Ramírez-Villegas J, Sosa CC, Struik PC, Vincent H, and Toll J (2016) Global conservation priorities for crop wild relatives. Nature Plants 2(4): 16022. doi: 10.1038/nplants.2016.22[http://www.nature.com/articles/nplants201622]
 
 ## License
+GNU GENERAL PUBLIC LICENSE Version 3
