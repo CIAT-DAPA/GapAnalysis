@@ -1,13 +1,13 @@
 # README
 
-## Project Name: gapAnalysisR
+## Project Name: GapAnalysis
 
 ## Description
-The gapAnalysisR library provides a series of functions that allows the user to evaluate the in situ and ex situ conservation status of a plant species in a standardized and reproducible way. This method will generate quantitative metrics and spatial outputs which represent the need for conservation and where gap in the collection/conservation of the species exist on the landscape.
+The GapAnalysis R package provides a series of functions that allows the user to evaluate the in situ and ex situ conservation status of a plant species in a standardized and reproducible way. This method will generate quantitative metrics and spatial outputs which represent the need for conservation and where gap in the collection/conservation of the species exist on the landscape.
 
-The gapAnalysisR functions requires the user to provide two inputs
-A csv of species occurrences
-A tif of the predicted potential habit
+The GapAnalysis functions requires the user to provide two inputs
+A `data.frame` of species occurrences
+A `raster` object of the predicted potential habitat
 
 This library consists of 16 functions. These are split between 4 categories; pre-analysis, insitu, exsitu, and combined assessment. The pre-analysis steps establishes the file structure and cleans the data. The in situ and ex situ fuctions produce the quantitative conservation assessments. The combined assessments summaries the data, conducts the EOO and AOO functions from the library [redListR](https://github.com/red-list-ecosystem/redlistr) and generates a summary html which can be use to evaluate and compare outputs.
 
