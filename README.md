@@ -125,7 +125,7 @@ More information and examples of how to make the distinction between “H” and
 The `raster` representing the predicted potential extent of suitable habitat is used by multiple functions to represent the maximum potential range of a species. This is then compared to what is conserved _ex-situ_ or _in-situ_.
 
 ### Workflow
-Main_code - example of the recommend workflow.
+The recommended workflow is as follows.
 
 **Pre-analysis**
  - `GetDatasets` downloads the protected areas and ecoregions datasets from our data repository
