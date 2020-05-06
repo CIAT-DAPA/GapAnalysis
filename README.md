@@ -1,6 +1,6 @@
 # README
 
-## Project Name: GapAnalysis
+## GapAnalysis R package
 
 ## Description
 The GapAnalysis R package provides a series of functions that allows the user to evaluate the in situ and ex situ conservation status of a plant species in a standardized and reproducible way. This method will generate quantitative metrics and spatial outputs which represent the need for conservation and where gap in the collection/conservation of the species exist on the landscape.
@@ -9,11 +9,9 @@ The GapAnalysis functions requires the user to provide two inputs
 A `data.frame` of species occurrences
 A `raster` object of the predicted potential habitat
 
-This library consists of 16 functions. These are split between 4 categories; pre-analysis, insitu, exsitu, and combined assessment. The pre-analysis steps establishes the file structure and cleans the data. The in situ and ex situ fuctions produce the quantitative conservation assessments. The combined assessments summaries the data, conducts the EOO and AOO functions from the library [redListR](https://github.com/red-list-ecosystem/redlistr) and generates a summary html which can be use to evaluate and compare outputs.
+This library consists of 16 functions. These are split between 4 categories; pre-analysis, in-situ, ex-situ, and combined assessment. The pre-analysis steps establishes the data structure and cleans the data. The in-situ and ex-situ fuctions produce the quantitative conservation assessments.
 
-While each step of the process can be ran as a stand alone function the library is intended to be used following the example workflow provided below.  
-
-Examples of the application of the methods in a genus level study of Capsicum can be found [here](https://onlinelibrary.wiley.com/doi/full/10.1111/ddi.13008)
+While each step of the process can be ran as a stand alone function the library is intended to be used following the example workflow provided below.
 
 As with any evaluation the quality and completeness of the data used in the assessment is the limiting factor to the overall usefulness of these metrics. A full description of the application of this process can be found here(link to the paper eventually)
 
@@ -236,20 +234,10 @@ Main: Daniel Carver, Chrystian C. Sosa
 Other contributors: Julian Ramirez-Villegas, Colin K. Khoury, Harold A. Achicanoy, Maria Victoria Diaz, Steven Sotelo, Nora P. Castaneda-Alvarez
 
 ## References
-Castañeda-Álvarez NP*, Khoury CK*, Achicanoy HA, Bernau V, Dempewolf H, Eastwood RJ, Guarino L, Harker RH, Jarvis A, Maxted N, Mueller JV, Ramírez-Villegas J, Sosa CC, Struik PC, Vincent H, and Toll J (2016) Global conservation priorities for crop wild relatives. Nature Plants 2(4): 16022. doi: 10.1038/nplants.2016.22
-
-Khoury CK, Carver D, Kates HR, Achicanoy HA, van Zonneweld M, Thomas E, Heinitz C, Jarret R, Labate JA, Reitsma K, Nabhan GP, and Greene SL (2019) Distributions, conservation status, and abiotic stress tolerance potential of wild cucurbits (Cucurbita L.). Plants, People, Planet. Accepted
-
-Khoury CK, Carver D, Barchenger DW, Barboza G, van Zonneweld M, Jarret R, Bohs L, Kantar MB, Uchanski M, Mercer K, Nabhan GP, Bosland PW, and Greene SL (2019) Modeled distributions and conservation status of the wild relatives of chile peppers (Capsicum L). Diversity and Distributions. Doi: 10.1111/DDI.13008. Accepted
+Ramirez-Villegas J, Khoury CK, Jarvis A, Debouck DG, Guarino L (2010) A gap analysis methodology for collecting crop genepools: a case study with Phaseolus beans. PLoS One 5, e13497. doi:10.1371/journal.pone.0013497
 
 Khoury CK, Amariles D, Soto JS, Diaz MV, Sotelo S, Sosa CC, Ramírez-Villegas J, Achicanoy HA, Velásquez-Tibatá J, Guarino L, León B, Navarro-Racines C, Castañeda-Álvarez NP, Dempewolf H, Wiersema JH, and Jarvis A (2019) Comprehensiveness of conservation of useful wild plants: an operational indicator for biodiversity and sustainable development targets. Ecological Indicators 98: 420-429. doi: 10.1016/j.ecolind.2018.11.016. https://doi.org/10.1016/j.ecolind.2018.11.016
 
-Khoury CK, Amariles D, Soto JS, Diaz MV, Sotelo S, Sosa CC, Ramírez-Villegas J, Achicanoy HA, Castañeda-Álvarez NP, León B, and Wiersema JH (2019) Data for the calculation of an indicator of the comprehensiveness of conservation of useful wild plants. Data in Brief 22: 90-97. doi: 10.1016/j.dib.2018.11.125. https://doi.org/10.1016/j.dib.2018.11.125
-
-Khoury CK, Castañeda-Álvarez NP, Achicanoy HA, Sosa CC, Bernau V, Kassa MT, Norton SL, van der Maesen LJG, Upadhyaya HD, Ramírez-Villegas J, Jarvis A, and Struik PC (2015) Crop wild relatives of pigeonpea [Cajanus cajan (L.) Millsp.]: distributions, ex situ conservation status, and potential genetic resources for abiotic stress tolerance. Biological Conservation 184: 259-270. doi: 10.1016/j.biocon.2015.01.032.
-
-Khoury CK, Heider B, Castañeda-Álvarez NP, Achicanoy HA, Sosa CC, Miller RE, Scotland RW, Wood JRI, Rossel G, Eserman LA, Jarret RL, Yencho GC, Bernau V, Juarez H, Sotelo S, de Haan S, and Struik PC (2015) Distributions, ex situ conservation priorities, and genetic resource potential of crop wild relatives of sweetpotato [Ipomoea batatas (L.) Lam., I. series Batatas]. Frontiers in Plant Science 6: 251.
-
-Mezghani N, Khoury CK, Carver D, Achicanoy HA, Simon P, Martínez Flores F, and Spooner D (2019) Distributions and Conservation Status of Carrot Wild Relatives in Tunisia: A Case Study in the Western Mediterranean Basin. Crop Science 59(6): 1–12. doi: 10.2135/cropsci2019.05.0333.
+Castañeda-Álvarez NP*, Khoury CK*, Achicanoy HA, Bernau V, Dempewolf H, Eastwood RJ, Guarino L, Harker RH, Jarvis A, Maxted N, Mueller JV, Ramírez-Villegas J, Sosa CC, Struik PC, Vincent H, and Toll J (2016) Global conservation priorities for crop wild relatives. Nature Plants 2(4): 16022. doi: 10.1038/nplants.2016.22
 
 ## License
