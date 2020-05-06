@@ -91,25 +91,28 @@ summaryHTML_file <- summary_HTML(species_list=speciesList,
                                  writeRasters=F)
 ```
 
-### data inputs
-CSV dataset of species occurrences and type. This process can handle single and multiple species.
+The below sub-sections provide an explanation of data and individual gap analysis steps.
+
+### Data inputs
+_Species occurrences_
+A `data.frame` of species occurrences and type. This process can handle single and multiple species.
 
 taxon | longitude | latitude | type
 ------------ | ------------- | -------------| -------------
 Cucurbita_cordata | -113.563 | 28.9457 | G
 Cucurbita_digitata |  | | H
 
+**Taxon:** this value will be the key for all functions in this library. Ensure it is consistent for all records and is included in the file name of your predicted potential habitat .tif as well.
 
-Taxon: this value will be the key for all functions in this library. Ensure it is consistent for all records and is included in the file name of your predicted potential habitat .tif as well.
-
-Type: The type column refers to if the occurrence data represents a herbarium sample or a germplasm sample. Type H, for herbarium, is a known occurrence of the species in the landscape. Type G, for genebank, is a known occurrence of a species that has been collected and is stored as a living sample either in botanical gardens or genebanks.
+**Type:** The type column refers to if the occurrence data represents a herbarium sample or a germplasm sample. Type H, for herbarium, is a known occurrence of the species in the landscape. Type G, for genebank, is a known occurrence of a species that has been collected and is stored as a living sample either in botanical gardens or genebanks.
 
 This distinction is significant for multiple evaluations and effort must be taken to ensure the correct assignment of these values.
 
 As of 2019, the major sources for Genebank occurrence data that the authors have evaluated include.
 [USDA GRIN](https://npgsweb.ars-grin.gov/gringlobal/search.aspx)
 [GENESYS](https://www.genesys-pgr.org/)
-[WIEWS](need a site for this)
+[WIEWS](http://www.fao.org/wiews/en/)
+
 Generally, data from these sources would be considered a “G” type if it is still an active accession. Duplication between these source may exist.
 
 Digital repositories such as GBIF, EDDmaps, and IDIGBIO, are most likely to contain observed locations of a species with no living sample. These would be considered “H” type occurrences. As these databases are not actively curated there is potential for duplicates between sources. Please evaluate this potential when gathering your data and assigning type.
@@ -119,78 +122,44 @@ Other independent sources of data need to be evaluated for type on a case by cas
 More information and examples of how to make the distinction between “H” and “G” points can be found [here](link to either detailed tutorial or paper that defines these distinctions in more detail).
 
 
-tif of Predicted Potential Habitat
+_Predicted Potential Habitat_
 
-The raster representing the predicted potential extent of suitable habitat is used buy multiple functions to represent the maximum potential range of a species. The development of a high quality representation of a species potential habitat is a field of study in it’s own right. The importance here is that you trust the representativeness of the data you are inputting into this process.
+The `raster` representing the predicted potential extent of suitable habitat is used buy multiple functions to represent the maximum potential range of a species. This is then compared to what is conserved _ex-situ_ or _in-situ_.
 
 ### Workflow
 Main_code - example of the recommend workflow.
 
-**preAnalysis**
+**Pre-analysis**
+ - `GetDatasets` downloads the protected areas and ecoregions datasets from our data repository
 
- - Create_folder_structure
- - Clean_records
- - Create_buffers
+**Ex-situ Analysis**
+ - `SRSex` calculates the Sampling Representativeness Score for _ex-situ_ conservation
+ - `ERSex` calculates the Environmental Representativeness Score for _ex-situ_ conservation
+ - `GRSex` calculates the Geographic Representativeness Score for _ex-situ_ conservation
+ - `FCSex` calculates the Final Conservation Score for _ex-situ_ conservation
+ - `ExsituCompile` calculates all of the 4 metrics above at once for _ex-situ_ conservation
 
-**Ex Situ Analysis**
- - SRSex
- - ERSex
- - GRSex
- - FCSin
- - gapMapEx
+**In-situ Analysis**
+ - `SRSin` calculates the Sampling Representativeness Score for _in-situ_ conservation
+ - `ERSin` calculates the Environmental Representativeness Score for _in-situ_ conservation
+ - `GRSin` calculates the Geographic Representativeness Score for _in-situ_ conservation
+ - `FCSin` calculates the Final Conservation Score for _in-situ_ conservation
+ - `InsituCompile` calculates all of the 4 metrics above at once for _in-situ_ conservation
 
-**In Situ Analysis**
- - SRSin
- - ERSin
- - GRSin
- - FCSex
- - gapMapIn
+**Summarize results**   
+ - `FCSc_mean` computes the mean of the _ex-situ_ and _in-situ_ Final Conservation Scores
+ - `eooAoo` uses the `redlistr` package to calculate the extent and area of ocupancy
+ - `summary_HTML` produces a summary HTML output with all results
 
-**summaryEvaluations**   
- - FCSmean
- - EOOandAOO
- - summaryDocument
+Each function can be run as a standalone method and in any order. However, we recommend following this workflow as it will ensure dependencies for individual functions are in place and that the variables are stored correctly to successfully produce the final summary document.
 
-While each function can be run as a stand alone method. The authors highly recommend following this workflow as it will ensure dependencies for individual functions are in place and that the folders are stored in the correct location to successfully produce the final summary document.
+## Detailed explanation of each function
+### Pre-analysis step
 
-### Example File Structure
-workplace
-|_ userData*
-|  |_ occurenceData
-|  |_ rasters
-|_gapAnalysis
-  |_ species1
-  |  |_ version
-  |  |  |_ gapAnalysis_outputs
-  |  |  |  |_ exsitu
-  |  |  |  |_ instu
-  |  |  |  |_ combined
-  |  |  |_ redlist
-  |  |_ summaryDocuments
-  |_ species2
-     |_ version
-     |  |_ gapAnalysis_outputs
-     |  |  |_ exsitu
-     |  |  |_ instu
-     |  |  |_ combined
-     |  |_ redlist
-     |_ summaryDocuments
+The pre-analysis steps are preform across all unique species at once. The steps are required to generate the data and file structure that will be used in the following gap analysis functions.
 
-The user needs to provide the occurrence data and rasters. All other files will be generated by following the provided workflow.
-
-
-### preAnalysis step
-
-The pre analysis steps are preform across all unique species at once. The steps are required to generate the data and file structure that will be used in the following gap analysis functions.
-
-**Create_folder_structure**
-Relative path names are used in all the in situ and ex situ conservation metrics. This fucntion established those path to ensure consistency through the following processes.
-
-**generateCounts**
-This function produces counts of species occurrences based on the type(G or H), presence of quality latitude and longitude values, and combinations of those qualities. The code generate a counts.csv which is used in subsequent gap analysis functions.  
-
-**Create_buffers**
-This function buffer all know "G" occurrences and mask those buffers to the area within a the predicted potential suitable habitat provided by the user. The output of this process is a raster layer that is used in multiple gap analysis metrics.
+**`GetDatasets`**
+This function downloads two datasests that are needed for any GapAnalysis process: the World Database on Protected Areas (WDPA) and the TNC World Ecoregions map.
 
 ### Ex situ Analysis
 
