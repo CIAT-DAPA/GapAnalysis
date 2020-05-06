@@ -37,16 +37,59 @@ suppressMessages(require(dplyr))
 ```
 
 ## Usage
-We recommend downloading the following example [dataset][link to download]. This is data for four species of the Cucurbita genus. A full gap analysis for this species was performed in 2019 and can be viewed [here](https://nph.onlinelibrary.wiley.com/doi/full/10.1002/ppp3.10085).
+We provide the below reproducible example (also available in the package documentation)
 
-The taxon name used as a reference to connect all inputs and outputs throughout the various steps in this process. The name of the taxon must be present for all rows in the csv. This name much also be present in the file name of the raster used to represent the potential suitable habitat of the species.
+```r
+##Obtaining occurrences from example
+data(CucurbitaData)
 
-As you are transforming your own dataset please insure you are using the following parameters.
+##Obtaining species names from the data
+speciesList <- unique(CucurbitaData$taxon)
 
-Coordinates: Decimal Degrees - unprojected WGS1984
-Raster: unprojected WGS1984
+##Obtaining raster_list
+data(CucurbitaRasters)
+CucurbitaRasters <- raster::unstack(CucurbitaRasters)
 
-Information on transforming your data to WGS1984 can be found [here](https://geocompr.robinlovelace.net/reproj-geo-data.html)
+##Obtaining protected areas raster
+data(ProtectedAreas)
+
+##Obtaining ecoregions shapefile
+data(ecoregions)
+
+#Running all three Ex situ gap analysis steps using insituGapAnalysis function
+exsituGapMetrics <- ExsituCompile(species_list=speciesList,
+                                      occurrenceData=CucurbitaData,
+                                      raster_list=CucurbitaRasters,
+                                      bufferDistance=50000,
+                                      ecoReg=ecoregions)
+
+#Running all three In situ gap analysis steps using insituGapAnalysis function
+insituGapMetrics <- InsituCompile(species_list=speciesList,
+                                       occurrenceData=CucurbitaData,
+                                       raster_list=CucurbitaRasters,
+                                       proArea=ProtectedAreas,
+                                       ecoReg=ecoregions)
+
+## Obtaining AOO and EOO ##
+eooAoo_table <- GapAnalysis::eooAoo(species_list = speciesList,
+                               occurrenceData = CucurbitaData)
+
+## Combine gap analysis metrics
+fcsCombine <- FCSc_mean(fcsEx = exsituGapMetrics,fcsIn = insituGapMetrics)
+
+## Generate summary HTML file with all result
+summaryHTML_file <- summary_HTML(species_list=speciesList,
+                                 occurrenceData = CucurbitaData,
+                                 raster_List=CucurbitaRasters,
+                                 proArea=ProtectedArea,
+                                 bufferDistance=50000,
+                                 insituSummary=insituGapMetrics,
+                                 exsituSummary=exsituGapMetrics,
+                                 fcsSummary=fcsCombine,
+                                 eooAooSummary=eooAoo_table,
+                                 outputFolder=".",
+                                 writeRasters=F)
+```
 
 ### data inputs
 CSV dataset of species occurrences and type. This process can handle single and multiple species.
