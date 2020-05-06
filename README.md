@@ -109,10 +109,7 @@ Cucurbita_digitata |  | | H
 
 This distinction is significant for multiple evaluations and effort must be taken to ensure the correct assignment of these values.
 
-As of 2019, the major sources for Genebank occurrence data that the authors have evaluated include.
-[USDA GRIN](https://npgsweb.ars-grin.gov/gringlobal/search.aspx)
-[GENESYS](https://www.genesys-pgr.org/)
-[WIEWS](http://www.fao.org/wiews/en/)
+As of 2019, the major sources for Genebank occurrence data that the authors have evaluated include [USDA GRIN](https://npgsweb.ars-grin.gov/gringlobal/search.aspx), [GENESYS](https://www.genesys-pgr.org/), and [WIEWS](http://www.fao.org/wiews/en/).
 
 Generally, data from these sources would be considered a “G” type if it is still an active accession. Duplication between these source may exist.
 
