@@ -124,8 +124,8 @@ The recommended workflow is as follows.
 
 **Pre-analysis**
  - `GetDatasets` downloads the protected areas and ecoregions datasets from our data repository
- - 'OccurrenceCounts' creates a .csv file with counts of G, H, and those record types with coordinates for all taxa, based on input occurrence data
- - 'Gbuffer' creates a circular buffer of user-defined size (default is 0.5 degrees, equivalent to ca. 50 km radius) around each G point for each taxon, which represents the geographic areas already considered to be sufficiently collected for ex situ conservation. The output of this process is a raster (.tif)
+ - `OccurrenceCounts` creates a .csv file with counts of G, H, and those record types with coordinates for all taxa, based on input occurrence data
+ - `Gbuffer` creates a circular buffer of user-defined size (default is 0.5 degrees, equivalent to ca. 50 km radius) around each G point for each taxon, which represents the geographic areas already considered to be sufficiently collected for ex situ conservation. The output of this process is a raster (.tif)
 
 **Ex-situ Analysis**
  - `SRSex` calculates the Sampling Representativeness Score for _ex situ_ conservation
@@ -145,7 +145,7 @@ The recommended workflow is as follows.
 
 **Summary evaluations**   
  - `FCSc_mean` computes the mean as well as minimum and maximum of the _ex situ_ and _in situ_ Final Conservation Scores. It also assigns taxa to priority categories based on these final scores (high priority (HP) for further conservation action assigned when FCS < 25, medium priority (MP) where 25 ≤ FCS < 50, low priority (LP) where 50 ≤ FCS < 75, and sufficiently conserved (SC) for taxa whose FCS ≥75)
-- 'indicator' calculates an indicator across assessed taxa, which can be applied at national, regional, global, or any other scale (Khoury et al., 2019). The indicator is calculated separately with regard to ex situ, in situ, and combined conservation, by deriving the proportion of taxa categorized as SC or LP out of all taxa.
+- `indicator` calculates an indicator across assessed taxa, which can be applied at national, regional, global, or any other scale (Khoury et al., 2019). The indicator is calculated separately with regard to ex situ, in situ, and combined conservation, by deriving the proportion of taxa categorized as SC or LP out of all taxa.
  - `SummaryHTML` produces a summary HTML output with taxon specific results. Alongside quantitative results, these include taxon-level “gap” maps. With regard to ex situ conservation, the ex situ geographic gap map is created by subtracting the G buffered areas out of the distribution model of each taxon, leaving only those areas considered not sufficiently sampled for ex situ conservation. The ex situ ecological gap map is created by mapping only the spatial areas within the distribution model of each taxon which are occupied by ecoregions not represented by G buffers. With regard to in situ conservation, the in situ geographic gap map is created by subtracting the protected areas out of the distribution model of each taxon, revealing those areas in the model not currently in protected areas. The in situ ecological gap map is created by mapping only the spatial areas within the distribution model of each taxon which are occupied by ecoregions not represented at all in protected areas. These four maps are embedded in the html document, and are also written as raster files.
 
 Each function can be run as a standalone method and in any order. However, we recommend following this workflow as it will ensure dependencies for individual functions are in place and that the variables are stored correctly to successfully produce the final summary document. For more details on each of these calculations, see the list of references below.
