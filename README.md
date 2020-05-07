@@ -1,7 +1,7 @@
 # GapAnalysis R package
 
 ## Description
-The GapAnalysis R package provides a series of functions that allows the user to evaluate the ex situ and in situ conservation status of taxa in a standardized and reproducible way, to combine these metrics into an integrated conservation assessment, and to compare and calculate a conservation indicator metric across taxa. GapAnalysis generates quantitative metrics and spatial outputs which represent the state of conservation and where gaps in the collection/conservation of taxa exist on the landscape. The methods are fully described in Ramirez-Villegas et al. (2010) and Khoury et al. (2019) (see reference list).
+The GapAnalysis R package provides a series of functions that allows the user to evaluate the ex situ and in situ conservation status of taxa in a standardized and reproducible way, to combine these metrics into an integrated conservation assessment, and to compare and calculate a conservation indicator metric across taxa. GapAnalysis generates quantitative metrics and spatial outputs which represent the state of conservation and where gaps in the collection/conservation of taxa exist on the landscape. The methods are fully described in (XXXXX- insert GapAnalysis R paper link when published). Articles by Ramirez-Villegas et al. (2010), Castañeda-Álvarez and Khoury et al. (2016), and Khoury et al. (2019a, b) provided the main steps toward the current methodology.
 
 The GapAnalysis functions requires the user to provide two inputs
 A `data.frame` of species occurrences
@@ -156,9 +156,9 @@ Other contributors: Harold A. Achicanoy, Maria Victoria Diaz, Steven Sotelo, Nor
 
 Castañeda-Álvarez NP*, Khoury CK*, Achicanoy HA, Bernau V, Dempewolf H, Eastwood RJ, Guarino L, Harker RH, Jarvis A, Maxted N, Mueller JV, Ramirez-Villegas J, Sosa CC, Struik PC, Vincent H, and Toll J (2016) Global conservation priorities for crop wild relatives. Nature Plants 2(4): 16022. doi: [10.1038/nplants.2016.22](http://www.nature.com/articles/nplants201622)
 
-Khoury CK, Amariles D, Soto JS, Diaz MV, Sotelo S, Sosa CC, Ramirez-Villegas J, Achicanoy HA, Velásquez-Tibata J, Guarino L, Leon B, Navarro-Racines C, Castañeda-Álvarez NP, Dempewolf H, Wiersema JH, and Jarvis A (2019) Comprehensiveness of conservation of useful wild plants: an operational indicator for biodiversity and sustainable development targets. Ecological Indicators 98: 420-429. doi: [10.1016/j.ecolind.2018.11.016](https://doi.org/10.1016/j.ecolind.2018.11.016)
+Khoury CK, Amariles D, Soto JS, Diaz MV, Sotelo S, Sosa CC, Ramirez-Villegas J, Achicanoy HA, Velásquez-Tibata J, Guarino L, Leon B, Navarro-Racines C, Castañeda-Álvarez NP, Dempewolf H, Wiersema JH, and Jarvis A (2019a) Comprehensiveness of conservation of useful wild plants: an operational indicator for biodiversity and sustainable development targets. Ecological Indicators 98: 420-429. doi: [10.1016/j.ecolind.2018.11.016](https://doi.org/10.1016/j.ecolind.2018.11.016)
 
-Khoury CK, Carver D, Barchenger DW, Barboza G, van Zonneweld M, Jarret R, Bohs L, Kantar MB, Uchanski M, Mercer K, Nabhan GP, Bosland PW, and Greene SL (2019) Modeled distributions and conservation status of the wild relatives of chile peppers (Capsicum L). Diversity and Distributions 26(2): 209-225. doi: 10.1111/DDI.13008. https://doi.org/10.1111/DDI.13008
+Khoury CK, Carver D, Barchenger DW, Barboza G, van Zonneweld M, Jarret R, Bohs L, Kantar MB, Uchanski M, Mercer K, Nabhan GP, Bosland PW, and Greene SL (2019b) Modeled distributions and conservation status of the wild relatives of chile peppers (Capsicum L). Diversity and Distributions 26(2): 209-225. doi: 10.1111/DDI.13008. https://doi.org/10.1111/DDI.13008
 
 Ramirez-Villegas J, Khoury CK, Jarvis A, Debouck DG, Guarino L (2010) A gap analysis methodology for collecting crop genepools: a case study with Phaseolus beans. PLoS One 5, e13497. [doi:10.1371/journal.pone.0013497](http://dx.doi.org/10.1371%2Fjournal.pone.0013497)
 
