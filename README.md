@@ -125,7 +125,7 @@ The recommended workflow is as follows.
 **Pre-analysis**
  - `GetDatasets` downloads the protected areas and ecoregions datasets from our data repository
  - `OccurrenceCounts` creates a .csv file with counts of G, H, and those record types with coordinates for all taxa, based on input occurrence data
- - `.Gbuffer` is an internal function that creates a circular buffer of user-defined size (default is 0.5 degrees, equivalent to ca. 50 km radius) around each G point for each taxon, which represents the geographic areas already considered to be sufficiently collected for ex situ conservation. The output of this process is a raster. Since this is not an exported function to use it you will need to type `GapAnalysis:::.Gbuffer` in R.
+ - `.Gbuffer` is an internal function that creates a circular buffer of user-defined size (default is 50 km radius) around each G point for each taxon, which represents the geographic areas already considered to be sufficiently collected for ex situ conservation. The output of this process is a raster. Since this is not an exported function to use it you will need to type `GapAnalysis:::.Gbuffer` in R.
 
 **Ex-situ Analysis**
  - `SRSex` calculates the Sampling Representativeness Score for _ex situ_ conservation
