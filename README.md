@@ -150,6 +150,7 @@ Each function can be run as a standalone method and in any order. However, we re
 
 ## Authors
 Main: Daniel Carver, Chrystian C. Sosa, Colin K. Khoury, and Julian Ramirez-Villegas
+
 Other contributors: Harold A. Achicanoy, Maria Victoria Diaz, Steven Sotelo, Nora P. Castaneda-Alvarez
 
 ## References
