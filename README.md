@@ -1,7 +1,7 @@
 # GapAnalysis R package
 
 ## Description
-The GapAnalysis R package provides a series of functions that allows the user to evaluate the ex situ and in situ conservation status of taxa in a standardized and reproducible way, to combine these metrics into an integrated conservation assessment, and to compare and calculate a conservation indicator metric across taxa. GapAnalysis generates quantitative metrics and spatial outputs which represent the state of conservation and where gaps in the collection/conservation of taxa exist on the landscape.
+The GapAnalysis R package provides a series of functions that allows the user to evaluate the ex situ and in situ conservation status of taxa in a standardized and reproducible way, to combine these metrics into an integrated conservation assessment, and to compare and calculate a conservation indicator metric across taxa. GapAnalysis generates quantitative metrics and spatial outputs which represent the state of conservation and where gaps in the collection/conservation of taxa exist on the landscape. The methods are fully described in Ramirez-Villegas et al. (2010) and Khoury et al. (2019) (see reference list).
 
 The GapAnalysis functions requires the user to provide two inputs
 A `data.frame` of species occurrences
@@ -116,7 +116,7 @@ More information and examples of how to make the distinction between “H” and
 
 **_Predicted Potential Habitat_**
 
-The `raster` representing the predicted potential extent of suitable habitat is used by multiple functions to represent the maximum potential range of a species. This is then compared to what is conserved _ex situ_ or _in situ_. Although a required input, the generation of species distribution models is not included in GapAnalysis because a number of R packages for this process already exist (e.g., Naimi et al. 2016, Hijmans et al. 2017, Kass et al. 2018).
+The `raster` representing the predicted potential extent of suitable habitat is used by multiple functions to represent the maximum potential range of a species. This is then compared to what is conserved _ex situ_ or _in situ_. Although a required input, the generation of species distribution models is not included in GapAnalysis because a number of R packages for this process already exist (packages `sdm`, `wallace`, `dismo` and `maxnet`).
 
 
 ### Workflow
@@ -125,15 +125,14 @@ The recommended workflow is as follows.
 **Pre-analysis**
  - `GetDatasets` downloads the protected areas and ecoregions datasets from our data repository
  - `OccurrenceCounts` creates a .csv file with counts of G, H, and those record types with coordinates for all taxa, based on input occurrence data
- - `Gbuffer` creates a circular buffer of user-defined size (default is 0.5 degrees, equivalent to ca. 50 km radius) around each G point for each taxon, which represents the geographic areas already considered to be sufficiently collected for ex situ conservation. The output of this process is a raster (.tif)
+ - `.Gbuffer` is an internal function that creates a circular buffer of user-defined size (default is 0.5 degrees, equivalent to ca. 50 km radius) around each G point for each taxon, which represents the geographic areas already considered to be sufficiently collected for ex situ conservation. The output of this process is a raster. Since this is not an exported function to use it you will need to type `GapAnalysis:::.Gbuffer` in R.
 
 **Ex-situ Analysis**
  - `SRSex` calculates the Sampling Representativeness Score for _ex situ_ conservation
  - `GRSex` calculates the Geographic Representativeness Score for _ex situ_ conservation
  - `ERSex` calculates the Ecological Representativeness Score for _ex situ_ conservation
  - `FCSex` calculates the Final Conservation Score for _ex situ_ conservation as an average of the above 3 scores
- - `ExsituCompile` compiles the 4 _ex situ_ conservation metrics 
- (note may add create gap maps here)
+ - `ExsituCompile` compiles the 4 _ex situ_ conservation metrics
 
 **In-situ Analysis**
  - `SRSin` calculates the Sampling Representativeness Score for _in situ_ conservation
@@ -141,7 +140,6 @@ The recommended workflow is as follows.
  - `ERSin` calculates the Ecological Representativeness Score for _in situ_ conservation
  - `FCSin` calculates the Final Conservation Score for _in situ_ conservation as an average of the above 3 scores
  - `InsituCompile` ccompiles the 4 _in situ_ conservation metrics
-(note may add create gap maps here)
 
 **Summary evaluations**   
  - `FCSc_mean` computes the mean as well as minimum and maximum of the _ex situ_ and _in situ_ Final Conservation Scores. It also assigns taxa to priority categories based on these final scores (high priority (HP) for further conservation action assigned when FCS < 25, medium priority (MP) where 25 ≤ FCS < 50, low priority (LP) where 50 ≤ FCS < 75, and sufficiently conserved (SC) for taxa whose FCS ≥75)
