@@ -3,7 +3,7 @@ Type: Package
 Title: An R package to calculate conservation indicators using spatial information
 Date: 2019-12-10
 Version: 1.0
-Author: Dan Carver, Chrystian Sosa,Colin Khoury, Julian Ramirez-Villegas
+Author: Dan Carver, Chrystian Sosa, Colin K. Khoury, Julian Ramirez-Villegas
 Maintainer: CIAT Decision and policy analysis research area  <J.R.Villegas@cgiar.org>
 Description: This R library  provides a consistent pipeline to calculate ex situ and in situ conservation indicators. 
  Also, it provides basic functions to allow run the gap analysis methodology based on the gap analysis methodology 
