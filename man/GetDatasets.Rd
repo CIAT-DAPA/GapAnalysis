@@ -7,11 +7,13 @@
 GetDatasets()
 }
 \value{
-This function downloads data required to run a full gap analysis. It creates the folder data_preloaded into the GapAnalysis.
+This function downloads data required to run a full gap analysis.
+ It creates the folder data_preloaded into the GapAnalysis.
 Please run this function after install the package.
 }
 \description{
-This function creates the data_preloaded folder and it downloads datasets from dataverse to allow run gapAnalysis package function.
+This function creates the data_preloaded folder.
+ It downloads datasets from dataverse to allow run gapAnalysis package function.
 }
 \examples{
 \dontrun{

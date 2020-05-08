@@ -1,6 +1,7 @@
 #' @title Final ex situ conservation score estimation (Ex-situ conservation)
 #' @name FCSex
-#' @description This function concatenates the SRSex, GRSex, and ERSex values in an unique dataframe object to calculate a final priority score as
+#' @description This function concatenates the SRSex, GRSex, and ERSex values
+#'  in an unique dataframe object to calculate a final priority score as
 #' the average of the SRSex, GRSex, and ERSex values:
 #'
 #' \deqn{FCSex = mean(SRSex,GRSex,ERSex)}
@@ -9,7 +10,8 @@
 #' @param grsDF A dataframe object result of the GRSex function
 #' @param ersDF A dataframe object result of the ERSex function
 #'
-#' @return This function returns a data frame with the follows information summarizing the ex situ gap analysis scores:
+#' @return This function returns a data frame with the follows information
+#' summarizing the ex-situ gap analysis scores:
 #'
 #' \tabular{lcc}{
 #' species \tab Species name \cr
@@ -61,8 +63,7 @@
 #' and sustainable development targets. Ecological Indicators. https://doi.org/10.1016/j.ecolind.2018.11.016
 #'
 #' @export
-#' @importFrom magrittr %>%
-#' @importFrom dplyr left_join select
+#' @importFrom dplyr left_join
 
 FCSex <- function(srsDF,grsDF,ersDF){
 
@@ -72,10 +73,10 @@ FCSex <- function(srsDF,grsDF,ersDF){
 
   # join the dataframes base on species
   df1 <- dplyr::left_join(srsDF, grsDF, by ="species")
-  df2 <- dplyr::left_join(df1, ersDF, by = "species") %>%
-    dplyr::select("species","SRSex", "GRSex", "ERSex")
+  df2 <- dplyr::left_join(df1, ersDF, by = "species") #%>%
+#    dplyr::select("species","SRSex", "GRSex", "ERSex")
   # calculate the mean value for each row to determine fcs per species
-  for(i in 1:nrow(df2)){
+  for(i in seq_len(nrow(df2))){
     df2$FCSex[i] <- base::mean(c(df2$SRSex[i], df2$GRSex[i], df2$ERSex[i]))
   }
   return(df2)

@@ -3,8 +3,8 @@
 #' @description This function concatenates ex-situ conservation scores (SRSex, GRSex, ERSex,FCSex), and  in situ scores (SRSin, GRSin, ERSin,FCSin)
 #' in one unique table and calculate the final conservation score for a species using Khoury et al., (2019) methodology.
 #'
-#' @param fcsEx A data frame object result of the functions ExsituCompile or fcs_exsitu
-#' @param fcsIn A data frame object result of the functions InsituCompile or fcs_insitu
+#' @param FCSex_df A data frame object result of the functions ExsituCompile or fcs_exsitu
+#' @param FCSin_df A data frame object result of the functions InsituCompile or fcs_insitu
 #'
 #' @return this function returns a data frame object with the following columns:
 #'
@@ -48,7 +48,7 @@
 #'                                        proArea=ProtectedAreas,
 #'                                        ecoReg=ecoregions)
 #'
-#' fcsCombine <- FCSc_mean(fcsEx = exsituGapMetrics,fcsIn = insituGapMetrics)
+#' fcsCombine <- FCSc_mean(FCSex_df = exsituGapMetrics,FCSin_df = insituGapMetrics)
 #'
 #'@references
 #' Ramirez-Villegas, J., Khoury, C., Jarvis, A., Debouck, D. G., & Guarino, L. (2010).
@@ -64,22 +64,22 @@
 #' @importFrom dplyr left_join select
 
 
-FCSc_mean <- function(fcsEx, fcsIn) {
-
+FCSc_mean <- function(FCSex_df, FCSin_df) {
+  df <- NULL
   #importFrom("methods", "as")
   #importFrom("stats", "complete.cases", "filter", "median")
   #importFrom("utils", "data", "memory.limit", "read.csv", "write.csv")
 
   #join datasets and select necessary Columns
-  df <- dplyr::left_join(x = fcsEx, y = fcsIn, by = "species") %>%
-    dplyr::select("species", "FCSex", "FCSin")
+  df <- dplyr::left_join(x = FCSex_df, y = FCSin_df, by = "species")
+  df <-  df[,c("species", "FCSex", "FCSin")]
 
 
-  for(i in 1:nrow(df)){
+  for(i in seq_len(nrow(df))){
     #compute FCSc_min and FCSc_max
-    df$FCSc_min[i] <- min(c(df$FCSex[i],df$FCSin[i]),na.rm=T)
-    df$FCSc_max[i] <- max(c(df$FCSex[i],df$FCSin[i]),na.rm=T)
-    df$FCSc_mean[i] <- mean(c(df$FCSex[i],df$FCSin[i]),na.rm=T)
+    df$FCSc_min[i] <- min(c(df$FCSex[i],df$FCSin[i]),na.rm=TRUE)
+    df$FCSc_max[i] <- max(c(df$FCSex[i],df$FCSin[i]),na.rm=TRUE)
+    df$FCSc_mean[i] <- mean(c(df$FCSex[i],df$FCSin[i]),na.rm=TRUE)
 
     #assign classes (min)
     if (df$FCSc_min[i] < 25) {

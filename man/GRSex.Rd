@@ -7,13 +7,16 @@
 GRSex(occurrenceData, species_list, raster_list, bufferDistance)
 }
 \arguments{
-\item{occurrenceData}{A data frame object with the species name, geographical coordinates, and type of records (G or H) for a given species}
+\item{occurrenceData}{A data frame object with the species name, geographical coordinates,
+and type of records (G or H) for a given species}
 
 \item{species_list}{An species list to calculate the GRSex metrics.}
 
-\item{raster_list}{A list representing the species distribution models for the species list provided loaded in raster format. This list must match the same order of the species list.}
+\item{raster_list}{A list representing the species distribution models for the species list provided
+loaded in raster format. This list must match the same order of the species list.}
 
-\item{bufferDistance}{Geographical distance used to create circular buffers around germplasm. Default: 50000 that is 50 km around germplasm accessions (CA50)}
+\item{bufferDistance}{Geographical distance used to create circular buffers around germplasm.
+Default: 50000 that is 50 km around germplasm accessions (CA50)}
 }
 \value{
 This function returns a data frame with two columns:
@@ -24,8 +27,9 @@ GRSex \tab GRSex value calculated\cr
 }
 }
 \description{
-This function performs an estimation of the geographical representativeness score for ex-situ gap analysis (GRSex)
-using Ramirez-Villegas et al., (2010) methodology. GRS ex-situ score is calculated as:
+This function performs an estimation of the geographical representativeness score
+ for ex-situ gap analysis (GRSex) using Ramirez-Villegas et al., (2010) methodology.
+ GRS ex-situ score is calculated as:
 
 \deqn{GRSex = min(100,(Masked Area of Buffered G Occurrences / Total Area of Predicted Habitat)*100)}
 }

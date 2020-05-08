@@ -1,9 +1,11 @@
 #' @title Generating Species Count Data Frame
 #' @name OccurrenceCounts
-#' @description This function creates a summary file the summarizes the total number of germplasm and herbarium occurrences
+#' @description This function creates a summary file the summarizes
+#'  the total number of germplasm and herbarium occurrences
 #'
 #' @param species The name of a species
-#' @param occurrenceData  A data frame object with the species name, geographical coordinates, and type of records (G or H) for a given species
+#' @param occurrenceData  A data frame object with the species name, g
+#'  geographical coordinates, and type of records (G or H) for a given species
 #'
 #' @return This function returns a data frame object with the following columns:
 #'
@@ -52,8 +54,8 @@ OccurrenceCounts <- function(species,occurrenceData){
 
   # create an empty dataframe to store counts information
   df <- data.frame(matrix(NA, nrow = 1, ncol = 9))
-  colNames <- c("species","totalRecords",	"hasLat", "hasLong","totalUseful", "totalGRecords",
-                "totalGUseful","totalHRecords",	"totalHUseful")
+  colNames <- c("species","totalRecords",	"hasLat", "hasLong","totalCoords", "totalGRecords",
+                "totalGCoords","totalHRecords",	"totalHCoords")
   colnames(df) <- colNames
 
   sppOccAll <- occurrenceData %>%
@@ -71,11 +73,11 @@ OccurrenceCounts <- function(species,occurrenceData){
     # assign values to the counts dataframe for the species
     df$species <- as.character(species)
     df$totalRecords <- nrow(speciesOcc)
-    df$totalUseful <- sum((subset(tbl, hasLatLong == TRUE))$total)
+    df$totalCoords <- sum((subset(tbl, hasLatLong == TRUE))$total)
     df$totalGRecords <- sum((subset(tbl, type == "G"))$total)
-    df$totalGUseful <- sum((subset(tbl, type == "G" & hasLatLong == TRUE))$total)
+    df$totalGCoords <- sum((subset(tbl, type == "G" & hasLatLong == TRUE))$total)
     df$totalHRecords <- sum((subset(tbl, type == "H"))$total)
-    df$totalHUseful <- sum((subset(tbl, type == "H" & hasLatLong == TRUE))$total)
+    df$totalHCoords <- sum((subset(tbl, type == "H" & hasLatLong == TRUE))$total)
     df$hasLat <- sum(speciesOcc$hasLat)
     df$hasLong <- sum(speciesOcc$hasLong)
 

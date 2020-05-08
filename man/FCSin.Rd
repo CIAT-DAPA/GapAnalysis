@@ -14,7 +14,8 @@ FCSin(srsDF, grsDF, ersDF)
 \item{ersDF}{A dataframe object result of the ERSin function}
 }
 \value{
-This function returns a data frame with the follows information summarizing the in-situ gap analysis scores:
+This function returns a data frame with the follows information
+ summarizing the in-situ gap analysis scores:
 
 \tabular{lcc}{
 species \tab Species name \cr
@@ -25,7 +26,8 @@ FCSin \tab In-situ final conservation score \cr
 }
 }
 \description{
-This function concatenates the SRSin, GRSin, and ERSin values in an unique dataframe object to calculate a final priority score as
+This function concatenates the SRSin, GRSin, and ERSin values
+in an unique dataframe object to calculate a final priority score as
 the average of the SRSin, GRSin, and ERSin values:
 
 \deqn{FCSin = mean(SRSin,GRSin,ERSin)}

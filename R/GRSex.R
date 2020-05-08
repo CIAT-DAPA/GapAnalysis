@@ -1,14 +1,18 @@
 #' @title Geographical representativeness score estimation (Ex-situ conservation)
 #' @name GRSex
-#' @description This function performs an estimation of the geographical representativeness score for ex-situ gap analysis (GRSex)
-#' using Ramirez-Villegas et al., (2010) methodology. GRS ex-situ score is calculated as:
+#' @description This function performs an estimation of the geographical representativeness score
+#'  for ex-situ gap analysis (GRSex) using Ramirez-Villegas et al., (2010) methodology.
+#'  GRS ex-situ score is calculated as:
 #'
 #' \deqn{GRSex = min(100,(Masked Area of Buffered G Occurrences / Total Area of Predicted Habitat)*100)}
 #'
-#' @param occurrenceData A data frame object with the species name, geographical coordinates, and type of records (G or H) for a given species
+#' @param occurrenceData A data frame object with the species name, geographical coordinates,
+#' and type of records (G or H) for a given species
 #' @param species_list An species list to calculate the GRSex metrics.
-#' @param raster_list A list representing the species distribution models for the species list provided loaded in raster format. This list must match the same order of the species list.
-#' @param bufferDistance Geographical distance used to create circular buffers around germplasm. Default: 50000 that is 50 km around germplasm accessions (CA50)
+#' @param raster_list A list representing the species distribution models for the species list provided
+#'  loaded in raster format. This list must match the same order of the species list.
+#' @param bufferDistance Geographical distance used to create circular buffers around germplasm.
+#'  Default: 50000 that is 50 km around germplasm accessions (CA50)
 #'
 #' @return This function returns a data frame with two columns:
 #'
@@ -45,10 +49,6 @@
 #'
 #' @export
 #' @import fasterize sp
-#' @importFrom tidyr drop_na
-#' @importFrom magrittr "%>%"
-#' @importFrom dplyr filter select
-#' @importFrom fasterize fasterize
 #' @importFrom stats median
 
 
@@ -71,25 +71,29 @@ GRSex <- function(occurrenceData, species_list, raster_list, bufferDistance) {
   df <- data.frame(matrix(ncol = 2, nrow = length(species_list)))
   colnames(df) <- c("species", "GRSex")
 
-  for(i in 1:length(sort(species_list))){
+  for(i in seq_len(length(sort(species_list)))){
     # select species G occurrences
-    occData <- occurrenceData %>%
-      tidyr::drop_na(longitude)%>%
-      dplyr::filter(taxon == species_list[i]) %>%
-      dplyr::filter(type == "G")%>%
-      dplyr::select(longitude,latitude)
+
+    occData <- occurrenceData[which(occurrenceData$taxon==species_list[i]),]
+    occData <- occData[which(occData$type == "G" & !is.na(occData$latitude)),]
+    occData <- occData[,c("longitude","latitude")]
+    # occData <- occurrenceData %>%
+    #   tidyr::drop_na(longitude)%>%
+    #   dplyr::filter(taxon == species_list[i]) %>%
+    #   dplyr::filter(type == "G")%>%
+    #   dplyr::select(longitude,latitude)
 
     sp::coordinates(occData) <- ~longitude+latitude
     sp::proj4string(occData) <- sp::CRS("+proj=longlat +datum=WGS84")
     # select raster with species name
-    for(j in 1:length(raster_list)){
+    for(j in seq_len(length(raster_list))){
       if(grepl(j, i, ignore.case = TRUE)){
         sdm <- raster_list[[j]]
       }
     }
     # convert SDM from binary to 1-NA for mask and area
     sdmMask <- sdm
-    sdmMask[sdmMask == 0] <- NA
+    sdmMask[sdmMask[] == 0] <- NA
     # buffer G points
 #    buffer <- geobuffer::geobuffer_pts(xy = occData,
     buffer <- GapAnalysis::Gbuffer(xy = occData,

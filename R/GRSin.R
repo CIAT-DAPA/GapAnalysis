@@ -46,11 +46,10 @@
 #' @export
 #' @importFrom stats median
 #' @importFrom raster raster crop area
-#' @importFrom dplyr filter
-#' @importFrom tidyr drop_na
 
 
-GRSin = function(species_list,occurrenceData,raster_list,proArea){
+
+GRSin <- function(species_list,occurrenceData,raster_list,proArea){
 
 # suppressMessages(require(rgdal))
 # suppressMessages(require(raster))
@@ -71,13 +70,13 @@ GRSin = function(species_list,occurrenceData,raster_list,proArea){
       stop("Protected areas file is not available yet. Please run the function preparingDatasets()  and try again")
     }
   } else{
-    proArea = proArea
+    proArea <- proArea
   }
 
   # loop over species list
-  for(i in 1:length(species_list)){
+  for(i in seq_len(length(species_list))){
     # select threshold map for a given species
-    for(j in 1:length(raster_list)){
+    for(j in seq_len(length(raster_list))){
       if(grepl(j, i, ignore.case = TRUE)){
         sdm <- raster_list[[j]]
       }
@@ -85,13 +84,13 @@ GRSin = function(species_list,occurrenceData,raster_list,proArea){
     # determine the area of predicted presence of a species based on the threshold map
     sdm1 <- sdm
     proArea1 <- raster::crop(x = proArea,y = sdm1)
-    sdm1[sdm1 == 0] <- NA
+    sdm1[sdm1[] == 0] <- NA
     cell_size <- raster::area(sdm1, na.rm=TRUE, weights=FALSE)
     cell_size <- cell_size[!is.na(cell_size)]
     thrshold_area <- length(cell_size)*median(cell_size)
 
     # mask the protected area Raster to the threshold map and calculate area
-    proArea1[proArea1 == 0] <-NA
+    proArea1[proArea1[] == 0] <-NA
     proArea1 <- proArea1 * sdm1
     # calculate area
     cell_size <- raster::area(proArea1, na.rm=TRUE, weights=FALSE)

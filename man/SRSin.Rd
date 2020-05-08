@@ -9,11 +9,14 @@ SRSin(species_list, occurrenceData, raster_list, proArea)
 \arguments{
 \item{species_list}{An species list to calculate the SRSin metrics.}
 
-\item{occurrenceData}{A data frame object with the species name, geographical coordinates, and type of records (G or H) for a given species}
+\item{occurrenceData}{A data frame object with the species name, geographical coordinates,
+and type of records (G or H) for a given species}
 
-\item{raster_list}{A list representing the species distribution models for the species list provided loaded in raster format. This list must match the same order of the species list.}
+\item{raster_list}{A list representing the species distribution models for the species list
+provided loaded in raster format. This list must match the same order of the species list.}
 
-\item{proArea}{A raster file representing protected areas information. If proArea=NULL the function will use a protected area raster file
+\item{proArea}{A raster file representing protected areas information.
+If proArea=NULL the function will use a protected area raster file
 provided for your use after run GetDatasets()}
 }
 \value{
@@ -25,7 +28,8 @@ SRSin \tab srsInsitu value calculated\cr
 }
 }
 \description{
-This function performs an estimation of the sample representativeness score for in situ gap analysis (SRSin) using Khoury et al., (2019) methodology.
+This function performs an estimation of the sample representativeness
+ score for in situ gap analysis (SRSin) using Khoury et al., (2019) methodology.
  SRSin is calculated as:
  \deqn{SRSin = Number of occurrences in protected areas / Total number of occurrences}
 }

@@ -9,15 +9,17 @@ InsituCompile(species_list, occurrenceData, raster_list, proArea, ecoReg)
 \arguments{
 \item{species_list}{An species list to calculate metrics.}
 
-\item{occurrenceData}{A data frame object with the species name, geographical coordinates, and type of records (G or H) for a given species}
+\item{occurrenceData}{A data frame object with the species name, geographical coordinates,
+and type of records (G or H) for a given species}
 
-\item{raster_list}{A list representing the species distribution models for the species list provided loaded in raster format. This list must match the same order of the species list.}
+\item{raster_list}{A list representing the species distribution models for the species list provided
+loaded in raster format. This list must match the same order of the species list.}
 
-\item{proArea}{A raster file representing protected areas information. If proArea=NULL the function will use a protected area raster file
-provided for your use after run GetDatasets()}
+\item{proArea}{A raster file representing protected areas information.
+If proArea=NULL the function will use a protected area raster file provided for your use after run GetDatasets()}
 
-\item{ecoReg}{A shapefile representing ecoregions information with a field ECO_NUM representing ecoregions Ids. If ecoReg=NULL the function will use a shapefile
-provided for your use after run GetDatasets()}
+\item{ecoReg}{A shapefile representing ecoregions information with a field ECO_NUM representing ecoregions Ids.
+If ecoReg=NULL the function will use a shapefile provided for your use after run GetDatasets()}
 }
 \value{
 This function returns a data frame summarizing the in-situ gap analysis scores:
@@ -31,7 +33,8 @@ FCSin \tab In-situ final conservation score \cr
 }
 }
 \description{
-This function allows calculating all the three In-situ gap analysis scores in one unique function returning a final conservation score summary table
+This function allows calculating all the three In-situ gap analysis scores
+ in one unique function returning a final conservation score summary table
 }
 \examples{
 ##Obtaining occurrences from example

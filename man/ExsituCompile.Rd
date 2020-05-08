@@ -15,14 +15,17 @@ ExsituCompile(
 \arguments{
 \item{species_list}{A species list to calculate metrics.}
 
-\item{occurrenceData}{A data frame object with the species name, geographical coordinates, and type of records (G or H) for a given species}
+\item{occurrenceData}{A data frame object with the species name, geographical coordinates,
+and type of records (G or H) for a given species}
 
-\item{raster_list}{A list representing the species distribution models for the species list provided loaded in raster format. This list must match the same order of the species list.}
+\item{raster_list}{A list representing the species distribution models for the species list provided
+loaded in raster format. This list must match the same order of the species list.}
 
-\item{bufferDistance}{Geographical distance used to create circular buffers around germplasm. Default: 50000 that is 50 km around germplasm accessions (CA50)}
+\item{bufferDistance}{Geographical distance used to create circular buffers around germplasm.
+Default: 50000 that is 50 km around germplasm accessions (CA50)}
 
-\item{ecoReg}{A shapefile representing ecoregions information with a field ECO_NUM representing ecoregions Ids. If ecoReg=NULL the funtion will use a shapefile
-provided for your use after run GetDatasets()}
+\item{ecoReg}{A shapefile representing ecoregions information with a field ECO_NUM representing ecoregions Ids.
+If ecoReg=NULL the funtion will use a shapefile provided for your use after run GetDatasets()}
 }
 \value{
 This function returns a data frame summarizing the ex-situ gap analysis scores:
@@ -36,7 +39,8 @@ FCSex \tab Ex-situ final conservation score \cr
 }
 }
 \description{
-This function allows calculate all the three Ex situ gap analysis scores in one unique function returning a final conservation score summary table
+This function allows calculate all the three Ex situ gap analysis scores
+  in one unique function returning a final conservation score summary table
 }
 \examples{
 ##Obtaining occurrences from example
@@ -50,7 +54,7 @@ CucurbitaRasters <- raster::unstack(CucurbitaRasters)
 data(ecoregions)
 
 #Running all three Ex situ gap analysis steps using ExsituCompile function
-exsituGapMetrics <- ExsituCompile(species_list=speciesList,
+ExsituGapMetrics <- ExsituCompile(species_list=speciesList,
                                       occurrenceData=CucurbitaData,
                                       raster_list=CucurbitaRasters,
                                       bufferDistance=50000,

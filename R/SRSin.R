@@ -1,13 +1,17 @@
 #' @title Sample representativeness score estimation (In-situ conservation)
 #' @name SRSin
-#' @description This function performs an estimation of the sample representativeness score for in situ gap analysis (SRSin) using Khoury et al., (2019) methodology.
+#' @description This function performs an estimation of the sample representativeness
+#'  score for in situ gap analysis (SRSin) using Khoury et al., (2019) methodology.
 #'  SRSin is calculated as:
 #'  \deqn{SRSin = Number of occurrences in protected areas / Total number of occurrences}
 #'
 #' @param species_list An species list to calculate the SRSin metrics.
-#' @param occurrenceData A data frame object with the species name, geographical coordinates, and type of records (G or H) for a given species
-#' @param raster_list A list representing the species distribution models for the species list provided loaded in raster format. This list must match the same order of the species list.
-#' @param proArea A raster file representing protected areas information. If proArea=NULL the function will use a protected area raster file
+#' @param occurrenceData A data frame object with the species name, geographical coordinates,
+#'  and type of records (G or H) for a given species
+#' @param raster_list A list representing the species distribution models for the species list
+#'  provided loaded in raster format. This list must match the same order of the species list.
+#' @param proArea A raster file representing protected areas information.
+#'  If proArea=NULL the function will use a protected area raster file
 #'  provided for your use after run GetDatasets()
 #' @return This function returns a data frame with two columns:
 #'
@@ -43,8 +47,7 @@
 #'
 #' @export
 #' @importFrom raster raster crop
-#' @importFrom dplyr filter
-#' @importFrom tidyr drop_na
+
 
 SRSin <- function(species_list, occurrenceData, raster_list,proArea){
 
@@ -63,16 +66,16 @@ SRSin <- function(species_list, occurrenceData, raster_list,proArea){
       stop("Protected areas file is not available yet. Please run the function preparingDatasets()  and try again")
     }
   } else{
-    proArea = proArea
+    proArea <- proArea
   }
 
   # create an empty dataframe
   df <- data.frame(matrix(ncol = 2, nrow = length(species_list)))
   colnames(df) <- c("species", "SRSin")
 
-  for(i in 1:length(species_list)){
+  for(i in seq_len(length(species_list))){
     # pull the sdm to mask for
-    for(j in 1:length(raster_list)){
+    for(j in seq_len(length(raster_list))){
       if(grepl(j, i, ignore.case = TRUE)){
         sdm <- raster_list[[j]]
       }
@@ -84,10 +87,12 @@ SRSin <- function(species_list, occurrenceData, raster_list,proArea){
     proAreaSpecies <- sdm * proArea1
 
     # filter by specific species
-    occData1 <- occurrenceData %>%
-        dplyr::filter(taxon == species_list[i])%>%
-          tidyr::drop_na(longitude)
-    totalNum <- nrow(occData1)
+
+    occData1 <- occurrenceData[which(occurrenceData$taxon==species_list[i] & !is.na(occurrenceData$latitude)),]
+    # occData1 <- occurrenceData %>%
+    #     dplyr::filter(taxon == species_list[i])%>%
+    #       tidyr::drop_na(longitude)
+     totalNum <- nrow(occData1)
 
     # extract values to all points
     sp::coordinates(occData1) <- ~longitude+latitude

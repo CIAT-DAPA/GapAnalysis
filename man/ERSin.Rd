@@ -9,15 +9,17 @@ ERSin(species_list, occurrenceData, raster_list, proArea, ecoReg)
 \arguments{
 \item{species_list}{An species list to calculate the ERSin metrics.}
 
-\item{occurrenceData}{A data frame object with the species name, geographical coordinates, and type of records (G or H) for a given species}
+\item{occurrenceData}{A data frame object with the species name, geographical coordinates,
+and type of records (G or H) for a given species}
 
-\item{raster_list}{A list representing the species distribution models for the species list provided loaded in raster format. This list must match the same order of the species list.}
+\item{raster_list}{A list representing the species distribution models for the species list provided
+loaded in raster format. This list must match the same order of the species list.}
 
-\item{proArea}{A raster file representing protected areas information. If proArea=NULL the funtion will use a protected area raster file
-provided for your use after run GetDatasets()}
+\item{proArea}{A raster file representing protected areas information.
+If proArea=NULL the funtion will use a protected area raster file provided for your use after run GetDatasets()}
 
-\item{ecoReg}{A shapefile representing ecoregions information with a field ECO_NUM representing ecoregions Ids. If ecoReg=NULL the function will use a shapefile
-provided for your use after run GetDatasets()}
+\item{ecoReg}{A shapefile representing ecoregions information with a field ECO_NUM representing ecoregions Ids.
+If ecoReg=NULL the function will use a shapefile provided for your use after run GetDatasets()}
 }
 \value{
 This function returns a data frame with two columns:
@@ -28,8 +30,10 @@ ERSin \tab ERSin value calculated\cr
 }
 }
 \description{
-This function performs an estimation of germplasm representativeness score for in-situ gap analysis (GRSin) using Khoury et al., (2019) methodology
-This function uses a germplasm buffer raster file (e.g. CA50), a thresholded species distribution model, and a raster file of protected areas
+This function performs an estimation of germplasm representativeness score
+ for in-situ gap analysis (GRSin) using Khoury et al., (2019) methodology
+ This function uses a germplasm buffer raster file (e.g. CA50),
+ a thresholded species distribution model, and a raster file of protected areas
  \deqn{ERSin = min(100,(Number of ecoregions of germplasm occurrences in protected areas/
 Number of ecoregions of predicted Habitat within protected areas)*100)}
 }

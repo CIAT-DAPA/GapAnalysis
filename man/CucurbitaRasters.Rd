@@ -14,7 +14,7 @@ raster files
 CucurbitaRasters
 }
 \description{
-This dataset is a subset of thresholded species distribution models for:
+This dataset is a subset of species distribution models for:
  C. cordata, C. digitata and C. palmata used in Khoury et al., 2020
 }
 \references{

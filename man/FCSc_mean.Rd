@@ -4,12 +4,12 @@
 \alias{FCSc_mean}
 \title{Combining Ex-situ and In-situ gap analysis results in one comprehensive conservation score (Summary Assessments)}
 \usage{
-FCSc_mean(fcsEx, fcsIn)
+FCSc_mean(FCSex_df, FCSin_df)
 }
 \arguments{
-\item{fcsEx}{A data frame object result of the functions ExsituCompile or fcs_exsitu}
+\item{FCSex_df}{A data frame object result of the functions ExsituCompile or fcs_exsitu}
 
-\item{fcsIn}{A data frame object result of the functions InsituCompile or fcs_insitu}
+\item{FCSin_df}{A data frame object result of the functions InsituCompile or fcs_insitu}
 }
 \value{
 this function returns a data frame object with the following columns:
@@ -58,7 +58,7 @@ insituGapMetrics <- InsituCompile(species_list=speciesList,
                                        proArea=ProtectedAreas,
                                        ecoReg=ecoregions)
 
-fcsCombine <- FCSc_mean(fcsEx = exsituGapMetrics,fcsIn = insituGapMetrics)
+fcsCombine <- FCSc_mean(FCSex_df = exsituGapMetrics,FCSin_df = insituGapMetrics)
 
 }
 \references{

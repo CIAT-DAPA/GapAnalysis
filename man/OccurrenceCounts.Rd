@@ -9,7 +9,8 @@ OccurrenceCounts(species, occurrenceData)
 \arguments{
 \item{species}{The name of a species}
 
-\item{occurrenceData}{A data frame object with the species name, geographical coordinates, and type of records (G or H) for a given species}
+\item{occurrenceData}{A data frame object with the species name, g
+geographical coordinates, and type of records (G or H) for a given species}
 }
 \value{
 This function returns a data frame object with the following columns:
@@ -27,7 +28,8 @@ This function returns a data frame object with the following columns:
  }
 }
 \description{
-This function creates a summary file the summarizes the total number of germplasm and herbarium occurrences
+This function creates a summary file the summarizes
+ the total number of germplasm and herbarium occurrences
 }
 \examples{
 data(CucurbitaData)

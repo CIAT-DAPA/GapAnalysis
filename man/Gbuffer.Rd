@@ -64,16 +64,10 @@ Allows the possibility of creating geodesic buffers when the
 }
 \examples{
 \dontrun{
-bucharest_500km <- geobuffer_pts(xy = data.frame(lon = 26.101390,
+bucharest_500km <- Gbuffer(xy = data.frame(lon = 26.101390,
                                                  lat = 44.427764),
                                  dist_m = 500*10^3,
                                  output = "sf")
-bucharest_500km
-plot(bucharest_500km)
-
-library(mapview)
-library(sf)
-mapView(as(bucharest_500km, "Spatial"), alpha.regions = 0.2)
 }
 }
 \references{

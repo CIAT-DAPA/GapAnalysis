@@ -9,7 +9,8 @@ SRSex(species_list, occurrenceData)
 \arguments{
 \item{species_list}{An species list to calculate the SRSex metrics.}
 
-\item{occurrenceData}{A data frame object with the species name, geographical coordinates, and type of records (G or H) for a given species}
+\item{occurrenceData}{A data frame object with the species name, geographical coordinates,
+and type of records (G or H) for a given species}
 }
 \value{
 This function returns a data frame with two columns:
@@ -19,8 +20,9 @@ SRSex \tab SRSex value calculated\cr
 }
 }
 \description{
-This function performs an estimation of sample representativeness score for ex-situ gap analysis (SRSex)
-using Ramirez-Villegas et al., (2010) methodology using information from herbarium and germplasm occurrences. SRS ex-situ score is calculated as:
+This function performs an estimation of sample representativeness score
+for ex-situ gap analysis (SRSex)using Ramirez-Villegas et al., (2010) methodology
+using information from herbarium and germplasm occurrences. SRS ex-situ score is calculated as:
 \deqn{SRSex = Number of germplasm occurrences / Number of herbarium occurrences}
 }
 \examples{

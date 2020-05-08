@@ -1,14 +1,17 @@
 #' @title In-situ gap analysis calculation (In-situ conservation)
 #' @name InsituCompile
-#' @description This function allows calculating all the three In-situ gap analysis scores in one unique function returning a final conservation score summary table
+#' @description This function allows calculating all the three In-situ gap analysis scores
+#'  in one unique function returning a final conservation score summary table
 #'
 #' @param species_list An species list to calculate metrics.
-#' @param occurrenceData A data frame object with the species name, geographical coordinates, and type of records (G or H) for a given species
-#' @param raster_list A list representing the species distribution models for the species list provided loaded in raster format. This list must match the same order of the species list.
-#' @param proArea A raster file representing protected areas information. If proArea=NULL the function will use a protected area raster file
-#'  provided for your use after run GetDatasets()
-#' @param ecoReg A shapefile representing ecoregions information with a field ECO_NUM representing ecoregions Ids. If ecoReg=NULL the function will use a shapefile
-#'  provided for your use after run GetDatasets()
+#' @param occurrenceData A data frame object with the species name, geographical coordinates,
+#'  and type of records (G or H) for a given species
+#' @param raster_list A list representing the species distribution models for the species list provided
+#'   loaded in raster format. This list must match the same order of the species list.
+#' @param proArea A raster file representing protected areas information.
+#'  If proArea=NULL the function will use a protected area raster file provided for your use after run GetDatasets()
+#' @param ecoReg A shapefile representing ecoregions information with a field ECO_NUM representing ecoregions Ids.
+#' If ecoReg=NULL the function will use a shapefile provided for your use after run GetDatasets()
 #'
 #' @return This function returns a data frame summarizing the in-situ gap analysis scores:
 #'
@@ -52,26 +55,31 @@
 #' @export
 
 InsituCompile <- function(species_list, occurrenceData, raster_list,proArea,ecoReg){
+  SRSin_df <- NULL
+  GRSin_df <- NULL
+  ERSin_df <- NULL
+  FCSIn_df <- NULL
+
   # call SRSin
-  srsIn_df <- GapAnalysis::SRSin(species_list = species_list,
+  SRSin_df <- GapAnalysis::SRSin(species_list = species_list,
     occurrenceData = occurrenceData,
      raster_list = raster_list,
     proArea=proArea)
   # call GRSin
-  grsIn_df <- GapAnalysis::GRSin(species_list = species_list,
+  GRSin_df <- GapAnalysis::GRSin(species_list = species_list,
     occurrenceData = occurrenceData,
     raster_list = raster_list,
     proArea=proArea)
   # call ERSin
-  ersIn_df <- GapAnalysis::ERSin(species_list = species_list,
+  ERSin_df <- GapAnalysis::ERSin(species_list = species_list,
     occurrenceData =occurrenceData,
     raster_list = raster_list,
     proArea=proArea,
     ecoReg=ecoReg)
 
   # call FCSex
-  FCSin_df <- GapAnalysis::FCSin(srsIn_df,grsIn_df,ersIn_df)
+  FCSin_df <- FCSin(srsDF = SRSin_df, grsDF = GRSin_df, ersDF = ERSin_df)
 
-  # return dataframe from FCSex
+ # return dataframe from FCSex
   return(FCSin_df)
 }

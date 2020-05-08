@@ -21,14 +21,17 @@ summary_HTML(
 \arguments{
 \item{species_list}{A species list to calculate metrics.}
 
-\item{occurrenceData}{A data frame object with the species name, geographical coordinates, and type of records (G or H) for a given species}
+\item{occurrenceData}{A data frame object with the species name, geographical coordinates,
+and type of records (G or H) for a given species}
 
-\item{raster_List}{A list representing the species distribution models for the species list provided loaded in raster format. This list must match the same order of the species list.}
+\item{raster_List}{A list representing the species distribution models for the species list provided
+loaded in raster format. This list must match the same order of the species list.}
 
-\item{proArea}{A raster file representing protected areas information. If proArea=NULL the funtion will use a protected area raster file
-provided for your use after run GetDatasets()}
+\item{proArea}{A raster file representing protected areas information.
+If proArea=NULL the funtion will use a protected area raster file provided for your use after run GetDatasets()}
 
-\item{bufferDistance}{Geographical distance used to create circular buffers around germplasm. Default: 50000 that is 50 km around germplasm accessions (CA50)}
+\item{bufferDistance}{Geographical distance used to create circular buffers around germplasm.
+Default: 50000 that is 50 km around germplasm accessions (CA50)}
 
 \item{insituSummary}{A data frame object result of the functions insituGapAnalysis or fcs_insitu}
 
@@ -46,8 +49,9 @@ provided for your use after run GetDatasets()}
 This function returns a data frame file saved at a specified folder
 }
 \description{
-Calls the summaryHTML rmd file information from all in situ, ex situ, and EOO AOO summaries and displays
-The content. The code also produces in situ and ex situ gap maps which can be written out to disk.
+Calls the summaryHTML rmd file information from all in situ,
+ ex situ, and EOO AOO summaries and displays the content.
+ The code also produces in situ and ex situ gap maps which can be written out to disk.
 }
 \examples{
 \dontrun{

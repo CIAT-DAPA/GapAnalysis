@@ -1,13 +1,17 @@
 #' @title Ex-situ gap analysis calculation (Ex-situ conservation)
 #' @name ExsituCompile
-#' @description This function allows calculate all the three Ex situ gap analysis scores in one unique function returning a final conservation score summary table
+#' @description This function allows calculate all the three Ex situ gap analysis scores
+#'   in one unique function returning a final conservation score summary table
 #'
 #' @param species_list A species list to calculate metrics.
-#' @param occurrenceData A data frame object with the species name, geographical coordinates, and type of records (G or H) for a given species
-#' @param raster_list A list representing the species distribution models for the species list provided loaded in raster format. This list must match the same order of the species list.
-#' @param bufferDistance Geographical distance used to create circular buffers around germplasm. Default: 50000 that is 50 km around germplasm accessions (CA50)
-#' @param ecoReg A shapefile representing ecoregions information with a field ECO_NUM representing ecoregions Ids. If ecoReg=NULL the funtion will use a shapefile
-#'  provided for your use after run GetDatasets()
+#' @param occurrenceData A data frame object with the species name, geographical coordinates,
+#'   and type of records (G or H) for a given species
+#' @param raster_list A list representing the species distribution models for the species list provided
+#'  loaded in raster format. This list must match the same order of the species list.
+#' @param bufferDistance Geographical distance used to create circular buffers around germplasm.
+#'  Default: 50000 that is 50 km around germplasm accessions (CA50)
+#' @param ecoReg A shapefile representing ecoregions information with a field ECO_NUM representing ecoregions Ids.
+#'  If ecoReg=NULL the funtion will use a shapefile provided for your use after run GetDatasets()
 #'
 #' @return This function returns a data frame summarizing the ex-situ gap analysis scores:
 #'
@@ -31,7 +35,7 @@
 #' data(ecoregions)
 #'
 #' #Running all three Ex situ gap analysis steps using ExsituCompile function
-#' exsituGapMetrics <- ExsituCompile(species_list=speciesList,
+#' ExsituGapMetrics <- ExsituCompile(species_list=speciesList,
 #'                                       occurrenceData=CucurbitaData,
 #'                                       raster_list=CucurbitaRasters,
 #'                                       bufferDistance=50000,
@@ -49,24 +53,28 @@
 #' @export
 
 ExsituCompile <- function(species_list, occurrenceData, raster_list, bufferDistance,ecoReg){
+  srsEx_df <- NULL
+  grsEx_df <- NULL
+  ersEx_df <- NULL
+  FCSex_df <- NULL
   # call SRSex
-  srsEx_df <- GapAnalysis::SRSex(species_list = species_list,
+  srsEx_df <- SRSex(species_list = species_list,
                                     occurrenceData = occurrenceData)
   # call GRSex
-  grsEx_df <- GapAnalysis::GRSex(occurrenceData = occurrenceData,
+  grsEx_df <- GRSex(occurrenceData = occurrenceData,
     species_list = species_list,
     raster_list = raster_list,
     bufferDistance = bufferDistance)
   # call ERSex
-  ersEx_df <- GapAnalysis::ERSex(species_list = species_list,
+  ersEx_df <- ERSex(species_list = species_list,
     occurrenceData = occurrenceData,
     raster_list = raster_list,
     bufferDistance = bufferDistance,
     ecoReg=ecoReg)
 
   # call FCSex
-  fcsEx_df <- GapAnalysis::FCSex(srsEx_df,grsEx_df,ersEx_df)
+  FCSex_df <- FCSex(srsDF = srsEx_df, grsDF = grsEx_df, ersDF = ersEx_df)
 
   # return dataframe from FCSex
-  return(fcsEx_df)
+  return(FCSex_df)
 }

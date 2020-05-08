@@ -2,14 +2,16 @@
 % Please edit documentation in R/eooAoo.R
 \name{eooAoo}
 \alias{eooAoo}
-\title{IUCN conservations status using  Area of occupancy (AOO) and extent of occurrence (EOO) (IUCN Redlist)}
+\title{IUCN conservations status using  Area of occupancy (AOO)
+ and extent of occurrence (EOO) (IUCN Redlist)}
 \usage{
 eooAoo(species_list, occurrenceData)
 }
 \arguments{
 \item{species_list}{An species list to calculate metrics.}
 
-\item{occurrenceData}{A data frame object with the species name, geographical coordinates, and type of records (G or H) for a given species}
+\item{occurrenceData}{A data frame object with the species name,
+geographical coordinates, and type of records (G or H) for a given species}
 }
 \value{
 This function returns a data frame with the following columns:
@@ -21,8 +23,9 @@ This function returns a data frame with the following columns:
 }
 }
 \description{
-This function calculates the species conservation status according IUCN parameters using
-Area of occupancy (AOO) Area and extent of occurrence (EOO)
+This function calculates the species conservation status
+ according IUCN parameters using Area of occupancy (AOO) Area
+ and extent of occurrence (EOO)
 }
 \examples{
 ##Obtaining occurrences from example
@@ -41,7 +44,8 @@ IUCN Red List of Ecosystems Categories and Criteria,
 version 1.1. 10.2305/IUCN.CH.2016.RLE.3.en.
 
  Lee, C. K. F., Keith, D. A., Nicholson, E. and Murray, N. J. 2019.
-Redlistr: tools for the IUCN Red Lists of ecosystems and threatened species in R. – Ecography 42: 1050–1055 (ver. 0).
+Redlistr: tools for the IUCN Red Lists of ecosystems and threatened species in R.
+ – Ecography 42: 1050–1055 (ver. 0).
 }
 \author{
 Dan Carver

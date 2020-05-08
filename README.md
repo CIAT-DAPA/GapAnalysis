@@ -1,7 +1,7 @@
 # GapAnalysis R package
 
 ## Description
-The GapAnalysis R package provides a series of functions that allows the user to evaluate the ex situ and in situ conservation status of taxa in a standardized and reproducible way, to combine these metrics into an integrated conservation assessment, and to compare and calculate a conservation indicator metric across taxa. GapAnalysis generates quantitative metrics and spatial outputs which represent the state of conservation and where gaps in the collection/conservation of taxa exist on the landscape. The methods are fully described in (XXXXX- insert GapAnalysis R paper link when published). Articles by Ramirez-Villegas et al. (2010), Castañeda-Álvarez and Khoury et al. (2016), and Khoury et al. (2019a, b) provided the main steps toward the current methodology.
+The GapAnalysis R package provides a series of functions that allows the user to evaluate the ex situ and in situ conservation status of taxa in a standardized and reproducible way, to combine these metrics into an integrated conservation assessment, and to compare and calculate a conservation indicator metric across taxa. GapAnalysis generates quantitative metrics and spatial outputs which represent the state of conservation and where gaps in the collection/conservation of taxa exist on the landscape. The methods are fully described in (insert GapAnalysis R paper link when published). Articles by Ramirez-Villegas et al. (2010), Castañeda-Álvarez and Khoury et al. (2016), and Khoury et al. (2019a, b) describe the main steps toward the current methodology.
 
 The GapAnalysis functions requires the user to provide two inputs
 A `data.frame` of species occurrences
@@ -125,7 +125,7 @@ The recommended workflow is as follows.
 **Pre-analysis**
  - `GetDatasets` downloads the protected areas and ecoregions datasets from our data repository
  - `OccurrenceCounts` creates a .csv file with counts of G, H, and those record types with coordinates for all taxa, based on input occurrence data
- - `.Gbuffer` is an internal function that creates a circular buffer of user-defined size (default is 0.5 degrees, equivalent to ca. 50 km radius) around each G point for each taxon, which represents the geographic areas already considered to be sufficiently collected for ex situ conservation. The output of this process is a raster. Since this is not an exported function to use it you will need to type `GapAnalysis:::.Gbuffer` in R.
+ - `.Gbuffer` is an internal function that creates a circular buffer of user-defined size (default is 50 km radius) around each G point for each taxon, which represents the geographic areas already considered to be sufficiently collected for ex situ conservation. The output of this process is a raster. Since this is not an exported function to use it you will need to type `GapAnalysis:::.Gbuffer` in R.
 
 **Ex-situ Analysis**
  - `SRSex` calculates the Sampling Representativeness Score for _ex situ_ conservation

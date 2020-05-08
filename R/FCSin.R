@@ -1,6 +1,7 @@
 #' @title Final in-situ conservation score estimation (In-situ conservation)
 #' @name FCSin
-#' @description This function concatenates the SRSin, GRSin, and ERSin values in an unique dataframe object to calculate a final priority score as
+#' @description This function concatenates the SRSin, GRSin, and ERSin values
+#' in an unique dataframe object to calculate a final priority score as
 #' the average of the SRSin, GRSin, and ERSin values:
 #'
 #' \deqn{FCSin = mean(SRSin,GRSin,ERSin)}
@@ -9,7 +10,8 @@
 #' @param grsDF A dataframe object result of the GRSin function
 #' @param ersDF A dataframe object result of the ERSin function
 #'
-#' @return This function returns a data frame with the follows information summarizing the in-situ gap analysis scores:
+#' @return This function returns a data frame with the follows information
+#'  summarizing the in-situ gap analysis scores:
 #'
 #' \tabular{lcc}{
 #' species \tab Species name \cr
@@ -64,20 +66,20 @@
 #' and sustainable development targets. Ecological Indicators. https://doi.org/10.1016/j.ecolind.2018.11.016
 #'
 #' @export
-#' @importFrom magrittr %>%
-#' @importFrom dplyr left_join select
+#' @importFrom dplyr left_join
 
 FCSin <- function(srsDF,grsDF,ersDF) {
+
     #importFrom("methods", "as")
     #importFrom("stats", "complete.cases", "filter", "median")
     #importFrom("utils", "data", "memory.limit", "read.csv", "write.csv")
 
     # join the dataframes base on species
     df1 <- dplyr::left_join(srsDF, grsDF, by ="species")
-    df2 <- dplyr::left_join(df1, ersDF, by = "species") %>%
-      dplyr::select("species","SRSin", "GRSin", "ERSin")
+    df2 <- dplyr::left_join(df1, ersDF, by = "species")
+      #dplyr::select("species","SRSin", "GRSin", "ERSin")
     # calculate the mean value for each row to determine fcs per species
-    for(i in 1:nrow(df2)){
+    for(i in seq_len(nrow(df2))){
       df2$FCSin[i] <- base::mean(c(df2$SRSin[i], df2$GRSin[i], df2$ERSin[i]))
     }
     return(df2)

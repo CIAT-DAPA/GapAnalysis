@@ -1,15 +1,20 @@
 #' @title Environmental representativeness score estimation (Ex-situ conservation)
 #' @name ERSex
-#' @description This function performs an estimation of the environmental representativeness score for ex-situ gap analysis (ERSex) using Ramirez-Villegas et al., (2010) methodology.
+#' @description This function performs an estimation of the environmental representativeness
+#'  score for ex-situ gap analysis (ERSex) using Ramirez-Villegas et al., (2010) methodology.
 #' ERSex is calculated as:
-#' \deqn{ERSex = min(100,(Number of ecoregions with 50km of G Occurrences / Number of Ecoregions Present within the Predict habitat)*100)}
+#' \deqn{ERSex = min(100,(Number of ecoregions with 50km of G Occurrences /
+#'  Number of Ecoregions Present within the Predict habitat)*100)}
 #'
-#' @param occurrenceData A data frame object with the species name, geographical coordinates, and type of records (G or H) for a given species
+#' @param occurrenceData A data frame object with the species name, geographical coordinates,
+#'  and type of records (G or H) for a given species
 #' @param species_list An species list to calculate the ERSex metrics.
-#' @param raster_list A list representing the species distribution models for the species list provided loaded in raster format. This list must match the same order of the species list.
-#' @param bufferDistance Geographical distance used to create circular buffers around germplasm. Default: 50000 that is 50 km around germplasm accessions (CA50)
-#' @param ecoReg A shapefile representing ecoregions information with a field ECO_NUM representing ecoregions Ids. If ecoReg=NULL the function will use a shapefile
-#'  provided for your use after run GetDatasets()
+#' @param raster_list A list representing the species distribution models for the species list provided
+#'  loaded in raster format. This list must match the same order of the species list.
+#' @param bufferDistance Geographical distance used to create circular buffers around germplasm.
+#'  Default: 50000 that is 50 km around germplasm accessions (CA50)
+#' @param ecoReg A shapefile representing ecoregions information with a field ECO_NUM representing ecoregions Ids.
+#'  If ecoReg=NULL the function will use a shapefile provided for your use after run GetDatasets()
 #'
 #' @return This function returns a data frame with two columns:
 #'
@@ -44,9 +49,6 @@
 #' Comprehensiveness of conservation of useful wild plants: An operational indicator for biodiversity
 #' and sustainable development targets. Ecological Indicators. https://doi.org/10.1016/j.ecolind.2018.11.016
 #' @export
-#' @importFrom magrittr %>%
-#' @importFrom dplyr filter mutate mutate_if summarize group_by
-#' @importFrom tidyr drop_na
 #' @importFrom raster shapefile rasterToPoints crs
 #' @importFrom  fasterize fasterize
 #' @import sp
@@ -59,7 +61,7 @@ ERSex <- function(species_list,occurrenceData, raster_list, bufferDistance,ecoRe
   longitude <- NULL
   latitude <-NULL
   ECO_NUM <- NULL
-
+  nc <- NULL
 #load packages
 # suppressMessages(require(sp))
 # suppressMessages(require(raster))
@@ -79,35 +81,39 @@ ERSex <- function(species_list,occurrenceData, raster_list, bufferDistance,ecoRe
       stop("Ecoregions file is not available yet. Please run the function preparingDatasets() and try again")
     }
   } else{
-    ecoReg = ecoReg
+    ecoReg <- ecoReg
   }
 
-  ecoReg@data <-  ecoReg@data %>%
-    dplyr::mutate_if(is.character, iconv, to = 'UTF-8')
-  # maybe this directly downloads an element from the dataverse
+
+    # maybe this directly downloads an element from the dataverse
 
   # generate a dataframe to store the output values
   df <- data.frame(matrix(ncol = 2, nrow = length(species_list)))
   colnames(df) <- c("species", "ERSex")
 
   # loop through all species
-  for(i in 1:length(species_list)){
-    speciesOcc <- occurrenceData %>%
-      #tidyr::drop_na(longitude)%>%
-      dplyr::filter(taxon == species_list[i])
+  for(i in seq_len(length(species_list))){
+    speciesOcc <- occurrenceData[which(occurrenceData$taxon==species_list[i]),]
+    # speciesOcc <- occurrenceData %>%
+    #   #tidyr::drop_na(longitude)%>%
+    #   dplyr::filter(taxon == species_list[i])
     if(length(speciesOcc$type == "G") == 0){
       df$species[i] <- species_list[i]
       df$ERSex[i] <- 0
       }else{
-        occDataG <- speciesOcc  %>%
-          dplyr::filter(type == "G")%>%
-          dplyr::select(longitude,latitude)
+
+        occDataG <- speciesOcc
+        occDataG <- speciesOcc[which(speciesOcc$type=="G"),c("longitude","latitude")]
+
+        # occDataG <- speciesOcc  %>%
+        #   dplyr::filter(type == "G")%>%
+        #   dplyr::select(longitude,latitude)
 
         occDataG <- occDataG[which(!is.na(occDataG$latitude)),]
           sp::coordinates(occDataG) <- ~longitude+latitude
           sp::proj4string(occDataG) <- sp::CRS("+proj=longlat +datum=WGS84")
         # select raster with species name
-          for(j in 1:length(raster_list)){
+          for(j in seq_len(length(raster_list))){
             if(grepl(j, i, ignore.case = TRUE)){
               sdm <- raster_list[[j]]
             }
@@ -129,10 +135,15 @@ ERSex <- function(species_list,occurrenceData, raster_list, bufferDistance,ecoRe
         gPoints <- sp::SpatialPoints(raster::rasterToPoints(buffer_rs))
         # extract values from ecoregions to points
         raster::crs(gPoints) <- raster::crs(ecoReg)
-        ecoValsG <- sp::over(x = gPoints, y = ecoReg) %>%
-          dplyr::distinct(ECO_NUM)%>%
-          tidyr::drop_na(ECO_NUM) %>% #ECO_ID
-          dplyr::filter(ECO_NUM > 0) #ECO_ID
+
+        ecoValsG <- sp::over(x = gPoints, y = ecoReg)
+        ecoValsG <- data.frame(ECO_NUM=(unique(ecoValsG$ECO_NUM)))
+        ecoValsG <- ecoValsG[which(!is.na(ecoValsG) & ecoValsG>0),]
+
+        # ecoValsG <- sp::over(x = gPoints, y = ecoReg) %>%
+        #   dplyr::distinct(ECO_NUM)%>%
+        #   tidyr::drop_na(ECO_NUM) %>% #ECO_ID
+        #   dplyr::filter(ECO_NUM > 0) #ECO_ID
 
         speciesOcc <- speciesOcc[which(!is.na(speciesOcc$latitude)),]
 
@@ -142,14 +153,20 @@ ERSex <- function(species_list,occurrenceData, raster_list, bufferDistance,ecoRe
         raster::crs(speciesOcc) <- raster::crs(ecoReg)
 
         # number of ecoregions present in model
-        ecoVal <- data.frame(sp::over(x = speciesOcc, y = ecoReg))%>%
-            dplyr::select(ECO_NUM )%>% #ECO_ID
-            dplyr::distinct() %>%
-            tidyr::drop_na() %>%
-            dplyr::filter(ECO_NUM > 0) # -9998 are lakes #ECO_ID != -9998
+
+
+        ecoVal <- sp::over(x = speciesOcc, y = ecoReg)
+        ecoVal <- data.frame(ECO_NUM=(unique(ecoVal$ECO_NUM)))
+        ecoVal <- ecoVal[which(!is.na(ecoVal) & ecoVal>0),]
+
+        # ecoVal <- data.frame(sp::over(x = speciesOcc, y = ecoReg))%>%
+        #     dplyr::select(ECO_NUM )%>% #ECO_ID
+        #     dplyr::distinct() %>%
+        #     tidyr::drop_na() %>%
+        #     dplyr::filter(ECO_NUM > 0) # -9998 are lakes #ECO_ID != -9998
 
         #calculate ERS
-        ers <- min(c(100, (nrow(ecoValsG)/nrow(ecoVal))*100))
+        ers <- min(c(100, (length(ecoValsG)/length(ecoVal))*100))
         # assign values to df
         df$species[i] <- as.character(species_list[i])
         df$ERSex[i] <- ers

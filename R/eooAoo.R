@@ -1,11 +1,14 @@
-#' @title IUCN conservations status using  Area of occupancy (AOO) and extent of occurrence (EOO) (IUCN Redlist)
+#' @title IUCN conservations status using  Area of occupancy (AOO)
+#'  and extent of occurrence (EOO) (IUCN Redlist)
 #' @name eooAoo
 #' @author Dan Carver
-#' @description This function calculates the species conservation status according IUCN parameters using
-#' Area of occupancy (AOO) Area and extent of occurrence (EOO)
+#' @description This function calculates the species conservation status
+#'  according IUCN parameters using Area of occupancy (AOO) Area
+#'  and extent of occurrence (EOO)
 #'
 #' @param species_list An species list to calculate metrics.
-#' @param occurrenceData A data frame object with the species name, geographical coordinates, and type of records (G or H) for a given species
+#' @param occurrenceData A data frame object with the species name,
+#'  geographical coordinates, and type of records (G or H) for a given species
 #'
 #' @return This function returns a data frame with the following columns:
 #'
@@ -21,7 +24,8 @@
 #' version 1.1. 10.2305/IUCN.CH.2016.RLE.3.en.
 #'
 #'  Lee, C. K. F., Keith, D. A., Nicholson, E. and Murray, N. J. 2019.
-#' Redlistr: tools for the IUCN Red Lists of ecosystems and threatened species in R. – Ecography 42: 1050–1055 (ver. 0).
+#' Redlistr: tools for the IUCN Red Lists of ecosystems and threatened species in R.
+#'  – Ecography 42: 1050–1055 (ver. 0).
 #' @examples
 #' ##Obtaining occurrences from example
 #' data(CucurbitaData)
@@ -40,17 +44,13 @@
 
 
 
-eooAoo <-function(species_list, occurrenceData){
-
-  #suppressMessages(require(redlistr))
-  #suppressMessages(require(sp))
+eooAoo <- function(species_list, occurrenceData){
+  df <- NULL
   taxon <- NULL
-
   df <- data.frame(matrix(ncol=3, nrow = length(species_list)))
   colnames(df) <- c("species", "EOO Status", "AOO Status")
-
   # loop over species list
-  for(i in 1:length(species_list)){
+  for(i in seq_len(length(species_list))){
 
     wgs84 <- raster::crs("+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs")
     worldEqualArea <- raster::crs("+proj=cea +lon_0=0 +lat_ts=0 +x_0=0 +y_0=0 +ellps=WGS84 +units=m +no_defs ")
@@ -80,7 +80,7 @@ eooAoo <-function(species_list, occurrenceData){
     # create a 10 x 10 grid of to overlay on distribution.
 
     AOO.grid <- redlistr::makeAOOGrid(spAllPro, grid.size = 4000,
-                                      min.percent.rule = F)
+                                      min.percent.rule = FALSE)
     #plot(AOO.grid)
     n.AOO <- length(AOO.grid)
     AOOarea <- n.AOO* 4
@@ -99,7 +99,7 @@ eooAoo <-function(species_list, occurrenceData){
 
     gU.results <- redlistr::gridUncertainty(spAllPro, 4000,
                                             n.AOO.improvement = 1,
-                                            min.percent.rule = F)
+                                            min.percent.rule = FALSE)
 
     df$species[i] <- as.character(species_list[i])
     df$`EOO Status`[i] <- blo

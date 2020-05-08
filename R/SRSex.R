@@ -1,10 +1,12 @@
 #' @title Sample representativeness score estimation (Ex-situ conservation)
 #' @name SRSex
-#' @description This function performs an estimation of sample representativeness score for ex-situ gap analysis (SRSex)
-#' using Ramirez-Villegas et al., (2010) methodology using information from herbarium and germplasm occurrences. SRS ex-situ score is calculated as:
+#' @description This function performs an estimation of sample representativeness score
+#' for ex-situ gap analysis (SRSex)using Ramirez-Villegas et al., (2010) methodology
+#' using information from herbarium and germplasm occurrences. SRS ex-situ score is calculated as:
 #' \deqn{SRSex = Number of germplasm occurrences / Number of herbarium occurrences}
 #'
-#' @param occurrenceData  A data frame object with the species name, geographical coordinates, and type of records (G or H) for a given species
+#' @param occurrenceData  A data frame object with the species name, geographical coordinates,
+#'  and type of records (G or H) for a given species
 #' @param species_list An species list to calculate the SRSex metrics.
 #'
 #' @return This function returns a data frame with two columns:
@@ -46,7 +48,7 @@ SRSex <- function(species_list, occurrenceData) {
   dt1 <- data.frame(matrix(nrow = length(species_list), ncol = 2))
   colnames(dt1) <- c("species", "SRSex")
 
-  for(i in 1:length(species_list)){
+  for(i in seq_len(length(species_list))){
     sp_counts <- GapAnalysis::OccurrenceCounts(species_list[i], occurrenceData)
 
     if(sp_counts$totalGRecords >= 1 & sp_counts$totalHRecords == 0){

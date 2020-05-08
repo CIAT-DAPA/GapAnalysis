@@ -14,7 +14,8 @@ FCSex(srsDF, grsDF, ersDF)
 \item{ersDF}{A dataframe object result of the ERSex function}
 }
 \value{
-This function returns a data frame with the follows information summarizing the ex situ gap analysis scores:
+This function returns a data frame with the follows information
+summarizing the ex-situ gap analysis scores:
 
 \tabular{lcc}{
 species \tab Species name \cr
@@ -25,7 +26,8 @@ FCSex \tab Ex-situ final conservation score \cr
 }
 }
 \description{
-This function concatenates the SRSex, GRSex, and ERSex values in an unique dataframe object to calculate a final priority score as
+This function concatenates the SRSex, GRSex, and ERSex values
+ in an unique dataframe object to calculate a final priority score as
 the average of the SRSex, GRSex, and ERSex values:
 
 \deqn{FCSex = mean(SRSex,GRSex,ERSex)}
