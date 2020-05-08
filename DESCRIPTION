@@ -2,7 +2,7 @@ Package: GapAnalysis
 Type: Package
 Title: GapAnalysis, an R package to calculate conservation indicators using spatial information
 Version: 1.0
-Authors: c(person("Dan", "Carver",
+Authors@R: c(person("Dan", "Carver",
              role = "aut",
              comment = c(ORCID = "0000-0000-0000-0000")),
              person("Chrystian", "Sosa",
@@ -17,6 +17,8 @@ Authors: c(person("Dan", "Carver",
              person("CIAT-DAPA",
              role = c("cph", "fnd","cre"),
              email = "J.R.Villegas@cgiar.org"))
+Author: Dan Carver, Chrystian Sosa, Colin K. Khoury, Julian Ramirez-Villegas
+Mantainer: CIAT-DAPA 
 Description: This R library  provides a consistent pipeline to calculate ex situ and in situ conservation indicators. 
  Also, it provides basic functions to allow run the gap analysis methodology based on the gap analysis methodology 
  used in developed by Ramirez-Villegas et al. (2010) and used in Khoury et al., (2019). Please note, that this 
