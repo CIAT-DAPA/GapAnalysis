@@ -1,17 +1,31 @@
 Package: GapAnalysis
 Type: Package
-Title: An R package to calculate conservation indicators using spatial information
-Date: 2019-12-10
+Title: GapAnalysis, an R package to calculate conservation indicators using spatial information
 Version: 1.0
-Author: Dan Carver, Chrystian Sosa, Colin K. Khoury, Julian Ramirez-Villegas
-Maintainer: CIAT Decision and policy analysis research area  <J.R.Villegas@cgiar.org>
+Authors: c(person("Dan", "Carver",
+             role = "aut",
+             comment = c(ORCID = "0000-0000-0000-0000")),
+             person("Chrystian", "Sosa",
+             role = "aut",
+             comment = c(ORCID = "0000-0002-3734-3248")),
+             person("Colin", "Khoury",
+             role = "aut",
+             comment = c(ORCID = "0000-0001-7893-5744")),
+             person("Julian", "Ramirez-Villegas",
+             role = "aut",
+             comment = c(ORCID = "0000-0002-8044-583X")),
+             person("CIAT-DAPA",
+             role = c("cph", "fnd","cre"),
+             email = "J.R.Villegas@cgiar.org"))
 Description: This R library  provides a consistent pipeline to calculate ex situ and in situ conservation indicators. 
  Also, it provides basic functions to allow run the gap analysis methodology based on the gap analysis methodology 
  used in developed by Ramirez-Villegas et al. (2010) and used in Khoury et al., (2019). Please note, that this 
  library does not include methods for modeling species distribution models. Predicted habitats must be provided 
- by users.
+ by users
+URL: https://github.com/ccsosa/GapAnalysis 
+BugReports: https://github.com/ccsosa/GapAnalysis/issues
 Depends:
-  R (>= 3.5.0),
+  R (>= 3.5.0)
 Imports:
   base (>= 3.5),
   utils (>= 3.5),
@@ -29,8 +43,6 @@ Imports:
   redlistr (>= 1.0.3),
   fasterize (>= 1.0.0),
   tidyr (>= 1.0.2),
-  devtools (>= 2.2.0),
-  usethis (>= 1.6.0),
   rmarkdown (>= 2.1)
 Suggests: knitr
 License: GPL-3

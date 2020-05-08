@@ -43,9 +43,9 @@ Nicholas & Rodríguez, Jon. (2017). Guidelines for the application of
 IUCN Red List of Ecosystems Categories and Criteria,
 version 1.1. 10.2305/IUCN.CH.2016.RLE.3.en.
 
- Lee, C. K. F., Keith, D. A., Nicholson, E. and Murray, N. J. 2019.
-Redlistr: tools for the IUCN Red Lists of ecosystems and threatened species in R.
- – Ecography 42: 1050–1055 (ver. 0).
+Lee, C. K. F., Keith, D. A., Nicholson, E. and Murray, N. J. 2019.
+Redlistr: tools for the IUCN Red Lists of ecosystems and threatened
+ species in R. Ecography 42: 1050–1055 (ver. 0).
 }
 \author{
 Dan Carver

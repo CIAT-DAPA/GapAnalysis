@@ -23,9 +23,9 @@
 #' IUCN Red List of Ecosystems Categories and Criteria,
 #' version 1.1. 10.2305/IUCN.CH.2016.RLE.3.en.
 #'
-#'  Lee, C. K. F., Keith, D. A., Nicholson, E. and Murray, N. J. 2019.
-#' Redlistr: tools for the IUCN Red Lists of ecosystems and threatened species in R.
-#'  – Ecography 42: 1050–1055 (ver. 0).
+#' Lee, C. K. F., Keith, D. A., Nicholson, E. and Murray, N. J. 2019.
+#' Redlistr: tools for the IUCN Red Lists of ecosystems and threatened
+#'  species in R. Ecography 42: 1050–1055 (ver. 0).
 #' @examples
 #' ##Obtaining occurrences from example
 #' data(CucurbitaData)
@@ -36,13 +36,12 @@
 #'                                occurrenceData = CucurbitaData)
 #'
 #' @export
+#' @import rgdal
 #' @importFrom magrittr %>%
 #' @importFrom raster crs
 #' @importFrom dplyr filter
 #' @importFrom redlistr makeEOO getAreaEOO makeAOOGrid gridUncertainty
-#' @import sp
-
-
+#' @importFrom sp SpatialPoints spTransform
 
 eooAoo <- function(species_list, occurrenceData){
   df <- NULL

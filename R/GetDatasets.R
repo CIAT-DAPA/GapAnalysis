@@ -16,7 +16,7 @@
 #'
 #' @export
 #' @importFrom dataverse get_dataset
-#' @import utils
+#' @importFrom utils download.file
 
 GetDatasets <- function(){
 #LOADING FOLDER PARAMETERS

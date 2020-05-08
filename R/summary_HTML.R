@@ -81,8 +81,10 @@
 #'
 #' @export
 #' @importFrom rmarkdown render
+#' @importFrom tmap tmap_mode qtm
 #' @importFrom raster raster extend writeRaster crop extent
-#' @import tmap sp
+#' @importFrom sp coordinates proj4string CRS
+#' @importFrom dplyr select filter
 
 summary_HTML <- function(species_list,occurrenceData, raster_List,  proArea,bufferDistance,
                         #countsSummary,

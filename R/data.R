@@ -34,7 +34,8 @@
 #' @name ecoregions
 #' @docType data
 #' @format Shapefile
-#' @description This dataset is a subset of the Terrestrial Ecoregions shapefile made by the Nature Conservancy
+#' @description This dataset is a subset of the Terrestrial Ecoregions
+#'  shapefile made by the Nature Conservancy
 #' @source \url{http://maps.tnc.org/gis_data.html}
 "ecoregions"
 
@@ -42,7 +43,8 @@
 #' @name  ProtectedAreas
 #' @docType data
 #' @format Raster file
-#' @description This dataset is a raster version of the world protected areas dataset used in Khoury et al., (2019)
+#' @description This dataset is a raster version of the world protected areas dataset
+#'  used in Khoury et al., (2019)
 #' @source \url{https://www.protectedplanet.net/}
 #' @references
 #' Khoury, C. K., Amariles, D., Soto, J. S., Diaz, M. V., Sotelo, S., Sosa, C. C., … Jarvis, A. (2019).

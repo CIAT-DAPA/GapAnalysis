@@ -2,7 +2,7 @@ suppressWarnings(suppressMessages(library(raster)))
 setwd("~/Repositories/GapAnalysis")
 lfiles <-list.files("data-raw/fileData/CucurbitaRasters",full.names = T,pattern = ".tif")
 CucurbitaRasters <- lapply(1:length(lfiles), function(i){
-  x <- raster::raster(lfiles[[i]])
+  x <- raster::readAll(raster(lfiles[[i]]))
   return(x)
 })
 

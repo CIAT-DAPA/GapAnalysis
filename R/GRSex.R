@@ -48,8 +48,9 @@
 #' Am. J. Bot., 88: 2101-2112. doi:10.2307/3558435
 #'
 #' @export
-#' @import fasterize sp
+#' @importFrom sp coordinates proj4string SpatialPoints over CRS
 #' @importFrom stats median
+#' @importFrom fasterize fasterize
 
 
 GRSex <- function(occurrenceData, species_list, raster_list, bufferDistance) {

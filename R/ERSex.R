@@ -51,7 +51,7 @@
 #' @export
 #' @importFrom raster shapefile rasterToPoints crs
 #' @importFrom  fasterize fasterize
-#' @import sp
+#' @importFrom sp coordinates proj4string SpatialPoints over CRS
 
 
 ERSex <- function(species_list,occurrenceData, raster_list, bufferDistance,ecoReg) {

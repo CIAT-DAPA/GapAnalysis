@@ -74,8 +74,10 @@ ERSin <- function(species_list,occurrenceData,raster_list,proArea,ecoReg) {
   colnames(df) <- c("species", "ERSin")
   # load in protect area raster
   if(is.null(proArea)){
-    if(file.exists(system.file("data/preloaded_data/protectedArea/wdpa_reclass.tif",package = "GapAnalysis"))){
-      proArea <- raster::raster(system.file("data/preloaded_data/protectedArea/wdpa_reclass.tif",package = "GapAnalysis"))
+    if(file.exists(system.file("data/preloaded_data/protectedArea/wdpa_reclass.tif",
+                               package = "GapAnalysis"))){
+      proArea <- raster::raster(system.file("data/preloaded_data/protectedArea/wdpa_reclass.tif",
+                                            package = "GapAnalysis"))
     } else {
       stop("Protected areas file is not available yet. Please run the function preparingDatasets()  and try again")
     }
@@ -84,8 +86,10 @@ ERSin <- function(species_list,occurrenceData,raster_list,proArea,ecoReg) {
   }
   # Load in ecoregions shp
   if(is.null(ecoReg)){
-    if(file.exists(system.file("data/preloaded_data/ecoRegion/tnc_terr_ecoregions.shp",package = "GapAnalysis"))){
-      ecoReg <- raster::shapefile(system.file("data/preloaded_data/ecoRegion/tnc_terr_ecoregions.shp", package = "GapAnalysis"),encoding = "UTF-8")
+    if(file.exists(system.file("data/preloaded_data/ecoRegion/tnc_terr_ecoregions.shp",
+                               package = "GapAnalysis"))){
+      ecoReg <- raster::shapefile(system.file("data/preloaded_data/ecoRegion/tnc_terr_ecoregions.shp",
+                                              package = "GapAnalysis"),encoding = "UTF-8")
     } else {
       stop("Ecoregions file is not available yet. Please run the function preparingDatasets() and try again")
       }

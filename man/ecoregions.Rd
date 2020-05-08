@@ -14,6 +14,7 @@ Shapefile
 ecoregions
 }
 \description{
-This dataset is a subset of the Terrestrial Ecoregions shapefile made by the Nature Conservancy
+This dataset is a subset of the Terrestrial Ecoregions
+ shapefile made by the Nature Conservancy
 }
 \keyword{datasets}

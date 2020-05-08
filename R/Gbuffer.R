@@ -60,8 +60,10 @@
 #'   on gis.stackexchange. Also check [Understanding Geodesic Buffering](https://www.esri.com/news/arcuser/0111/geodesic.html).
 #'
 #' @importFrom methods as
-#' @import sp sf geosphere data.table
-#' @importFrom data.table as.data.table setorder
+#' @importFrom sf st_as_sf
+#' @importFrom data.table as.data.table setorder %between% :=
+#' @importFrom geosphere destPoint
+#' @importFrom sp Polygon Polygons SpatialPolygons disaggregate is.projected CRS
 #' @export
 #' @keywords internal
 
@@ -103,7 +105,7 @@ Gbuffer <- function(xy,
 
   # Add column which indicates to which point ID from n_points each buffer point
   # belongs to.
-  buff_pts[, id := rep(1:n_points, times = length(dg))]
+  buff_pts[, id :=rep(1:n_points, times = length(dg))]
   # If the returns is desired as data.table or data.frame, then stop here.
   if(output == "data.table"){
     data.table::setorder(buff_pts, id)

@@ -14,7 +14,8 @@ Raster file
 ProtectedAreas
 }
 \description{
-This dataset is a raster version of the world protected areas dataset used in Khoury et al., (2019)
+This dataset is a raster version of the world protected areas dataset
+ used in Khoury et al., (2019)
 }
 \references{
 Khoury, C. K., Amariles, D., Soto, J. S., Diaz, M. V., Sotelo, S., Sosa, C. C., … Jarvis, A. (2019).
