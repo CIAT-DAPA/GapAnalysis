@@ -57,6 +57,19 @@ SRSin <- function(species_list, occurrenceData, raster_list,proArea){
   #importFrom("stats", "complete.cases", "filter", "median")
   #importFrom("utils", "data", "memory.limit", "read.csv", "write.csv")
 
+  #Checking occurrenceData format
+  par_names <- c("taxon","latitude","longitude","type")
+
+  if(identical(names(occurrenceData),par_names)==FALSE){
+    stop("Please format the column names in your dataframe as taxon,latitude,longitude,type")
+  }
+  #Checking if user is using a raster list or a raster stack
+  if(class(raster_list)=="RasterStack"){
+    raster_list <- raster::unstack(raster_list)
+  } else {
+    raster_list <- raster_list
+  }
+
   # Load in protect areas
 
   if(is.null(proArea)){

@@ -64,7 +64,7 @@ Allows the possibility of creating geodesic buffers when the
 }
 \examples{
 \dontrun{
-bucharest_500km <- Gbuffer(xy = data.frame(lon = 26.101390,
+bucharest_500km <- .Gbuffer(xy = data.frame(lon = 26.101390,
                                                  lat = 44.427764),
                                  dist_m = 500*10^3,
                                  output = "sf")

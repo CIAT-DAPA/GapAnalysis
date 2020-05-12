@@ -1,29 +1,19 @@
 Package: GapAnalysis
-Type: Package
-Title: GapAnalysis, an R package to calculate conservation indicators using spatial information
+Title: Conservation indicators using spatial information
 Version: 1.0
-Authors@R: c(person("Dan", "Carver",
-             role = "aut",
-             comment = c(ORCID = "0000-0000-0000-0000")),
-             person("Chrystian", "Sosa",
-             role = "aut",
-             comment = c(ORCID = "0000-0002-3734-3248")),
-             person("Colin", "Khoury",
-             role = "aut",
-             comment = c(ORCID = "0000-0001-7893-5744")),
-             person("Julian", "Ramirez-Villegas",
-             role = "aut",
-             comment = c(ORCID = "0000-0002-8044-583X")),
-             person("CIAT-DAPA",
-             role = c("cph", "fnd","cre"),
-             email = "J.R.Villegas@cgiar.org"))
-Author: Dan Carver, Chrystian Sosa, Colin K. Khoury, Julian Ramirez-Villegas
-Mantainer: CIAT-DAPA 
-Description: This R library  provides a consistent pipeline to calculate ex situ and in situ conservation indicators. 
+Authors@R: c(person("Dan", "Carver", role = "aut", comment = c(ORCID = ""),
+                    email= "carver.dan1@gmail.com"),
+             person("Chrystian", "Sosa",role = "aut", comment = c(ORCID = "0000-0002-3734-3248"),
+                    email= "chrystiam.sossa@gmail.com"),
+             person("Colin", "Khoury", role = "aut", comment = c(ORCID = "0000-0001-7893-5744"),
+                    email= "c.khoury@cgiar.org"),
+             person("Julian", "Ramirez-Villegas",role = c("aut","cre"), comment = c(ORCID = "0000-0002-8044-583X"),
+                    email = "J.R.Villegas@cgiar.org"))
+Description: This R library provides a consistent pipeline to calculate ex situ and in situ conservation indicators. 
  Also, it provides basic functions to allow run the gap analysis methodology based on the gap analysis methodology 
  used in developed by Ramirez-Villegas et al. (2010) and used in Khoury et al., (2019). Please note, that this 
  library does not include methods for modeling species distribution models. Predicted habitats must be provided 
- by users
+ by users.
 URL: https://github.com/ccsosa/GapAnalysis 
 BugReports: https://github.com/ccsosa/GapAnalysis/issues
 Depends:

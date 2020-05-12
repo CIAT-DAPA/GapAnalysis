@@ -43,6 +43,14 @@ SRSex <- function(species_list, occurrenceData) {
 
   species <- NULL
 
+  #Checking occurrenceData format
+  par_names <- c("taxon","latitude","longitude","type")
+
+  if(identical(names(occurrenceData),par_names)==FALSE){
+    stop("Please format the column names in your dataframe as taxon,latitude,longitude,type")
+  }
+
+
   dt1 <- data.frame(matrix(nrow = length(species_list), ncol = 2))
   colnames(dt1) <- c("species", "SRSex")
 

@@ -51,30 +51,40 @@
 #' and sustainable development targets. Ecological Indicators. https://doi.org/10.1016/j.ecolind.2018.11.016
 #'
 #' @export
-
+#' @keywords internal
+#'
 ExsituCompile <- function(species_list, occurrenceData, raster_list, bufferDistance,ecoReg){
-  srsEx_df <- NULL
-  grsEx_df <- NULL
-  ersEx_df <- NULL
-  FCSex_df <- NULL
+  SRS_ex_df <- NULL
+  GRS_ex_df <- NULL
+  ERS_ex_df <- NULL
+  FCSex_list <- NULL
+
   # call SRSex
-  srsEx_df <- SRSex(species_list = species_list,
+  SRS_ex_df <- SRSex(species_list = species_list,
                                     occurrenceData = occurrenceData)
   # call GRSex
-  grsEx_df <- GRSex(occurrenceData = occurrenceData,
+  GRS_ex_df <- GRSex(occurrenceData = occurrenceData,
     species_list = species_list,
     raster_list = raster_list,
     bufferDistance = bufferDistance)
   # call ERSex
-  ersEx_df <- ERSex(species_list = species_list,
+  ERS_ex_df <- ERSex(species_list = species_list,
     occurrenceData = occurrenceData,
     raster_list = raster_list,
     bufferDistance = bufferDistance,
     ecoReg=ecoReg)
 
-  # call FCSex
-  FCSex_df <- FCSex(srsDF = srsEx_df, grsDF = grsEx_df, ersDF = ersEx_df)
+  # join the dataframes base on species
+  FCS_ex_df <- dplyr::left_join(SRS_ex_df, GRS_ex_df, by ="species")
+  FCS_ex_df <- dplyr::left_join(FCS_ex_df, ERS_ex_df, by = "species") #%>%
+  #    dplyr::select("species","SRSex", "GRSex", "ERSex")
+  # calculate the mean value for each row to determine fcs per species
+  for(i in seq_len(nrow(FCS_ex_df))){
+    FCS_ex_df$FCSex[i] <- base::mean(c(FCS_ex_df$SRSex[i], FCS_ex_df$GRSex[i], FCS_ex_df$ERSex[i]))
+  }
 
+  # call FCSex
+FCSex_list <- list(FCS_ex=FCS_ex_df)
   # return dataframe from FCSex
-  return(FCSex_df)
+  return(FCSex_list)
 }

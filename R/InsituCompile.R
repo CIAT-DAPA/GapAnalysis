@@ -53,7 +53,8 @@
 #' and sustainable development targets. Ecological Indicators. https://doi.org/10.1016/j.ecolind.2018.11.016
 #'
 #' @export
-
+#' @keywords internal
+#'
 InsituCompile <- function(species_list, occurrenceData, raster_list,proArea,ecoReg){
   SRSin_df <- NULL
   GRSin_df <- NULL
