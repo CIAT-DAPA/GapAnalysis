@@ -1,10 +1,10 @@
-#'GapAnalysis is a package to provide easy calculation for conservation scores
+#'GapAnalysis is a an R package used to calculate ex situ and in situ conservation indicators using spatial information
 
 #' @name GapAnalysis-package
 #' @aliases GapAnalysis
 #' @aliases GapAnalysis-package
 #' @docType package
-#' @title GapAnalysis: A gap analysis and conservation status tool
+#' @title GapAnalysis: an R package to calculate conservation indicators using spatial information
 #' @author \strong{CIAT Decision and Policy Analysis research area}\cr
 #' email: \email{J.R.Villegas@cgiar.org}
 #' @keywords package
