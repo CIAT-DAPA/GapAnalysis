@@ -38,7 +38,6 @@
 #'                     Ecoregions_shp=ecoregions)
 #'
 #' @references
-#'
 #' Castañeda-Álvarez et al. (2016) Nature Plants 2(4):16022. doi: 10.1038/nplants.2016.22
 #' Khoury et al. (2019) Ecological Indicators 98:420-429. doi: 10.1016/j.ecolind.2018.11.016
 #' @export
