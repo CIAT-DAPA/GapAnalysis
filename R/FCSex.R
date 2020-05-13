@@ -9,11 +9,11 @@
 #' @param Species_list A species list to calculate metrics.
 #' @param Occurrence_data A data frame object with the species name, geographical coordinates,
 #'   and type of records (G or H) for a given species
-#' @param raster_list A list representing the species distribution models for the species list provided
+#' @param Raster_list A list representing the species distribution models for the species list provided
 #'  loaded in raster format. This list must match the same order of the species list.
-#' @param bufferDistance Geographical distance used to create circular buffers around germplasm.
+#' @param Buffer_distance Geographical distance used to create circular buffers around germplasm.
 #'  Default: 50000 that is 50 km around germplasm accessions (CA50)
-#' @param ecoReg A shapefile representing ecoregions information with a field ECO_NUM representing ecoregions Ids.
+#' @param Ecoregions_shp A shapefile representing ecoregions information with a field ECO_NUM representing ecoregions Ids.
 #'  If ecoReg=NULL the funtion will use a shapefile provided for your use after run GetDatasets()
 #' @param Gap_MapEx Default=FALSE, This option will calculate gap maps for each species analyzed and will retun a list
 #' with two slots FCSex and gap_maps
@@ -59,6 +59,7 @@
 #'
 #' @export
 #' @importFrom dplyr left_join
+#' @importFrom raster overlay crop raster extent ncell
 
 
 FCSex <- function(Species_list, Occurrence_data, Raster_list, Buffer_distance,Ecoregions_shp,Gap_MapEx){
@@ -122,7 +123,7 @@ FCSex <- function(Species_list, Occurrence_data, Raster_list, Buffer_distance,Ec
                      Occurrence_data = Occurrence_data,
                     Raster_list = Raster_list,
                     Buffer_distance = Buffer_distance,
-                    Ecoregions_shp=ecoregions)
+                    Ecoregions_shp=Ecoregions_shp)
 
   # join the dataframes base on species
   FCSex_df <- dplyr::left_join(SRSex_df, GRSex_df, by ="species")
@@ -149,7 +150,7 @@ FCSex <- function(Species_list, Occurrence_data, Raster_list, Buffer_distance,Ec
         stop("NULL SDM was added, Please load a valid SDM file")
       }
       if(!is.null(gbuff)){
-        if(length(gbuff[which(is.na(gbuff[]))])==ncell(gbuff)){
+        if(length(gbuff[which(is.na(gbuff[]))])==raster::ncell(gbuff)){
           gap_map <- sdm_temp
           gap_map[which(gap_map[]==0)] <- NA
           GapMapEx_list[[i]] <- gap_map

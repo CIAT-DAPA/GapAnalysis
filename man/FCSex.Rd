@@ -19,17 +19,17 @@ FCSex(
 \item{Occurrence_data}{A data frame object with the species name, geographical coordinates,
 and type of records (G or H) for a given species}
 
-\item{Gap_MapEx}{Default=FALSE, This option will calculate gap maps for each species analyzed and will retun a list
-with two slots FCSex and gap_maps}
-
-\item{raster_list}{A list representing the species distribution models for the species list provided
+\item{Raster_list}{A list representing the species distribution models for the species list provided
 loaded in raster format. This list must match the same order of the species list.}
 
-\item{bufferDistance}{Geographical distance used to create circular buffers around germplasm.
+\item{Buffer_distance}{Geographical distance used to create circular buffers around germplasm.
 Default: 50000 that is 50 km around germplasm accessions (CA50)}
 
-\item{ecoReg}{A shapefile representing ecoregions information with a field ECO_NUM representing ecoregions Ids.
+\item{Ecoregions_shp}{A shapefile representing ecoregions information with a field ECO_NUM representing ecoregions Ids.
 If ecoReg=NULL the funtion will use a shapefile provided for your use after run GetDatasets()}
+
+\item{Gap_MapEx}{Default=FALSE, This option will calculate gap maps for each species analyzed and will retun a list
+with two slots FCSex and gap_maps}
 }
 \value{
 This function returns a list with gap maps if Gap_MapEx=TRUE. Otherwise, it returns a data frame

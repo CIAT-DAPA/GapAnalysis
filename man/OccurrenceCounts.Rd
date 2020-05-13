@@ -9,7 +9,7 @@ OccurrenceCounts(species, Occurrence_data)
 \arguments{
 \item{species}{The name of a species}
 
-\item{occurrenceData}{A data frame object with the species name, g
+\item{Occurrence_data}{A data frame object with the species name, g
 geographical coordinates, and type of records (G or H) for a given species}
 }
 \value{

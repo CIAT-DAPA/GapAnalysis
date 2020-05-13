@@ -50,7 +50,7 @@ data(ProtectedAreas)
 ##Obtaining ecoregions shapefile
 data(ecoregions)
 
-ERSin_df <- ERSin(Species_list = speciesList,
+ERSin_df <- ERSin(Species_list = Cucurbita_splist,
                    Occurrence_data = CucurbitaData,
                    Raster_list = CucurbitaRasters,
                    Pro_areas= ProtectedAreas,

@@ -4,7 +4,7 @@
 #'  the total number of germplasm and herbarium occurrences
 #'
 #' @param species The name of a species
-#' @param occurrenceData  A data frame object with the species name, g
+#' @param Occurrence_data  A data frame object with the species name, g
 #'  geographical coordinates, and type of records (G or H) for a given species
 #'
 #' @return This function returns a data frame object with the following columns:
