@@ -4,18 +4,18 @@
 \alias{GRSex}
 \title{Geographical representativeness score estimation (Ex-situ conservation)}
 \usage{
-GRSex(occurrenceData, species_list, raster_list, bufferDistance)
+GRSex(Occurrence_data, Species_list, Raster_list, Buffer_distance)
 }
 \arguments{
-\item{occurrenceData}{A data frame object with the species name, geographical coordinates,
+\item{Occurrence_data}{A data frame object with the species name, geographical coordinates,
 and type of records (G or H) for a given species}
 
-\item{species_list}{An species list to calculate the GRSex metrics.}
+\item{Species_list}{An species list to calculate the GRSex metrics.}
 
-\item{raster_list}{A list representing the species distribution models for the species list provided
+\item{Raster_list}{A list representing the species distribution models for the species list provided
 loaded in raster format. This list must match the same order of the species list.}
 
-\item{bufferDistance}{Geographical distance used to create circular buffers around germplasm.
+\item{Buffer_distance}{Geographical distance used to create circular buffers around germplasm.
 Default: 50000 that is 50 km around germplasm accessions (CA50)}
 }
 \value{
@@ -36,15 +36,15 @@ This function performs an estimation of the geographical representativeness scor
 \examples{
 ##Obtaining occurrences from example
 data(CucurbitaData)
-speciesList <- unique(CucurbitaData$taxon)
+Cucurbita_splist <- unique(CucurbitaData$taxon)
 ## Obtaining rasterList objet. ##
 data(CucurbitaRasters)
 CucurbitaRasters <- raster::unstack(CucurbitaRasters)
 #Calculating GRSex value
-GRSex_df <- GRSex(species_list = speciesList,
-                    occurrenceData = CucurbitaData,
-                    raster_list = CucurbitaRasters,
-                    bufferDistance = 50000)
+GRSex_df <- GRSex(Species_list = Cucurbita_splist,
+                    Occurrence_data = CucurbitaData,
+                    Raster_list = CucurbitaRasters,
+                    Buffer_distance = 50000)
 
 }
 \references{

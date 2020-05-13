@@ -3,8 +3,8 @@
 #' @description This function concatenates ex-situ conservation scores (SRSex, GRSex, ERSex,FCSex), and  in situ scores (SRSin, GRSin, ERSin,FCSin)
 #' in one unique table and calculate the final conservation score for a species using Khoury et al., (2019) methodology.
 #'
-#' @param FCSex_df A data frame object result of the functions ExsituCompile or fcs_exsitu
-#' @param FCSin_df A data frame object result of the functions InsituCompile or fcs_insitu
+#' @param FCSex_df A data frame or a list object result of the function FCSex
+#' @param FCSin_df A data frameor a list  object result of the function FCSin
 #'
 #' @return this function returns a data frame object with the following columns:
 #'
@@ -24,7 +24,7 @@
 #' ##Obtaining occurrences from example
 #' data(CucurbitaData)
 #' ##Obtaining species names from the data
-#' speciesList <- unique(CucurbitaData$taxon)
+#' Cucurbita_splist <- unique(CucurbitaData$taxon)
 #' ##Obtaining raster_list
 #' data(CucurbitaRasters)
 #' CucurbitaRasters <- raster::unstack(CucurbitaRasters)
@@ -33,22 +33,23 @@
 #' ##Obtaining ecoregions shapefile
 #' data(ecoregions)
 #'
-#' #Running all three Ex-situ gap analysis steps using ExsituCompile function
-#' exsituGapMetrics <- ExsituCompile(species_list=speciesList,
-#'                                       occurrenceData=CucurbitaData,
-#'                                       raster_list=CucurbitaRasters,
-#'                                       bufferDistance=50000,
-#'                                       ecoReg=ecoregions)
+#' #Running all three Ex-situ gap analysis steps using FCSex function
+#' FCSex_df <- FCSex(Species_list=Cucurbita_splist,
+#'                                       Occurrence_data=CucurbitaData,
+#'                                       Raster_list=CucurbitaRasters,
+#'                                       Buffer_distance=50000,
+#'                                       Ecoregions_shp=ecoregions,
+#'                                       Gap_MapEx=FALSE)
 #'
 #'
-#' #Running all three In-situ gap analysis steps using InsituCompile function
-#' insituGapMetrics <- InsituCompile(species_list=speciesList,
-#'                                        occurrenceData=CucurbitaData,
-#'                                        raster_list=CucurbitaRasters,
-#'                                        proArea=ProtectedAreas,
-#'                                        ecoReg=ecoregions)
+#' #Running all three In-situ gap analysis steps using FCSin function
+#' FCSin_df <- FCSin(Species_list=Cucurbita_splist,
+#'                                       Occurrence_data=CucurbitaData,
+#'                                       Raster_list=CucurbitaRasters,
+#'                                       Ecoregions_shp=ecoregions,
+#'                                       Gap_MapIn=FALSE)
 #'
-#' fcsCombine <- FCSc_mean(FCSex_df = exsituGapMetrics,FCSin_df = insituGapMetrics)
+#' fcsCombine <- FCSc_mean(FCSex_df = FCSex_df,FCSin_df = FCSin_df)
 #'
 #'@references
 #' Ramirez-Villegas, J., Khoury, C., Jarvis, A., Debouck, D. G., & Guarino, L. (2010).
@@ -66,10 +67,18 @@
 
 FCSc_mean <- function(FCSex_df, FCSin_df) {
   df <- NULL
-  #importFrom("methods", "as")
-  #importFrom("stats", "complete.cases", "filter", "median")
-  #importFrom("utils", "data", "memory.limit", "read.csv", "write.csv")
 
+  if(class(FCSex_df)==list){
+    FCSex_df <- FCSex_df$FCSex
+  } else {
+    FCSex_df <- FCSex_df
+  }
+
+  if(class(FCSin_df )==list){
+    FCSin_df  <- FCSin_df$FCSin
+  } else {
+    FCSin_df  <- FCSin_df
+  }
   #join datasets and select necessary Columns
   df <- dplyr::left_join(x = FCSex_df, y = FCSin_df, by = "species")
   df <-  df[,c("species", "FCSex", "FCSin")]

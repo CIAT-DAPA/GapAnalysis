@@ -24,8 +24,8 @@
 #' @examples
 #' data(CucurbitaData)
 #' ##Obtaining species names from the data
-#' speciesList <- unique(CucurbitaData$taxon)
-#' countDF <- OccurrenceCounts(speciesList[[1]], CucurbitaData)
+#' Cucurbita_splist <- unique(CucurbitaData$taxon)
+#' countDF <- OccurrenceCounts(speciesList[[3]], CucurbitaData)
 #'
 #'@references
 #'
@@ -43,7 +43,7 @@
 #' @importFrom dplyr filter mutate summarize group_by
 
 
-OccurrenceCounts <- function(species,occurrenceData){
+OccurrenceCounts <- function(species,Occurrence_data){
   taxon <- NULL
   latitude <- NULL
   longitude <- NULL
@@ -52,34 +52,44 @@ OccurrenceCounts <- function(species,occurrenceData){
   hasLatLong <- NULL
   type <- NULL
 
+  #Checking Occurrence_data format
+  par_names <- c("taxon","latitude","longitude","type")
+
+  if(identical(names(Occurrence_data),par_names)==FALSE){
+    stop("Please format the column names in your dataframe as taxon,latitude,longitude,type")
+  }
+
   # create an empty dataframe to store counts information
   df <- data.frame(matrix(NA, nrow = 1, ncol = 9))
   colNames <- c("species","totalRecords",	"hasLat", "hasLong","totalCoords", "totalGRecords",
                 "totalGCoords","totalHRecords",	"totalHCoords")
   colnames(df) <- colNames
 
-  sppOccAll <- occurrenceData %>%
-    dplyr::filter(taxon == species)
+  speciesOcc <- Occurrence_data[which(Occurrence_data$taxon==species),]
+  speciesOcc$hasLat <- !is.na(speciesOcc$latitude) &
+  speciesOcc$latitude != "\\N" & speciesOcc$latitude != "" &
+    !is.null(speciesOcc$latitude) & speciesOcc$latitude != "NULL"
 
-      speciesOcc <- occurrenceData %>%
-        dplyr::filter(taxon == species)%>%
-        dplyr::mutate(hasLat = !is.na(latitude) & latitude != "\\N" & latitude != "" & !is.null(latitude) & latitude != "NULL") %>%
-        dplyr::mutate(hasLong = !is.na(longitude) & longitude != "\\N"& longitude != "" & !is.null(longitude)& longitude != "NULL") %>%
-        dplyr::mutate(hasLatLong = hasLat & hasLong)
-    # group by type and has coordinates
-    tbl <- speciesOcc %>%
-      dplyr::group_by(type, hasLatLong ) %>%
-      dplyr::summarize(total = dplyr::n())
-    # assign values to the counts dataframe for the species
-    df$species <- as.character(species)
-    df$totalRecords <- nrow(speciesOcc)
-    df$totalCoords <- sum((subset(tbl, hasLatLong == TRUE))$total)
-    df$totalGRecords <- sum((subset(tbl, type == "G"))$total)
-    df$totalGCoords <- sum((subset(tbl, type == "G" & hasLatLong == TRUE))$total)
-    df$totalHRecords <- sum((subset(tbl, type == "H"))$total)
-    df$totalHCoords <- sum((subset(tbl, type == "H" & hasLatLong == TRUE))$total)
-    df$hasLat <- sum(speciesOcc$hasLat)
-    df$hasLong <- sum(speciesOcc$hasLong)
+  speciesOcc$hasLong <- !is.na(speciesOcc$longitude) &
+  speciesOcc$longitude != "\\N" & speciesOcc$longitude != "" &
+    !is.null(speciesOcc$longitude) & speciesOcc$longitude != "NULL"
+
+  speciesOcc$hasLatLong <- speciesOcc$hasLat==speciesOcc$hasLong
+
+  # group by type and has coordinates
+  tbl <- stats::aggregate(speciesOcc,list(type   = speciesOcc$type,hasLatLong =speciesOcc$hasLatLong), length)
+  tbl <- tbl[,c("type","hasLatLong","taxon")]; colnames(tbl)[3] <- "total"
+
+   # assign values to the counts dataframe for the species
+  df$species <- as.character(species)
+  df$totalRecords <- nrow(speciesOcc)
+  df$totalCoords <- sum((subset(tbl, hasLatLong == TRUE))$total)
+  df$totalGRecords <- sum((subset(tbl, type == "G"))$total)
+  df$totalGCoords <- sum((subset(tbl, type == "G" & hasLatLong == TRUE))$total)
+  df$totalHRecords <- sum((subset(tbl, type == "H"))$total)
+  df$totalHCoords <- sum((subset(tbl, type == "H" & hasLatLong == TRUE))$total)
+  df$hasLat <- sum(speciesOcc$hasLat)
+  df$hasLong <- sum(speciesOcc$hasLong)
 
   # returns the counts dataframe
   return(df)

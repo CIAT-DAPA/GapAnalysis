@@ -4,17 +4,35 @@
 \alias{FCSex}
 \title{Final ex situ conservation score estimation (Ex-situ conservation)}
 \usage{
-FCSex(srsDF, grsDF, ersDF)
+FCSex(
+  Species_list,
+  Occurrence_data,
+  Raster_list,
+  Buffer_distance,
+  Ecoregions_shp,
+  Gap_MapEx
+)
 }
 \arguments{
-\item{srsDF}{A dataframe object result of the SRSex function}
+\item{Species_list}{A species list to calculate metrics.}
 
-\item{grsDF}{A dataframe object result of the GRSex function}
+\item{Occurrence_data}{A data frame object with the species name, geographical coordinates,
+and type of records (G or H) for a given species}
 
-\item{ersDF}{A dataframe object result of the ERSex function}
+\item{Gap_MapEx}{Default=FALSE, This option will calculate gap maps for each species analyzed and will retun a list
+with two slots FCSex and gap_maps}
+
+\item{raster_list}{A list representing the species distribution models for the species list provided
+loaded in raster format. This list must match the same order of the species list.}
+
+\item{bufferDistance}{Geographical distance used to create circular buffers around germplasm.
+Default: 50000 that is 50 km around germplasm accessions (CA50)}
+
+\item{ecoReg}{A shapefile representing ecoregions information with a field ECO_NUM representing ecoregions Ids.
+If ecoReg=NULL the funtion will use a shapefile provided for your use after run GetDatasets()}
 }
 \value{
-This function returns a data frame with the follows information
+This function returns a list with gap maps if Gap_MapEx=TRUE. Otherwise, it returns a data frame
 summarizing the ex-situ gap analysis scores:
 
 \tabular{lcc}{
@@ -26,9 +44,9 @@ FCSex \tab Ex-situ final conservation score \cr
 }
 }
 \description{
-This function concatenates the SRSex, GRSex, and ERSex values
- in an unique dataframe object to calculate a final priority score as
-the average of the SRSex, GRSex, and ERSex values:
+This function allows calculate all the three Ex-situ gap analysis scores
+  in one unique function returning a final conservation score summary table.
+  The final priority score is calculated as the average of the SRSex, GRSex, and ERSex values:
 
 \deqn{FCSex = mean(SRSex,GRSex,ERSex)}
 }
@@ -36,32 +54,20 @@ the average of the SRSex, GRSex, and ERSex values:
 ##Obtaining occurrences from example
 data(CucurbitaData)
 ##Obtaining species names from the data
-speciesList <- unique(CucurbitaData$taxon)
+Cucurbita_splist <- unique(CucurbitaData$taxon)
 ##Obtaining raster_list
 data(CucurbitaRasters)
 CucurbitaRasters <- raster::unstack(CucurbitaRasters)
 ##Obtaining ecoregions shapefile
 data(ecoregions)
 
-#Calculating SRSex value
-SRSex_df <- SRSex(species_list = speciesList,
-                    occurrenceData = CucurbitaData)
-
-#Calculating GRSex value
-GRSex_df <- GRSex(species_list = speciesList,
-                    occurrenceData = CucurbitaData,
-                    raster_list = CucurbitaRasters)
-
-#Calculating ERSex value
-ERSex_df <- ERSex(species_list = speciesList,
-                    occurrenceData = CucurbitaData,
-                    raster_list = CucurbitaRasters,
-                    bufferDistance = 50000,
-                    ecoReg=ecoregions)
-
-#Calculating final conservation for ex-situ gap analysis
-
-FCSex_df <- FCSex(srsDF = SRSex_df, grsDF = GRSex_df, ersDF = ERSex_df)
+#Running all three Ex-situ gap analysis steps using a unique function
+FCSex_df <- FCSex(Species_list=Cucurbita_splist,
+                                      Occurrence_data=CucurbitaData,
+                                      Raster_list=CucurbitaRasters,
+                                      Buffer_distance=50000,
+                                      Ecoregions_shp=ecoregions,
+                                      Gap_MapEx=FALSE)
 
 }
 \references{

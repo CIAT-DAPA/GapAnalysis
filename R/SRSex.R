@@ -5,9 +5,9 @@
 #' using information from herbarium and germplasm occurrences. SRS ex-situ score is calculated as:
 #' \deqn{SRSex = Number of germplasm occurrences / Number of herbarium occurrences}
 #'
-#' @param occurrenceData  A data frame object with the species name, geographical coordinates,
+#' @param Occurrence_data  A data frame object with the species name, geographical coordinates,
 #'  and type of records (G or H) for a given species
-#' @param species_list An species list to calculate the SRSex metrics.
+#' @param Species_list An species list to calculate the SRSex metrics.
 #'
 #' @return This function returns a data frame with two columns:
 #' \tabular{lcc}{
@@ -19,9 +19,9 @@
 #' ##Obtaining occurrences from example
 #' data(CucurbitaData)
 #' ##Obtaining species names from the data
-#' speciesList <- unique(CucurbitaData$taxon)
-#' SRSex_df <- SRSex(species_list = speciesList,
-#'                     occurrenceData = CucurbitaData)
+#' Cucurbita_splist <- unique(CucurbitaData$taxon)
+#' SRSex_df <- SRSex(Species_list = Cucurbita_splist,
+#'                     Occurrence_data = CucurbitaData)
 #'
 #'@references
 #'
@@ -39,23 +39,23 @@
 #' @importFrom fasterize fasterize
 #' @importFrom stats median
 
-SRSex <- function(species_list, occurrenceData) {
+SRSex <- function(Species_list, Occurrence_data) {
 
   species <- NULL
 
-  #Checking occurrenceData format
+  #Checking Occurrence_data format
   par_names <- c("taxon","latitude","longitude","type")
 
-  if(identical(names(occurrenceData),par_names)==FALSE){
+  if(identical(names(Occurrence_data),par_names)==FALSE){
     stop("Please format the column names in your dataframe as taxon,latitude,longitude,type")
   }
 
 
-  dt1 <- data.frame(matrix(nrow = length(species_list), ncol = 2))
+  dt1 <- data.frame(matrix(nrow = length(Species_list), ncol = 2))
   colnames(dt1) <- c("species", "SRSex")
 
-  for(i in seq_len(length(species_list))){
-    sp_counts <- GapAnalysis::OccurrenceCounts(species_list[i], occurrenceData)
+  for(i in seq_len(length(Species_list))){
+    sp_counts <- GapAnalysis::OccurrenceCounts(Species_list[i], Occurrence_data)
 
     if(sp_counts$totalGRecords >= 1 & sp_counts$totalHRecords == 0){
       srs <-100
@@ -68,7 +68,7 @@ SRSex <- function(species_list, occurrenceData) {
       srs <- min(c(100,(sp_counts$totalGRecords/sp_counts$totalHRecords)*100))
     }
     # add values to empty df
-    dt1$species[i] <- as.character(species_list[i])
+    dt1$species[i] <- as.character(Species_list[i])
     dt1$SRSex[i] <- srs
 
   }

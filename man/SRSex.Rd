@@ -4,12 +4,12 @@
 \alias{SRSex}
 \title{Sample representativeness score estimation (Ex-situ conservation)}
 \usage{
-SRSex(species_list, occurrenceData)
+SRSex(Species_list, Occurrence_data)
 }
 \arguments{
-\item{species_list}{An species list to calculate the SRSex metrics.}
+\item{Species_list}{An species list to calculate the SRSex metrics.}
 
-\item{occurrenceData}{A data frame object with the species name, geographical coordinates,
+\item{Occurrence_data}{A data frame object with the species name, geographical coordinates,
 and type of records (G or H) for a given species}
 }
 \value{
@@ -29,9 +29,9 @@ using information from herbarium and germplasm occurrences. SRS ex-situ score is
 ##Obtaining occurrences from example
 data(CucurbitaData)
 ##Obtaining species names from the data
-speciesList <- unique(CucurbitaData$taxon)
-SRSex_df <- SRSex(species_list = speciesList,
-                    occurrenceData = CucurbitaData)
+Cucurbita_splist <- unique(CucurbitaData$taxon)
+SRSex_df <- SRSex(Species_list = Cucurbita_splist,
+                    Occurrence_data = CucurbitaData)
 
 }
 \references{

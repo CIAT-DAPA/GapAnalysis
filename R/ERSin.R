@@ -4,18 +4,18 @@
 #'  for in-situ gap analysis (GRSin) using Khoury et al., (2019) methodology
 #'  This function uses a germplasm buffer raster file (e.g. CA50),
 #'  a thresholded species distribution model, and a raster file of protected areas
-#'  \deqn{ERSin = min(100,(Number of ecoregions of germplasm occurrences in protected areas/
-#' Number of ecoregions of predicted Habitat within protected areas)*100)}
+#'  \deqn{ERSin = min(100,(Number of Ecoregions_shpions of germplasm occurrences in protected areas/
+#' Number of Ecoregions_shpions of predicted Habitat within protected areas)*100)}
 #'
-#' @param species_list An species list to calculate the ERSin metrics.
-#' @param occurrenceData A data frame object with the species name, geographical coordinates,
+#' @param Species_list An species list to calculate the ERSin metrics.
+#' @param Occurrence_data A data frame object with the species name, geographical coordinates,
 #'  and type of records (G or H) for a given species
-#' @param raster_list A list representing the species distribution models for the species list provided
+#' @param Raster_list A list representing the species distribution models for the species list provided
 #'  loaded in raster format. This list must match the same order of the species list.
-#' @param proArea A raster file representing protected areas information.
-#'  If proArea=NULL the funtion will use a protected area raster file provided for your use after run GetDatasets()
-#' @param ecoReg A shapefile representing ecoregions information with a field ECO_NUM representing ecoregions Ids.
-#' If ecoReg=NULL the function will use a shapefile provided for your use after run GetDatasets()
+#' @param Pro_areas A raster file representing protected areas information.
+#'  If Pro_areas=NULL the funtion will use a protected area raster file provided for your use after run GetDatasets()
+#' @param Ecoregions_shp A shapefile representing Ecoregions_shpions information with a field ECO_NUM representing Ecoregions_shpions Ids.
+#' If Ecoregions_shp=NULL the function will use a shapefile provided for your use after run GetDatasets()
 #'
 #' @return This function returns a data frame with two columns:
 #'
@@ -28,8 +28,8 @@
 #' ##Obtaining occurrences from example
 #' data(CucurbitaData)
 #' ##Obtaining species names from the data
-#' speciesList <- unique(CucurbitaData$taxon)
-#' ##Obtaining raster_list
+#' Cucurbita_splist <- unique(CucurbitaData$taxon)
+#' ##Obtaining Raster_list
 #' data(CucurbitaRasters)
 #' CucurbitaRasters <- raster::unstack(CucurbitaRasters)
 #' ##Obtaining protected areas raster
@@ -37,11 +37,11 @@
 #' ##Obtaining ecoregions shapefile
 #' data(ecoregions)
 #'
-#' ERSin_df <- ERSin(species_list = speciesList,
-#'                    occurrenceData = CucurbitaData,
-#'                    raster_list = CucurbitaRasters,
-#'                    proArea= ProtectedAreas,
-#'                    ecoReg=ecoregions)
+#' ERSin_df <- ERSin(Species_list = speciesList,
+#'                    Occurrence_data = CucurbitaData,
+#'                    Raster_list = CucurbitaRasters,
+#'                    Pro_areas= ProtectedAreas,
+#'                    Ecoregions_shp=ecoregions)
 #'
 #'@references
 #'
@@ -58,7 +58,7 @@
 #' @importFrom raster raster crop area shapefile
 
 
-ERSin <- function(species_list,occurrenceData,raster_list,proArea,ecoReg) {
+ERSin <- function(Species_list,Occurrence_data,Raster_list,Pro_areas,Ecoregions_shp) {
 
   taxon <- NULL
   type <- NULL
@@ -69,92 +69,92 @@ ERSin <- function(species_list,occurrenceData,raster_list,proArea,ecoReg) {
   #importFrom("stats", "complete.cases", "filter", "median")
   #importFrom("utils", "data", "memory.limit", "read.csv", "write.csv")
 
-  #Checking occurrenceData format
+  #Checking Occurrence_data format
   par_names <- c("taxon","latitude","longitude","type")
 
-  if(identical(names(occurrenceData),par_names)==FALSE){
+  if(identical(names(Occurrence_data),par_names)==FALSE){
     stop("Please format the column names in your dataframe as taxon,latitude,longitude,type")
   }
   #Checking if user is using a raster list or a raster stack
-  if(class(raster_list)=="RasterStack"){
-    raster_list <- raster::unstack(raster_list)
+  if(class(Raster_list)=="RasterStack"){
+    Raster_list <- raster::unstack(Raster_list)
   } else {
-    raster_list <- raster_list
+    Raster_list <- Raster_list
   }
 
 
   ## ERSin analyzes how well protected areas cover the maxent model with regard to ecosystems covered.
-  df <- data.frame(matrix(ncol=2, nrow = length(species_list)))
+  df <- data.frame(matrix(ncol=2, nrow = length(Species_list)))
   colnames(df) <- c("species", "ERSin")
   # load in protect area raster
-  if(is.null(proArea)){
+  if(is.null(Pro_areas)){
     if(file.exists(system.file("data/preloaded_data/protectedArea/wdpa_reclass.tif",
                                package = "GapAnalysis"))){
-      proArea <- raster::raster(system.file("data/preloaded_data/protectedArea/wdpa_reclass.tif",
+      Pro_areas <- raster::raster(system.file("data/preloaded_data/protectedArea/wdpa_reclass.tif",
                                             package = "GapAnalysis"))
     } else {
-      stop("Protected areas file is not available yet. Please run the function preparingDatasets()  and try again")
+      stop("Protected areas file is not available yet. Please run the function GetDatasets()  and try again")
     }
   } else{
-    proArea <- proArea
+    Pro_areas <- Pro_areas
   }
   # Load in ecoregions shp
-  if(is.null(ecoReg)){
+  if(is.null(Ecoregions_shp)){
     if(file.exists(system.file("data/preloaded_data/ecoRegion/tnc_terr_ecoregions.shp",
                                package = "GapAnalysis"))){
-      ecoReg <- raster::shapefile(system.file("data/preloaded_data/ecoRegion/tnc_terr_ecoregions.shp",
-                                              package = "GapAnalysis"),encoding = "UTF-8")
+      Ecoregions_shp <- raster::shapefile(system.file("data/preloaded_data/ecoRegion/tnc_terr_ecoregions.shp",
+                                                      package = "GapAnalysis"),encoding = "UTF-8")
     } else {
-      stop("Ecoregions file is not available yet. Please run the function preparingDatasets() and try again")
-      }
+      stop("Ecoregions file is not available yet. Please run the function GetDatasets() and try again")
+    }
   } else{
-    ecoReg <- ecoReg
+    Ecoregions_shp <- Ecoregions_shp
   }
 
-  for(i in seq_len(length(species_list))){
+  for(i in seq_len(length(Species_list))){
     # select threshold map for a given species
-    for(j in seq_len(length(raster_list))){
+    for(j in seq_len(length(Raster_list))){
       if(grepl(j, i, ignore.case = TRUE)){
-        sdm <- raster_list[[j]]
+        sdm <- Raster_list[[j]]
       }
     }
     # select occurrence data for the given species
-    occData1 <- occurrenceData[which(occurrenceData$taxon==species_list[i] & !is.na(occurrenceData$latitude)),]
+    occData1 <- Occurrence_data[which(Occurrence_data$taxon==Species_list[i] & !is.na(Occurrence_data$latitude)),]
 
         sp::coordinates(occData1) <- ~longitude+latitude
-    raster::crs(occData1) <- raster::crs(ecoReg)
-    # extract the ecoregion values to the points
+    raster::crs(occData1) <- raster::crs(Ecoregions_shp)
+    # extract the Ecoregions_shpion values to the points
 
-    ecoVal <- sp::over(x = occData1, y = ecoReg)
+    ecoVal <- sp::over(x = occData1, y = Ecoregions_shp)
     ecoVal <- data.frame(ECO_NUM=(unique(ecoVal$ECO_NUM)))
     ecoVal <- ecoVal[which(!is.na(ecoVal) & ecoVal>0),]
-    # number of ecoregions in modeling area
+    # number of Ecoregions_shpions in modeling area
     ecoInSDM <- length(ecoVal)
 
     # mask protected areas to threshold
-    proArea1 <- raster::crop(x = proArea, y=sdm)
+    Pro_areas1 <- raster::crop(x = Pro_areas, y=sdm)
     sdm[sdm[] == 0] <- NA
-    proArea1 <- sdm * proArea1
+    Pro_areas1 <- sdm * Pro_areas1
 
     #convert protect area to points
-    protectPoints <- sp::SpatialPoints(raster::rasterToPoints(proArea1))
-    # extract values from ecoregions to points
-    raster::crs(protectPoints) <- raster::crs(ecoReg)
+    protectPoints <- sp::SpatialPoints(raster::rasterToPoints(Pro_areas1))
+    # extract values from Ecoregions_shpions to points
+    raster::crs(protectPoints) <- raster::crs(Ecoregions_shp)
 
 
-    ecoValsPro <- sp::over(x = protectPoints, y = ecoReg)
+    ecoValsPro <- sp::over(x = protectPoints, y = Ecoregions_shp)
     ecoValsPro <- data.frame(ECO_NUM=(unique(ecoValsPro$ECO_NUM)))
     ecoValsPro <- ecoValsPro[which(!is.na(ecoValsPro) & ecoValsPro>0),]
     ecoInProt <- length(ecoValsPro)
 
     #clause for 9 in protected area
     if(ecoInProt == 0){
-      df$species[i] <- as.character(species_list[i])
+      df$species[i] <- as.character(Species_list[i])
       df$ERSin[i] <- 0
     }else{
       # calculate ers
       ers <- min(c(100, (ecoInProt/ecoInSDM)*100))
-      df$species[i] <- as.character(species_list[i])
+      df$species[i] <- as.character(Species_list[i])
       df$ERSin[i] <- ers
     }
   }

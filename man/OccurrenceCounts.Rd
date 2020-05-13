@@ -4,7 +4,7 @@
 \alias{OccurrenceCounts}
 \title{Generating Species Count Data Frame}
 \usage{
-OccurrenceCounts(species, occurrenceData)
+OccurrenceCounts(species, Occurrence_data)
 }
 \arguments{
 \item{species}{The name of a species}
@@ -34,8 +34,8 @@ This function creates a summary file the summarizes
 \examples{
 data(CucurbitaData)
 ##Obtaining species names from the data
-speciesList <- unique(CucurbitaData$taxon)
-countDF <- OccurrenceCounts(speciesList[[1]], CucurbitaData)
+Cucurbita_splist <- unique(CucurbitaData$taxon)
+countDF <- OccurrenceCounts(speciesList[[3]], CucurbitaData)
 
 }
 \references{

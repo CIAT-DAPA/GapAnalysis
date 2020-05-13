@@ -4,19 +4,19 @@
 \alias{SRSin}
 \title{Sample representativeness score estimation (In-situ conservation)}
 \usage{
-SRSin(species_list, occurrenceData, raster_list, proArea)
+SRSin(Species_list, Occurrence_data, Raster_list, Pro_areas)
 }
 \arguments{
-\item{species_list}{An species list to calculate the SRSin metrics.}
+\item{Species_list}{An species list to calculate the SRSin metrics.}
 
-\item{occurrenceData}{A data frame object with the species name, geographical coordinates,
+\item{Occurrence_data}{A data frame object with the species name, geographical coordinates,
 and type of records (G or H) for a given species}
 
-\item{raster_list}{A list representing the species distribution models for the species list
+\item{Raster_list}{A list representing the species distribution models for the species list
 provided loaded in raster format. This list must match the same order of the species list.}
 
-\item{proArea}{A raster file representing protected areas information.
-If proArea=NULL the function will use a protected area raster file
+\item{Pro_areas}{A raster file representing protected areas information.
+If Pro_areas=NULL the function will use a protected area raster file
 provided for your use after run GetDatasets()}
 }
 \value{
@@ -37,16 +37,16 @@ This function performs an estimation of the sample representativeness
 ##Obtaining occurrences from example
 data(CucurbitaData)
 ##Obtaining species names from the data
-speciesList <- unique(CucurbitaData$taxon)
-##Obtaining raster_list
+Cucurbita_splist <- unique(CucurbitaData$taxon)
+##Obtaining Raster_list
 data(CucurbitaRasters)
 CucurbitaRasters <- raster::unstack(CucurbitaRasters)
 ##Obtaining protected areas raster
 data(ProtectedAreas)
-SRSin_df <- SRSin(species_list = speciesList,
-                    occurrenceData = CucurbitaData,
-                    raster_list=CucurbitaRasters,
-                    proArea=ProtectedAreas)
+SRSin_df <- SRSin(Species_list = Cucurbita_splist,
+                    Occurrence_data = CucurbitaData,
+                    Raster_list=CucurbitaRasters,
+                    Pro_areas=ProtectedAreas)
 
 }
 \references{

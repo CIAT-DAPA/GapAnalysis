@@ -6,12 +6,12 @@
 #'
 #' \deqn{GRSex = min(100,(Masked Area of Buffered G Occurrences / Total Area of Predicted Habitat)*100)}
 #'
-#' @param occurrenceData A data frame object with the species name, geographical coordinates,
+#' @param Occurrence_data A data frame object with the species name, geographical coordinates,
 #' and type of records (G or H) for a given species
-#' @param species_list An species list to calculate the GRSex metrics.
-#' @param raster_list A list representing the species distribution models for the species list provided
+#' @param Species_list An species list to calculate the GRSex metrics.
+#' @param Raster_list A list representing the species distribution models for the species list provided
 #'  loaded in raster format. This list must match the same order of the species list.
-#' @param bufferDistance Geographical distance used to create circular buffers around germplasm.
+#' @param Buffer_distance Geographical distance used to create circular buffers around germplasm.
 #'  Default: 50000 that is 50 km around germplasm accessions (CA50)
 #'
 #' @return This function returns a data frame with two columns:
@@ -24,15 +24,15 @@
 #' @examples
 #' ##Obtaining occurrences from example
 #' data(CucurbitaData)
-#' speciesList <- unique(CucurbitaData$taxon)
+#' Cucurbita_splist <- unique(CucurbitaData$taxon)
 #' ## Obtaining rasterList objet. ##
 #' data(CucurbitaRasters)
 #' CucurbitaRasters <- raster::unstack(CucurbitaRasters)
 #' #Calculating GRSex value
-#' GRSex_df <- GRSex(species_list = speciesList,
-#'                     occurrenceData = CucurbitaData,
-#'                     raster_list = CucurbitaRasters,
-#'                     bufferDistance = 50000)
+#' GRSex_df <- GRSex(Species_list = Cucurbita_splist,
+#'                     Occurrence_data = CucurbitaData,
+#'                     Raster_list = CucurbitaRasters,
+#'                     Buffer_distance = 50000)
 #'
 #' @references
 #' Ramirez-Villegas, J., Khoury, C., Jarvis, A., Debouck, D. G., & Guarino, L. (2010).
@@ -53,25 +53,25 @@
 #' @importFrom fasterize fasterize
 
 
-GRSex <- function(occurrenceData, species_list, raster_list, bufferDistance) {
+GRSex <- function(Occurrence_data, Species_list, Raster_list, Buffer_distance) {
 
   longitude <- NULL
   taxon <- NULL
   type <- NULL
   latitude <-NULL
 
-  #Checking occurrenceData format
+  #Checking Occurrence_data format
   par_names <- c("taxon","latitude","longitude","type")
 
-  if(identical(names(occurrenceData),par_names)==FALSE){
+  if(identical(names(Occurrence_data),par_names)==FALSE){
     stop("Please format the column names in your dataframe as taxon,latitude,longitude,type")
   }
 
   #Checking if user is using a raster list or a raster stack
-  if(class(raster_list)=="RasterStack"){
-    raster_list <- raster::unstack(raster_list)
+  if(class(Raster_list)=="RasterStack"){
+    Raster_list <- raster::unstack(Raster_list)
   } else {
-    raster_list <- raster_list
+    Raster_list <- Raster_list
   }
 
 
@@ -81,31 +81,31 @@ GRSex <- function(occurrenceData, species_list, raster_list, bufferDistance) {
   #importFrom("methods", "as")
   #importFrom("stats", "complete.cases", "filter", "median")
   #importFrom("utils", "data", "memory.limit", "read.csv", "write.csv")
-  if(missing(bufferDistance)){
-    bufferDistance <- 50000
+  if(missing(Buffer_distance)){
+    Buffer_distance <- 50000
   }
   # create a dataframe to hold the components
-  df <- data.frame(matrix(ncol = 2, nrow = length(species_list)))
+  df <- data.frame(matrix(ncol = 2, nrow = length(Species_list)))
   colnames(df) <- c("species", "GRSex")
 
-  for(i in seq_len(length(sort(species_list)))){
+  for(i in seq_len(length(sort(Species_list)))){
     # select species G occurrences
 
-    occData <- occurrenceData[which(occurrenceData$taxon==species_list[i]),]
+    occData <- Occurrence_data[which(Occurrence_data$taxon==Species_list[i]),]
     occData <- occData[which(occData$type == "G" & !is.na(occData$latitude)),]
     occData <- occData[,c("longitude","latitude")]
-    # occData <- occurrenceData %>%
+    # occData <- Occurrence_data %>%
     #   tidyr::drop_na(longitude)%>%
-    #   dplyr::filter(taxon == species_list[i]) %>%
+    #   dplyr::filter(taxon == Species_list[i]) %>%
     #   dplyr::filter(type == "G")%>%
     #   dplyr::select(longitude,latitude)
 
     sp::coordinates(occData) <- ~longitude+latitude
     sp::proj4string(occData) <- sp::CRS("+proj=longlat +datum=WGS84")
     # select raster with species name
-    for(j in seq_len(length(raster_list))){
+    for(j in seq_len(length(Raster_list))){
       if(grepl(j, i, ignore.case = TRUE)){
-        sdm <- raster_list[[j]]
+        sdm <- Raster_list[[j]]
       }
     }
     # convert SDM from binary to 1-NA for mask and area
@@ -114,7 +114,7 @@ GRSex <- function(occurrenceData, species_list, raster_list, bufferDistance) {
     # buffer G points
 #    buffer <- geobuffer::geobuffer_pts(xy = occData,
     buffer <- GapAnalysis::Gbuffer(xy = occData,
-                                       dist_m = bufferDistance,
+                                       dist_m = Buffer_distance,
                                        output = 'sf')
 
     # rasterizing and making it into a mask
@@ -133,7 +133,7 @@ GRSex <- function(occurrenceData, species_list, raster_list, bufferDistance) {
     # calculate GRSex
     grs <- min(c(100, gBufferRas_area/pa_spp_area*100))
 
-    df$species[i] <- as.character(species_list[i])
+    df$species[i] <- as.character(Species_list[i])
     df$GRSex[i] <- grs
   }
 

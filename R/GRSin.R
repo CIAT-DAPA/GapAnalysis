@@ -4,10 +4,10 @@
 #'#'  GRSIn is calculated as:
 #'  \deqn{GRSin = min(100,(Predicted Habitat within protected areas/ Total Area of Predicted Habitat)*100)}
 #'
-#' @param species_list An species list to calculate the GRSin metrics.
-#' @param occurrenceData A data frame object with the species name, geographical coordinates, and type of records (G or H) for a given species
-#' @param raster_list A list representing the species distribution models for the species list provided loaded in raster format. This list must match the same order of the species list.
-#' @param proArea A raster file representing protected areas information. If proArea=NULL the function will use a protected area raster file
+#' @param Species_list An species list to calculate the GRSin metrics.
+#' @param Occurrence_data A data frame object with the species name, geographical coordinates, and type of records (G or H) for a given species
+#' @param Raster_list A list representing the species distribution models for the species list provided loaded in raster format. This list must match the same order of the species list.
+#' @param Pro_areas A raster file representing protected areas information. If Pro_areas=NULL the function will use a protected area raster file
 #'  provided for your use after run GetDatasets()
 #'
 #' @return This function returns a data frame with two columns:
@@ -21,17 +21,17 @@
 #' ##Obtaining occurrences from example
 #' data(CucurbitaData)
 #' ##Obtaining species names from the data
-#' speciesList <- unique(CucurbitaData$taxon)
-#' ##Obtaining raster_list
+#' Cucurbita_splist <- unique(CucurbitaData$taxon)
+#' ##Obtaining Raster_list
 #' data(CucurbitaRasters)
 #' CucurbitaRasters <- raster::unstack(CucurbitaRasters)
 #' ##Obtaining protected areas raster
 #' data(ProtectedAreas)
 #'
-#' GRSin_df <- GRSin(species_list = speciesList,
-#'                     occurrenceData = CucurbitaData,
-#'                     raster_list = CucurbitaRasters,
-#'                     proArea=ProtectedAreas)
+#' GRSin_df <- GRSin(Species_list = speciesList,
+#'                     Occurrence_data = CucurbitaData,
+#'                     Raster_list = CucurbitaRasters,
+#'                     Pro_areas=ProtectedAreas)
 #'
 #'
 #'@references
@@ -49,7 +49,7 @@
 
 
 
-GRSin <- function(species_list,occurrenceData,raster_list,proArea){
+GRSin <- function(Species_list,Occurrence_data,Raster_list,Pro_areas){
 
 # suppressMessages(require(rgdal))
 # suppressMessages(require(raster))
@@ -61,63 +61,63 @@ GRSin <- function(species_list,occurrenceData,raster_list,proArea){
 #importFrom("stats", "complete.cases", "filter", "median")
 #importFrom("utils", "data", "memory.limit", "read.csv", "write.csv")
 
-  #Checking occurrenceData format
+  #Checking Occurrence_data format
   par_names <- c("taxon","latitude","longitude","type")
 
-  if(identical(names(occurrenceData),par_names)==FALSE){
+  if(identical(names(Occurrence_data),par_names)==FALSE){
     stop("Please format the column names in your dataframe as taxon,latitude,longitude,type")
   }
   #Checking if user is using a raster list or a raster stack
-  if(class(raster_list)=="RasterStack"){
-    raster_list <- raster::unstack(raster_list)
+  if(class(Raster_list)=="RasterStack"){
+    Raster_list <- raster::unstack(Raster_list)
   } else {
-    raster_list <- raster_list
+    Raster_list <- Raster_list
   }
 
 
-  df <- data.frame(matrix(ncol=2, nrow = length(species_list)))
+  df <- data.frame(matrix(ncol=2, nrow = length(Species_list)))
   colnames(df) <- c("species", "GRSin")
   # load in protect area raster
-  if(is.null(proArea)){
+  if(is.null(Pro_areas)){
     if(file.exists(system.file("data/preloaded_data/protectedArea/wdpa_reclass.tif",package = "GapAnalysis"))){
-      proArea <- raster::raster(system.file("data/preloaded_data/protectedArea/wdpa_reclass.tif",package = "GapAnalysis"))
+      Pro_areas <- raster::raster(system.file("data/preloaded_data/protectedArea/wdpa_reclass.tif",package = "GapAnalysis"))
     } else {
-      stop("Protected areas file is not available yet. Please run the function preparingDatasets()  and try again")
+      stop("Protected areas file is not available yet. Please run the function GetDatasets()  and try again")
     }
   } else{
-    proArea <- proArea
+    Pro_areas <- Pro_areas
   }
 
   # loop over species list
-  for(i in seq_len(length(species_list))){
+  for(i in seq_len(length(Species_list))){
     # select threshold map for a given species
-    for(j in seq_len(length(raster_list))){
+    for(j in seq_len(length(Raster_list))){
       if(grepl(j, i, ignore.case = TRUE)){
-        sdm <- raster_list[[j]]
+        sdm <- Raster_list[[j]]
       }
     }
     # determine the area of predicted presence of a species based on the threshold map
     sdm1 <- sdm
-    proArea1 <- raster::crop(x = proArea,y = sdm1)
+    Pro_areas1 <- raster::crop(x = Pro_areas,y = sdm1)
     sdm1[sdm1[] == 0] <- NA
     cell_size <- raster::area(sdm1, na.rm=TRUE, weights=FALSE)
     cell_size <- cell_size[!is.na(cell_size)]
     thrshold_area <- length(cell_size)*median(cell_size)
 
     # mask the protected area Raster to the threshold map and calculate area
-    proArea1[proArea1[] == 0] <-NA
-    proArea1 <- proArea1 * sdm1
+    Pro_areas1[Pro_areas1[] == 0] <-NA
+    Pro_areas1 <- Pro_areas1 * sdm1
     # calculate area
-    cell_size <- raster::area(proArea1, na.rm=TRUE, weights=FALSE)
+    cell_size <- raster::area(Pro_areas1, na.rm=TRUE, weights=FALSE)
     cell_size <- cell_size[!is.na(cell_size)]
     protected_area <- length(cell_size)*stats::median(cell_size)
     if(!is.na(protected_area)){
       # calculate GRSin
       grs <- min(c(100, protected_area/thrshold_area*100))
-      df$species[i] <- as.character(species_list[i])
+      df$species[i] <- as.character(Species_list[i])
       df$GRSin[i] <- grs
     }else{
-      df$species[i] <- as.character(species_list[i])
+      df$species[i] <- as.character(Species_list[i])
       df$GRSin[i] <- 0
     }
   }

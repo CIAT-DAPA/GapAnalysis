@@ -5,13 +5,13 @@
 #'  SRSin is calculated as:
 #'  \deqn{SRSin = Number of occurrences in protected areas / Total number of occurrences}
 #'
-#' @param species_list An species list to calculate the SRSin metrics.
-#' @param occurrenceData A data frame object with the species name, geographical coordinates,
+#' @param Species_list An species list to calculate the SRSin metrics.
+#' @param Occurrence_data A data frame object with the species name, geographical coordinates,
 #'  and type of records (G or H) for a given species
-#' @param raster_list A list representing the species distribution models for the species list
+#' @param Raster_list A list representing the species distribution models for the species list
 #'  provided loaded in raster format. This list must match the same order of the species list.
-#' @param proArea A raster file representing protected areas information.
-#'  If proArea=NULL the function will use a protected area raster file
+#' @param Pro_areas A raster file representing protected areas information.
+#'  If Pro_areas=NULL the function will use a protected area raster file
 #'  provided for your use after run GetDatasets()
 #' @return This function returns a data frame with two columns:
 #'
@@ -24,16 +24,16 @@
 #' ##Obtaining occurrences from example
 #' data(CucurbitaData)
 #' ##Obtaining species names from the data
-#' speciesList <- unique(CucurbitaData$taxon)
-#' ##Obtaining raster_list
+#' Cucurbita_splist <- unique(CucurbitaData$taxon)
+#' ##Obtaining Raster_list
 #' data(CucurbitaRasters)
 #' CucurbitaRasters <- raster::unstack(CucurbitaRasters)
 #' ##Obtaining protected areas raster
 #' data(ProtectedAreas)
-#' SRSin_df <- SRSin(species_list = speciesList,
-#'                     occurrenceData = CucurbitaData,
-#'                     raster_list=CucurbitaRasters,
-#'                     proArea=ProtectedAreas)
+#' SRSin_df <- SRSin(Species_list = Cucurbita_splist,
+#'                     Occurrence_data = CucurbitaData,
+#'                     Raster_list=CucurbitaRasters,
+#'                     Pro_areas=ProtectedAreas)
 #'
 #'@references
 #'
@@ -49,7 +49,7 @@
 #' @importFrom raster raster crop
 
 
-SRSin <- function(species_list, occurrenceData, raster_list,proArea){
+SRSin <- function(Species_list, Occurrence_data, Raster_list,Pro_areas){
 
   taxon <- NULL
   longitude <- NULL
@@ -57,60 +57,60 @@ SRSin <- function(species_list, occurrenceData, raster_list,proArea){
   #importFrom("stats", "complete.cases", "filter", "median")
   #importFrom("utils", "data", "memory.limit", "read.csv", "write.csv")
 
-  #Checking occurrenceData format
+  #Checking Occurrence_data format
   par_names <- c("taxon","latitude","longitude","type")
 
-  if(identical(names(occurrenceData),par_names)==FALSE){
+  if(identical(names(Occurrence_data),par_names)==FALSE){
     stop("Please format the column names in your dataframe as taxon,latitude,longitude,type")
   }
   #Checking if user is using a raster list or a raster stack
-  if(class(raster_list)=="RasterStack"){
-    raster_list <- raster::unstack(raster_list)
+  if(class(Raster_list)=="RasterStack"){
+    Raster_list <- raster::unstack(Raster_list)
   } else {
-    raster_list <- raster_list
+    Raster_list <- Raster_list
   }
 
   # Load in protect areas
 
-  if(is.null(proArea)){
+  if(is.null(Pro_areas)){
     if(file.exists(system.file("data/preloaded_data/protectedArea/wdpa_reclass.tif",package = "GapAnalysis"))){
-      proArea <- raster::raster(system.file("data/preloaded_data/protectedArea/wdpa_reclass.tif",package = "GapAnalysis"))
+      Pro_areas <- raster::raster(system.file("data/preloaded_data/protectedArea/wdpa_reclass.tif",package = "GapAnalysis"))
     } else {
-      stop("Protected areas file is not available yet. Please run the function preparingDatasets()  and try again")
+      stop("Protected areas file is not available yet. Please run the function GetDatasets()  and try again")
     }
   } else{
-    proArea <- proArea
+    Pro_areas <- Pro_areas
   }
 
   # create an empty dataframe
-  df <- data.frame(matrix(ncol = 2, nrow = length(species_list)))
+  df <- data.frame(matrix(ncol = 2, nrow = length(Species_list)))
   colnames(df) <- c("species", "SRSin")
 
-  for(i in seq_len(length(species_list))){
+  for(i in seq_len(length(Species_list))){
     # pull the sdm to mask for
-    for(j in seq_len(length(raster_list))){
+    for(j in seq_len(length(Raster_list))){
       if(grepl(j, i, ignore.case = TRUE)){
-        sdm <- raster_list[[j]]
+        sdm <- Raster_list[[j]]
       }
     };rm(j)
     # restrict protect areas those that are present in the model threshold
     ##**double check about this step with jullian/chrys/colin**
-    proArea1 <- raster::crop(x = proArea,y = sdm)
+    Pro_areas1 <- raster::crop(x = Pro_areas,y = sdm)
     sdm[sdm == 0]<-NA
-    proAreaSpecies <- sdm * proArea1
+    Pro_areasSpecies <- sdm * Pro_areas1
 
     # filter by specific species
 
-    occData1 <- occurrenceData[which(occurrenceData$taxon==species_list[i] & !is.na(occurrenceData$latitude)),]
-    # occData1 <- occurrenceData %>%
-    #     dplyr::filter(taxon == species_list[i])%>%
+    occData1 <- Occurrence_data[which(Occurrence_data$taxon==Species_list[i] & !is.na(Occurrence_data$latitude)),]
+    # occData1 <- Occurrence_data %>%
+    #     dplyr::filter(taxon == Species_list[i])%>%
     #       tidyr::drop_na(longitude)
      totalNum <- nrow(occData1)
 
     # extract values to all points
     sp::coordinates(occData1) <- ~longitude+latitude
     sp::proj4string(occData1) <- sp::CRS("+proj=longlat +datum=WGS84")
-    protectPoints <- sum(!is.na(raster::extract(x = proArea1,y = occData1)))
+    protectPoints <- sum(!is.na(raster::extract(x = Pro_areas1,y = occData1)))
 
     #define SRS
     if(protectPoints >= 0 ){
@@ -119,7 +119,7 @@ SRSin <- function(species_list, occurrenceData, raster_list,proArea){
       srsInsitu <- 0
     }
   # add values to empty df
-    df$species[i] <- as.character(species_list[i])
+    df$species[i] <- as.character(Species_list[i])
     df$SRSin[i] <- srsInsitu
   };rm(i)
 return(df)

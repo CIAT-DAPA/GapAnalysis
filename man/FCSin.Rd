@@ -4,17 +4,25 @@
 \alias{FCSin}
 \title{Final in-situ conservation score estimation (In-situ conservation)}
 \usage{
-FCSin(srsDF, grsDF, ersDF)
+FCSin(Species_list, Occurrence_data, Raster_list, Ecoregions_shp, Gap_MapIn)
 }
 \arguments{
-\item{srsDF}{A dataframe object result of the SRSin function}
+\item{Species_list}{A species list to calculate metrics.}
 
-\item{grsDF}{A dataframe object result of the GRSin function}
+\item{Occurrence_data}{A data frame object with the species name, geographical coordinates,
+and type of records (G or H) for a given species}
 
-\item{ersDF}{A dataframe object result of the ERSin function}
+\item{Raster_list}{A list representing the species distribution models for the species list provided
+loaded in raster format. This list must match the same order of the species list.}
+
+\item{Ecoregions_shp}{A shapefile representing Ecoregions_shpions information with a field ECO_NUM representing Ecoregions_shpions Ids.
+If Ecoregions_shp=NULL the funtion will use a shapefile provided for your use after run GetDatasets()}
+
+\item{Gap_MapIn}{Default=FALSE, This option will calculate gap maps for each species analyzed and will retun a list
+with two slots FCSin and gap_maps}
 }
 \value{
-This function returns a data frame with the follows information
+This function returns a list with gap maps if Gap_MapIn=TRUE. Otherwise, it returns a data frame
  summarizing the in-situ gap analysis scores:
 
 \tabular{lcc}{
@@ -26,7 +34,7 @@ FCSin \tab In-situ final conservation score \cr
 }
 }
 \description{
-This function concatenates the SRSin, GRSin, and ERSin values
+TThis function allows calculate all the three In-situ gap analysis scores
 in an unique dataframe object to calculate a final priority score as
 the average of the SRSin, GRSin, and ERSin values:
 
@@ -36,36 +44,20 @@ the average of the SRSin, GRSin, and ERSin values:
 ##Obtaining occurrences from example
 data(CucurbitaData)
 ##Obtaining species names from the data
-speciesList <- unique(CucurbitaData$taxon)
-##Obtaining raster_list
+Cucurbita_splist <- unique(CucurbitaData$taxon)
+##Obtaining Raster_list
 data(CucurbitaRasters)
 CucurbitaRasters <- raster::unstack(CucurbitaRasters)
 ##Obtaining protected areas raster
 data(ProtectedAreas)
-##Obtaining ecoregions shapefile
+##Obtaining Ecoregions_shpions shapefile
 data(ecoregions)
-#Calculating SRSin value
-SRSin_df <- SRSin(species_list = speciesList,
-                    occurrenceData = CucurbitaData,
-                    raster_list = CucurbitaRasters,
-                    proArea=ProtectedAreas)
-
-#Calculating GRSin value
-GRSin_df <- GRSin(species_list = speciesList,
-                    occurrenceData = CucurbitaData,
-                    raster_list = CucurbitaRasters,
-                    proArea=ProtectedAreas)
-
-#Calculating ERSin value
-ERSin_df <- ERSin(species_list = speciesList,
-                    occurrenceData = CucurbitaData,
-                    raster_list = CucurbitaRasters,
-                    proArea=ProtectedAreas,
-                    ecoReg=ecoregions)
-
-#Calculating final conservation for ex-situ gap analysis
-
-FCSin_df <- FCSin(srsDF = SRSin_df, grsDF = GRSin_df, ersDF = ERSin_df)
+#Running all three In-situ gap analysis steps using a unique function
+FCSin_df <- FCSin(Species_list=Cucurbita_splist,
+                                      Occurrence_data=CucurbitaData,
+                                      Raster_list=CucurbitaRasters,
+                                      Ecoregions_shp=ecoregions,
+                                      Gap_MapIn=FALSE)
 
 }
 \references{

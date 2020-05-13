@@ -4,22 +4,22 @@
 \alias{ERSin}
 \title{Environmental representativeness score estimation (In-situ conservation)}
 \usage{
-ERSin(species_list, occurrenceData, raster_list, proArea, ecoReg)
+ERSin(Species_list, Occurrence_data, Raster_list, Pro_areas, Ecoregions_shp)
 }
 \arguments{
-\item{species_list}{An species list to calculate the ERSin metrics.}
+\item{Species_list}{An species list to calculate the ERSin metrics.}
 
-\item{occurrenceData}{A data frame object with the species name, geographical coordinates,
+\item{Occurrence_data}{A data frame object with the species name, geographical coordinates,
 and type of records (G or H) for a given species}
 
-\item{raster_list}{A list representing the species distribution models for the species list provided
+\item{Raster_list}{A list representing the species distribution models for the species list provided
 loaded in raster format. This list must match the same order of the species list.}
 
-\item{proArea}{A raster file representing protected areas information.
-If proArea=NULL the funtion will use a protected area raster file provided for your use after run GetDatasets()}
+\item{Pro_areas}{A raster file representing protected areas information.
+If Pro_areas=NULL the funtion will use a protected area raster file provided for your use after run GetDatasets()}
 
-\item{ecoReg}{A shapefile representing ecoregions information with a field ECO_NUM representing ecoregions Ids.
-If ecoReg=NULL the function will use a shapefile provided for your use after run GetDatasets()}
+\item{Ecoregions_shp}{A shapefile representing Ecoregions_shpions information with a field ECO_NUM representing Ecoregions_shpions Ids.
+If Ecoregions_shp=NULL the function will use a shapefile provided for your use after run GetDatasets()}
 }
 \value{
 This function returns a data frame with two columns:
@@ -34,15 +34,15 @@ This function performs an estimation of germplasm representativeness score
  for in-situ gap analysis (GRSin) using Khoury et al., (2019) methodology
  This function uses a germplasm buffer raster file (e.g. CA50),
  a thresholded species distribution model, and a raster file of protected areas
- \deqn{ERSin = min(100,(Number of ecoregions of germplasm occurrences in protected areas/
-Number of ecoregions of predicted Habitat within protected areas)*100)}
+ \deqn{ERSin = min(100,(Number of Ecoregions_shpions of germplasm occurrences in protected areas/
+Number of Ecoregions_shpions of predicted Habitat within protected areas)*100)}
 }
 \examples{
 ##Obtaining occurrences from example
 data(CucurbitaData)
 ##Obtaining species names from the data
-speciesList <- unique(CucurbitaData$taxon)
-##Obtaining raster_list
+Cucurbita_splist <- unique(CucurbitaData$taxon)
+##Obtaining Raster_list
 data(CucurbitaRasters)
 CucurbitaRasters <- raster::unstack(CucurbitaRasters)
 ##Obtaining protected areas raster
@@ -50,11 +50,11 @@ data(ProtectedAreas)
 ##Obtaining ecoregions shapefile
 data(ecoregions)
 
-ERSin_df <- ERSin(species_list = speciesList,
-                   occurrenceData = CucurbitaData,
-                   raster_list = CucurbitaRasters,
-                   proArea= ProtectedAreas,
-                   ecoReg=ecoregions)
+ERSin_df <- ERSin(Species_list = speciesList,
+                   Occurrence_data = CucurbitaData,
+                   Raster_list = CucurbitaRasters,
+                   Pro_areas= ProtectedAreas,
+                   Ecoregions_shp=ecoregions)
 
 }
 \references{
