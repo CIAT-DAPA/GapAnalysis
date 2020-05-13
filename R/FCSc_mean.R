@@ -47,6 +47,7 @@
 #'                                       Occurrence_data=CucurbitaData,
 #'                                       Raster_list=CucurbitaRasters,
 #'                                       Ecoregions_shp=ecoregions,
+#'                                       Pro_areas=ProtectedAreas,
 #'                                       Gap_MapIn=FALSE)
 #'
 #' fcsCombine <- FCSc_mean(FCSex_df = FCSex_df,FCSin_df = FCSin_df)

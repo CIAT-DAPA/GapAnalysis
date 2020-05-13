@@ -4,7 +4,14 @@
 \alias{FCSin}
 \title{Final in-situ conservation score estimation (In-situ conservation)}
 \usage{
-FCSin(Species_list, Occurrence_data, Raster_list, Ecoregions_shp, Gap_MapIn)
+FCSin(
+  Species_list,
+  Occurrence_data,
+  Raster_list,
+  Ecoregions_shp,
+  Pro_areas,
+  Gap_MapIn
+)
 }
 \arguments{
 \item{Species_list}{A species list to calculate metrics.}
@@ -17,6 +24,9 @@ loaded in raster format. This list must match the same order of the species list
 
 \item{Ecoregions_shp}{A shapefile representing Ecoregions_shpions information with a field ECO_NUM representing Ecoregions_shpions Ids.
 If Ecoregions_shp=NULL the funtion will use a shapefile provided for your use after run GetDatasets()}
+
+\item{Pro_areas}{A raster file representing protected areas information.
+If Pro_areas=NULL the funtion will use a protected area raster file provided for your use after run GetDatasets()}
 
 \item{Gap_MapIn}{Default=FALSE, This option will calculate gap maps for each species analyzed and will retun a list
 with two slots FCSin and gap_maps}
@@ -57,6 +67,7 @@ FCSin_df <- FCSin(Species_list=Cucurbita_splist,
                                       Occurrence_data=CucurbitaData,
                                       Raster_list=CucurbitaRasters,
                                       Ecoregions_shp=ecoregions,
+                                      Pro_areas=ProtectedAreas,
                                       Gap_MapIn=FALSE)
 
 }
