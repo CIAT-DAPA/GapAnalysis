@@ -1,28 +1,32 @@
-#' @title Final conservation score in situ
+#' @title Final in-situ conservation score estimation (In-situ conservation)
 #' @name FCSin
-#' @description This function calculates the average of the three in situ conservation metrics
+#' @description TThis function allows calculate all the three In-situ gap analysis scores
+#' in an unique dataframe object to calculate a final priority score as
+#' the average of the SRSin, GRSin, and ERSin values:
+#'
+#' \deqn{FCSin = mean(SRSin,GRSin,ERSin)}
 #'
 #' @param Species_list A species list to calculate metrics.
 #' @param Occurrence_data A data frame object with the species name, geographical coordinates,
 #'   and type of records (G or H) for a given species
 #' @param Raster_list A list representing the species distribution models for the species list provided
 #'  loaded in raster format. This list must match the same order of the species list.
-#' @param Ecoregions_shp A shapefile representing Ecoregions_shp information with a field ECO_NUM representing Ecoregions_shp Ids.
+#' @param Ecoregions_shp A shapefile representing Ecoregions_shpions information with a field ECO_NUM representing Ecoregions_shpions Ids.
 #'  If Ecoregions_shp=NULL the funtion will use a shapefile provided for your use after run GetDatasets()
 #' @param Pro_areas A raster file representing protected areas information.
 #'  If Pro_areas=NULL the funtion will use a protected area raster file provided for your use after run GetDatasets()
-#' @param Gap_MapIn Default=FALSE, This option will calculate gap maps for each species analyzed and will return a list
+#' @param Gap_MapIn Default=FALSE, This option will calculate gap maps for each species analyzed and will retun a list
 #' with two slots FCSin and gap_maps
 #'
 #' @return This function returns a list with gap maps if Gap_MapIn=TRUE. Otherwise, it returns a data frame
-#'  summarizing the in situ gap analysis scores:
+#'  summarizing the in-situ gap analysis scores:
 #'
 #' \tabular{lcc}{
 #' species \tab Species name \cr
-#' SRSin \tab Sampling representativeness score in situ  \cr
-#' GRSin \tab Geographical representativeness score in situ \cr
-#' ERSin \tab Ecological representativeness score in situ \cr
-#' FCSin \tab Final conservation score in situ  \cr
+#' SRSin \tab In-situ sample representativeness score \cr
+#' GRSin \tab In-situ germplasm representativeness score \cr
+#' ERSin \tab In-situ environmental representativeness score \cr
+#' FCSin \tab In-situ final conservation score \cr
 #' }
 #' @examples
 #' ##Obtaining occurrences from example
@@ -44,8 +48,15 @@
 #'                                       Pro_areas=ProtectedAreas,
 #'                                       Gap_MapIn=FALSE)
 #'
-#'@reference
-#' Khoury et al. (2019) Diversity and Distributions 26(2):209-225. doi: 10.1111/DDI.13008
+#'@references
+#'
+#' Ramirez-Villegas, J., Khoury, C., Jarvis, A., Debouck, D. G., & Guarino, L. (2010).
+#' A Gap Analysis Methodology for Collecting Crop Genepools: A Case Study with Phaseolus Beans.
+#' PLOS ONE, 5(10), e13497. Retrieved from https://doi.org/10.1371/journal.pone.0013497
+#'
+#' Khoury, C. K., Amariles, D., Soto, J. S., Diaz, M. V., Sotelo, S., Sosa, C. C., … Jarvis, A. (2019).
+#' Comprehensiveness of conservation of useful wild plants: An operational indicator for biodiversity
+#' and sustainable development targets. Ecological Indicators. https://doi.org/10.1016/j.ecolind.2018.11.016
 #'
 #' @export
 #' @importFrom dplyr left_join
@@ -74,7 +85,7 @@ FCSin <- function(Species_list, Occurrence_data, Raster_list,Ecoregions_shp,Pro_
   }
 
 
-  # load in protected areas raster
+  # load in protect area raster
   if(is.null(Pro_areas)){
     if(file.exists(system.file("data/preloaded_data/protectedArea/wdpa_reclass.tif",
                                package = "GapAnalysis"))){
@@ -131,7 +142,7 @@ FCSin <- function(Species_list, Occurrence_data, Raster_list,Ecoregions_shp,Pro_
   if(Gap_MapIn==T){
     Gap_MapIn_list <- list()
 
-    cat("Calculating gap maps for in situ conservation gap analysis","\n")
+    cat("Calculating gap maps for In-situ gap analysis","\n")
 
 
     for(i in seq_len(length(Raster_list))){

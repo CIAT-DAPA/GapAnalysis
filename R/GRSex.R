@@ -1,17 +1,18 @@
-#' @title Geographical representativeness score ex-situ
+#' @title Geographical representativeness score estimation (Ex-situ conservation)
 #' @name GRSex
-#' @description The GRSex process provides a geographic measurement of the proportion of a species’ range 
-#' that can be considered to be conserved in ex situ repositories. The GRSex uses buffers (default 50 km radius) 
-#' created around each G coordinate point to estimate geographic areas already well collected within the distribution 
-#' models of each taxon, and then calculates the proportion of the distribution model covered by these buffers. 
+#' @description This function performs an estimation of the geographical representativeness score
+#'  for ex-situ gap analysis (GRSex) using Ramirez-Villegas et al., (2010) methodology.
+#'  GRS ex-situ score is calculated as:
+#'
+#' \deqn{GRSex = min(100,(Masked Area of Buffered G Occurrences / Total Area of Predicted Habitat)*100)}
 #'
 #' @param Occurrence_data A data frame object with the species name, geographical coordinates,
 #' and type of records (G or H) for a given species
-#' @param Species_list A species list to calculate the GRSex metrics.
+#' @param Species_list An species list to calculate the GRSex metrics.
 #' @param Raster_list A list representing the species distribution models for the species list provided
 #'  loaded in raster format. This list must match the same order of the species list.
 #' @param Buffer_distance Geographical distance used to create circular buffers around germplasm.
-#'  Default: 50000 (50 km) around germplasm accessions (CA50)
+#'  Default: 50000 that is 50 km around germplasm accessions (CA50)
 #'
 #' @return This function returns a data frame with two columns:
 #'
@@ -34,8 +35,17 @@
 #'                     Buffer_distance = 50000)
 #'
 #' @references
-#' Ramirez-Villegas et al. (2010) PLOS ONE, 5(10), e13497. doi: 10.1371/journal.pone.0013497
-#' Khoury et al. (2019) Ecological Indicators 98:420-429. doi: 10.1016/j.ecolind.2018.11.016
+#' Ramirez-Villegas, J., Khoury, C., Jarvis, A., Debouck, D. G., & Guarino, L. (2010).
+#' A Gap Analysis Methodology for Collecting Crop Genepools: A Case Study with Phaseolus Beans.
+#' PLOS ONE, 5(10), e13497. Retrieved from https://doi.org/10.1371/journal.pone.0013497
+#'
+#' Khoury, C. K., Amariles, D., Soto, J. S., Diaz, M. V., Sotelo, S., Sosa, C. C., … Jarvis, A. (2019).
+#' Comprehensiveness of conservation of useful wild plants: An operational indicator for biodiversity
+#' and sustainable development targets. Ecological Indicators. https://doi.org/10.1016/j.ecolind.2018.11.016
+#'
+#'
+#' Hijmans, R.J. and Spooner, D.M. (2001). Geographic distribution of wild potato species.
+#' Am. J. Bot., 88: 2101-2112. doi:10.2307/3558435
 #'
 #' @export
 #' @importFrom sp coordinates proj4string SpatialPoints over CRS
@@ -81,17 +91,17 @@ GRSex <- function(Occurrence_data, Species_list, Raster_list, Buffer_distance) {
   for(i in seq_len(length(sort(Species_list)))){
     # select species G occurrences
 
-    occData <- Occurrence_data[which(Occurrence_data$taxon==Species_list[i]),]
-    occData <- occData[which(occData$type == "G" & !is.na(occData$latitude)),]
-    occData <- occData[,c("longitude","latitude")]
-    # occData <- Occurrence_data %>%
+    OccData  <- Occurrence_data[which(Occurrence_data$taxon==Species_list[i]),]
+    OccData  <- OccData [which(OccData $type == "G" & !is.na(OccData $latitude)),]
+    OccData  <- OccData [,c("longitude","latitude")]
+    # OccData  <- Occurrence_data %>%
     #   tidyr::drop_na(longitude)%>%
     #   dplyr::filter(taxon == Species_list[i]) %>%
     #   dplyr::filter(type == "G")%>%
     #   dplyr::select(longitude,latitude)
 
-    sp::coordinates(occData) <- ~longitude+latitude
-    sp::proj4string(occData) <- sp::CRS("+proj=longlat +datum=WGS84")
+    sp::coordinates(OccData ) <- ~longitude+latitude
+    sp::proj4string(OccData ) <- sp::CRS("+proj=longlat +datum=WGS84")
     # select raster with species name
     for(j in seq_len(length(Raster_list))){
       if(grepl(j, i, ignore.case = TRUE)){
@@ -102,8 +112,8 @@ GRSex <- function(Occurrence_data, Species_list, Raster_list, Buffer_distance) {
     sdmMask <- sdm
     sdmMask[sdmMask[] == 0] <- NA
     # buffer G points
-#    buffer <- geobuffer::geobuffer_pts(xy = occData,
-    buffer <- GapAnalysis::Gbuffer(xy = occData,
+#    buffer <- geobuffer::geobuffer_pts(xy = OccData ,
+    buffer <- GapAnalysis::Gbuffer(xy = OccData ,
                                        dist_m = Buffer_distance,
                                        output = 'sf')
 
@@ -121,10 +131,10 @@ GRSex <- function(Occurrence_data, Species_list, Raster_list, Buffer_distance) {
     cell_size<- cell_size[!is.na(cell_size)]
     pa_spp_area <- length(cell_size)*median(cell_size)
     # calculate GRSex
-    grs <- min(c(100, gBufferRas_area/pa_spp_area*100))
+    GRSex <- min(c(100, gBufferRas_area/pa_spp_area*100))
 
     df$species[i] <- as.character(Species_list[i])
-    df$GRSex[i] <- grs
+    df$GRSex[i] <- GRSex
   }
 
   return(df)
