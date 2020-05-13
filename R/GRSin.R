@@ -1,12 +1,14 @@
-#' @title Geographical representativeness score estimation (In-situ conservation)
+#' @title Geographical representativeness score in situ
 #' @name GRSin
-#' @description This function performs an estimation of germplasm representativeness score for in-situ gap analysis (GRSin) using Khoury et al., (2019) methodology
-#'#'  GRSIn is calculated as:
-#'  \deqn{GRSin = min(100,(Predicted Habitat within protected areas/ Total Area of Predicted Habitat)*100)}
+#' @description The GRSin process provides a geographic measurement of the proportion of a species’ range that can be considered 
+#' to be conserved in protected areas. The GRSin compares the area of the distribution model located within protected areas versus 
+#' the total area of the model, considering comprehensive conservation to have been accomplished only when the entire distribution 
+#' occurs within protected areas. 
 #'
-#' @param Species_list An species list to calculate the GRSin metrics.
+#' @param Species_list A species list to calculate the GRSin metrics.
 #' @param Occurrence_data A data frame object with the species name, geographical coordinates, and type of records (G or H) for a given species
-#' @param Raster_list A list representing the species distribution models for the species list provided loaded in raster format. This list must match the same order of the species list.
+#' @param Raster_list A list representing the species distribution models for the species list provided loaded in raster format. 
+#' This list must match the same order of the species list.
 #' @param Pro_areas A raster file representing protected areas information. If Pro_areas=NULL the function will use a protected area raster file
 #'  provided for your use after run GetDatasets()
 #'
@@ -35,13 +37,9 @@
 #'
 #'
 #'@references
-#' Ramirez-Villegas, J., Khoury, C., Jarvis, A., Debouck, D. G., & Guarino, L. (2010).
-#' A Gap Analysis Methodology for Collecting Crop Genepools: A Case Study with Phaseolus Beans.
-#' PLOS ONE, 5(10), e13497. Retrieved from https://doi.org/10.1371/journal.pone.0013497
+#' 
 #'
-#' Khoury, C. K., Amariles, D., Soto, J. S., Diaz, M. V., Sotelo, S., Sosa, C. C., … Jarvis, A. (2019).
-#' Comprehensiveness of conservation of useful wild plants: An operational indicator for biodiversity
-#' and sustainable development targets. Ecological Indicators. https://doi.org/10.1016/j.ecolind.2018.11.016
+#' Khoury et al. (2019) Ecological Indicators 98:420-429. doi: 10.1016/j.ecolind.2018.11.016
 #'
 #' @export
 #' @importFrom stats median
@@ -96,7 +94,7 @@ GRSin <- function(Species_list,Occurrence_data,Raster_list,Pro_areas){
         sdm <- Raster_list[[j]]
       }
     }
-    # determine the area of predicted presence of a species based on the threshold map
+    # determine the area of predicted presence of a species based on the species distribution map
     sdm1 <- sdm
     Pro_areas1 <- raster::crop(x = Pro_areas,y = sdm1)
     sdm1[sdm1[] == 0] <- NA
@@ -104,7 +102,7 @@ GRSin <- function(Species_list,Occurrence_data,Raster_list,Pro_areas){
     cell_size <- cell_size[!is.na(cell_size)]
     thrshold_area <- length(cell_size)*median(cell_size)
 
-    # mask the protected area Raster to the threshold map and calculate area
+    # mask the protected area Raster to the species distribution map and calculate area
     Pro_areas1[Pro_areas1[] == 0] <-NA
     Pro_areas1 <- Pro_areas1 * sdm1
     # calculate area
