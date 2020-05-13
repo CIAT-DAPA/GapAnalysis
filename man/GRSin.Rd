@@ -40,7 +40,7 @@ CucurbitaRasters <- raster::unstack(CucurbitaRasters)
 ##Obtaining protected areas raster
 data(ProtectedAreas)
 
-GRSin_df <- GRSin(Species_list = speciesList,
+GRSin_df <- GRSin(Species_list = Cucurbita_splist,
                     Occurrence_data = CucurbitaData,
                     Raster_list = CucurbitaRasters,
                     Pro_areas=ProtectedAreas)
