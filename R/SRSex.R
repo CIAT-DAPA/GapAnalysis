@@ -24,10 +24,7 @@
 #' SRSex_df <- SRSex(Species_list = Cucurbita_splist,
 #'                     Occurrence_data = CucurbitaData)
 #'
-#'@references
-#'
-#'
-#'
+#'@reference
 #' Khoury et al. (2019) Ecological Indicators 98:420-429. doi: 10.1016/j.ecolind.2018.11.016 
 #'
 #' @export
