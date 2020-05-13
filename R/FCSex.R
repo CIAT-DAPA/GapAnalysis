@@ -84,18 +84,6 @@ FCSex <- function(Species_list, Occurrence_data, Raster_list, Buffer_distance,Ec
   }
 
 
-  # load in protect area raster
-  if(is.null(Pro_areas)){
-    if(file.exists(system.file("data/preloaded_data/protectedArea/wdpa_reclass.tif",
-                               package = "GapAnalysis"))){
-      Pro_areas <- raster::raster(system.file("data/preloaded_data/protectedArea/wdpa_reclass.tif",
-                                              package = "GapAnalysis"))
-    } else {
-      stop("Protected areas file is not available yet. Please run the function GetDatasets()  and try again")
-    }
-  } else{
-    Pro_areas <- Pro_areas
-  }
   # Load in ecoregions shp
   if(is.null(Ecoregions_shp)){
     if(file.exists(system.file("data/preloaded_data/ecoRegion/tnc_terr_ecoregions.shp",

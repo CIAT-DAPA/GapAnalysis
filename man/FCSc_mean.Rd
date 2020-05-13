@@ -60,7 +60,7 @@ FCSin_df <- FCSin(Species_list=Cucurbita_splist,
                                       Pro_areas=ProtectedAreas,
                                       Gap_MapIn=FALSE)
 
-fcsCombine <- FCSc_mean(FCSex_df = FCSex_df,FCSin_df = FCSin_df)
+FCSc_mean_df <- FCSc_mean(FCSex_df = FCSex_df,FCSin_df = FCSin_df)
 
 }
 \references{

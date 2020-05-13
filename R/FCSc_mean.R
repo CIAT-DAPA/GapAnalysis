@@ -50,7 +50,7 @@
 #'                                       Pro_areas=ProtectedAreas,
 #'                                       Gap_MapIn=FALSE)
 #'
-#' fcsCombine <- FCSc_mean(FCSex_df = FCSex_df,FCSin_df = FCSin_df)
+#' FCSc_mean_df <- FCSc_mean(FCSex_df = FCSex_df,FCSin_df = FCSin_df)
 #'
 #'@references
 #' Ramirez-Villegas, J., Khoury, C., Jarvis, A., Debouck, D. G., & Guarino, L. (2010).
@@ -69,13 +69,13 @@
 FCSc_mean <- function(FCSex_df, FCSin_df) {
   df <- NULL
 
-  if(class(FCSex_df)==list){
+  if(class(FCSex_df)=="list"){
     FCSex_df <- FCSex_df$FCSex
   } else {
     FCSex_df <- FCSex_df
   }
 
-  if(class(FCSin_df )==list){
+  if(class(FCSin_df )=="list"){
     FCSin_df  <- FCSin_df$FCSin
   } else {
     FCSin_df  <- FCSin_df
