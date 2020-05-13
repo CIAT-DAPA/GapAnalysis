@@ -25,7 +25,7 @@
 #' ##Obtaining occurrences from example
 #' data(CucurbitaData)
 #' ##Obtaining species names from the data
-#' speciesList <- unique(CucurbitaData$taxon)
+#' Cucurbita_splist <- unique(CucurbitaData$taxon)
 #' ##Obtaining raster_list
 #' data(CucurbitaRasters)
 #' CucurbitaRasters <- raster::unstack(CucurbitaRasters)
@@ -35,7 +35,7 @@
 #' data(ecoregions)
 #'
 #' #Running all three Ex situ gap analysis steps using insituGapAnalysis function
-#' exsituGapMetrics <- ExsituCompile(species_list=speciesList,
+#' FCSex_df <- FCSex(species_list=speciesList,
 #'                                       occurrenceData=CucurbitaData,
 #'                                       raster_list=CucurbitaRasters,
 #'                                       bufferDistance=50000,
@@ -43,23 +43,22 @@
 #'
 #'
 #' #Running all three In situ gap analysis steps using insituGapAnalysis function
-#' insituGapMetrics <- InsituCompile(species_list=speciesList,
+#' FCSin_df <- FCSin(species_list=speciesList,
 #'                                        occurrenceData=CucurbitaData,
 #'                                        raster_list=CucurbitaRasters,
 #'                                        proArea=ProtectedAreas,
 #'                                        ecoReg=ecoregions)
 #'
-#' fcsCombine <- FCSc_mean(fcsEx = exsituGapMetrics,fcsIn = insituGapMetrics)
+#' fcsCombine <- FCSc_mean(fcsEx = FCSex_df,fcsIn = FCSin_df)
 #'
-#' summaryHTML_file <- summary_HTML(species_list=speciesList,
+#' summaryHTML_file <- summary_HTML(species_list=Cucurbita_splist,
 #'                                  occurrenceData = CucurbitaData,
 #'                                  raster_List=CucurbitaRasters,
 #'                                  proArea=ProtectedArea,
 #'                                  bufferDistance=50000,
-#'                                  insituSummary=insituGapMetrics,
-#'                                  exsituSummary=exsituGapMetrics,
+#'                                  insituSummary=FCSin_df,
+#'                                  exsituSummary=FCSex_df,
 #'                                  fcsSummary=fcsCombine,
-#'                                  eooAooSummary=eooAoo_table,
 #'                                  outputFolder=".",
 #'                                  writeRasters=F)
 #' }
