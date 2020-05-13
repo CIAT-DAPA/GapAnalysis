@@ -129,22 +129,21 @@ The recommended workflow is as follows.
 
 **Ex-situ Analysis**
  - `SRSex` calculates the Sampling Representativeness Score for _ex situ_ conservation
- - `GRSex` calculates the Geographic Representativeness Score for _ex situ_ conservation
- - `ERSex` calculates the Ecological Representativeness Score for _ex situ_ conservation
+ - `GRSex` calculates the Geographic Representativeness Score for _ex situ_ conservation. During this process, an ex situ geographic gap map is also created for each species by subtracting the G buffered areas out of the distribution model of each taxon, leaving only those areas considered not sufficiently sampled for ex situ conservation 
+ - `ERSex` calculates the Ecological Representativeness Score for _ex situ_ conservation. During this process, an ex situ ecological gap map is also created for each species by mapping only the spatial areas within the distribution model of each taxon which are occupied by ecoregions not represented by G buffers
  - `FCSex` calculates the Final Conservation Score for _ex situ_ conservation as an average of the above 3 scores
- - `ExsituCompile` compiles the 4 _ex situ_ conservation metrics
 
 **In-situ Analysis**
  - `SRSin` calculates the Sampling Representativeness Score for _in situ_ conservation
- - `GRSin` calculates the Geographic Representativeness Score for _in situ_ conservation
- - `ERSin` calculates the Ecological Representativeness Score for _in situ_ conservation
+ - `GRSin` calculates the Geographic Representativeness Score for _in situ_ conservation. During this process, an in situ geographic gap map is also created for each species by subtracting the protected areas out of the distribution model of each taxon, revealing those areas in the model not currently in protected areas 
+ - `ERSin` calculates the Ecological Representativeness Score for _in situ_ conservation. During this process, an in situ ecological gap map is also created for each species by by mapping only the spatial areas within the distribution model of each taxon which are occupied by ecoregions not represented at all in protected areas 
  - `FCSin` calculates the Final Conservation Score for _in situ_ conservation as an average of the above 3 scores
- - `InsituCompile` ccompiles the 4 _in situ_ conservation metrics
+
 
 **Summary evaluations**   
- - `FCSc_mean` computes the mean as well as minimum and maximum of the _ex situ_ and _in situ_ Final Conservation Scores. It also assigns taxa to priority categories based on these final scores (high priority (HP) for further conservation action assigned when FCS < 25, medium priority (MP) where 25 ≤ FCS < 50, low priority (LP) where 50 ≤ FCS < 75, and sufficiently conserved (SC) for taxa whose FCS ≥75)
+ - `FCSc_mean` computes the mean as well as minimum and maximum of the _ex situ_ and _in situ_ Final Conservation Scores. It also assigns taxa to priority categories based on final conservation scores (high priority (HP) for further conservation action assigned when FCS < 25, medium priority (MP) where 25 ≤ FCS < 50, low priority (LP) where 50 ≤ FCS < 75, and sufficiently conserved (SC) for taxa whose FCS ≥75)
 - `indicator` calculates an indicator across assessed taxa, which can be applied at national, regional, global, or any other scale (Khoury et al., 2019). The indicator is calculated separately with regard to ex situ, in situ, and combined conservation, by deriving the proportion of taxa categorized as SC or LP out of all taxa.
- - `SummaryHTML` produces a summary HTML output with taxon specific results. Alongside quantitative results, these include taxon-level “gap” maps. With regard to ex situ conservation, the ex situ geographic gap map is created by subtracting the G buffered areas out of the distribution model of each taxon, leaving only those areas considered not sufficiently sampled for ex situ conservation. The ex situ ecological gap map is created by mapping only the spatial areas within the distribution model of each taxon which are occupied by ecoregions not represented by G buffers. With regard to in situ conservation, the in situ geographic gap map is created by subtracting the protected areas out of the distribution model of each taxon, revealing those areas in the model not currently in protected areas. The in situ ecological gap map is created by mapping only the spatial areas within the distribution model of each taxon which are occupied by ecoregions not represented at all in protected areas. These four maps are embedded in the html document, and are also written as raster files.
+ - `SummaryHTML` produces a summary HTML output with taxon specific quantitative and spatial results
 
 Each function can be run as a standalone method and in any order. However, we recommend following this workflow as it will ensure dependencies for individual functions are in place and that the variables are stored correctly to successfully produce the final summary document. For more details on each of these calculations, see the list of references below.
 
