@@ -1,6 +1,7 @@
 #' @title Combining ex situ and in situ conservation gap analysis results
 #' @name FCSc_mean
-#' @description This function creates a final combined conservation score by averaging the FCSex and FCSin
+#' @description This function creates a final combined conservation score by averaging the FCSex and FCSin.
+#' It also assigns priority categories based on quantitative results
 #'
 #' @param FCSex_df A data frame or a list object result of the function FCSex
 #' @param FCSin_df A data frameor a list  object result of the function FCSin
