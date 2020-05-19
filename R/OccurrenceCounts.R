@@ -38,9 +38,6 @@
 #' and sustainable development targets. Ecological Indicators. https://doi.org/10.1016/j.ecolind.2018.11.016
 #'
 #' @export
-#' @importFrom methods as
-#' @importFrom magrittr "%>%"
-#' @importFrom dplyr filter mutate summarize group_by
 
 
 OccurrenceCounts <- function(species,Occurrence_data){
