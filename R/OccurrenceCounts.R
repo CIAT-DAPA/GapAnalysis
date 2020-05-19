@@ -14,11 +14,11 @@
 #'  totalRecords  \tab Total records available \cr
 #'  hasLat  \tab Number of occurrences with latitude \cr
 #'  hasLon  \tab Number of occurrences with longitude \cr
-#'  totalUseful  \tab Number of occurrences with longitude \cr
-#'  totalGRecords  \tab Number of occurrences with longitude \cr
-#'  totalGUseful  \tab Number of occurrences with longitude \cr
-#'  totalHRecords  \tab Number of occurrences with longitude \cr
-#'  totalHUseful  \tab Number of occurrences with longitude \cr
+#'  totalUseful  \tab Number of occurrences with latitude and longitude \cr
+#'  totalGRecords  \tab Number of G occurrences \cr
+#'  totalGUseful  \tab Number of occurrences with latitude and longitude \cr
+#'  totalHRecords  \tab Number of H occurrences \cr
+#'  totalHUseful  \tab Number of occurrences with latitude and longitude \cr
 #'  }
 #'
 #' @examples
