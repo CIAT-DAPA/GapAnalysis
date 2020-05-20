@@ -13,7 +13,7 @@
 #'  loaded in raster format. This list must match the same order of the species list.
 #' @param Buffer_distance Geographical distance used to create circular buffers around germplasm.
 #'  Default: 50000 that is 50 km around germplasm accessions (CA50)
-#' @param Ecoregions_shp A shapefile representing Ecoregionsions information with a field ECO_NUM representing Ecoregionsions Ids.
+#' @param Ecoregions_shp A shapefile representing Ecoregionsions information with a field ECO_ID_U representing Ecoregionsions Ids.
 #'  If Ecoregions=NULL the function will use a shapefile provided for your use after run GetDatasets()
 #'
 #' @return This function returns a data frame with two columns:
@@ -54,13 +54,15 @@
 #' @importFrom sp coordinates proj4string SpatialPoints over CRS
 
 
-ERSex <- function(Species_list,Occurrence_data, Raster_list, Buffer_distance=50000,Ecoregions_shp=NULL) {
+
+
+ERSex <- function(Species_list,Occurrence_data, Raster_list, Buffer_distance=50000,Ecoregions_shp=NULL, Gap_Map=NULL) {
 
   taxon <- NULL
   type <- NULL
   longitude <- NULL
   latitude <-NULL
-  ECO_NUM <- NULL
+  ECO_ID_U <- NULL
   nc <- NULL
   buffer_list <- list()
 #load packages
@@ -79,7 +81,14 @@ ERSex <- function(Species_list,Occurrence_data, Raster_list, Buffer_distance=500
   if(identical(names(Occurrence_data),par_names)==FALSE){
     stop("Please format the column names in your dataframe as taxon,latitude,longitude,type")
   }
-
+  #Checking if GapMapEx option is a boolean
+  if(is.null(Gap_Map) | missing(Gap_Map)){ Gap_Map <- FALSE
+  } else if(Gap_Map==TRUE | Gap_Map==FALSE){
+    Gap_Map <- Gap_Map
+  } else {
+    stop("Choose a valid option for GapMap (TRUE or FALSE)")
+  }
+  
   #Checking if user is using a raster list or a raster stack
   if(class(Raster_list)=="RasterStack"){
     Raster_list <- raster::unstack(Raster_list)
@@ -97,7 +106,10 @@ ERSex <- function(Species_list,Occurrence_data, Raster_list, Buffer_distance=500
   } else{
     Ecoregions_shp <- Ecoregions_shp
   }
-
+  
+  if(Gap_Map==T){
+    GapMapEx_list <- list()
+  }
 
     # maybe this directly downloads an element from the dataverse
 
@@ -153,42 +165,52 @@ ERSex <- function(Species_list,Occurrence_data, Raster_list, Buffer_distance=500
         raster::crs(gPoints) <- raster::crs(Ecoregions_shp)
 
         ecoValsG <- sp::over(x = gPoints, y = Ecoregions_shp)
-        ecoValsG <- data.frame(ECO_NUM=(unique(ecoValsG$ECO_NUM)))
+        ecoValsG <- data.frame(ECO_ID_U=(unique(ecoValsG$ECO_ID_U)))
         ecoValsG <- ecoValsG[which(!is.na(ecoValsG) & ecoValsG>0),]
 
-        # ecoValsG <- sp::over(x = gPoints, y = Ecoregions) %>%
-        #   dplyr::distinct(ECO_NUM)%>%
-        #   tidyr::drop_na(ECO_NUM) %>% #ECO_ID
-        #   dplyr::filter(ECO_NUM > 0) #ECO_ID
-
-        speciesOcc <- speciesOcc[which(!is.na(speciesOcc$latitude)),]
-
-        # create point object from all the occurence data for the species
-        sp::coordinates(speciesOcc) <- ~longitude+latitude
-        sp::proj4string(speciesOcc) <- sp::CRS("+proj=longlat +datum=WGS84")
-        raster::crs(speciesOcc) <- raster::crs(Ecoregions_shp)
-
-        # number of Ecoregionsions present in model
-
-
-        ecoVal <- sp::over(x = speciesOcc, y = Ecoregions_shp)
-        ecoVal <- data.frame(ECO_NUM=(unique(ecoVal$ECO_NUM)))
-        ecoVal <- ecoVal[which(!is.na(ecoVal) & ecoVal>0),]
-
-        # ecoVal <- data.frame(sp::over(x = speciesOcc, y = Ecoregions))%>%
-        #     dplyr::select(ECO_NUM )%>% #ECO_ID
-        #     dplyr::distinct() %>%
-        #     tidyr::drop_na() %>%
-        #     dplyr::filter(ECO_NUM > 0) # -9998 are lakes #ECO_ID != -9998
-
+        # extract values from ecoregion to predicted presences points  
+        predictedPresence <- sp::SpatialPoints(raster::rasterToPoints(SdmMask))
+        raster::crs(predictedPresence) <- raster::crs(Ecoregions_shp)
+        ecoVals <- sp::over(x = predictedPresence, y = Ecoregions_shp)
+        ecoVals <- data.frame(ECO_ID_U=(unique(ecoVals$ECO_ID_U)))
+        ecoVals <- ecoVals[which(!is.na(ecoVals) & ecoVals>0),]
+        
         #calculate ERS
-        ERSex <- min(c(100, (length(ecoValsG)/length(ecoVal))*100))
+        ERSex <- min(c(100, (length(ecoValsG)/length(ecoVals))*100))
         # assign values to df
         df$species[i] <- as.character(Species_list[i])
         df$ERSex[i] <- ERSex
+    
+        # number of Ecoregionsions present in model
+        if(Gap_Map==T){
+          cat("Calculating gap maps for ERSex gap analysis","\n")
+          
+          # ERSex Gap Map 
+          # select all ecoregions present in ecoVal(all points) but absent in ecoValG(g buffers)
+          ecoGap <- ecoVals[!ecoVals %in% ecoValsG]
+          ecoGap <- ecoVal[!ecoVal %in% ecoValsPro]
+          if(length(ecoGap) == 0){
+            GapMapEx_list[[i]] <- paste0("All ecoregions within the model are within ", Buffer_distance, 
+"km of G occurrence. There are no gaps")
+            
+          }else{
+          # pull selected ecoregions and mask to presence area of the model
+          eco2 <- Ecoregions_shp[Ecoregions_shp$ECO_ID_U %in% ecoGap,]
+          #convert to sf object for conversion using fasterize 
+          eco2a <- sf::st_as_sf(eco2, SdmMask)
+          # generate a ecoregion raster keeping the unique id. 
+          eco3 <- fasterize::fasterize(eco2a, SdmMask, field = "ECO_ID_U")
+          # mask so only locations within the predicted presence area is included. 
+          gap_map <- eco3 * SdmMask
+          GapMapEx_list[[i]] <- gap_map
+          names(GapMapEx_list[[i]] ) <- Species_list[[i]]
+        }
       }
   }
-  df <- list(ERSex=df,buffer_list=buffer_list)
+  if(Gap_Map==T){
+    df <- list(ERSex=df,buffer_list=buffer_list, gap_maps = GapMapEx_list )
+  }else{
+    df <- list(ERSex=df,buffer_list=buffer_list)
+  }
   return(df)
-
 }
