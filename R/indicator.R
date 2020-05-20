@@ -1,7 +1,7 @@
-#' @title Using Ex-situ and In-situ gap analysis results to calculate Aichi13 indicator value
-#' @name Aichi13_indicator
-#' @description This function uses a dataframe product of use the function FCSc_mean and
-#'  provides a comprehensive summary including a conservation indicator used in Aichi13 documentation
+#' @title Using Ex-situ and In-situ gap analysis results to calculate the conservation indicator value
+#' @name indicator
+#' @description This function uses a data.frame resulting from the function FCSc_mean and
+#'  computes a conservation progress indicator.
 #'
 #' @param Species_list A species list to calculate metrics.
 #' @param FCSc_mean_df A data frame object result of the function FCSc_mean
@@ -37,31 +37,27 @@
 #'
 #' #Running all three Ex-situ gap analysis steps using FCSex function
 #' FCSex_df <- FCSex(Species_list=Cucurbita_splist,
-#'                                       Occurrence_data=CucurbitaData,
-#'                                       Raster_list=CucurbitaRasters,
-#'                                       Buffer_distance=50000,
-#'                                       Ecoregions_shp=ecoregions,
-#'                                       Gap_MapEx=FALSE)
+#'                   Occurrence_data=CucurbitaData,
+#'                   Raster_list=CucurbitaRasters,
+#'                   Buffer_distance=50000,
+#'                   Ecoregions_shp=ecoregions,
+#'                   Gap_MapEx=FALSE)
 #'
 #'
 #' #Running all three In-situ gap analysis steps using FCSin function
 #' FCSin_df <- FCSin(Species_list=Cucurbita_splist,
-#'                                       Occurrence_data=CucurbitaData,
-#'                                       Raster_list=CucurbitaRasters,
-#'                                       Ecoregions_shp=ecoregions,
-#'                                       Pro_areas=ProtectedAreas,
-#'                                       Gap_MapIn=FALSE)
+#'                   Occurrence_data=CucurbitaData,
+#'                   Raster_list=CucurbitaRasters,
+#'                   Ecoregions_shp=ecoregions,
+#'                   Pro_areas=ProtectedAreas,
+#'                   Gap_MapIn=FALSE)
 #'
 #' FCSc_mean_df <- FCSc_mean(FCSex_df = FCSex_df,FCSin_df = FCSin_df)
 #'
 #'
-#' Aichi13_indicator_df  <- Aichi13_indicator(Species_list,FCSc_mean_df)
+#' indicator_df  <- indicator(Species_list, FCSc_mean_df)
 #'
 #'@references
-#' Ramirez-Villegas, J., Khoury, C., Jarvis, A., Debouck, D. G., & Guarino, L. (2010).
-#' A Gap Analysis Methodology for Collecting Crop Genepools: A Case Study with Phaseolus Beans.
-#' PLOS ONE, 5(10), e13497. Retrieved from https://doi.org/10.1371/journal.pone.0013497
-#'
 #' Khoury, C. K., Amariles, D., Soto, J. S., Diaz, M. V., Sotelo, S., Sosa, C. C., … Jarvis, A. (2019).
 #' Comprehensiveness of conservation of useful wild plants: An operational indicator for biodiversity
 #' and sustainable development targets. Ecological Indicators. https://doi.org/10.1016/j.ecolind.2018.11.016
@@ -69,9 +65,7 @@
 #' @export
 
 
-
-
-Aichi13_indicator <- function(Species_list,FCSc_mean_df) {
+indicator <- function(Species_list,FCSc_mean_df) {
 
   opt=c("min","max","mean","in","ex")
   data_all <- FCSc_mean_df
