@@ -55,22 +55,24 @@ data(ProtectedAreas)
 data(ecoregions)
 
 #Running all three Ex situ gap analysis steps using insituGapAnalysis function
-exsituGapMetrics <- ExsituCompile(species_list=speciesList,
-                                      occurrenceData=CucurbitaData,
-                                      raster_list=CucurbitaRasters,
-                                      bufferDistance=50000,
-                                      ecoReg=ecoregions)
-
-#Running all three In situ gap analysis steps using insituGapAnalysis function
-insituGapMetrics <- InsituCompile(species_list=speciesList,
+exsituGapMetrics <- FCSex(Species_list=Cucurbita_splist,
+                                       Occurrence_data=CucurbitaData,
+                                       Raster_list=CucurbitaRasters,
+                                       Buffer_distance=50000,
+                                       Ecoregions_shp=ecoregions,
+                                       Gap_MapEx=FALSE)ExsituCompile(species_list=speciesList,
                                        occurrenceData=CucurbitaData,
                                        raster_list=CucurbitaRasters,
-                                       proArea=ProtectedAreas,
+                                       bufferDistance=50000,
                                        ecoReg=ecoregions)
 
-## Obtaining AOO and EOO ##
-eooAoo_table <- GapAnalysis::eooAoo(species_list = speciesList,
-                               occurrenceData = CucurbitaData)
+#Running all three In situ gap analysis steps using insituGapAnalysis function
+insituGapMetrics <- FCSin(Species_list=Cucurbita_splist,
+                                       Occurrence_data=CucurbitaData,
+                                       Raster_list=CucurbitaRasters,
+                                       Ecoregions_shp=ecoregions,
+                                       Pro_areas=ProtectedAreas,
+                                       Gap_MapIn=FALSE)
 
 ## Combine gap analysis metrics
 fcsCombine <- FCSc_mean(fcsEx = exsituGapMetrics,fcsIn = insituGapMetrics)
@@ -84,7 +86,6 @@ summaryHTML_file <- summary_HTML(species_list=speciesList,
                                  insituSummary=insituGapMetrics,
                                  exsituSummary=exsituGapMetrics,
                                  fcsSummary=fcsCombine,
-                                 eooAooSummary=eooAoo_table,
                                  outputFolder=".",
                                  writeRasters=F)
 ```
@@ -125,7 +126,7 @@ The recommended workflow is as follows.
 **Pre-analysis**
  - `GetDatasets` downloads the protected areas and ecoregions datasets from our data repository
  - `OccurrenceCounts` creates a .csv file with counts of G, H, and those record types with coordinates for all taxa, based on input occurrence data
- - `.Gbuffer` is an internal function that creates a circular buffer of user-defined size (default is 50 km radius) around each G point for each taxon, which represents the geographic areas already considered to be sufficiently collected for ex situ conservation. The output of this process is a raster. Since this is not an exported function to use it you will need to type `GapAnalysis:::.Gbuffer` in R.
+ - `.Gbuffer` is an internal function that creates a circular buffer of user-defined size (default is 50 km radius) around each G point for each taxon, which represents the geographic areas already considered to be sufficiently collected for ex situ conservation. The output of this process is a raster. Since this is not an exported function to use it you will need to type `GapAnalysis:::.Gbuffer` in R. This  is a modified version of the geobuffer_pts.R funcion available at https://github.com/valentinitnelav/geobuffer.
 
 **Ex-situ Analysis**
  - `SRSex` calculates the Sampling Representativeness Score for _ex situ_ conservation
