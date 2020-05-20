@@ -62,7 +62,7 @@
 #' @importFrom dplyr left_join
 #' @importFrom raster overlay crop raster extent
 
-FCSin <- function(Species_list, Occurrence_data, Raster_list,Ecoregions_shp,Pro_areas,Gap_MapIn) {
+FCSin <- function(Species_list, Occurrence_data, Raster_list,Ecoregions_shp=NULL,Pro_areas=NULL,Gap_MapIn=FALSE) {
   SRSin_df <- NULL
   GRSin_df <- NULL
   ERSin_df <- NULL
@@ -77,7 +77,7 @@ FCSin <- function(Species_list, Occurrence_data, Raster_list,Ecoregions_shp,Pro_
 
   #Checking if GapMapIn option is a boolean
 
-  if(is.null(Gap_MapIn)){ Gap_MapIn <- FALSE
+  if(is.null(Gap_MapIn)| missing(Gap_MapIn)){ Gap_MapIn <- FALSE
   } else if(Gap_MapIn==TRUE | Gap_MapIn==FALSE){
     Gap_MapIn <- Gap_MapIn
   } else {
@@ -86,7 +86,7 @@ FCSin <- function(Species_list, Occurrence_data, Raster_list,Ecoregions_shp,Pro_
 
 
   # load in protect area raster
-  if(is.null(Pro_areas)){
+  if(is.null(Pro_areas) | missing(Pro_areas)){
     if(file.exists(system.file("data/preloaded_data/protectedArea/wdpa_reclass.tif",
                                package = "GapAnalysis"))){
       Pro_areas <- raster::raster(system.file("data/preloaded_data/protectedArea/wdpa_reclass.tif",
@@ -98,7 +98,7 @@ FCSin <- function(Species_list, Occurrence_data, Raster_list,Ecoregions_shp,Pro_
     Pro_areas <- Pro_areas
   }
   # Load in ecoregions shp
-  if(is.null(Ecoregions_shp)){
+  if(is.null(Ecoregions_shp) | missing(Ecoregions_shp)){
     if(file.exists(system.file("data/preloaded_data/ecoRegion/tnc_terr_ecoregions.shp",
                                package = "GapAnalysis"))){
       Ecoregions_shp <- raster::shapefile(system.file("data/preloaded_data/ecoRegion/tnc_terr_ecoregions.shp",

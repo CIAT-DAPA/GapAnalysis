@@ -8,8 +8,8 @@ ERSex(
   Species_list,
   Occurrence_data,
   Raster_list,
-  Buffer_distance,
-  Ecoregions_shp
+  Buffer_distance = 50000,
+  Ecoregions_shp = NULL
 )
 }
 \arguments{

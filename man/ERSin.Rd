@@ -4,7 +4,13 @@
 \alias{ERSin}
 \title{Environmental representativeness score estimation (In-situ conservation)}
 \usage{
-ERSin(Species_list, Occurrence_data, Raster_list, Pro_areas, Ecoregions_shp)
+ERSin(
+  Species_list,
+  Occurrence_data,
+  Raster_list,
+  Pro_areas = NULL,
+  Ecoregions_shp = NULL
+)
 }
 \arguments{
 \item{Species_list}{An species list to calculate the ERSin metrics.}

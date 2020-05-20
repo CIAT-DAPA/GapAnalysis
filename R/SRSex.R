@@ -34,8 +34,6 @@
 #' and sustainable development targets. Ecological Indicators. https://doi.org/10.1016/j.ecolind.2018.11.016
 #'
 #' @export
-#' @importFrom magrittr "%>%"
-#' @importFrom dplyr filter select
 #' @importFrom fasterize fasterize
 #' @importFrom stats median
 

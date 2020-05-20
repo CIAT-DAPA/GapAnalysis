@@ -8,9 +8,9 @@ FCSex(
   Species_list,
   Occurrence_data,
   Raster_list,
-  Buffer_distance,
-  Ecoregions_shp,
-  Gap_MapEx
+  Buffer_distance = 50000,
+  Ecoregions_shp = NULL,
+  Gap_MapEx = NULL
 )
 }
 \arguments{

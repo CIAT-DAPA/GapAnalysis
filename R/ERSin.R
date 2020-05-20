@@ -58,7 +58,7 @@
 #' @importFrom raster raster crop area shapefile
 
 
-ERSin <- function(Species_list,Occurrence_data,Raster_list,Pro_areas,Ecoregions_shp) {
+ERSin <- function(Species_list,Occurrence_data,Raster_list,Pro_areas=NULL,Ecoregions_shp=NULL) {
 
   taxon <- NULL
   type <- NULL
@@ -87,7 +87,7 @@ ERSin <- function(Species_list,Occurrence_data,Raster_list,Pro_areas,Ecoregions_
   df <- data.frame(matrix(ncol=2, nrow = length(Species_list)))
   colnames(df) <- c("species", "ERSin")
   # load in protect area raster
-  if(is.null(Pro_areas)){
+  if(is.null(Pro_areas) | missing(Pro_areas)){
     if(file.exists(system.file("data/preloaded_data/protectedArea/wdpa_reclass.tif",
                                package = "GapAnalysis"))){
       Pro_areas <- raster::raster(system.file("data/preloaded_data/protectedArea/wdpa_reclass.tif",
@@ -99,7 +99,7 @@ ERSin <- function(Species_list,Occurrence_data,Raster_list,Pro_areas,Ecoregions_
     Pro_areas <- Pro_areas
   }
   # Load in ecoregions shp
-  if(is.null(Ecoregions_shp)){
+  if(is.null(Ecoregions_shp) | missing(Ecoregions_shp)){
     if(file.exists(system.file("data/preloaded_data/ecoRegion/tnc_terr_ecoregions.shp",
                                package = "GapAnalysis"))){
       Ecoregions_shp <- raster::shapefile(system.file("data/preloaded_data/ecoRegion/tnc_terr_ecoregions.shp",

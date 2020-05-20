@@ -4,7 +4,7 @@
 \alias{SRSin}
 \title{Sample representativeness score estimation (In-situ conservation)}
 \usage{
-SRSin(Species_list, Occurrence_data, Raster_list, Pro_areas)
+SRSin(Species_list, Occurrence_data, Raster_list, Pro_areas = NULL)
 }
 \arguments{
 \item{Species_list}{An species list to calculate the SRSin metrics.}
@@ -24,7 +24,7 @@ This function returns a data frame with two columns:
 
 \tabular{lcc}{
 species \tab Species name \cr
-SRSin \tab srsInsitu value calculated\cr
+SRSin \tab SRSin value calculated\cr
 }
 }
 \description{

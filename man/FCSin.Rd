@@ -8,9 +8,9 @@ FCSin(
   Species_list,
   Occurrence_data,
   Raster_list,
-  Ecoregions_shp,
-  Pro_areas,
-  Gap_MapIn
+  Ecoregions_shp = NULL,
+  Pro_areas = NULL,
+  Gap_MapIn = FALSE
 )
 }
 \arguments{

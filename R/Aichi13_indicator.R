@@ -1,0 +1,165 @@
+#' @title Using Ex-situ and In-situ gap analysis results to calculate Aichi13 indicator value
+#' @name Aichi13_indicator
+#' @description This function uses a dataframe product of use the function FCSc_mean and
+#'  provides a comprehensive summary including a conservation indicator used in Aichi13 documentation
+#'
+#' @param Species_list A species list to calculate metrics.
+#' @param FCSc_mean_df A data frame object result of the function FCSc_mean
+#'Species_list,FCSc_mean_df
+#' @return this function returns a data frame object with the following columns:
+#'
+#' \tabular{lcc}{
+#'  opt \tab \cr
+#'  N_HP \tab \cr
+#'  N_MP \tab \cr
+#'  N_LP \tab \cr
+#'  N_SC \tab \cr
+#'  N_LP_SC  \tab \cr
+#'  P_HP \tab \cr
+#'  P_MP \tab \cr
+#'  P_LP \tab \cr
+#'  P_SC \tab \cr
+#'  P_LP_SC \tab \cr
+#' }
+#'
+#' @examples
+#' ##Obtaining occurrences from example
+#' data(CucurbitaData)
+#' ##Obtaining species names from the data
+#' Cucurbita_splist <- unique(CucurbitaData$taxon)
+#' ##Obtaining raster_list
+#' data(CucurbitaRasters)
+#' CucurbitaRasters <- raster::unstack(CucurbitaRasters)
+#' ##Obtaining protected areas raster
+#' data(ProtectedAreas)
+#' ##Obtaining ecoregions shapefile
+#' data(ecoregions)
+#'
+#' #Running all three Ex-situ gap analysis steps using FCSex function
+#' FCSex_df <- FCSex(Species_list=Cucurbita_splist,
+#'                                       Occurrence_data=CucurbitaData,
+#'                                       Raster_list=CucurbitaRasters,
+#'                                       Buffer_distance=50000,
+#'                                       Ecoregions_shp=ecoregions,
+#'                                       Gap_MapEx=FALSE)
+#'
+#'
+#' #Running all three In-situ gap analysis steps using FCSin function
+#' FCSin_df <- FCSin(Species_list=Cucurbita_splist,
+#'                                       Occurrence_data=CucurbitaData,
+#'                                       Raster_list=CucurbitaRasters,
+#'                                       Ecoregions_shp=ecoregions,
+#'                                       Pro_areas=ProtectedAreas,
+#'                                       Gap_MapIn=FALSE)
+#'
+#' FCSc_mean_df <- FCSc_mean(FCSex_df = FCSex_df,FCSin_df = FCSin_df)
+#'
+#'
+#' Aichi13_indicator_df  <- Aichi13_indicator(Species_list,FCSc_mean_df)
+#'
+#'@references
+#' Ramirez-Villegas, J., Khoury, C., Jarvis, A., Debouck, D. G., & Guarino, L. (2010).
+#' A Gap Analysis Methodology for Collecting Crop Genepools: A Case Study with Phaseolus Beans.
+#' PLOS ONE, 5(10), e13497. Retrieved from https://doi.org/10.1371/journal.pone.0013497
+#'
+#' Khoury, C. K., Amariles, D., Soto, J. S., Diaz, M. V., Sotelo, S., Sosa, C. C., … Jarvis, A. (2019).
+#' Comprehensiveness of conservation of useful wild plants: An operational indicator for biodiversity
+#' and sustainable development targets. Ecological Indicators. https://doi.org/10.1016/j.ecolind.2018.11.016
+#'
+#' @export
+
+
+
+
+Aichi13_indicator <- function(Species_list,FCSc_mean_df) {
+
+  opt=c("min","max","mean","in","ex")
+  data_all <- FCSc_mean_df
+
+  #make final counts for species list (combined)
+  out_df <- data.frame()
+  for (i in 1:length(opt)){
+    #  i <- 5
+    if(i==4 | i==5){    tvec <- paste(data_all[,paste("FCS",opt[i],sep="")])
+    } else {tvec <- paste(data_all[,paste("FCSc_",opt[i],"_class",sep="")])}
+    hp_n <- length(which(tvec %in% c("HP")))
+    mp_n <- length(which(tvec %in% c("MP")))
+    lp_n <- length(which(tvec %in% c("LP")))
+    sc_n <- length(which(tvec %in% c("SC")))
+    indic <- lp_n + sc_n
+    tdf <- data.frame(opt=opt[i],N_HP=hp_n,N_MP=mp_n,N_LP=lp_n,N_SC=sc_n,N_LP_SC=indic)
+    out_df <- rbind(out_df, tdf)
+  }
+
+  #assign classes (exsitu)
+  data_all$FCSex_class <- NA
+  for (i in 1:nrow(data_all)) {
+    if (data_all$FCSex[i] < 25) {
+      data_all$FCSex_class[i] <- "HP"
+    } else if (data_all$FCSex[i] >= 25 & data_all$FCSex[i] < 50) {
+      data_all$FCSex_class[i] <- "MP"
+    } else if (data_all$FCSex[i] >= 50 & data_all$FCSex[i] < 75) {
+      data_all$FCSex_class[i] <- "LP"
+    } else {
+      data_all$FCSex_class[i] <- "SC"
+    }
+  }
+
+  #assign classes (insitu)
+  data_all$FCSin_class <- NA
+  for (i in 1:nrow(data_all)) {
+    if(!is.na(data_all$FCSin[i])){
+      if (data_all$FCSin[i] < 25) {
+        data_all$FCSin_class[i] <- "HP"
+      } else if (data_all$FCSin[i] >= 25 & data_all$FCSin[i] < 50) {
+        data_all$FCSin_class[i] <- "MP"
+      } else if (data_all$FCSin[i] >= 50 & data_all$FCSin[i] < 75) {
+        data_all$FCSin_class[i] <- "LP"
+      } else {
+        data_all$FCSin_class[i] <- "SC"
+      }
+    }else {
+      data_all$FCSin_class[i] <-"HP"
+    }
+  }
+
+  #make final counts for species list (exsitu) if asked to
+  if ("ex" %in% tolower(opt)) {
+    tvec <- paste(data_all[,"FCSex_class"])
+    hp_n <- length(which(tvec %in% c("HP")))
+    mp_n <- length(which(tvec %in% c("MP")))
+    lp_n <- length(which(tvec %in% c("LP")))
+    sc_n <- length(which(tvec %in% c("SC")))
+    indic <- lp_n + sc_n
+    out_df_ex <- data.frame(opt="exsitu",N_HP=hp_n,N_MP=mp_n,N_LP=lp_n,N_SC=sc_n,N_LP_SC=indic)
+    out_df <- rbind(out_df, out_df_ex)
+    #out_df[5,2:6] <- out_df_ex[1,2:6]
+  }
+
+
+
+  #make final counts for species list (insitu)
+  if ("in" %in% tolower(opt)) {
+    tvec <- paste(data_all[,"FCSin_class"])
+    hp_n <- length(which(tvec %in% c("HP")))
+    mp_n <- length(which(tvec %in% c("MP")))
+    lp_n <- length(which(tvec %in% c("LP")))
+    sc_n <- length(which(tvec %in% c("SC")))
+    indic <- lp_n + sc_n
+    out_df_in <- data.frame(opt="insitu",N_HP=hp_n,N_MP=mp_n,N_LP=lp_n,N_SC=sc_n,N_LP_SC=indic)
+    out_df <- rbind(out_df, out_df_in)
+    #out_df[4,2:6] <- out_df_in[1,2:6]
+
+  }
+
+  #calculate percentages
+  out_df$P_HP <- out_df$N_HP / nrow(data_all) * 100
+  out_df$P_MP <- out_df$N_MP / nrow(data_all) * 100
+  out_df$P_LP <- out_df$N_LP / nrow(data_all) * 100
+  out_df$P_SC <- out_df$N_SC / nrow(data_all) * 100
+  out_df$P_LP_SC <- out_df$N_LP_SC / nrow(data_all) * 100
+
+  out_df<-out_df[-c(4,5), ]
+  return(out_df)
+}
+

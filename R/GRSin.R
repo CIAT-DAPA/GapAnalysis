@@ -49,7 +49,7 @@
 
 
 
-GRSin <- function(Species_list,Occurrence_data,Raster_list,Pro_areas){
+GRSin <- function(Species_list,Occurrence_data,Raster_list,Pro_areas=NULL){
 
 # suppressMessages(require(rgdal))
 # suppressMessages(require(raster))
@@ -78,7 +78,7 @@ GRSin <- function(Species_list,Occurrence_data,Raster_list,Pro_areas){
   df <- data.frame(matrix(ncol=2, nrow = length(Species_list)))
   colnames(df) <- c("species", "GRSin")
   # load in protect area raster
-  if(is.null(Pro_areas)){
+  if(is.null(Pro_areas) | missing(Pro_areas)){
     if(file.exists(system.file("data/preloaded_data/protectedArea/wdpa_reclass.tif",package = "GapAnalysis"))){
       Pro_areas <- raster::raster(system.file("data/preloaded_data/protectedArea/wdpa_reclass.tif",package = "GapAnalysis"))
     } else {

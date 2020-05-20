@@ -53,7 +53,7 @@
 #' @importFrom fasterize fasterize
 
 
-GRSex <- function(Species_list, Occurrence_data, Raster_list, Buffer_distance) {
+GRSex <- function(Species_list, Occurrence_data, Raster_list, Buffer_distance=50000) {
 
   longitude <- NULL
   taxon <- NULL

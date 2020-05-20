@@ -4,7 +4,7 @@
 \alias{GRSin}
 \title{Geographical representativeness score estimation (In-situ conservation)}
 \usage{
-GRSin(Species_list, Occurrence_data, Raster_list, Pro_areas)
+GRSin(Species_list, Occurrence_data, Raster_list, Pro_areas = NULL)
 }
 \arguments{
 \item{Species_list}{An species list to calculate the GRSin metrics.}

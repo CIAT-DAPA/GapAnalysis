@@ -4,13 +4,13 @@
 \alias{GRSex}
 \title{Geographical representativeness score estimation (Ex-situ conservation)}
 \usage{
-GRSex(Occurrence_data, Species_list, Raster_list, Buffer_distance)
+GRSex(Species_list, Occurrence_data, Raster_list, Buffer_distance = 50000)
 }
 \arguments{
+\item{Species_list}{An species list to calculate the GRSex metrics.}
+
 \item{Occurrence_data}{A data frame object with the species name, geographical coordinates,
 and type of records (G or H) for a given species}
-
-\item{Species_list}{An species list to calculate the GRSex metrics.}
 
 \item{Raster_list}{A list representing the species distribution models for the species list provided
 loaded in raster format. This list must match the same order of the species list.}

@@ -49,7 +49,7 @@
 #' @importFrom raster raster crop
 
 
-SRSin <- function(Species_list, Occurrence_data, Raster_list,Pro_areas){
+SRSin <- function(Species_list, Occurrence_data, Raster_list,Pro_areas=NULL){
 
   taxon <- NULL
   longitude <- NULL
@@ -72,7 +72,7 @@ SRSin <- function(Species_list, Occurrence_data, Raster_list,Pro_areas){
 
   # Load in protect areas
 
-  if(is.null(Pro_areas)){
+  if(is.null(Pro_areas) | missing(Pro_areas)){
     if(file.exists(system.file("data/preloaded_data/protectedArea/wdpa_reclass.tif",package = "GapAnalysis"))){
       Pro_areas <- raster::raster(system.file("data/preloaded_data/protectedArea/wdpa_reclass.tif",package = "GapAnalysis"))
     } else {

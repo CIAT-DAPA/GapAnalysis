@@ -62,7 +62,7 @@
 #' @importFrom raster overlay crop raster extent ncell
 
 
-FCSex <- function(Species_list, Occurrence_data, Raster_list, Buffer_distance,Ecoregions_shp,Gap_MapEx){
+FCSex <- function(Species_list, Occurrence_data, Raster_list, Buffer_distance=50000,Ecoregions_shp=NULL,Gap_MapEx=NULL){
 
   SRSex_df <- NULL
   GRSex_df <- NULL
@@ -76,7 +76,7 @@ FCSex <- function(Species_list, Occurrence_data, Raster_list, Buffer_distance,Ec
   }
 
   #Checking if GapMapEx option is a boolean
-  if(is.null(Gap_MapEx)){ Gap_MapEx <- FALSE
+  if(is.null(Gap_MapEx) | missing(Gap_MapEx)){ Gap_MapEx <- FALSE
   } else if(Gap_MapEx==TRUE | Gap_MapEx==FALSE){
     Gap_MapEx <- Gap_MapEx
   } else {
@@ -85,7 +85,7 @@ FCSex <- function(Species_list, Occurrence_data, Raster_list, Buffer_distance,Ec
 
 
   # Load in ecoregions shp
-  if(is.null(Ecoregions_shp)){
+  if(is.null(Ecoregions_shp) | missing(Ecoregions_shp)){
     if(file.exists(system.file("data/preloaded_data/ecoRegion/tnc_terr_ecoregions.shp",
                                package = "GapAnalysis"))){
       Ecoregions_shp <- raster::shapefile(system.file("data/preloaded_data/ecoRegion/tnc_terr_ecoregions.shp",

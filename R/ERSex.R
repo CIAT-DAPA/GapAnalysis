@@ -54,7 +54,7 @@
 #' @importFrom sp coordinates proj4string SpatialPoints over CRS
 
 
-ERSex <- function(Species_list,Occurrence_data, Raster_list, Buffer_distance,Ecoregions_shp) {
+ERSex <- function(Species_list,Occurrence_data, Raster_list, Buffer_distance=50000,Ecoregions_shp=NULL) {
 
   taxon <- NULL
   type <- NULL
@@ -123,9 +123,10 @@ ERSex <- function(Species_list,Occurrence_data, Raster_list, Buffer_distance,Eco
         #   dplyr::filter(type == "G")%>%
         #   dplyr::select(longitude,latitude)
 
-        OccDataG <- occDataG[which(!is.na(occDataG$latitude)),]
-          sp::coordinates(occDataG) <- ~longitude+latitude
-          sp::proj4string(occDataG) <- sp::CRS("+proj=longlat +datum=WGS84")
+        OccDataG <- OccDataG[which(!is.na(OccDataG$latitude)),]
+
+          sp::coordinates(OccDataG) <- ~longitude+latitude
+          sp::proj4string(OccDataG) <- sp::CRS("+proj=longlat +datum=WGS84")
         # select raster with species name
           for(j in seq_len(length(Raster_list))){
             if(grepl(j, i, ignore.case = TRUE)){
@@ -138,7 +139,7 @@ ERSex <- function(Species_list,Occurrence_data, Raster_list, Buffer_distance,Eco
 
         # buffer G points
 #     buffer <- geobuffer::geobuffer_pts(xy = occData,
-      buffer <- GapAnalysis::Gbuffer(xy = occDataG,
+      buffer <- GapAnalysis::Gbuffer(xy = OccDataG,
                                              dist_m = Buffer_distance,
                                              output = 'sf')
         # rasterizing and making it into a mask

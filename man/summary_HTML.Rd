@@ -13,7 +13,6 @@ summary_HTML(
   insituSummary,
   exsituSummary,
   fcsSummary,
-  eooAooSummary,
   outputFolder,
   writeRasters
 )
@@ -39,8 +38,6 @@ Default: 50000 that is 50 km around germplasm accessions (CA50)}
 
 \item{fcsSummary}{A data frame object result of the function fcs_combine}
 
-\item{eooAooSummary}{A data frame object result of the function eooAoo}
-
 \item{outputFolder}{A path to save the HTML file resulting of this function}
 
 \item{writeRasters}{Boolean field (default=F) to indicate if raster files should be saved}
@@ -58,7 +55,7 @@ Calls the summaryHTML rmd file information from all in situ,
 ##Obtaining occurrences from example
 data(CucurbitaData)
 ##Obtaining species names from the data
-speciesList <- unique(CucurbitaData$taxon)
+Cucurbita_splist <- unique(CucurbitaData$taxon)
 ##Obtaining raster_list
 data(CucurbitaRasters)
 CucurbitaRasters <- raster::unstack(CucurbitaRasters)
@@ -68,7 +65,7 @@ data(ProtectedAreas)
 data(ecoregions)
 
 #Running all three Ex situ gap analysis steps using insituGapAnalysis function
-exsituGapMetrics <- ExsituCompile(species_list=speciesList,
+FCSex_df <- FCSex(species_list=speciesList,
                                       occurrenceData=CucurbitaData,
                                       raster_list=CucurbitaRasters,
                                       bufferDistance=50000,
@@ -76,27 +73,22 @@ exsituGapMetrics <- ExsituCompile(species_list=speciesList,
 
 
 #Running all three In situ gap analysis steps using insituGapAnalysis function
-insituGapMetrics <- InsituCompile(species_list=speciesList,
+FCSin_df <- FCSin(species_list=speciesList,
                                        occurrenceData=CucurbitaData,
                                        raster_list=CucurbitaRasters,
                                        proArea=ProtectedAreas,
                                        ecoReg=ecoregions)
 
-## Obtaining AOO and EOO ##
-eooAoo_table <- GapAnalysis::eooAoo(species_list = speciesList,
-                               occurrenceData = CucurbitaData)
+fcsCombine <- FCSc_mean(fcsEx = FCSex_df,fcsIn = FCSin_df)
 
-fcsCombine <- FCSc_mean(fcsEx = exsituGapMetrics,fcsIn = insituGapMetrics)
-
-summaryHTML_file <- summary_HTML(species_list=speciesList,
+summaryHTML_file <- summary_HTML(species_list=Cucurbita_splist,
                                  occurrenceData = CucurbitaData,
                                  raster_List=CucurbitaRasters,
                                  proArea=ProtectedArea,
                                  bufferDistance=50000,
-                                 insituSummary=insituGapMetrics,
-                                 exsituSummary=exsituGapMetrics,
+                                 insituSummary=FCSin_df,
+                                 exsituSummary=FCSex_df,
                                  fcsSummary=fcsCombine,
-                                 eooAooSummary=eooAoo_table,
                                  outputFolder=".",
                                  writeRasters=F)
 }
