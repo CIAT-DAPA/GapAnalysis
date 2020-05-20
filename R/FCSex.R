@@ -15,8 +15,6 @@
 #'  Default: 50000 that is 50 km around germplasm accessions (CA50)
 #' @param Ecoregions_shp A shapefile representing ecoregions information with a field ECO_NUM representing ecoregions Ids.
 #'  If ecoReg=NULL the funtion will use a shapefile provided for your use after run GetDatasets()
-#' @param Gap_MapEx Default=FALSE, This option will calculate gap maps for each species analyzed and will retun a list
-#' with two slots FCSex and gap_maps
 #' @return This function returns a list with gap maps if Gap_MapEx=TRUE. Otherwise, it returns a data frame
 #' summarizing the ex-situ gap analysis scores:
 #'
@@ -44,8 +42,7 @@
 #'                                       Occurrence_data=CucurbitaData,
 #'                                       Raster_list=CucurbitaRasters,
 #'                                       Buffer_distance=50000,
-#'                                       Ecoregions_shp=ecoregions,
-#'                                       Gap_MapEx=FALSE)
+#'                                       Ecoregions_shp=ecoregions)
 #'
 #'@references
 #'
@@ -59,10 +56,9 @@
 #'
 #' @export
 #' @importFrom dplyr left_join
-#' @importFrom raster overlay crop raster extent ncell
 
 
-FCSex <- function(Species_list, Occurrence_data, Raster_list, Buffer_distance=50000,Ecoregions_shp=NULL,Gap_MapEx=NULL){
+FCSex <- function(Species_list, Occurrence_data, Raster_list, Buffer_distance=50000,Ecoregions_shp=NULL){
 
   SRSex_df <- NULL
   GRSex_df <- NULL
@@ -74,15 +70,6 @@ FCSex <- function(Species_list, Occurrence_data, Raster_list, Buffer_distance=50
   if(identical(names(Occurrence_data),par_names)==FALSE){
     stop("Please format the column names in your dataframe as taxon,latitude,longitude,type")
   }
-
-  #Checking if GapMapEx option is a boolean
-  if(is.null(Gap_MapEx) | missing(Gap_MapEx)){ Gap_MapEx <- FALSE
-  } else if(Gap_MapEx==TRUE | Gap_MapEx==FALSE){
-    Gap_MapEx <- Gap_MapEx
-  } else {
-    stop("Choose a valid option for Gap_MapEx (TRUE or FALSE)")
-  }
-
 
   # Load in ecoregions shp
   if(is.null(Ecoregions_shp) | missing(Ecoregions_shp)){
@@ -121,43 +108,5 @@ FCSex <- function(Species_list, Occurrence_data, Raster_list, Buffer_distance=50
   for(i in seq_len(nrow(FCSex_df))){
     FCSex_df$FCSex[i] <- base::mean(c(FCSex_df$SRSex[i], FCSex_df$GRSex[i], FCSex_df$ERSex[i]))
   };rm(i)
-
-  #GapMapEx
-
-  if(Gap_MapEx==T){
-    GapMapEx_list <- list()
-    cat("Calculating gap maps for Ex-situ gap analysis","\n")
-
-    for(i in seq_len(length(Raster_list))){
-      sdm_temp <-  Raster_list[[i]]
-      gbuff <- ERSex_df$buffer_list[[i]]
-
-      if(!is.null(sdm_temp)){
-        sdm_temp[which(is.na(sdm_temp[]))] <- 0
-      } else {
-        stop("NULL SDM was added, Please load a valid SDM file")
-      }
-      if(!is.null(gbuff)){
-        if(length(gbuff[which(is.na(gbuff[]))])==raster::ncell(gbuff)){
-          gap_map <- sdm_temp
-          gap_map[which(gap_map[]==0)] <- NA
-          GapMapEx_list[[i]] <- gap_map
-          names(GapMapEx_list[[i]] ) <- Species_list[[i]]
-        } else {
-          gbuff[which(is.na(gbuff[]))] <- 0
-          gbuff[which(gbuff[]==1)] <- 2
-          gap_map <- raster::overlay(sdm_temp,gbuff,fun=function(r1, r2){return(r1-r2)})
-          gap_map[which(gap_map[]==-1)] <- NA
-          gap_map[which(gap_map[]==0)] <- NA
-          GapMapEx_list[[i]] <- gap_map
-          names(GapMapEx_list[[i]] ) <- Species_list[[i]]
-        }
-      }
-    };rm(i)
-      FCSex_df <- list(FCSex= FCSex_df,GapMapEx_list=GapMapEx_list)
-    } else {
-      FCSex_df <- FCSex_df
-    }
-
   return(FCSex_df)
 }
