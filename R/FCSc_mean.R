@@ -15,8 +15,8 @@
 #'  FCS_min \tab Final conservation score (mininum value among FCSin and FCSex) \cr
 #'  FCS_max \tab Final conservation score (maximum value among FCSin and FCSex) \cr
 #'  FCSc_mean \tab Final conservation score combined (average value between FCSin and FCSex) \cr
-#'  FCSc_min_class \tab Final conservation category using FCS_min value \cr
-#'  FCSc_max_class \tab Final conservation category using FCS_max value \cr
+#'  FCS_min_class \tab Final conservation category using FCS_min value \cr
+#'  FCS_max_class \tab Final conservation category using FCS_max value \cr
 #'  FCSc_mean_class \tab Final conservation category using FCSc_mean value \cr
 #' }
 #'
