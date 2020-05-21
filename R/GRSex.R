@@ -14,7 +14,7 @@
 #' @param Buffer_distance Geographical distance used to create circular buffers around germplasm.
 #'  Default: 50000 that is 50 km around germplasm accessions (CA50)
 #' @param Gap_Map Default=FALSE, This option will calculate gap maps for each species analyzed and will retun a list
-#' with two slots FCSex and gap_maps
+#' with two slots GRSex and gap_maps
 #'
 #' @return This function returns a data frame with two columns:
 #'
@@ -90,18 +90,18 @@ GRSex <- function(Species_list, Occurrence_data, Raster_list, Buffer_distance=50
   # create a dataframe to hold the components
   df <- data.frame(matrix(ncol = 2, nrow = length(Species_list)))
   colnames(df) <- c("species", "GRSex")
-  
+
   if(Gap_Map==T){
     GapMapEx_list <- list()
   }
-  
+
   for(i in seq_len(length(sort(Species_list)))){
     # select species G occurrences
 
     OccData  <- Occurrence_data[which(Occurrence_data$taxon==Species_list[i]),]
     OccData  <- OccData [which(OccData $type == "G" & !is.na(OccData $latitude)),]
     OccData  <- OccData [,c("longitude","latitude")]
-    
+
     sp::coordinates(OccData ) <- ~longitude+latitude
     sp::proj4string(OccData ) <- sp::CRS("+proj=longlat +datum=WGS84")
     # select raster with species name
@@ -135,9 +135,9 @@ GRSex <- function(Species_list, Occurrence_data, Raster_list, Buffer_distance=50
 
     df$species[i] <- as.character(Species_list[i])
     df$GRSex[i] <- GRSex
-    
+
     #GapMapEx
-    
+
     if(Gap_Map==T){
       cat("Calculating gap maps for Ex-situ gap analysis","\n")
       bf2 <- buffer_rs
@@ -153,6 +153,6 @@ GRSex <- function(Species_list, Occurrence_data, Raster_list, Buffer_distance=50
     } else {
       df <- df
     }
-  
+
   return(df)
 }

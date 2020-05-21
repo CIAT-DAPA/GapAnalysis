@@ -125,12 +125,13 @@ FCSin <- function(Species_list, Occurrence_data, Raster_list,Ecoregions_shp=NULL
                                  Occurrence_data =Occurrence_data,
                                  Raster_list = Raster_list,
                                  Pro_areas=Pro_areas,
-                                 Ecoregions_shp=Ecoregions_shp)
+                                 Ecoregions_shp=Ecoregions_shp,
+                                 Gap_Map=FALSE)
 
 
     # join the dataframes base on species
   FCSin_df <- dplyr::left_join(SRSin_df, GRSin_df, by ="species")
-  FCSin_df <- dplyr::left_join(FCSin_df, ERSin_df, by = "species")
+  FCSin_df <- dplyr::left_join(FCSin_df, ERSin_df$ERSin, by = "species")
       #dplyr::select("species","SRSin", "GRSin", "ERSin")
     # calculate the mean value for each row to determine fcs per species
     for(i in seq_len(nrow(FCSin_df))){

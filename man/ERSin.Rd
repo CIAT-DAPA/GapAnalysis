@@ -9,7 +9,8 @@ ERSin(
   Occurrence_data,
   Raster_list,
   Pro_areas = NULL,
-  Ecoregions_shp = NULL
+  Ecoregions_shp = NULL,
+  Gap_Map = NULL
 )
 }
 \arguments{
@@ -24,8 +25,11 @@ loaded in raster format. This list must match the same order of the species list
 \item{Pro_areas}{A raster file representing protected areas information.
 If Pro_areas=NULL the funtion will use a protected area raster file provided for your use after run GetDatasets()}
 
-\item{Ecoregions_shp}{A shapefile representing Ecoregions_shpions information with a field ECO_NUM representing Ecoregions_shpions Ids.
+\item{Ecoregions_shp}{A shapefile representing Ecoregions_shpions information with a field ECO_ID_U representing Ecoregions_shpions Ids.
 If Ecoregions_shp=NULL the function will use a shapefile provided for your use after run GetDatasets()}
+
+\item{Gap_Map}{Default=FALSE, This option will calculate gap maps for each species analyzed and will retun a list
+with two slots ERSin and gap_maps}
 }
 \value{
 This function returns a data frame with two columns:

@@ -22,10 +22,11 @@
 #'  }
 #'
 #' @examples
+#' \dontrun{
 #' data(CucurbitaData)
 #' ##Obtaining species names from the data
 #' Cucurbita_splist <- unique(CucurbitaData$taxon)
-#'
+#' }
 #'@references
 #'
 #' Ramirez-Villegas, J., Khoury, C., Jarvis, A., Debouck, D. G., & Guarino, L. (2010).
@@ -37,6 +38,7 @@
 #' and sustainable development targets. Ecological Indicators. https://doi.org/10.1016/j.ecolind.2018.11.016
 #'
 #' @export
+#' @keywords internal
 
 
 OccurrenceCounts <- function(species,Occurrence_data){

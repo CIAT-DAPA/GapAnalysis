@@ -38,8 +38,8 @@
 #'                                       Occurrence_data=CucurbitaData,
 #'                                       Raster_list=CucurbitaRasters,
 #'                                       Buffer_distance=50000,
-#'                                       Ecoregions_shp=ecoregions,
-#'                                       Gap_MapEx=FALSE)
+#'                                       Ecoregions_shp=ecoregions
+#'                                       )
 #'
 #'
 #' #Running all three In-situ gap analysis steps using FCSin function

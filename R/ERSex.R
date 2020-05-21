@@ -15,8 +15,11 @@
 #'  Default: 50000 that is 50 km around germplasm accessions (CA50)
 #' @param Ecoregions_shp A shapefile representing Ecoregionsions information with a field ECO_ID_U representing Ecoregionsions Ids.
 #'  If Ecoregions=NULL the function will use a shapefile provided for your use after run GetDatasets()
-#'
-#' @return This function returns a data frame with two columns:
+#' @param Gap_Map Default=FALSE, This option will calculate gap maps for each species analyzed and will retun a list
+#' with two slots ERSex and gap_maps, or three slots ERSex, buffer_list, and gap_maps
+
+#' @return This function returns a list with a data frame with two columns described below, a list with geographical buffers around germplasm accessions
+#' and if Gap_Map=TRUE, a third element in the list with collecring rasters will be provided.
 #'
 #' \tabular{lcc}{
 #' species \tab Species name \cr
@@ -37,7 +40,8 @@
 #'                     Occurrence_data = CucurbitaData,
 #'                     Raster_list = CucurbitaRasters,
 #'                     Buffer_distance = 50000,
-#'                     Ecoregions_shp=ecoregions)
+#'                     Ecoregions_shp=ecoregions,
+#'                     Gap_Map=NULL)
 #'
 #' @references
 #'
@@ -64,6 +68,9 @@ ERSex <- function(Species_list,Occurrence_data, Raster_list, Buffer_distance=500
   latitude <-NULL
   ECO_ID_U <- NULL
   nc <- NULL
+  ecoVal <- NULL
+  ecoValsPro <- NULL
+
   buffer_list <- list()
 #load packages
 # suppressMessages(require(sp))
@@ -88,7 +95,7 @@ ERSex <- function(Species_list,Occurrence_data, Raster_list, Buffer_distance=500
   } else {
     stop("Choose a valid option for GapMap (TRUE or FALSE)")
   }
-  
+
   #Checking if user is using a raster list or a raster stack
   if(class(Raster_list)=="RasterStack"){
     Raster_list <- raster::unstack(Raster_list)
@@ -106,7 +113,7 @@ ERSex <- function(Species_list,Occurrence_data, Raster_list, Buffer_distance=500
   } else{
     Ecoregions_shp <- Ecoregions_shp
   }
-  
+
   if(Gap_Map==T){
     GapMapEx_list <- list()
   }
@@ -168,44 +175,45 @@ ERSex <- function(Species_list,Occurrence_data, Raster_list, Buffer_distance=500
         ecoValsG <- data.frame(ECO_ID_U=(unique(ecoValsG$ECO_ID_U)))
         ecoValsG <- ecoValsG[which(!is.na(ecoValsG) & ecoValsG>0),]
 
-        # extract values from ecoregion to predicted presences points  
+        # extract values from ecoregion to predicted presences points
         predictedPresence <- sp::SpatialPoints(raster::rasterToPoints(SdmMask))
         raster::crs(predictedPresence) <- raster::crs(Ecoregions_shp)
         ecoVals <- sp::over(x = predictedPresence, y = Ecoregions_shp)
         ecoVals <- data.frame(ECO_ID_U=(unique(ecoVals$ECO_ID_U)))
         ecoVals <- ecoVals[which(!is.na(ecoVals) & ecoVals>0),]
-        
+
         #calculate ERS
         ERSex <- min(c(100, (length(ecoValsG)/length(ecoVals))*100))
         # assign values to df
         df$species[i] <- as.character(Species_list[i])
         df$ERSex[i] <- ERSex
-    
+
         # number of Ecoregionsions present in model
         if(Gap_Map==T){
           cat("Calculating gap maps for ERSex gap analysis","\n")
-          
-          # ERSex Gap Map 
+
+          # ERSex Gap Map
           # select all ecoregions present in ecoVal(all points) but absent in ecoValG(g buffers)
           ecoGap <- ecoVals[!ecoVals %in% ecoValsG]
           ecoGap <- ecoVal[!ecoVal %in% ecoValsPro]
           if(length(ecoGap) == 0){
-            GapMapEx_list[[i]] <- paste0("All ecoregions within the model are within ", Buffer_distance, 
+            GapMapEx_list[[i]] <- paste0("All ecoregions within the model are within ", Buffer_distance,
 "km of G occurrence. There are no gaps")
-            
+
           }else{
           # pull selected ecoregions and mask to presence area of the model
           eco2 <- Ecoregions_shp[Ecoregions_shp$ECO_ID_U %in% ecoGap,]
-          #convert to sf object for conversion using fasterize 
+          #convert to sf object for conversion using fasterize
           eco2a <- sf::st_as_sf(eco2, SdmMask)
-          # generate a ecoregion raster keeping the unique id. 
+          # generate a ecoregion raster keeping the unique id.
           eco3 <- fasterize::fasterize(eco2a, SdmMask, field = "ECO_ID_U")
-          # mask so only locations within the predicted presence area is included. 
+          # mask so only locations within the predicted presence area is included.
           gap_map <- eco3 * SdmMask
           GapMapEx_list[[i]] <- gap_map
           names(GapMapEx_list[[i]] ) <- Species_list[[i]]
         }
       }
+    }
   }
   if(Gap_Map==T){
     df <- list(ERSex=df,buffer_list=buffer_list, gap_maps = GapMapEx_list )

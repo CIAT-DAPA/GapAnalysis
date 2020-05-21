@@ -4,29 +4,26 @@
 \alias{indicator}
 \title{Using Ex-situ and In-situ gap analysis results to calculate the conservation indicator value}
 \usage{
-indicator(Species_list, FCSc_mean_df)
+indicator(FCSc_mean_df)
 }
 \arguments{
-\item{Species_list}{A species list to calculate metrics.}
-
-\item{FCSc_mean_df}{A data frame object result of the function FCSc_mean
-Species_list,FCSc_mean_df}
+\item{FCSc_mean_df}{A data frame object result of the function FCSc_mean}
 }
 \value{
 this function returns a data frame object with the following columns:
 
 \tabular{lcc}{
- opt \tab \cr
- N_HP \tab \cr
- N_MP \tab \cr
- N_LP \tab \cr
- N_SC \tab \cr
- N_LP_SC  \tab \cr
- P_HP \tab \cr
- P_MP \tab \cr
- P_LP \tab \cr
- P_SC \tab \cr
- P_LP_SC \tab \cr
+ opt \tab Final conservation score option \cr
+ count_HP \tab Count of species in high priority status for collecting \cr
+ count_MP \tab Count of species in medium priority status for collecting  \cr
+ count_LP \tab Count of species in low priority status for collecting  \cr
+ count_SC \tab Count of species sufficiently collected  \cr
+ count_LP_SC Count of species sufficiently collected or in low  priority status for collecting   \tab \cr
+ proportion_HP Proportion of species in high priority status for collecting\tab \cr
+ proportion_MP \tab Proportion of species in medium priority status for collecting   \cr
+ proportion_LP \tab Proportion of species in low priority status for collecting \cr
+ proportion_SC \  Proportion of species sufficiently collected  \cr
+ proportion_CP_SC \tab Proportion of species sufficiently collected or in low  priority status for collecting (Indicator) \cr
 }
 }
 \description{
@@ -51,8 +48,7 @@ FCSex_df <- FCSex(Species_list=Cucurbita_splist,
                   Occurrence_data=CucurbitaData,
                   Raster_list=CucurbitaRasters,
                   Buffer_distance=50000,
-                  Ecoregions_shp=ecoregions,
-                  Gap_MapEx=FALSE)
+                  Ecoregions_shp=ecoregions)
 
 
 #Running all three In-situ gap analysis steps using FCSin function
@@ -66,7 +62,7 @@ FCSin_df <- FCSin(Species_list=Cucurbita_splist,
 FCSc_mean_df <- FCSc_mean(FCSex_df = FCSex_df,FCSin_df = FCSin_df)
 
 
-indicator_df  <- indicator(Species_list, FCSc_mean_df)
+indicator_df  <- indicator(FCSc_mean_df)
 
 }
 \references{

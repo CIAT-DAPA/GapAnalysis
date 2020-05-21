@@ -9,7 +9,8 @@ ERSex(
   Occurrence_data,
   Raster_list,
   Buffer_distance = 50000,
-  Ecoregions_shp = NULL
+  Ecoregions_shp = NULL,
+  Gap_Map = NULL
 )
 }
 \arguments{
@@ -24,11 +25,15 @@ loaded in raster format. This list must match the same order of the species list
 \item{Buffer_distance}{Geographical distance used to create circular buffers around germplasm.
 Default: 50000 that is 50 km around germplasm accessions (CA50)}
 
-\item{Ecoregions_shp}{A shapefile representing Ecoregionsions information with a field ECO_NUM representing Ecoregionsions Ids.
+\item{Ecoregions_shp}{A shapefile representing Ecoregionsions information with a field ECO_ID_U representing Ecoregionsions Ids.
 If Ecoregions=NULL the function will use a shapefile provided for your use after run GetDatasets()}
+
+\item{Gap_Map}{Default=FALSE, This option will calculate gap maps for each species analyzed and will retun a list
+with two slots ERSex and gap_maps, or three slots ERSex, buffer_list, and gap_maps}
 }
 \value{
-This function returns a data frame with two columns:
+This function returns a list with a data frame with two columns described below, a list with geographical buffers around germplasm accessions
+and if Gap_Map=TRUE, a third element in the list with collecring rasters will be provided.
 
 \tabular{lcc}{
 species \tab Species name \cr
@@ -56,7 +61,8 @@ ERSex_df <- ERSex(Species_list = Cucurbita_splist,
                     Occurrence_data = CucurbitaData,
                     Raster_list = CucurbitaRasters,
                     Buffer_distance = 50000,
-                    Ecoregions_shp=ecoregions)
+                    Ecoregions_shp=ecoregions,
+                    Gap_Map=NULL)
 
 }
 \references{

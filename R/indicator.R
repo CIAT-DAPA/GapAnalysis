@@ -2,24 +2,21 @@
 #' @name indicator
 #' @description This function uses a data.frame resulting from the function FCSc_mean and
 #'  computes a conservation progress indicator.
-#'
-#' @param Species_list A species list to calculate metrics.
 #' @param FCSc_mean_df A data frame object result of the function FCSc_mean
-#'Species_list,FCSc_mean_df
 #' @return this function returns a data frame object with the following columns:
 #'
 #' \tabular{lcc}{
-#'  opt \tab \cr
-#'  N_HP \tab \cr
-#'  N_MP \tab \cr
-#'  N_LP \tab \cr
-#'  N_SC \tab \cr
-#'  N_LP_SC  \tab \cr
-#'  P_HP \tab \cr
-#'  P_MP \tab \cr
-#'  P_LP \tab \cr
-#'  P_SC \tab \cr
-#'  P_LP_SC \tab \cr
+#'  opt \tab Final conservation score option \cr
+#'  count_HP \tab Count of species in high priority status for collecting \cr
+#'  count_MP \tab Count of species in medium priority status for collecting  \cr
+#'  count_LP \tab Count of species in low priority status for collecting  \cr
+#'  count_SC \tab Count of species sufficiently collected  \cr
+#'  count_LP_SC Count of species sufficiently collected or in low  priority status for collecting   \tab \cr
+#'  proportion_HP Proportion of species in high priority status for collecting\tab \cr
+#'  proportion_MP \tab Proportion of species in medium priority status for collecting   \cr
+#'  proportion_LP \tab Proportion of species in low priority status for collecting \cr
+#'  proportion_SC \  Proportion of species sufficiently collected  \cr
+#'  proportion_CP_SC \tab Proportion of species sufficiently collected or in low  priority status for collecting (Indicator) \cr
 #' }
 #'
 #' @examples
@@ -40,8 +37,7 @@
 #'                   Occurrence_data=CucurbitaData,
 #'                   Raster_list=CucurbitaRasters,
 #'                   Buffer_distance=50000,
-#'                   Ecoregions_shp=ecoregions,
-#'                   Gap_MapEx=FALSE)
+#'                   Ecoregions_shp=ecoregions)
 #'
 #'
 #' #Running all three In-situ gap analysis steps using FCSin function
@@ -55,7 +51,7 @@
 #' FCSc_mean_df <- FCSc_mean(FCSex_df = FCSex_df,FCSin_df = FCSin_df)
 #'
 #'
-#' indicator_df  <- indicator(Species_list, FCSc_mean_df)
+#' indicator_df  <- indicator(FCSc_mean_df)
 #'
 #'@references
 #' Khoury, C. K., Amariles, D., Soto, J. S., Diaz, M. V., Sotelo, S., Sosa, C. C., … Jarvis, A. (2019).
@@ -65,7 +61,7 @@
 #' @export
 
 
-indicator <- function(Species_list,FCSc_mean_df) {
+indicator <- function(FCSc_mean_df) {
 
   opt=c("min","max","mean","in","ex")
   data_all <- FCSc_mean_df
@@ -81,7 +77,7 @@ indicator <- function(Species_list,FCSc_mean_df) {
     lp_n <- length(which(tvec %in% c("LP")))
     sc_n <- length(which(tvec %in% c("SC")))
     indic <- lp_n + sc_n
-    tdf <- data.frame(opt=opt[i],N_HP=hp_n,N_MP=mp_n,N_LP=lp_n,N_SC=sc_n,N_LP_SC=indic)
+    tdf <- data.frame(opt=opt[i],count_HP=hp_n,count_MP=mp_n,count_LP=lp_n,count_SC=sc_n,count_LP_SC=indic)
     out_df <- rbind(out_df, tdf)
   }
 
@@ -125,7 +121,7 @@ indicator <- function(Species_list,FCSc_mean_df) {
     lp_n <- length(which(tvec %in% c("LP")))
     sc_n <- length(which(tvec %in% c("SC")))
     indic <- lp_n + sc_n
-    out_df_ex <- data.frame(opt="exsitu",N_HP=hp_n,N_MP=mp_n,N_LP=lp_n,N_SC=sc_n,N_LP_SC=indic)
+    out_df_ex <- data.frame(opt="exsitu",count_HP=hp_n,count_MP=mp_n,count_LP=lp_n,count_SC=sc_n,count_LP_SC=indic)
     out_df <- rbind(out_df, out_df_ex)
     #out_df[5,2:6] <- out_df_ex[1,2:6]
   }
@@ -140,18 +136,18 @@ indicator <- function(Species_list,FCSc_mean_df) {
     lp_n <- length(which(tvec %in% c("LP")))
     sc_n <- length(which(tvec %in% c("SC")))
     indic <- lp_n + sc_n
-    out_df_in <- data.frame(opt="insitu",N_HP=hp_n,N_MP=mp_n,N_LP=lp_n,N_SC=sc_n,N_LP_SC=indic)
+    out_df_in <- data.frame(opt="insitu",count_HP=hp_n,count_MP=mp_n,count_LP=lp_n,count_SC=sc_n,count_LP_SC=indic)
     out_df <- rbind(out_df, out_df_in)
     #out_df[4,2:6] <- out_df_in[1,2:6]
 
   }
 
   #calculate percentages
-  out_df$P_HP <- out_df$N_HP / nrow(data_all) * 100
-  out_df$P_MP <- out_df$N_MP / nrow(data_all) * 100
-  out_df$P_LP <- out_df$N_LP / nrow(data_all) * 100
-  out_df$P_SC <- out_df$N_SC / nrow(data_all) * 100
-  out_df$P_LP_SC <- out_df$N_LP_SC / nrow(data_all) * 100
+  out_df$proportion_HP <- out_df$count_HP / nrow(data_all) * 100
+  out_df$proportion_MP <- out_df$count_MP / nrow(data_all) * 100
+  out_df$proportion_LP <- out_df$count_LP / nrow(data_all) * 100
+  out_df$proportion_SC <- out_df$count_SC / nrow(data_all) * 100
+  out_df$proportion_CP_SC <- out_df$count_LP_SC / nrow(data_all) * 100
 
   out_df<-out_df[-c(4,5), ]
   return(out_df)

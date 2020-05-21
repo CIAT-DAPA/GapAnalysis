@@ -92,16 +92,25 @@ FCSex <- function(Species_list, Occurrence_data, Raster_list, Buffer_distance=50
   GRSex_df <- GRSex(Occurrence_data = Occurrence_data,
                      Species_list = Species_list,
                     Raster_list = Raster_list,
-                    Buffer_distance = Buffer_distance)
+                    Buffer_distance = Buffer_distance,
+                    Gap_Map=NULL)
   # call ERSex
   ERSex_df <- ERSex(Species_list = Species_list,
                      Occurrence_data = Occurrence_data,
                     Raster_list = Raster_list,
                     Buffer_distance = Buffer_distance,
-                    Ecoregions_shp=Ecoregions_shp)
+                    Ecoregions_shp=Ecoregions_shp,
+                    Gap_Map=NULL)
 
   # join the dataframes base on species
-  FCSex_df <- dplyr::left_join(SRSex_df, GRSex_df, by ="species")
+
+  if(class(GRSex_df)!="list"){
+    FCSex_df <- dplyr::left_join(SRSex_df, GRSex_df, by ="species")
+  } else {
+    FCSex_df <- dplyr::left_join(SRSex_df, GRSex_df$GRSex, by ="species")
+  }
+
+
   FCSex_df <- dplyr::left_join(FCSex_df, ERSex_df$ERSex, by = "species") #%>%
   #    dplyr::select("species","SRSex", "GRSex", "ERSex")
   # calculate the mean value for each row to determine fcs per species

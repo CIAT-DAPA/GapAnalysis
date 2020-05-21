@@ -9,8 +9,7 @@ FCSex(
   Occurrence_data,
   Raster_list,
   Buffer_distance = 50000,
-  Ecoregions_shp = NULL,
-  Gap_MapEx = NULL
+  Ecoregions_shp = NULL
 )
 }
 \arguments{
@@ -27,9 +26,6 @@ Default: 50000 that is 50 km around germplasm accessions (CA50)}
 
 \item{Ecoregions_shp}{A shapefile representing ecoregions information with a field ECO_NUM representing ecoregions Ids.
 If ecoReg=NULL the funtion will use a shapefile provided for your use after run GetDatasets()}
-
-\item{Gap_MapEx}{Default=FALSE, This option will calculate gap maps for each species analyzed and will retun a list
-with two slots FCSex and gap_maps}
 }
 \value{
 This function returns a list with gap maps if Gap_MapEx=TRUE. Otherwise, it returns a data frame
@@ -66,8 +62,7 @@ FCSex_df <- FCSex(Species_list=Cucurbita_splist,
                                       Occurrence_data=CucurbitaData,
                                       Raster_list=CucurbitaRasters,
                                       Buffer_distance=50000,
-                                      Ecoregions_shp=ecoregions,
-                                      Gap_MapEx=FALSE)
+                                      Ecoregions_shp=ecoregions)
 
 }
 \references{
