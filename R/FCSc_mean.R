@@ -77,35 +77,35 @@ FCSc_mean <- function(FCSex_df, FCSin_df) {
   }
   #join datasets and select necessary Columns
   df <- dplyr::left_join(x = FCSex_df, y = FCSin_df, by = "species")
-  df <-  df[,c("species", "FCSex", "FCSin")]
+  df <-  df[,c("species", "FCSex","FCSex_class", "FCSin", "FCSin_class")]
 
 
   for(i in seq_len(nrow(df))){
-    #compute FCSc_min and FCSc_max
-    df$FCSc_min[i] <- min(c(df$FCSex[i],df$FCSin[i]),na.rm=TRUE)
-    df$FCSc_max[i] <- max(c(df$FCSex[i],df$FCSin[i]),na.rm=TRUE)
+    #compute FCS_min and FCS_min
+    df$FCS_min[i] <- min(c(df$FCSex[i],df$FCSin[i]),na.rm=TRUE)
+    df$FCS_max[i] <- max(c(df$FCSex[i],df$FCSin[i]),na.rm=TRUE)
     df$FCSc_mean[i] <- mean(c(df$FCSex[i],df$FCSin[i]),na.rm=TRUE)
 
     #assign classes (min)
-    if (df$FCSc_min[i] < 25) {
-      df$FCSc_min_class[i] <- "HP"
-    } else if (df$FCSc_min[i] >= 25 & df$FCSc_min[i] < 50) {
-      df$FCSc_min_class[i] <- "MP"
-    } else if (df$FCSc_min[i] >= 50 & df$FCSc_min[i] < 75) {
-      df$FCSc_min_class[i] <- "LP"
+    if (df$FCS_min[i] < 25) {
+      df$FCS_min_class[i] <- "HP"
+    } else if (df$FCS_min[i] >= 25 & df$FCS_min[i] < 50) {
+      df$FCS_min_class[i] <- "MP"
+    } else if (df$FCS_min[i] >= 50 & df$FCS_min[i] < 75) {
+      df$FCS_min_class[i] <- "LP"
     } else {
-      df$FCSc_min_class[i] <- "SC"
+      df$FCS_min_class[i] <- "SC"
     }
 
     #assign classes (max)
-    if (df$FCSc_max[i] < 25) {
-      df$FCSc_max_class[i] <- "HP"
-    } else if (df$FCSc_max[i] >= 25 & df$FCSc_max[i] < 50) {
-      df$FCSc_max_class[i] <- "MP"
-    } else if (df$FCSc_max[i] >= 50 & df$FCSc_max[i] < 75) {
-      df$FCSc_max_class[i] <- "LP"
+    if (df$FCS_max[i] < 25) {
+      df$FCS_max_class[i] <- "HP"
+    } else if (df$FCS_max[i] >= 25 & df$FCS_max[i] < 50) {
+      df$FCS_max_class[i] <- "MP"
+    } else if (df$FCS_max[i] >= 50 & df$FCS_max[i] < 75) {
+      df$FCS_max_class[i] <- "LP"
     } else {
-      df$FCSc_max_class[i] <- "SC"
+      df$FCS_max_class[i] <- "SC"
     }
 
     #assign classes (mean)
