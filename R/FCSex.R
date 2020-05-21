@@ -117,5 +117,19 @@ FCSex <- function(Species_list, Occurrence_data, Raster_list, Buffer_distance=50
   for(i in seq_len(nrow(FCSex_df))){
     FCSex_df$FCSex[i] <- base::mean(c(FCSex_df$SRSex[i], FCSex_df$GRSex[i], FCSex_df$ERSex[i]))
   };rm(i)
+  #assign classes (exsitu)
+  FCSex_df$FCSex_class <- NA
+  for (i in 1:nrow(FCSex_df)) {
+    if (FCSex_df$FCSex[i] < 25) {
+      FCSex_df$FCSex_class[i] <- "HP"
+    } else if (FCSex_df$FCSex[i] >= 25 & FCSex_df$FCSex[i] < 50) {
+      FCSex_df$FCSex_class[i] <- "MP"
+    } else if (FCSex_df$FCSex[i] >= 50 & FCSex_df$FCSex[i] < 75) {
+      FCSex_df$FCSex_class[i] <- "LP"
+    } else {
+      FCSex_df$FCSex_class[i] <- "SC"
+    }
+  }
+  
   return(FCSex_df)
 }

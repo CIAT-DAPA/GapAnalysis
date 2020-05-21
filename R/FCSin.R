@@ -137,7 +137,21 @@ FCSin <- function(Species_list, Occurrence_data, Raster_list,Ecoregions_shp=NULL
     for(i in seq_len(nrow(FCSin_df))){
       FCSin_df$FCSin[i] <- base::mean(c(FCSin_df$SRSin[i], FCSin_df$GRSin[i], FCSin_df$ERSin[i]))
     };rm(i)
-
+  #assign classes (exsitu)
+  FCSin_df$FCSin_class <- NA
+  for (i in 1:nrow(FCSin_df)) {
+    if (FCSin_df$FCSin[i] < 25) {
+      FCSin_df$FCSin_class[i] <- "HP"
+    } else if (FCSin_df$FCSin[i] >= 25 & FCSin_df$FCSin[i] < 50) {
+      FCSin_df$FCSin_class[i] <- "MP"
+    } else if (FCSin_df$FCSin[i] >= 50 & FCSin_df$FCSin[i] < 75) {
+      FCSin_df$FCSin_class[i] <- "LP"
+    } else {
+      FCSin_df$FCSin_class[i] <- "SC"
+    }
+  }
+  
+  
   #Gap_MapIn
 
   if(Gap_MapIn==T){

@@ -58,8 +58,6 @@
 #' @importFrom sp coordinates proj4string SpatialPoints over CRS
 
 
-
-
 ERSex <- function(Species_list,Occurrence_data, Raster_list, Buffer_distance=50000,Ecoregions_shp=NULL, Gap_Map=NULL) {
 
   taxon <- NULL
@@ -72,15 +70,6 @@ ERSex <- function(Species_list,Occurrence_data, Raster_list, Buffer_distance=500
   ecoValsPro <- NULL
 
   buffer_list <- list()
-#load packages
-# suppressMessages(require(sp))
-# suppressMessages(require(raster))
-# suppressMessages(require(dplyr))
-# suppressMessages(require(tidyr))
-
-#importFrom("methods", "as")
-#importFrom("stats", "complete.cases", "filter", "median")
-#importFrom("utils", "data", "memory.limit", "read.csv", "write.csv")
 
   #Checking Occurrence_data format
   par_names <- c("taxon","latitude","longitude","type")
@@ -104,9 +93,10 @@ ERSex <- function(Species_list,Occurrence_data, Raster_list, Buffer_distance=500
   }
   # load in ecoregions dataset
   # Load in ecoregions shp
+  print(missing(Ecoregions_shp))
   if(is.null(Ecoregions_shp)){
-    if(file.exists(system.file("data/preloaded_data/ecoRegion/tnc_terr_ecoregions.shp",package = "GapAnalysis"))){
-      Ecoregions_shp <- raster::shapefile(system.file("data/preloaded_data/ecoRegion/tnc_terr_ecoregions.shp", package = "GapAnalysis"),encoding = "UTF-8")
+    if(file.exists(system.file("preloaded_data/ecoRegion/tnc_terr_ecoregions.shp",package = "GapAnalysis"))){
+      Ecoregions_shp <- raster::shapefile(system.file("preloaded_data/ecoRegion/tnc_terr_ecoregions.shp", package = "GapAnalysis"),encoding = "UTF-8")
     } else {
       stop("Ecoregions file is not available yet. Please run the function GetDatasets() and try again")
     }
@@ -124,12 +114,9 @@ ERSex <- function(Species_list,Occurrence_data, Raster_list, Buffer_distance=500
   df <- data.frame(matrix(ncol = 2, nrow = length(Species_list)))
   colnames(df) <- c("species", "ERSex")
 
-  # loop through all species
+  # loop through all species calculate ERS and produce map 
   for(i in seq_len(length(Species_list))){
     speciesOcc <- Occurrence_data[which(Occurrence_data$taxon==Species_list[i]),]
-    # speciesOcc <- Occurrence_data %>%
-    #   #tidyr::drop_na(longitude)%>%
-    #   dplyr::filter(taxon == Species_list[i])
     if(length(speciesOcc$type == "G") == 0){
       df$species[i] <- Species_list[i]
       df$ERSex[i] <- 0
@@ -138,9 +125,6 @@ ERSex <- function(Species_list,Occurrence_data, Raster_list, Buffer_distance=500
         OccDataG <- speciesOcc
         OccDataG <- speciesOcc[which(speciesOcc$type=="G"),c("longitude","latitude")]
 
-        # OccDataG <- speciesOcc  %>%
-        #   dplyr::filter(type == "G")%>%
-        #   dplyr::select(longitude,latitude)
 
         OccDataG <- OccDataG[which(!is.na(OccDataG$latitude)),]
 
@@ -157,8 +141,7 @@ ERSex <- function(Species_list,Occurrence_data, Raster_list, Buffer_distance=500
         SdmMask[which(SdmMask[] == 0)] <- NA
 
         # buffer G points
-#     buffer <- geobuffer::geobuffer_pts(xy = occData,
-      buffer <- GapAnalysis::Gbuffer(xy = OccDataG,
+        buffer <- GapAnalysis::Gbuffer(xy = OccDataG,
                                              dist_m = Buffer_distance,
                                              output = 'sf')
         # rasterizing and making it into a mask
@@ -195,7 +178,6 @@ ERSex <- function(Species_list,Occurrence_data, Raster_list, Buffer_distance=500
           # ERSex Gap Map
           # select all ecoregions present in ecoVal(all points) but absent in ecoValG(g buffers)
           ecoGap <- ecoVals[!ecoVals %in% ecoValsG]
-          ecoGap <- ecoVal[!ecoVal %in% ecoValsPro]
           if(length(ecoGap) == 0){
             GapMapEx_list[[i]] <- paste0("All ecoregions within the model are within ", Buffer_distance,
 "km of G occurrence. There are no gaps")
