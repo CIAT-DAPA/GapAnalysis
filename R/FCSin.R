@@ -15,8 +15,6 @@
 #'  If Ecoregions_shp=NULL the funtion will use a shapefile provided for your use after run GetDatasets()
 #' @param Pro_areas A raster file representing protected areas information.
 #'  If Pro_areas=NULL the funtion will use a protected area raster file provided for your use after run GetDatasets()
-#' @param Gap_MapIn Default=FALSE, This option will calculate gap maps for each species analyzed and will retun a list
-#' with two slots FCSin and gap_maps
 #'
 #' @return This function returns a list with gap maps if Gap_MapIn=TRUE. Otherwise, it returns a data frame
 #'  summarizing the in-situ gap analysis scores:
@@ -45,8 +43,7 @@
 #'                                       Occurrence_data=CucurbitaData,
 #'                                       Raster_list=CucurbitaRasters,
 #'                                       Ecoregions_shp=ecoregions,
-#'                                       Pro_areas=ProtectedAreas,
-#'                                       Gap_MapIn=FALSE)
+#'                                       Pro_areas=ProtectedAreas)
 #'
 #'@references
 #'
@@ -74,16 +71,6 @@ FCSin <- function(Species_list, Occurrence_data, Raster_list,Ecoregions_shp=NULL
   if(identical(names(Occurrence_data),par_names)==FALSE){
     stop("Please format the column names in your dataframe as taxon,latitude,longitude,type")
   }
-
-  #Checking if GapMapIn option is a boolean
-
-  if(is.null(Gap_MapIn)| missing(Gap_MapIn)){ Gap_MapIn <- FALSE
-  } else if(Gap_MapIn==TRUE | Gap_MapIn==FALSE){
-    Gap_MapIn <- Gap_MapIn
-  } else {
-    stop("Choose a valid option for Gap_MapIn (TRUE or FALSE)")
-  }
-
 
   # load in protect area raster
   if(is.null(Pro_areas) | missing(Pro_areas)){
@@ -151,32 +138,6 @@ FCSin <- function(Species_list, Occurrence_data, Raster_list,Ecoregions_shp=NULL
     }
   }
   
-  
-  #Gap_MapIn
-
-  if(Gap_MapIn==T){
-    Gap_MapIn_list <- list()
-
-    cat("Calculating gap maps for In-situ gap analysis","\n")
-
-
-    for(i in seq_len(length(Raster_list))){
-      sdm_temp <-  Raster_list[[i]]
-      if(raster::extent(sdm_temp)!=raster::extent(Pro_areas)){
-        Pro_areas <- raster::crop(x = Pro_areas,y = sdm_temp)
-      } else {
-        Pro_areas <- Pro_areas
-      }
-
-      gap_map <- raster::overlay(Pro_areas,sdm_temp,fun=function(r1, r2){return(r1-r2)})
-      gap_map[which(gap_map[]==0)] <- NA
-      Gap_MapIn_list[[i]] <- gap_map
-      names(Gap_MapIn_list[[i]] ) <- Species_list[[i]]
-    };rm(i)
-
-    FCSin_df <- list(FCSin=FCSin_df,Gap_MapIn_list=Gap_MapIn_list)
-  } else {
-    FCSin_df <- FCSin_df
-  }
+ 
   return(FCSin_df)
   }

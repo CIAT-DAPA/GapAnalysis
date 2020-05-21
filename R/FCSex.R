@@ -111,8 +111,7 @@ FCSex <- function(Species_list, Occurrence_data, Raster_list, Buffer_distance=50
   }
 
 
-  FCSex_df <- dplyr::left_join(FCSex_df, ERSex_df$ERSex, by = "species") #%>%
-  #    dplyr::select("species","SRSex", "GRSex", "ERSex")
+  FCSex_df <- dplyr::left_join(FCSex_df, ERSex_df$ERSex, by = "species")
   # calculate the mean value for each row to determine fcs per species
   for(i in seq_len(nrow(FCSex_df))){
     FCSex_df$FCSex[i] <- base::mean(c(FCSex_df$SRSex[i], FCSex_df$GRSex[i], FCSex_df$ERSex[i]))
