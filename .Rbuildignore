@@ -22,6 +22,7 @@ visual_test
 ^_pkgdown\.yml$
 ^icons$
 ^README\.Rmd$
+^README\.md$
 ^README-.*\.png$
 ^logo\.png$
 ^appveyor\.yml$
