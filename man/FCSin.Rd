@@ -2,7 +2,7 @@
 % Please edit documentation in R/FCSin.R
 \name{FCSin}
 \alias{FCSin}
-\title{Final in-situ conservation score estimation (In-situ conservation)}
+\title{Final conservation score in situ}
 \usage{
 FCSin(
   Species_list,
@@ -21,30 +21,26 @@ and type of records (G or H) for a given species}
 \item{Raster_list}{A list representing the species distribution models for the species list provided
 loaded in raster format. This list must match the same order of the species list.}
 
-\item{Ecoregions_shp}{A shapefile representing Ecoregions_shpions information with a field ECO_NUM representing Ecoregions_shpions Ids.
-If Ecoregions_shp=NULL the funtion will use a shapefile provided for your use after run GetDatasets()}
+\item{Ecoregions_shp}{A shapefile representing Ecoregions_shp information with a field ECO_NUM
+representing Ecoregions_shp Ids.}
 
-\item{Pro_areas}{A raster file representing protected areas information.
-If Pro_areas=NULL the funtion will use a protected area raster file provided for your use after run GetDatasets()}
+\item{Pro_areas}{A raster file representing protected areas information.If Pro_areas=NULL the funtion will use
+a protected area raster file provided for your use
+after run GetDatasets()}
 }
 \value{
-This function returns a list with gap maps if Gap_MapIn=TRUE. Otherwise, it returns a data frame
- summarizing the in-situ gap analysis scores:
-
+This function returns a list with gap maps if Gap_MapIn=TRUE. Otherwise,
+it returns a data frame summarizing the in situ gap analysis scores:
 \tabular{lcc}{
 species \tab Species name \cr
-SRSin \tab In-situ sample representativeness score \cr
-GRSin \tab In-situ germplasm representativeness score \cr
-ERSin \tab In-situ environmental representativeness score \cr
-FCSin \tab In-situ final conservation score \cr
+SRSin \tab Sampling representativeness score in situ  \cr
+GRSin \tab Geographical representativeness score in situ \cr
+ERSin \tab Ecological representativeness score in situ \cr
+FCSin \tab Final conservation score in situ  \cr
 }
 }
 \description{
-TThis function allows calculate all the three In-situ gap analysis scores
-in an unique dataframe object to calculate a final priority score as
-the average of the SRSin, GRSin, and ERSin values:
-
-\deqn{FCSin = mean(SRSin,GRSin,ERSin)}
+This function calculates the average of the three in situ conservation metrics
 }
 \examples{
 ##Obtaining occurrences from example
@@ -67,11 +63,5 @@ FCSin_df <- FCSin(Species_list=Cucurbita_splist,
 
 }
 \references{
-Ramirez-Villegas, J., Khoury, C., Jarvis, A., Debouck, D. G., & Guarino, L. (2010).
-A Gap Analysis Methodology for Collecting Crop Genepools: A Case Study with Phaseolus Beans.
-PLOS ONE, 5(10), e13497. Retrieved from https://doi.org/10.1371/journal.pone.0013497
-
-Khoury, C. K., Amariles, D., Soto, J. S., Diaz, M. V., Sotelo, S., Sosa, C. C., … Jarvis, A. (2019).
-Comprehensiveness of conservation of useful wild plants: An operational indicator for biodiversity
-and sustainable development targets. Ecological Indicators. https://doi.org/10.1016/j.ecolind.2018.11.016
+Khoury et al. (2019) Diversity and Distributions 26(2):209-225. doi: 10.1111/DDI.13008
 }

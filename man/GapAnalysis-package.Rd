@@ -4,9 +4,9 @@
 \name{GapAnalysis-package}
 \alias{GapAnalysis-package}
 \alias{GapAnalysis}
-\title{GapAnalysis: A gap analysis and conservation status tool}
+\title{GapAnalysis: An R package to calculate conservation indicators using spatial information}
 \description{
-GapAnalysis is a package to provide easy calculation for conservation scores
+GapAnalysis is a an R package used to calculate ex situ and in situ conservation indicators
 }
 \details{
 \tabular{ll}{

@@ -21,11 +21,9 @@ CucurbitaData
 }
 \description{
 This dataset is a subset of the original dataset for:
- C. cordata, C. digitata and C. palmata used in Khoury et al., 2020
+ C. cordata, C. digitata and C. palmata used in Khoury et al. (2019)
 }
 \references{
-Khoury, CK, Carver, D, Kates, HR, et al. Distributions, conservation status,
-and abiotic stress tolerance potential of wild cucurbita (Cucurbita L.).
-Plants, People, Planet. 2019; 00: 1– 15. https://doi.org/10.1002/ppp3.10085
+Khoury et al. (2019) Plants, People, Planet 2(3):269-283. doi: 10.1002/ppp3.10085.
 }
 \keyword{datasets}

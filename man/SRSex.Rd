@@ -2,7 +2,7 @@
 % Please edit documentation in R/SRSex.R
 \name{SRSex}
 \alias{SRSex}
-\title{Sample representativeness score estimation (Ex-situ conservation)}
+\title{Sampling representativeness score ex situ}
 \usage{
 SRSex(Species_list, Occurrence_data)
 }
@@ -20,10 +20,11 @@ SRSex \tab SRSex value calculated\cr
 }
 }
 \description{
-This function performs an estimation of sample representativeness score
-for ex-situ gap analysis (SRSex)using Ramirez-Villegas et al., (2010) methodology
-using information from herbarium and germplasm occurrences. SRS ex-situ score is calculated as:
-\deqn{SRSex = Number of germplasm occurrences / Number of herbarium occurrences}
+The SRSex process provides a general indication of the completeness of ex situ conservation collections,
+ calculating the ratio of germplasm accessions (G) available in ex situ repositories to reference (H) records for each taxon,
+ making use of all compiled records, regardless of whether they include coordinates, with an ideal (i.e., comprehensive) conservation
+ ratio of 1:1 (Equation 1). In this and in the subsequent measurements, if no G or H records exist, taxa are automatically considered
+ to be of high priority for further conservation action and assigned a value of 0
 }
 \examples{
 ##Obtaining occurrences from example
@@ -35,11 +36,5 @@ SRSex_df <- SRSex(Species_list = Cucurbita_splist,
 
 }
 \references{
-Ramirez-Villegas, J., Khoury, C., Jarvis, A., Debouck, D. G., & Guarino, L. (2010).
-A Gap Analysis Methodology for Collecting Crop Genepools: A Case Study with Phaseolus Beans.
-PLOS ONE, 5(10), e13497. Retrieved from https://doi.org/10.1371/journal.pone.0013497
-
-Khoury, C. K., Amariles, D., Soto, J. S., Diaz, M. V., Sotelo, S., Sosa, C. C., … Jarvis, A. (2019).
-Comprehensiveness of conservation of useful wild plants: An operational indicator for biodiversity
-and sustainable development targets. Ecological Indicators. https://doi.org/10.1016/j.ecolind.2018.11.016
+Khoury et al. (2019) Ecological Indicators 98:420-429. doi: 10.1016/j.ecolind.2018.11.016
 }

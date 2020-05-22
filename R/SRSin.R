@@ -1,11 +1,8 @@
-#' @title Sample representativeness score estimation (In-situ conservation)
+#' @title Sampling representativeness score in situ
 #' @name SRSin
-#' @description This function performs an estimation of the sample representativeness
-#'  score for in situ gap analysis (SRSin) using Khoury et al., (2019) methodology.
-#'  SRSin is calculated as:
-#'  \deqn{SRSin = Number of occurrences in protected areas / Total number of occurrences}
-#'
-#' @param Species_list An species list to calculate the SRSin metrics.
+#' @description The SRSin process calculates the proportion of all occurrences of a taxon within the distribution model
+#' that fall within a protected area
+#' @param Species_list A species list to calculate the SRSin metric.
 #' @param Occurrence_data A data frame object with the species name, geographical coordinates,
 #'  and type of records (G or H) for a given species
 #' @param Raster_list A list representing the species distribution models for the species list
@@ -37,13 +34,7 @@
 #'
 #'@references
 #'
-#' Ramirez-Villegas, J., Khoury, C., Jarvis, A., Debouck, D. G., & Guarino, L. (2010).
-#' A Gap Analysis Methodology for Collecting Crop Genepools: A Case Study with Phaseolus Beans.
-#' PLOS ONE, 5(10), e13497. Retrieved from https://doi.org/10.1371/journal.pone.0013497
-#'
-#' Khoury, C. K., Amariles, D., Soto, J. S., Diaz, M. V., Sotelo, S., Sosa, C. C., … Jarvis, A. (2019).
-#' Comprehensiveness of conservation of useful wild plants: An operational indicator for biodiversity
-#' and sustainable development targets. Ecological Indicators. https://doi.org/10.1016/j.ecolind.2018.11.016
+#' Khoury et al. (2019) Diversity and Distributions 26(2):209-225. doi: 10.1111/DDI.13008.
 #'
 #' @export
 #' @importFrom raster raster crop
@@ -70,7 +61,7 @@ SRSin <- function(Species_list, Occurrence_data, Raster_list,Pro_areas=NULL){
     Raster_list <- Raster_list
   }
 
-  # Load in protect areas
+  # Load in protected areas
 
   if(is.null(Pro_areas) | missing(Pro_areas)){
     if(file.exists(system.file("data/preloaded_data/protectedArea/wdpa_reclass.tif",package = "GapAnalysis"))){
@@ -93,7 +84,7 @@ SRSin <- function(Species_list, Occurrence_data, Raster_list,Pro_areas=NULL){
         sdm <- Raster_list[[j]]
       }
     };rm(j)
-    # restrict protect areas those that are present in the model threshold
+    # restrict protected areas those that are present in the model threshold
     ##**double check about this step with jullian/chrys/colin**
     Pro_areas1 <- raster::crop(x = Pro_areas,y = sdm)
     sdm[sdm == 0]<-NA
@@ -112,7 +103,7 @@ SRSin <- function(Species_list, Occurrence_data, Raster_list,Pro_areas=NULL){
     sp::proj4string(occData1) <- sp::CRS("+proj=longlat +datum=WGS84")
     protectPoints <- sum(!is.na(raster::extract(x = Pro_areas1,y = occData1)))
 
-    #define SRS
+    #define SRSin
     if(protectPoints >= 0 ){
       SRSin <- 100 *(protectPoints/totalNum)
     }else{

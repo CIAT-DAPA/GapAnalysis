@@ -1,23 +1,22 @@
-#' @title Environmental representativeness score estimation (In-situ conservation)
+#' @title Ecological representativeness score in situ
 #' @name ERSin
-#' @description This function performs an estimation of germplasm representativeness score
-#'  for in-situ gap analysis (GRSin) using Khoury et al., (2019) methodology
-#'  This function uses a germplasm buffer raster file (e.g. CA50),
-#'  a thresholded species distribution model, and a raster file of protected areas
-#'  \deqn{ERSin = min(100,(Number of Ecoregions_shpions of germplasm occurrences in protected areas/
-#' Number of Ecoregions_shpions of predicted Habitat within protected areas)*100)}
-#'
-#' @param Species_list An species list to calculate the ERSin metrics.
+#' @description The ERSin process provides an ecological measurement of the proportion of a species range
+#'  that can be considered to be conserved in protected areas. The ERSin calculates the proportion of ecoregions
+#'  encompassed within the range of the taxon located inside protected areas to the ecoregions encompassed
+#'  within the total area of the distribution model, considering comprehensive conservation to have been accomplished
+#'  only when every ecoregion potentially inhabited by a species is included within the distribution of the species
+#'  located within a protected area.
+#'  This function uses a thresholded species distribution model, an ecoregions file, and a raster file of protected areas
+#' @param Species_list A species list to calculate the ERSin metric
 #' @param Occurrence_data A data frame object with the species name, geographical coordinates,
 #'  and type of records (G or H) for a given species
 #' @param Raster_list A list representing the species distribution models for the species list provided
 #'  loaded in raster format. This list must match the same order of the species list.
 #' @param Pro_areas A raster file representing protected areas information.
 #'  If Pro_areas=NULL the funtion will use a protected area raster file provided for your use after run GetDatasets()
-#' @param Ecoregions_shp A shapefile representing Ecoregions_shpions information with a field ECO_ID_U representing Ecoregions_shpions Ids.
-#' If Ecoregions_shp=NULL the function will use a shapefile provided for your use after run GetDatasets()
+#' @param Ecoregions_shp A shapefile representing Ecoregions_shp information with a field ECO_NUM representing Ecoregions_shp Ids.
 #' @param Gap_Map Default=FALSE, This option will calculate gap maps for each species analyzed and will retun a list
-#' with two slots ERSin and gap_maps
+#'  with two slots ERSin and gap_maps
 #' @return This function returns a data frame with two columns:
 #'
 #' \tabular{lcc}{
@@ -46,13 +45,7 @@
 #'
 #'@references
 #'
-#' Ramirez-Villegas, J., Khoury, C., Jarvis, A., Debouck, D. G., & Guarino, L. (2010).
-#' A Gap Analysis Methodology for Collecting Crop Genepools: A Case Study with Phaseolus Beans.
-#' PLOS ONE, 5(10), e13497. Retrieved from https://doi.org/10.1371/journal.pone.0013497
-#'
-#' Khoury, C. K., Amariles, D., Soto, J. S., Diaz, M. V., Sotelo, S., Sosa, C. C., … Jarvis, A. (2019).
-#' Comprehensiveness of conservation of useful wild plants: An operational indicator for biodiversity
-#' and sustainable development targets. Ecological Indicators. https://doi.org/10.1016/j.ecolind.2018.11.016
+#' Khoury et al. (2019) Ecological Indicators 98:420-429. doi: 10.1016/j.ecolind.2018.11.016
 #'
 #' @export
 #' @importFrom stats median
@@ -92,7 +85,7 @@ ERSin <- function(Species_list,Occurrence_data,Raster_list,Pro_areas=NULL,Ecoreg
   }
 
 
-  ## ERSin analyzes how well protected areas cover the maxent model with regard to ecosystems covered.
+  ## ERSin analyzes how well protected areas cover the distribution model with regard to ecosystems covered.
   df <- data.frame(matrix(ncol=2, nrow = length(Species_list)))
   colnames(df) <- c("species", "ERSin")
   # load in protect area raster
@@ -139,7 +132,7 @@ ERSin <- function(Species_list,Occurrence_data,Raster_list,Pro_areas=NULL,Ecoreg
 
     #convert protect area to points
     protectPoints <- sp::SpatialPoints(raster::rasterToPoints(Pro_areas1))
-    # extract values from Ecoregions_shpions to points
+    # extract the Ecoregions_shp values to the points
     raster::crs(protectPoints) <- raster::crs(Ecoregions_shp)
     ecoValsPro <- sp::over(x = protectPoints, y = Ecoregions_shp)
     ecoValsPro <- data.frame(ECO_ID_U=(unique(ecoValsPro$ECO_ID_U)))
@@ -160,7 +153,7 @@ ERSin <- function(Species_list,Occurrence_data,Raster_list,Pro_areas=NULL,Ecoreg
       df$species[i] <- as.character(Species_list[i])
       df$ERSin[i] <- 0
     }else{
-      # calculate ers
+      # calculate ERSin
       ERSin <- min(c(100, (ecoInProt/ecoInSDM)*100))
       df$species[i] <- as.character(Species_list[i])
       df$ERSin[i] <- ERSin
@@ -168,7 +161,7 @@ ERSin <- function(Species_list,Occurrence_data,Raster_list,Pro_areas=NULL,Ecoreg
     if(Gap_Map==T){
       cat("Calculating gap maps for ERSin gap analysis","\n")
 
-      # ERSex Gap Map
+      # ERSin Gap Map
       # select all ecoregions present in ecoVal(all points) but absent in ecoValG(g buffers)
       ecoGap <- ecoVal[!ecoVal %in% ecoValsPro]
       if(length(ecoGap) == 0){

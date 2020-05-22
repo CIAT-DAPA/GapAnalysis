@@ -9,11 +9,11 @@ GetDatasets()
 \value{
 This function downloads data required to run a full gap analysis.
  It creates the folder data_preloaded into the GapAnalysis.
-Please run this function after install the package.
+Please run this function after installing the package.
 }
 \description{
 This function creates the data_preloaded folder.
- It downloads datasets from dataverse to allow run gapAnalysis package function.
+ It downloads datasets from dataverse to allow the gapAnalysis package to function.
 }
 \examples{
 \dontrun{
@@ -22,6 +22,6 @@ GetDatasets()
 
 }
 \references{
-Khoury, CK, Carver, D, Kates, HR, et al. Distributions, conservation status, and abiotic stress tolerance potential of wild cucurbits (Cucurbita L.).
-Plants, People, Planet. 2019; 00: 1– 15. https://doi.org/10.1002/ppp3.10085
+Khoury et al. (2019) Data in Brief 22:90-97. doi: 10.1016/j.dib.2018.11.125.
+Khoury et al. (2019) Diversity and Distributions 26(2):209-225. doi: 10.1111/DDI.1300
 }

@@ -17,9 +17,4 @@ ProtectedAreas
 This dataset is a raster version of the world protected areas dataset
  used in Khoury et al., (2019)
 }
-\references{
-Khoury, C. K., Amariles, D., Soto, J. S., Diaz, M. V., Sotelo, S., Sosa, C. C., … Jarvis, A. (2019).
-Comprehensiveness of conservation of useful wild plants: An operational indicator for biodiversity
-and sustainable development targets. Ecological Indicators. https://doi.org/10.1016/j.ecolind.2018.11.016
-}
 \keyword{datasets}

@@ -1,25 +1,21 @@
-#' @title Environmental representativeness score estimation (Ex-situ conservation)
+#' @title Ecological representativeness score ex situ
 #' @name ERSex
-#' @description This function performs an estimation of the environmental representativeness
-#'  score for ex-situ gap analysis (ERSex) using Ramirez-Villegas et al., (2010) methodology.
-#' ERSex is calculated as:
-#' \deqn{ERSex = min(100,(Number of Ecoregionsions with 50km of G Occurrences /
-#'  Number of Ecoregionsions Present within the Predict habitat)*100)}
-#'
+#' @description The ERSex process provides an ecological measurement of the proportion of a species
+#'  range that can be considered to be conserved in ex situ repositories. The ERSex calculates the
+#'  proportion of terrestrial ecoregions (The Nature Conservancy Geospatial Conservation Atlas 2019)
+#'  represented within the G buffered areas out of the total number of ecoregions occupied by the distribution model.
 #' @param Occurrence_data A data frame object with the species name, geographical coordinates,
 #'  and type of records (G or H) for a given species
-#' @param Species_list An species list to calculate the ERSex metrics.
+#' @param Species_list A species list to calculate the ERSex metrics.
 #' @param Raster_list A list representing the species distribution models for the species list provided
 #'  loaded in raster format. This list must match the same order of the species list.
-#' @param Buffer_distance Geographical distance used to create circular buffers around germplasm.
-#'  Default: 50000 that is 50 km around germplasm accessions (CA50)
+#' @param Buffer_distance Geographical distance used to create circular buffers around germplasm site of collection points.
+#'  Default: 50000 (50 km) around germplasm accession coordinates (CA50)
 #' @param Ecoregions_shp A shapefile representing Ecoregionsions information with a field ECO_ID_U representing Ecoregionsions Ids.
 #'  If Ecoregions=NULL the function will use a shapefile provided for your use after run GetDatasets()
 #' @param Gap_Map Default=FALSE, This option will calculate gap maps for each species analyzed and will retun a list
 #' with two slots ERSex and gap_maps, or three slots ERSex, buffer_list, and gap_maps
-
-#' @return This function returns a list with a data frame with two columns described below, a list with geographical buffers around germplasm accessions
-#' and if Gap_Map=TRUE, a third element in the list with collecring rasters will be provided.
+#' @return This function returns a dataframe with two columns:
 #'
 #' \tabular{lcc}{
 #' species \tab Species name \cr
@@ -45,13 +41,9 @@
 #'
 #' @references
 #'
-#' Ramirez-Villegas, J., Khoury, C., Jarvis, A., Debouck, D. G., & Guarino, L. (2010).
-#' A Gap Analysis Methodology for Collecting Crop Genepools: A Case Study with Phaseolus Beans.
-#' PLOS ONE, 5(10), e13497. Retrieved from https://doi.org/10.1371/journal.pone.0013497
+#' Castañeda-Álvarez et al. (2016) Nature Plants 2(4):16022. doi: 10.1038/nplants.2016.22
+#' Khoury et al. (2019) Ecological Indicators 98:420-429. doi: 10.1016/j.ecolind.2018.11.016
 #'
-#' Khoury, C. K., Amariles, D., Soto, J. S., Diaz, M. V., Sotelo, S., Sosa, C. C., … Jarvis, A. (2019).
-#' Comprehensiveness of conservation of useful wild plants: An operational indicator for biodiversity
-#' and sustainable development targets. Ecological Indicators. https://doi.org/10.1016/j.ecolind.2018.11.016
 #' @export
 #' @importFrom raster shapefile rasterToPoints crs
 #' @importFrom  fasterize fasterize
@@ -151,7 +143,7 @@ ERSex <- function(Species_list,Occurrence_data, Raster_list, Buffer_distance=500
         buffer_list[[i]] <- buffer_rs
         names(buffer_list[[i]]) <- Species_list[i]
         gPoints <- sp::SpatialPoints(raster::rasterToPoints(buffer_rs))
-        # extract values from Ecoregionsions to points
+        # extract values from ecoregions to points
         raster::crs(gPoints) <- raster::crs(Ecoregions_shp)
 
         ecoValsG <- sp::over(x = gPoints, y = Ecoregions_shp)
@@ -165,13 +157,13 @@ ERSex <- function(Species_list,Occurrence_data, Raster_list, Buffer_distance=500
         ecoVals <- data.frame(ECO_ID_U=(unique(ecoVals$ECO_ID_U)))
         ecoVals <- ecoVals[which(!is.na(ecoVals) & ecoVals>0),]
 
-        #calculate ERS
+        #calculate ERSex
         ERSex <- min(c(100, (length(ecoValsG)/length(ecoVals))*100))
         # assign values to df
         df$species[i] <- as.character(Species_list[i])
         df$ERSex[i] <- ERSex
 
-        # number of Ecoregionsions present in model
+        # number of ecoregions present in model
         if(Gap_Map==T){
           cat("Calculating gap maps for ERSex gap analysis","\n")
 
@@ -180,7 +172,7 @@ ERSex <- function(Species_list,Occurrence_data, Raster_list, Buffer_distance=500
           ecoGap <- ecoVals[!ecoVals %in% ecoValsG]
           if(length(ecoGap) == 0){
             GapMapEx_list[[i]] <- paste0("All ecoregions within the model are within ", Buffer_distance,
-"km of G occurrence. There are no gaps")
+          "km of G occurrence. There are no gaps")
 
           }else{
           # pull selected ecoregions and mask to presence area of the model

@@ -1,8 +1,7 @@
-#' @title Joining ex situ and in situ gap analysis results in one combined conservation score
+#' @title ombining ex situ and in situ conservation gap analysis results
 #' @name FCSc_mean
-#' @description This function joins ex situ conservation scores (SRSex, GRSex, ERSex, FCSex), and in situ scores (SRSin, GRSin, ERSin, FCSin)
-#' in one unique table and calculates the combined conservation score
-#'
+#' @description This function creates a final combined conservation score by averaging the FCSex and FCSin
+#'  It also assigns priority categories based on quantitative results
 #' @param FCSex_df A data frame or a list object result of the function FCSex
 #' @param FCSin_df A data frameor a list  object result of the function FCSin
 #'
@@ -33,7 +32,7 @@
 #' ##Obtaining ecoregions shapefile
 #' data(ecoregions)
 #'
-#' #Running all three Ex-situ gap analysis steps using FCSex function
+#' #Running all three ex situ gap analysis steps using FCSex function
 #' FCSex_df <- FCSex(Species_list=Cucurbita_splist,
 #'                                       Occurrence_data=CucurbitaData,
 #'                                       Raster_list=CucurbitaRasters,
@@ -42,7 +41,7 @@
 #'                                       )
 #'
 #'
-#' #Running all three In-situ gap analysis steps using FCSin function
+#' #Running all three in situ gap analysis steps using FCSin function
 #' FCSin_df <- FCSin(Species_list=Cucurbita_splist,
 #'                                       Occurrence_data=CucurbitaData,
 #'                                       Raster_list=CucurbitaRasters,
@@ -51,9 +50,9 @@
 #'
 #' FCSc_mean_df <- FCSc_mean(FCSex_df = FCSex_df,FCSin_df = FCSin_df)
 #'
-#'@reference
-#' Khoury et al. (2019) Comprehensiveness of conservation of useful wild plants: An operational indicator for biodiversity
-#' and sustainable development targets. Ecological Indicators 98: 420-429. https://doi.org/10.1016/j.ecolind.2018.11.016
+#' @references
+#'
+#' Khoury et al. (2019) Diversity and Distributions 26(2): 209-225. doi: 10.1111/DDI.13008
 #'
 #' @export
 #' @importFrom magrittr %>%

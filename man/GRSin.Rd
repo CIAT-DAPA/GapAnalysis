@@ -2,12 +2,12 @@
 % Please edit documentation in R/GRSin.R
 \name{GRSin}
 \alias{GRSin}
-\title{Geographical representativeness score estimation (In-situ conservation)}
+\title{Geographical representativeness score in situ}
 \usage{
 GRSin(Species_list, Occurrence_data, Raster_list, Pro_areas = NULL)
 }
 \arguments{
-\item{Species_list}{An species list to calculate the GRSin metrics.}
+\item{Species_list}{A species list to calculate the GRSin metrics.}
 
 \item{Occurrence_data}{A data frame object with the species name, geographical coordinates, and type of records (G or H) for a given species}
 
@@ -25,9 +25,10 @@ GRSin \tab GRSin value calculated\cr
 }
 }
 \description{
-This function performs an estimation of germplasm representativeness score for in-situ gap analysis (GRSin) using Khoury et al., (2019) methodology
-#'  GRSIn is calculated as:
- \deqn{GRSin = min(100,(Predicted Habitat within protected areas/ Total Area of Predicted Habitat)*100)}
+The GRSin process provides a geographic measurement of the proportion of a species’ range that can be considered
+to be conserved in protected areas. The GRSin compares the area of the distribution model located within protected areas versus
+the total area of the model, considering comprehensive conservation to have been accomplished only when the entire distribution
+occurs within protected areas.
 }
 \examples{
 ##Obtaining occurrences from example
@@ -48,11 +49,5 @@ GRSin_df <- GRSin(Species_list = Cucurbita_splist,
 
 }
 \references{
-Ramirez-Villegas, J., Khoury, C., Jarvis, A., Debouck, D. G., & Guarino, L. (2010).
-A Gap Analysis Methodology for Collecting Crop Genepools: A Case Study with Phaseolus Beans.
-PLOS ONE, 5(10), e13497. Retrieved from https://doi.org/10.1371/journal.pone.0013497
-
-Khoury, C. K., Amariles, D., Soto, J. S., Diaz, M. V., Sotelo, S., Sosa, C. C., … Jarvis, A. (2019).
-Comprehensiveness of conservation of useful wild plants: An operational indicator for biodiversity
-and sustainable development targets. Ecological Indicators. https://doi.org/10.1016/j.ecolind.2018.11.016
+Khoury et al. (2019) Ecological Indicators 98:420-429. doi: 10.1016/j.ecolind.2018.11.016
 }

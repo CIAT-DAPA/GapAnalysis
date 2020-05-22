@@ -2,7 +2,7 @@
 % Please edit documentation in R/ERSin.R
 \name{ERSin}
 \alias{ERSin}
-\title{Environmental representativeness score estimation (In-situ conservation)}
+\title{Ecological representativeness score in situ}
 \usage{
 ERSin(
   Species_list,
@@ -14,7 +14,7 @@ ERSin(
 )
 }
 \arguments{
-\item{Species_list}{An species list to calculate the ERSin metrics.}
+\item{Species_list}{A species list to calculate the ERSin metric}
 
 \item{Occurrence_data}{A data frame object with the species name, geographical coordinates,
 and type of records (G or H) for a given species}
@@ -25,8 +25,7 @@ loaded in raster format. This list must match the same order of the species list
 \item{Pro_areas}{A raster file representing protected areas information.
 If Pro_areas=NULL the funtion will use a protected area raster file provided for your use after run GetDatasets()}
 
-\item{Ecoregions_shp}{A shapefile representing Ecoregions_shpions information with a field ECO_ID_U representing Ecoregions_shpions Ids.
-If Ecoregions_shp=NULL the function will use a shapefile provided for your use after run GetDatasets()}
+\item{Ecoregions_shp}{A shapefile representing Ecoregions_shp information with a field ECO_NUM representing Ecoregions_shp Ids.}
 
 \item{Gap_Map}{Default=FALSE, This option will calculate gap maps for each species analyzed and will retun a list
 with two slots ERSin and gap_maps}
@@ -40,12 +39,13 @@ ERSin \tab ERSin value calculated\cr
 }
 }
 \description{
-This function performs an estimation of germplasm representativeness score
- for in-situ gap analysis (GRSin) using Khoury et al., (2019) methodology
- This function uses a germplasm buffer raster file (e.g. CA50),
- a thresholded species distribution model, and a raster file of protected areas
- \deqn{ERSin = min(100,(Number of Ecoregions_shpions of germplasm occurrences in protected areas/
-Number of Ecoregions_shpions of predicted Habitat within protected areas)*100)}
+The ERSin process provides an ecological measurement of the proportion of a species range
+ that can be considered to be conserved in protected areas. The ERSin calculates the proportion of ecoregions
+ encompassed within the range of the taxon located inside protected areas to the ecoregions encompassed
+ within the total area of the distribution model, considering comprehensive conservation to have been accomplished
+ only when every ecoregion potentially inhabited by a species is included within the distribution of the species
+ located within a protected area.
+ This function uses a thresholded species distribution model, an ecoregions file, and a raster file of protected areas
 }
 \examples{
 ##Obtaining occurrences from example
@@ -68,11 +68,5 @@ ERSin_df <- ERSin(Species_list = Cucurbita_splist,
 
 }
 \references{
-Ramirez-Villegas, J., Khoury, C., Jarvis, A., Debouck, D. G., & Guarino, L. (2010).
-A Gap Analysis Methodology for Collecting Crop Genepools: A Case Study with Phaseolus Beans.
-PLOS ONE, 5(10), e13497. Retrieved from https://doi.org/10.1371/journal.pone.0013497
-
-Khoury, C. K., Amariles, D., Soto, J. S., Diaz, M. V., Sotelo, S., Sosa, C. C., … Jarvis, A. (2019).
-Comprehensiveness of conservation of useful wild plants: An operational indicator for biodiversity
-and sustainable development targets. Ecological Indicators. https://doi.org/10.1016/j.ecolind.2018.11.016
+Khoury et al. (2019) Ecological Indicators 98:420-429. doi: 10.1016/j.ecolind.2018.11.016
 }

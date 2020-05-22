@@ -2,7 +2,7 @@
 % Please edit documentation in R/ERSex.R
 \name{ERSex}
 \alias{ERSex}
-\title{Environmental representativeness score estimation (Ex-situ conservation)}
+\title{Ecological representativeness score ex situ}
 \usage{
 ERSex(
   Species_list,
@@ -14,7 +14,7 @@ ERSex(
 )
 }
 \arguments{
-\item{Species_list}{An species list to calculate the ERSex metrics.}
+\item{Species_list}{A species list to calculate the ERSex metrics.}
 
 \item{Occurrence_data}{A data frame object with the species name, geographical coordinates,
 and type of records (G or H) for a given species}
@@ -22,8 +22,8 @@ and type of records (G or H) for a given species}
 \item{Raster_list}{A list representing the species distribution models for the species list provided
 loaded in raster format. This list must match the same order of the species list.}
 
-\item{Buffer_distance}{Geographical distance used to create circular buffers around germplasm.
-Default: 50000 that is 50 km around germplasm accessions (CA50)}
+\item{Buffer_distance}{Geographical distance used to create circular buffers around germplasm site of collection points.
+Default: 50000 (50 km) around germplasm accession coordinates (CA50)}
 
 \item{Ecoregions_shp}{A shapefile representing Ecoregionsions information with a field ECO_ID_U representing Ecoregionsions Ids.
 If Ecoregions=NULL the function will use a shapefile provided for your use after run GetDatasets()}
@@ -32,8 +32,7 @@ If Ecoregions=NULL the function will use a shapefile provided for your use after
 with two slots ERSex and gap_maps, or three slots ERSex, buffer_list, and gap_maps}
 }
 \value{
-This function returns a list with a data frame with two columns described below, a list with geographical buffers around germplasm accessions
-and if Gap_Map=TRUE, a third element in the list with collecring rasters will be provided.
+This function returns a dataframe with two columns:
 
 \tabular{lcc}{
 species \tab Species name \cr
@@ -41,11 +40,10 @@ ERSex \tab ERSex value calculated\cr
 }
 }
 \description{
-This function performs an estimation of the environmental representativeness
- score for ex-situ gap analysis (ERSex) using Ramirez-Villegas et al., (2010) methodology.
-ERSex is calculated as:
-\deqn{ERSex = min(100,(Number of Ecoregionsions with 50km of G Occurrences /
- Number of Ecoregionsions Present within the Predict habitat)*100)}
+The ERSex process provides an ecological measurement of the proportion of a species
+ range that can be considered to be conserved in ex situ repositories. The ERSex calculates the
+ proportion of terrestrial ecoregions (The Nature Conservancy Geospatial Conservation Atlas 2019)
+ represented within the G buffered areas out of the total number of ecoregions occupied by the distribution model.
 }
 \examples{
 ##Obtaining occurrences from example
@@ -66,11 +64,6 @@ ERSex_df <- ERSex(Species_list = Cucurbita_splist,
 
 }
 \references{
-Ramirez-Villegas, J., Khoury, C., Jarvis, A., Debouck, D. G., & Guarino, L. (2010).
-A Gap Analysis Methodology for Collecting Crop Genepools: A Case Study with Phaseolus Beans.
-PLOS ONE, 5(10), e13497. Retrieved from https://doi.org/10.1371/journal.pone.0013497
-
-Khoury, C. K., Amariles, D., Soto, J. S., Diaz, M. V., Sotelo, S., Sosa, C. C., … Jarvis, A. (2019).
-Comprehensiveness of conservation of useful wild plants: An operational indicator for biodiversity
-and sustainable development targets. Ecological Indicators. https://doi.org/10.1016/j.ecolind.2018.11.016
+Castañeda-Álvarez et al. (2016) Nature Plants 2(4):16022. doi: 10.1038/nplants.2016.22
+Khoury et al. (2019) Ecological Indicators 98:420-429. doi: 10.1016/j.ecolind.2018.11.016
 }

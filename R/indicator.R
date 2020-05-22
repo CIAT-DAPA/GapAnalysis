@@ -1,4 +1,4 @@
-#' @title Conservation indicator across taxa based on ex situ and in-situ gap analysis results
+#' @title Conservation indicator across taxa based on ex situ and in situ gap analysis results
 #' @name indicator
 #' @description This function uses a data.frame resulting from the function FCSc_mean and
 #'  computes a conservation indicator across taxa.
@@ -53,8 +53,8 @@
 #' indicator_df  <- indicator(FCSc_mean_df)
 #'
 #'@references
-#' Khoury et al. (2019). Comprehensiveness of conservation of useful wild plants: An operational indicator for biodiversity
-#' and sustainable development targets. Ecological Indicators 98: 420-429. https://doi.org/10.1016/j.ecolind.2018.11.016
+#'
+#' Khoury et al. (2019) Ecological Indicators 98:420-429. doi: 10.1016/j.ecolind.2018.11.016
 #'
 #' @export
 

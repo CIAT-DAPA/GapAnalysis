@@ -2,7 +2,7 @@
 % Please edit documentation in R/FCSc_mean.R
 \name{FCSc_mean}
 \alias{FCSc_mean}
-\title{Joining ex situ and in situ gap analysis results in one combined conservation score}
+\title{ombining ex situ and in situ conservation gap analysis results}
 \usage{
 FCSc_mean(FCSex_df, FCSin_df)
 }
@@ -27,8 +27,8 @@ this function returns a data frame object with the following columns:
 }
 }
 \description{
-This function joins ex situ conservation scores (SRSex, GRSex, ERSex, FCSex), and in situ scores (SRSin, GRSin, ERSin, FCSin)
-in one unique table and calculates the combined conservation score
+This function creates a final combined conservation score by averaging the FCSex and FCSin
+ It also assigns priority categories based on quantitative results
 }
 \examples{
 ##Obtaining occurrences from example
@@ -43,7 +43,7 @@ data(ProtectedAreas)
 ##Obtaining ecoregions shapefile
 data(ecoregions)
 
-#Running all three Ex-situ gap analysis steps using FCSex function
+#Running all three ex situ gap analysis steps using FCSex function
 FCSex_df <- FCSex(Species_list=Cucurbita_splist,
                                       Occurrence_data=CucurbitaData,
                                       Raster_list=CucurbitaRasters,
@@ -52,7 +52,7 @@ FCSex_df <- FCSex(Species_list=Cucurbita_splist,
                                       )
 
 
-#Running all three In-situ gap analysis steps using FCSin function
+#Running all three in situ gap analysis steps using FCSin function
 FCSin_df <- FCSin(Species_list=Cucurbita_splist,
                                       Occurrence_data=CucurbitaData,
                                       Raster_list=CucurbitaRasters,
@@ -61,4 +61,7 @@ FCSin_df <- FCSin(Species_list=Cucurbita_splist,
 
 FCSc_mean_df <- FCSc_mean(FCSex_df = FCSex_df,FCSin_df = FCSin_df)
 
+}
+\references{
+Khoury et al. (2019) Diversity and Distributions 26(2): 209-225. doi: 10.1111/DDI.13008
 }

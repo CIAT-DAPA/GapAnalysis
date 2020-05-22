@@ -2,7 +2,7 @@
 % Please edit documentation in R/FCSex.R
 \name{FCSex}
 \alias{FCSex}
-\title{Final ex situ conservation score estimation (Ex-situ conservation)}
+\title{Final conservation score ex situ}
 \usage{
 FCSex(
   Species_list,
@@ -22,7 +22,7 @@ and type of records (G or H) for a given species}
 loaded in raster format. This list must match the same order of the species list.}
 
 \item{Buffer_distance}{Geographical distance used to create circular buffers around germplasm.
-Default: 50000 that is 50 km around germplasm accessions (CA50)}
+Default: 50000 (50 km) around germplasm accessions (CA50)}
 
 \item{Ecoregions_shp}{A shapefile representing ecoregions information with a field ECO_NUM representing ecoregions Ids.
 If ecoReg=NULL the funtion will use a shapefile provided for your use after run GetDatasets()}
@@ -33,18 +33,15 @@ summarizing the ex-situ gap analysis scores:
 
 \tabular{lcc}{
 species \tab Species name \cr
-SRSex \tab Ex-situ sample representativeness score \cr
-GRSex \tab Ex-situ germplasm representativeness score \cr
-ERSex \tab Ex-situ environmental representativeness score \cr
-FCSex \tab Ex-situ final conservation score \cr
+SRSex \tab Sampling representativeness score ex situ \cr
+GRSex \tab Geographical representativeness score ex situ \cr
+ERSex \tab Ecological representativeness score ex situ \cr
+FCSex \tab Final conservation score ex situ  \cr
 }
 }
 \description{
-This function allows calculate all the three Ex-situ gap analysis scores
-  in one unique function returning a final conservation score summary table.
-  The final priority score is calculated as the average of the SRSex, GRSex, and ERSex values:
-
-\deqn{FCSex = mean(SRSex,GRSex,ERSex)}
+This function calculates the average of the three ex situ conservation metrics
+  returning a final conservation score summary table.
 }
 \examples{
 ##Obtaining occurrences from example
@@ -66,11 +63,5 @@ FCSex_df <- FCSex(Species_list=Cucurbita_splist,
 
 }
 \references{
-Ramirez-Villegas, J., Khoury, C., Jarvis, A., Debouck, D. G., & Guarino, L. (2010).
-A Gap Analysis Methodology for Collecting Crop Genepools: A Case Study with Phaseolus Beans.
-PLOS ONE, 5(10), e13497. Retrieved from https://doi.org/10.1371/journal.pone.0013497
-
-Khoury, C. K., Amariles, D., Soto, J. S., Diaz, M. V., Sotelo, S., Sosa, C. C., … Jarvis, A. (2019).
-Comprehensiveness of conservation of useful wild plants: An operational indicator for biodiversity
-and sustainable development targets. Ecological Indicators. https://doi.org/10.1016/j.ecolind.2018.11.016
+Khoury et al. (2019) Ecological Indicators 98:420-429. doi: 10.1016/j.ecolind.2018.11.016
 }

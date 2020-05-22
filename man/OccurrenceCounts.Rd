@@ -2,7 +2,7 @@
 % Please edit documentation in R/OccurrenceCounts.R
 \name{OccurrenceCounts}
 \alias{OccurrenceCounts}
-\title{Generating Species Count Data Frame}
+\title{Generating counts dataframe for taxa}
 \usage{
 OccurrenceCounts(species, Occurrence_data)
 }
@@ -17,19 +17,19 @@ This function returns a data frame object with the following columns:
 
 \tabular{lcc}{
  species \tab Species name \cr
- totalRecords  \tab Total records available \cr
+ totalRecords  \tab Total number of records  \cr
  hasLat  \tab Number of occurrences with latitude \cr
  hasLon  \tab Number of occurrences with longitude \cr
- totalUseful  \tab Number of occurrences with latitude and longitude \cr
- totalGRecords  \tab Number of G occurrences \cr
- totalGUseful  \tab Number of occurrences with latitude and longitude \cr
+ totalUseful  \tab Number of occurrences with coordinates \cr
+ totalGRecords  \tab Number of occurrences \cr
+ totalGUseful  \tab Number of G occurrences with coordinates \cr
  totalHRecords  \tab Number of H occurrences \cr
- totalHUseful  \tab Number of occurrences with latitude and longitude \cr
+ totalHUseful  \tab Number of H occurrences with coordinates \cr
  }
 }
 \description{
-This function creates a summary file the summarizes
- the total number of germplasm and herbarium occurrences
+This function creates a summary file counting
+ the total number of G and H occurrences, including those with coordinates
 }
 \examples{
 \dontrun{
@@ -39,12 +39,7 @@ Cucurbita_splist <- unique(CucurbitaData$taxon)
 }
 }
 \references{
-Ramirez-Villegas, J., Khoury, C., Jarvis, A., Debouck, D. G., & Guarino, L. (2010).
-A Gap Analysis Methodology for Collecting Crop Genepools: A Case Study with Phaseolus Beans.
-PLOS ONE, 5(10), e13497. Retrieved from https://doi.org/10.1371/journal.pone.0013497
-
-Khoury, C. K., Amariles, D., Soto, J. S., Diaz, M. V., Sotelo, S., Sosa, C. C., … Jarvis, A. (2019).
-Comprehensiveness of conservation of useful wild plants: An operational indicator for biodiversity
-and sustainable development targets. Ecological Indicators. https://doi.org/10.1016/j.ecolind.2018.11.016
+Ramirez-Villegas et al. (2010) PLOS ONE, 5(10), e13497. doi: 10.1371/journal.pone.0013497
+Khoury et al. 2019) Ecological Indicators 98: 420-429. doi: 10.1016/j.ecolind.2018.11.016
 }
 \keyword{internal}
