@@ -3,12 +3,13 @@
 #' @description The SRSex process provides a general indication of the completeness of ex situ conservation collections,
 #'  calculating the ratio of germplasm accessions (G) available in ex situ repositories to reference (H) records for each taxon,
 #'  making use of all compiled records, regardless of whether they include coordinates, with an ideal (i.e., comprehensive) conservation
-#'  ratio of 1:1 (Equation 1). In this and in the subsequent measurements, if no G or H records exist, taxa are automatically considered
-#'  to be of high priority for further conservation action and assigned a value of 0
+#'  ratio of 1:1. In this and in the subsequent measurements, if no G or H records exist, taxa are automatically considered
+#'  to be of high priority for further conservation action and assigned a value of 0. If there are more G than H records, 
+#' SRSex is set to 100.
 #'
 #' @param Occurrence_data  A data frame object with the species name, geographical coordinates,
 #'  and type of records (G or H) for a given species
-#' @param Species_list An species list to calculate the SRSex metrics.
+#' @param Species_list A species list to calculate the SRSex metrics.
 #'
 #' @return This function returns a data frame with two columns:
 #' \tabular{lcc}{
