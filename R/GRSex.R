@@ -8,7 +8,7 @@
 #'  and type of records (G or H) for a given species
 #' @param Species_list A species list to calculate the GRSex metrics.
 #' @param Raster_list A list representing the species distribution models for the species list provided
-#'  loaded in raster format. This list must match the same order of the species list.
+#'  loaded in raster format. This list must match the same order as the species list.
 #' @param Buffer_distance Geographical distance used to create circular buffers around germplasm.
 #'  Default: 50000 (50 km) around germplasm accessions (CA50)
 #' @param Gap_Map Default=FALSE, This option will calculate gap maps for each species analyzed and will retun a list
@@ -125,10 +125,10 @@ GRSex <- function(Species_list, Occurrence_data, Raster_list, Buffer_distance=50
     df$species[i] <- as.character(Species_list[i])
     df$GRSex[i] <- GRSex
 
-    #GapMapEx
+    #GRSex gap map
 
     if(Gap_Map==T){
-      cat("Calculating gap maps for Ex-situ gap analysis","\n")
+      cat("Calculating gap maps for GRSex","\n")
       bf2 <- buffer_rs
       bf2[is.na(bf2),] <- 0
       gap_map <- sdmMask - bf2
