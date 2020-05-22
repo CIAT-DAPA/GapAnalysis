@@ -6,12 +6,12 @@
 #'  within the total area of the distribution model, considering comprehensive conservation to have been accomplished
 #'  only when every ecoregion potentially inhabited by a species is included within the distribution of the species
 #'  located within a protected area.
-#'  This function uses a thresholded species distribution model, an ecoregions file, and a raster file of protected areas
+#'  This function uses a thresholded species distribution model, an ecoregions file, and a protected areas file
 #' @param Species_list A species list to calculate the ERSin metric
 #' @param Occurrence_data A data frame object with the species name, geographical coordinates,
 #'  and type of records (G or H) for a given species
 #' @param Raster_list A list representing the species distribution models for the species list provided
-#'  loaded in raster format. This list must match the same order of the species list.
+#'  loaded in raster format. This list must match the same order as the species list.
 #' @param Pro_areas A raster file representing protected areas information.
 #'  If Pro_areas=NULL the funtion will use a protected area raster file provided for your use after run GetDatasets()
 #' @param Ecoregions_shp A shapefile representing Ecoregions_shp information with a field ECO_NUM representing Ecoregions_shp Ids.
@@ -85,7 +85,7 @@ ERSin <- function(Species_list,Occurrence_data,Raster_list,Pro_areas=NULL,Ecoreg
   }
 
 
-  ## ERSin analyzes how well protected areas cover the distribution model with regard to ecosystems covered.
+  ## ERSin analyzes how well protected areas cover the distribution model with regard to ecosystems covered
   df <- data.frame(matrix(ncol=2, nrow = length(Species_list)))
   colnames(df) <- c("species", "ERSin")
   # load in protect area raster
@@ -162,7 +162,7 @@ ERSin <- function(Species_list,Occurrence_data,Raster_list,Pro_areas=NULL,Ecoreg
       cat("Calculating gap maps for ERSin gap analysis","\n")
 
       # ERSin Gap Map
-      # select all ecoregions present in ecoVal(all points) but absent in ecoValG(g buffers)
+      # select all ecoregions present in ecoVal (all points) but absent in ecoValG (g buffers)
       ecoGap <- ecoVal[!ecoVal %in% ecoValsPro]
       if(length(ecoGap) == 0){
         GapMapIn_list[[i]] <- "All ecoregions within the model contain protected areas. There are no gaps"
