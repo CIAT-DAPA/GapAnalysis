@@ -1,4 +1,4 @@
-#' @title Conservation indicator across taxa based on ex situ and in situ gap analysis results
+#' @title Conservation indicator across taxa based on gap analysis results
 #' @name indicator
 #' @description This function uses a data.frame resulting from the function FCSc_mean and
 #'  computes a conservation indicator across taxa.
