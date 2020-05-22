@@ -1,4 +1,4 @@
-#' @title ombining ex situ and in situ conservation gap analysis results
+#' @title Combining ex situ and in situ gap analyses
 #' @name FCSc_mean
 #' @description This function creates a final combined conservation score by averaging the FCSex and FCSin
 #'  It also assigns priority categories based on quantitative results
