@@ -15,7 +15,7 @@
 #'  hasLat  \tab Number of occurrences with latitude \cr
 #'  hasLon  \tab Number of occurrences with longitude \cr
 #'  totalUseful  \tab Number of occurrences with coordinates \cr
-#'  totalGRecords  \tab Number of occurrences \cr
+#'  totalGRecords  \tab Number of G occurrences \cr
 #'  totalGUseful  \tab Number of G occurrences with coordinates \cr
 #'  totalHRecords  \tab Number of H occurrences \cr
 #'  totalHUseful  \tab Number of H occurrences with coordinates \cr
