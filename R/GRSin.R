@@ -47,7 +47,8 @@
 
 
 
-GRSin <- function(Species_list,Occurrence_data,Raster_list,Pro_areas=NULL){
+
+GRSin <- function(Species_list,Occurrence_data,Raster_list,Pro_areas=NULL, Gap_Map=NULL){
 
 # suppressMessages(require(rgdal))
 # suppressMessages(require(raster))
@@ -71,7 +72,14 @@ GRSin <- function(Species_list,Occurrence_data,Raster_list,Pro_areas=NULL){
   } else {
     Raster_list <- Raster_list
   }
-
+  
+  #Checking if GapMapEx option is a boolean
+  if(is.null(Gap_Map) | missing(Gap_Map)){ Gap_Map <- FALSE
+  } else if(Gap_Map==TRUE | Gap_Map==FALSE){
+    Gap_Map <- Gap_Map
+  } else {
+    stop("Choose a valid option for GapMap (TRUE or FALSE)")
+  }
 
   df <- data.frame(matrix(ncol=2, nrow = length(Species_list)))
   colnames(df) <- c("species", "GRSin")
@@ -85,7 +93,12 @@ GRSin <- function(Species_list,Occurrence_data,Raster_list,Pro_areas=NULL){
   } else{
     Pro_areas <- Pro_areas
   }
-
+  
+  if(Gap_Map==T){
+    GapMapIn_list <- list()
+  }
+  
+  
   # loop over species list
   for(i in seq_len(length(Species_list))){
     # select threshold map for a given species
@@ -118,6 +131,21 @@ GRSin <- function(Species_list,Occurrence_data,Raster_list,Pro_areas=NULL){
       df$species[i] <- as.character(Species_list[i])
       df$GRSin[i] <- 0
     }
+    #GRSex gap map
+    
+    if(Gap_Map==T){
+      cat("Calculating gap maps for GRSin","\n")
+      Pro_areas1[is.na(Pro_areas1),] <-  0
+      gap_map <- sdm - Pro_areas1
+      gap_map[gap_map == 0,] <- NA
+      GapMapIn_list[[i]] <- gap_map
+      names(GapMapIn_list[[i]] ) <- Species_list[[i]]
+    }
+  }
+  if(Gap_Map==T){
+    df <- list(GRSin= df,GapMapIn_list=GapMapIn_list)
+  } else {
+    df <- df
   }
   return(df)
 }
