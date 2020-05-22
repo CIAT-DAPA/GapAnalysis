@@ -6,7 +6,7 @@
 #' @param occurrenceData A data frame object with the species name, geographical coordinates,
 #'  and type of records (G or H) for a given species
 #' @param raster_List A list representing the species distribution models for the species list provided
-#'  loaded in raster format. This list must match the same order of the species list.
+#'  loaded in raster format. This list must match the same order as the species list.
 #' @param bufferDistance Geographical distance used to create circular buffers around germplasm.
 #'  Default: 50000 that is 50 km around germplasm accessions (CA50)
 #' @param proArea A raster file representing protected areas information.
