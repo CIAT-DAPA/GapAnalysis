@@ -38,7 +38,7 @@ GetDatasets <- function(){
     cat("SKIPPING RMD FILE DOWNLOAD","\n")
   }
 
-#TNC
+#TNC ECOREGIONS
     data_tnc <- dataverse::get_dataset("doi:10.7910/DVN/WTLNRG") #TNC
     lapply(seq_len(nrow(data_tnc$files)),function(i){
       if(!file.exists(paste0(ecoRegion_dir,"/",data_tnc$files$label[[i]]))){
