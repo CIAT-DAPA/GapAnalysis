@@ -1,11 +1,12 @@
 #' @title Final conservation score in situ
 #' @name FCSin
-#' @description This function calculates the average of the three in situ conservation metrics
+#' @description This function calculates the average of the three in situ conservation metrics and 
+#' assigns a priority category based on the results
 #' @param Species_list A species list to calculate metrics.
 #' @param Occurrence_data A data frame object with the species name, geographical coordinates,
 #'  and type of records (G or H) for a given species
 #' @param Raster_list A list representing the species distribution models for the species list provided
-#'  loaded in raster format. This list must match the same order of the species list.
+#'  loaded in raster format. This list must match the same order as the species list.
 #' @param Ecoregions_shp A shapefile representing Ecoregions_shp information with a field ECO_NUM
 #'  representing Ecoregions_shp Ids.
 #' @param Pro_areas A raster file representing protected areas information.If Pro_areas=NULL the funtion will use
@@ -104,7 +105,7 @@ FCSin <- function(Species_list, Occurrence_data, Raster_list,Ecoregions_shp=NULL
                                  Gap_Map=FALSE)
 
 
-    # join the dataframes base on species
+    # join the dataframes based on species
   FCSin_df <- dplyr::left_join(SRSin_df, GRSin_df, by ="species")
   FCSin_df <- dplyr::left_join(FCSin_df, ERSin_df$ERSin, by = "species")
       #dplyr::select("species","SRSin", "GRSin", "ERSin")
