@@ -22,7 +22,7 @@
 GetDatasets <- function(){
 #LOADING FOLDER PARAMETERS
   out_dir <- system.file(package = "GapAnalysis")#"E:/EG3TC"#system.file("", package = "GapAnalysis")
-  example_dir <- paste0(out_dir,"/","preloaded_data");if(!file.exists(example_dir)){dir.create(example_dir)}
+  example_dir <- paste0(out_dir,"/","data","/","preloaded_data");if(!file.exists(example_dir)){dir.create(example_dir)}
   prot_dir <- paste0(example_dir,"/","protectedArea");if(!file.exists(prot_dir)){dir.create(prot_dir)}
   ecoRegion_dir <- paste0(example_dir,"/","ecoRegion");if(!file.exists(ecoRegion_dir)){dir.create(ecoRegion_dir)}
   dataverse_path <- "https://dataverse.harvard.edu/api/access/datafile/" #DOWNLOAD LINK
@@ -64,4 +64,3 @@ GetDatasets <- function(){
 
   return("DATASETS WERE DOWNLOADED!")
 }
-
