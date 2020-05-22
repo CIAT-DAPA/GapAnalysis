@@ -1,12 +1,12 @@
 #' @title Final conservation score ex situ
 #' @name FCSex
 #' @description This function calculates the average of the three ex situ conservation metrics
-#'   returning a final conservation score summary table.
+#'   returning a final conservation score summary table. It also assigns conservation priority categories
 #' @param Species_list A species list to calculate metrics.
 #' @param Occurrence_data A data frame object with the species name, geographical coordinates,
 #'   and type of records (G or H) for a given species
 #' @param Raster_list A list representing the species distribution models for the species list provided
-#'  loaded in raster format. This list must match the same order of the species list.
+#'  loaded in raster format. This list must match the same order as the species list.
 #' @param Buffer_distance Geographical distance used to create circular buffers around germplasm.
 #'  Default: 50000 (50 km) around germplasm accessions (CA50)
 #' @param Ecoregions_shp A shapefile representing ecoregions information with a field ECO_NUM representing ecoregions Ids.
@@ -92,7 +92,7 @@ FCSex <- function(Species_list, Occurrence_data, Raster_list, Buffer_distance=50
                     Ecoregions_shp=Ecoregions_shp,
                     Gap_Map=NULL)
 
-  # join the dataframes base on species
+  # join the dataframes based on species
 
   if(class(GRSex_df)!="list"){
     FCSex_df <- dplyr::left_join(SRSex_df, GRSex_df, by ="species")
