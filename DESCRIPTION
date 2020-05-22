@@ -1,7 +1,7 @@
 Package: GapAnalysis
 Title: Conservation Indicators using Spatial Information
 Version: 1.0
-Authors@R: c(person("Dan", "Carver", role = "aut", comment = c(ORCID = ""),
+Authors@R: c(person("Dan", "Carver", role = "aut", comment = c(ORCID = "0000-0002-1344-6357"),
                     email= "carver.dan1@gmail.com"),
              person("Chrystian", "Sosa",role = "aut", comment = c(ORCID = "0000-0002-3734-3248"),
                     email= "chrystiam.sossa@gmail.com"),
@@ -9,11 +9,8 @@ Authors@R: c(person("Dan", "Carver", role = "aut", comment = c(ORCID = ""),
                     email= "c.khoury@cgiar.org"),
              person("Julian", "Ramirez-Villegas",role = c("aut","cre"), comment = c(ORCID = "0000-0002-8044-583X"),
                     email = "J.R.Villegas@cgiar.org"))
-Description: This R library provides a consistent pipeline to calculate ex situ and in situ conservation indicators. 
- Also, it provides basic functions to allow run the gap analysis methodology based on the gap analysis methodology 
- used in developed by Ramirez-Villegas et al. (2010) and used in Khoury et al., (2019). Please note, that this 
- library does not include methods for modeling species distribution models. Predicted habitats must be provided 
- by users.
+Description: This R library was developed to support the assessment of the degree of conservation of taxa in conservation systems, 
+both in ex situ (in genebanks, botanical gardens, and other repositories) and in situ (in protected natural areas).
 URL: https://github.com/ccsosa/GapAnalysis 
 BugReports: https://github.com/ccsosa/GapAnalysis/issues
 Depends:
