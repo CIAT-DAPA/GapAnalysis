@@ -8,7 +8,7 @@
 #' @param Species_list A species list to calculate the GRSin metrics.
 #' @param Occurrence_data A data frame object with the species name, geographical coordinates, and type of records (G or H) for a given species
 #' @param Raster_list A list representing the species distribution models for the species list provided loaded in raster format.
-#'  This list must match the same order of the species list.
+#'  This list must match the same order as the species list.
 #' @param Raster_list A list representing the species distribution models for the species list provided loaded in raster format. This list must match the same order of the species list.
 #' @param Pro_areas A raster file representing protected areas information. If Pro_areas=NULL the function will use a protected area raster file
 #'  provided for your use after run GetDatasets()
@@ -75,7 +75,7 @@ GRSin <- function(Species_list,Occurrence_data,Raster_list,Pro_areas=NULL){
 
   df <- data.frame(matrix(ncol=2, nrow = length(Species_list)))
   colnames(df) <- c("species", "GRSin")
-  # load in protect area raster
+  # load in protected areas raster
   if(is.null(Pro_areas) | missing(Pro_areas)){
     if(file.exists(system.file("data/preloaded_data/protectedArea/wdpa_reclass.tif",package = "GapAnalysis"))){
       Pro_areas <- raster::raster(system.file("data/preloaded_data/protectedArea/wdpa_reclass.tif",package = "GapAnalysis"))
@@ -102,7 +102,7 @@ GRSin <- function(Species_list,Occurrence_data,Raster_list,Pro_areas=NULL){
     cell_size <- cell_size[!is.na(cell_size)]
     thrshold_area <- length(cell_size)*median(cell_size)
 
-    # mask the protected area Raster to the species distribution map and calculate area
+    # mask the protected area raster to the species distribution map and calculate area
     Pro_areas1[Pro_areas1[] == 0] <-NA
     Pro_areas1 <- Pro_areas1 * sdm1
     # calculate area
