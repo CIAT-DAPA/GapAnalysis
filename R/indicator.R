@@ -16,7 +16,7 @@
 #'  proportion_MP \tab Proportion of taxa medium priority for conservation action   \cr
 #'  proportion_LP \tab Proportion of taxa low priority for conservation action \cr
 #'  proportion_SC \  Proportion of taxa sufficiently conserved  \cr
-#'  proportion_CP_SC \tab Proportion of taxa low priority for conservation action or sufficiently conserved (indicator) \cr
+#'  proportion_LP_SC \tab Proportion of taxa low priority for conservation action or sufficiently conserved (indicator) \cr
 #' }
 #'
 #' @examples
@@ -45,8 +45,7 @@
 #'                   Occurrence_data=CucurbitaData,
 #'                   Raster_list=CucurbitaRasters,
 #'                   Ecoregions_shp=ecoregions,
-#'                   Pro_areas=ProtectedAreas,
-#'                   Gap_MapIn=FALSE)
+#'                   Pro_areas=ProtectedAreas)
 #'
 #' FCSc_mean_df <- FCSc_mean(FCSex_df = FCSex_df,FCSin_df = FCSin_df)
 #'
@@ -68,9 +67,12 @@ indicator <- function(FCSc_mean_df) {
   #make final counts for species list (combined)
   out_df <- data.frame()
   for (i in 1:length(opt)){
+    #cat(i,"\n")
     #  i <- 5
     if(i==4 | i==5){    tvec <- paste(data_all[,paste("FCS",opt[i],sep="")])
-    } else {tvec <- paste(data_all[,paste("FCSc_",opt[i],"_class",sep="")])}
+    } else if(i==3){tvec <- paste(data_all[,paste("FCSc_",opt[i],"_class",sep="")])
+    } else {
+      tvec <- paste(data_all[,paste("FCS_",opt[i],"_class",sep="")])}
     hp_n <- length(which(tvec %in% c("HP")))
     mp_n <- length(which(tvec %in% c("MP")))
     lp_n <- length(which(tvec %in% c("LP")))

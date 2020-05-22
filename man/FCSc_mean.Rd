@@ -2,7 +2,7 @@
 % Please edit documentation in R/FCSc_mean.R
 \name{FCSc_mean}
 \alias{FCSc_mean}
-\title{Combining Ex-situ and In-situ gap analysis results in one comprehensive conservation score (Summary Assessments)}
+\title{Joining ex situ and in situ gap analysis results in one combined conservation score}
 \usage{
 FCSc_mean(FCSex_df, FCSin_df)
 }
@@ -16,19 +16,19 @@ this function returns a data frame object with the following columns:
 
 \tabular{lcc}{
  species \tab Species name \cr
- FCSex \tab Ex-situ final conservation score \cr
- FCSin \tab In-situ final conservation score \cr
- FCSc_min \tab Final conservation score (mininum value between FCSin and FCSex) \cr
- FCSc_max \tab Final conservation score (maximum value between FCSin and FCSex) \cr
- FCSc_mean \tab Final conservation score (average value between FCSin and FCSex) \cr
- FCSc_min_class \tab Final conservation category using  FCSc_min value \cr
- FCSc_max_class \tab Final conservation category using  FCSc_max value \cr
- FCSc_mean_class \tab Final conservation category using  FCSc_mean value \cr
+ FCSex \tab Final conservation score ex situ  \cr
+ FCSin \tab Final conservation score in situ  \cr
+ FCS_min \tab Final conservation score (mininum value among FCSin and FCSex) \cr
+ FCS_max \tab Final conservation score (maximum value among FCSin and FCSex) \cr
+ FCSc_mean \tab Final conservation score combined (average value between FCSin and FCSex) \cr
+ FCS_min_class \tab Final conservation category using FCS_min value \cr
+ FCS_max_class \tab Final conservation category using FCS_max value \cr
+ FCSc_mean_class \tab Final conservation category using FCSc_mean value \cr
 }
 }
 \description{
-This function concatenates ex-situ conservation scores (SRSex, GRSex, ERSex,FCSex), and  in situ scores (SRSin, GRSin, ERSin,FCSin)
-in one unique table and calculate the final conservation score for a species using Khoury et al., (2019) methodology.
+This function joins ex situ conservation scores (SRSex, GRSex, ERSex, FCSex), and in situ scores (SRSin, GRSin, ERSin, FCSin)
+in one unique table and calculates the combined conservation score
 }
 \examples{
 ##Obtaining occurrences from example
@@ -57,18 +57,8 @@ FCSin_df <- FCSin(Species_list=Cucurbita_splist,
                                       Occurrence_data=CucurbitaData,
                                       Raster_list=CucurbitaRasters,
                                       Ecoregions_shp=ecoregions,
-                                      Pro_areas=ProtectedAreas,
-                                      Gap_MapIn=FALSE)
+                                      Pro_areas=ProtectedAreas)
 
 FCSc_mean_df <- FCSc_mean(FCSex_df = FCSex_df,FCSin_df = FCSin_df)
 
-}
-\references{
-Ramirez-Villegas, J., Khoury, C., Jarvis, A., Debouck, D. G., & Guarino, L. (2010).
-A Gap Analysis Methodology for Collecting Crop Genepools: A Case Study with Phaseolus Beans.
-PLOS ONE, 5(10), e13497. Retrieved from https://doi.org/10.1371/journal.pone.0013497
-
-Khoury, C. K., Amariles, D., Soto, J. S., Diaz, M. V., Sotelo, S., Sosa, C. C., … Jarvis, A. (2019).
-Comprehensiveness of conservation of useful wild plants: An operational indicator for biodiversity
-and sustainable development targets. Ecological Indicators. https://doi.org/10.1016/j.ecolind.2018.11.016
 }

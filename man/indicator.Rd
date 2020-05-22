@@ -2,7 +2,7 @@
 % Please edit documentation in R/indicator.R
 \name{indicator}
 \alias{indicator}
-\title{Using Ex-situ and In-situ gap analysis results to calculate the conservation indicator value}
+\title{Conservation indicator across taxa based on ex situ and in-situ gap analysis results}
 \usage{
 indicator(FCSc_mean_df)
 }
@@ -14,21 +14,21 @@ this function returns a data frame object with the following columns:
 
 \tabular{lcc}{
  opt \tab Final conservation score option \cr
- count_HP \tab Count of species in high priority status for collecting \cr
- count_MP \tab Count of species in medium priority status for collecting  \cr
- count_LP \tab Count of species in low priority status for collecting  \cr
- count_SC \tab Count of species sufficiently collected  \cr
- count_LP_SC Count of species sufficiently collected or in low  priority status for collecting   \tab \cr
- proportion_HP Proportion of species in high priority status for collecting\tab \cr
- proportion_MP \tab Proportion of species in medium priority status for collecting   \cr
- proportion_LP \tab Proportion of species in low priority status for collecting \cr
- proportion_SC \  Proportion of species sufficiently collected  \cr
- proportion_CP_SC \tab Proportion of species sufficiently collected or in low  priority status for collecting (Indicator) \cr
+ count_HP \tab Count of taxa high priority for conservation action \cr
+ count_MP \tab Count of taxa medium priority for conservation action \cr
+ count_LP \tab Count of taxa low priority for conservation action \cr
+ count_SC \tab Count of taxa sufficiently conserved \cr
+ count_LP_SC Count of taxa low priority for conservation action or sufficiently conserved  \tab \cr
+ proportion_HP Proportion of taxa high priority for conservation action\tab \cr
+ proportion_MP \tab Proportion of taxa medium priority for conservation action   \cr
+ proportion_LP \tab Proportion of taxa low priority for conservation action \cr
+ proportion_SC \  Proportion of taxa sufficiently conserved  \cr
+ proportion_LP_SC \tab Proportion of taxa low priority for conservation action or sufficiently conserved (indicator) \cr
 }
 }
 \description{
 This function uses a data.frame resulting from the function FCSc_mean and
- computes a conservation progress indicator.
+ computes a conservation indicator across taxa.
 }
 \examples{
 ##Obtaining occurrences from example
@@ -43,7 +43,7 @@ data(ProtectedAreas)
 ##Obtaining ecoregions shapefile
 data(ecoregions)
 
-#Running all three Ex-situ gap analysis steps using FCSex function
+#Running all three ex situ gap analysis steps using FCSex function
 FCSex_df <- FCSex(Species_list=Cucurbita_splist,
                   Occurrence_data=CucurbitaData,
                   Raster_list=CucurbitaRasters,
@@ -51,13 +51,12 @@ FCSex_df <- FCSex(Species_list=Cucurbita_splist,
                   Ecoregions_shp=ecoregions)
 
 
-#Running all three In-situ gap analysis steps using FCSin function
+#Running all three in situ gap analysis steps using FCSin function
 FCSin_df <- FCSin(Species_list=Cucurbita_splist,
                   Occurrence_data=CucurbitaData,
                   Raster_list=CucurbitaRasters,
                   Ecoregions_shp=ecoregions,
-                  Pro_areas=ProtectedAreas,
-                  Gap_MapIn=FALSE)
+                  Pro_areas=ProtectedAreas)
 
 FCSc_mean_df <- FCSc_mean(FCSex_df = FCSex_df,FCSin_df = FCSin_df)
 
@@ -66,7 +65,6 @@ indicator_df  <- indicator(FCSc_mean_df)
 
 }
 \references{
-Khoury, C. K., Amariles, D., Soto, J. S., Diaz, M. V., Sotelo, S., Sosa, C. C., … Jarvis, A. (2019).
-Comprehensiveness of conservation of useful wild plants: An operational indicator for biodiversity
-and sustainable development targets. Ecological Indicators. https://doi.org/10.1016/j.ecolind.2018.11.016
+Khoury et al. (2019). Comprehensiveness of conservation of useful wild plants: An operational indicator for biodiversity
+and sustainable development targets. Ecological Indicators 98: 420-429. https://doi.org/10.1016/j.ecolind.2018.11.016
 }

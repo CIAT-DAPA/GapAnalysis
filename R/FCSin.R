@@ -59,7 +59,7 @@
 #' @importFrom dplyr left_join
 #' @importFrom raster overlay crop raster extent
 
-FCSin <- function(Species_list, Occurrence_data, Raster_list,Ecoregions_shp=NULL,Pro_areas=NULL,Gap_MapIn=FALSE) {
+FCSin <- function(Species_list, Occurrence_data, Raster_list,Ecoregions_shp=NULL,Pro_areas=NULL) {
   SRSin_df <- NULL
   GRSin_df <- NULL
   ERSin_df <- NULL
@@ -137,7 +137,7 @@ FCSin <- function(Species_list, Occurrence_data, Raster_list,Ecoregions_shp=NULL
       FCSin_df$FCSin_class[i] <- "SC"
     }
   }
-  
- 
+
+
   return(FCSin_df)
   }

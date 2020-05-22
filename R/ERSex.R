@@ -93,7 +93,7 @@ ERSex <- function(Species_list,Occurrence_data, Raster_list, Buffer_distance=500
   }
   # load in ecoregions dataset
   # Load in ecoregions shp
-  print(missing(Ecoregions_shp))
+  #print(missing(Ecoregions_shp))
   if(is.null(Ecoregions_shp)){
     if(file.exists(system.file("preloaded_data/ecoRegion/tnc_terr_ecoregions.shp",package = "GapAnalysis"))){
       Ecoregions_shp <- raster::shapefile(system.file("preloaded_data/ecoRegion/tnc_terr_ecoregions.shp", package = "GapAnalysis"),encoding = "UTF-8")
@@ -114,7 +114,7 @@ ERSex <- function(Species_list,Occurrence_data, Raster_list, Buffer_distance=500
   df <- data.frame(matrix(ncol = 2, nrow = length(Species_list)))
   colnames(df) <- c("species", "ERSex")
 
-  # loop through all species calculate ERS and produce map 
+  # loop through all species calculate ERS and produce map
   for(i in seq_len(length(Species_list))){
     speciesOcc <- Occurrence_data[which(Occurrence_data$taxon==Species_list[i]),]
     if(length(speciesOcc$type == "G") == 0){
