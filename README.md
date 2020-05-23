@@ -55,37 +55,31 @@ data(ProtectedAreas)
 ##Obtaining ecoregions shapefile
 data(ecoregions)
 
-#Running all three Ex situ gap analysis steps using insituGapAnalysis function
-exsituGapMetrics <- FCSex(Species_list=Cucurbita_splist,
-                                       Occurrence_data=CucurbitaData,
-                                       Raster_list=CucurbitaRasters,
-                                       Buffer_distance=50000,
-                                       Ecoregions_shp=ecoregions,
-                                       Gap_MapEx=FALSE)ExsituCompile(species_list=speciesList,
-                                       occurrenceData=CucurbitaData,
-                                       raster_list=CucurbitaRasters,
-                                       bufferDistance=50000,
-                                       ecoReg=ecoregions)
-
-#Running all three In situ gap analysis steps using insituGapAnalysis function
-insituGapMetrics <- FCSin(Species_list=Cucurbita_splist,
-                                       Occurrence_data=CucurbitaData,
-                                       Raster_list=CucurbitaRasters,
-                                       Ecoregions_shp=ecoregions,
-                                       Pro_areas=ProtectedAreas,
-                                       Gap_MapIn=FALSE)
-
+#Running all three ex situ gap analysis steps using FCSex function
+FCSex_df <- FCSex(Species_list=Cucurbita_splist,
+                                      Occurrence_data=CucurbitaData,
+                                      Raster_list=CucurbitaRasters,
+                                      Buffer_distance=50000,
+                                      Ecoregions_shp=ecoregions
+                                      )
+#Running all three in situ gap analysis steps using FCSin function
+FCSin_df <- FCSin(Species_list=Cucurbita_splist,
+                                      Occurrence_data=CucurbitaData,
+                                      Raster_list=CucurbitaRasters,
+                                      Ecoregions_shp=ecoregions,
+                                      Pro_areas=ProtectedAreas)
 ## Combine gap analysis metrics
-fcsCombine <- FCSc_mean(fcsEx = exsituGapMetrics,fcsIn = insituGapMetrics)
-
+FCSc_mean_df <- FCSc_mean(FCSex_df = FCSex_df,FCSin_df = FCSin_df)
+##Running Conservation indicator across taxa
+indicator_df  <- indicator(FCSc_mean_df)
 ## Generate summary HTML file with all result
-summaryHTML_file <- summary_HTML(species_list=speciesList,
+summaryHTML_file <- summary_HTML(species_list=Cucurbita_splist,
                                  occurrenceData = CucurbitaData,
                                  raster_List=CucurbitaRasters,
                                  proArea=ProtectedArea,
                                  bufferDistance=50000,
-                                 insituSummary=insituGapMetrics,
-                                 exsituSummary=exsituGapMetrics,
+                                 insituSummary=FCSin_df,
+                                 exsituSummary=FCSex_df,
                                  fcsSummary=fcsCombine,
                                  outputFolder=".",
                                  writeRasters=F)
