@@ -82,38 +82,6 @@ indicator <- function(FCSc_mean_df) {
     out_df <- rbind(out_df, tdf)
   }
 
-  #assign classes (exsitu)
-  data_all$FCSex_class <- NA
-  for (i in seq_len(nrow(data_all))){
-    if (data_all$FCSex[i] < 25) {
-      data_all$FCSex_class[i] <- "HP"
-    } else if (data_all$FCSex[i] >= 25 & data_all$FCSex[i] < 50) {
-      data_all$FCSex_class[i] <- "MP"
-    } else if (data_all$FCSex[i] >= 50 & data_all$FCSex[i] < 75) {
-      data_all$FCSex_class[i] <- "LP"
-    } else {
-      data_all$FCSex_class[i] <- "SC"
-    }
-  }
-
-  #assign classes (insitu)
-  data_all$FCSin_class <- NA
-  for (i in seq_len(nrow(data_all))){
-    if(!is.na(data_all$FCSin[i])){
-      if (data_all$FCSin[i] < 25) {
-        data_all$FCSin_class[i] <- "HP"
-      } else if (data_all$FCSin[i] >= 25 & data_all$FCSin[i] < 50) {
-        data_all$FCSin_class[i] <- "MP"
-      } else if (data_all$FCSin[i] >= 50 & data_all$FCSin[i] < 75) {
-        data_all$FCSin_class[i] <- "LP"
-      } else {
-        data_all$FCSin_class[i] <- "SC"
-      }
-    }else {
-      data_all$FCSin_class[i] <-"HP"
-    }
-  }
-
   #make final counts for species list (exsitu) if asked to
   if ("ex" %in% tolower(opt)) {
     tvec <- paste(data_all[,"FCSex_class"])
