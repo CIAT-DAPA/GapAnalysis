@@ -1,6 +1,6 @@
 #' @title Final conservation score in situ
 #' @name FCSin
-#' @description This function calculates the average of the three in situ conservation metrics and 
+#' @description This function calculates the average of the three in situ conservation metrics and
 #' assigns a priority category based on the results
 #' @param Species_list A species list to calculate metrics.
 #' @param Occurrence_data A data frame object with the species name, geographical coordinates,
@@ -115,7 +115,7 @@ FCSin <- function(Species_list, Occurrence_data, Raster_list,Ecoregions_shp=NULL
     };rm(i)
   #assign classes (exsitu)
   FCSin_df$FCSin_class <- NA
-  for (i in 1:nrow(FCSin_df)) {
+  for (i in seq_len(nrow(FCSin_df))){
     if (FCSin_df$FCSin[i] < 25) {
       FCSin_df$FCSin_class[i] <- "HP"
     } else if (FCSin_df$FCSin[i] >= 25 & FCSin_df$FCSin[i] < 50) {

@@ -108,7 +108,7 @@ FCSex <- function(Species_list, Occurrence_data, Raster_list, Buffer_distance=50
   };rm(i)
   #assign classes (exsitu)
   FCSex_df$FCSex_class <- NA
-  for (i in 1:nrow(FCSex_df)) {
+  for (i in seq_len(nrow(FCSex_df))) {
     if (FCSex_df$FCSex[i] < 25) {
       FCSex_df$FCSex_class[i] <- "HP"
     } else if (FCSex_df$FCSex[i] >= 25 & FCSex_df$FCSex[i] < 50) {

@@ -96,7 +96,7 @@ GRSin <- function(Species_list,Occurrence_data,Raster_list,Pro_areas=NULL, Gap_M
     Pro_areas <- Pro_areas
   }
 
-  if(Gap_Map==T){
+  if(Gap_Map==TRUE){
     GapMapIn_list <- list()
   }
 
@@ -135,7 +135,7 @@ GRSin <- function(Species_list,Occurrence_data,Raster_list,Pro_areas=NULL, Gap_M
     }
     #GRSex gap map
 
-    if(Gap_Map==T){
+    if(Gap_Map==TRUE){
       cat("Calculating gap maps for GRSin","\n")
       Pro_areas1[is.na(Pro_areas1),] <-  0
       gap_map <- sdm - Pro_areas1
@@ -144,7 +144,7 @@ GRSin <- function(Species_list,Occurrence_data,Raster_list,Pro_areas=NULL, Gap_M
       names(GapMapIn_list[[i]] ) <- Species_list[[i]]
     }
   }
-  if(Gap_Map==T){
+  if(Gap_Map==TRUE){
     df <- list(GRSin= df,GapMapIn_list=GapMapIn_list)
   } else {
     df <- df

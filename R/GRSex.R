@@ -80,7 +80,7 @@ GRSex <- function(Species_list, Occurrence_data, Raster_list, Buffer_distance=50
   df <- data.frame(matrix(ncol = 2, nrow = length(Species_list)))
   colnames(df) <- c("species", "GRSex")
 
-  if(Gap_Map==T){
+  if(Gap_Map==TRUE){
     GapMapEx_list <- list()
   }
 
@@ -127,7 +127,7 @@ GRSex <- function(Species_list, Occurrence_data, Raster_list, Buffer_distance=50
 
     #GRSex gap map
 
-    if(Gap_Map==T){
+    if(Gap_Map==TRUE){
       cat("Calculating gap maps for GRSex","\n")
       bf2 <- buffer_rs
       bf2[is.na(bf2),] <- 0
@@ -137,7 +137,7 @@ GRSex <- function(Species_list, Occurrence_data, Raster_list, Buffer_distance=50
       names(GapMapEx_list[[i]] ) <- Species_list[[i]]
     }
   }
-  if(Gap_Map==T){
+  if(Gap_Map==TRUE){
       df <- list(GRSex= df,GapMapEx_list=GapMapEx_list)
     } else {
       df <- df

@@ -40,7 +40,7 @@ FCSin \tab Final conservation score in situ  \cr
 }
 }
 \description{
-This function calculates the average of the three in situ conservation metrics and 
+This function calculates the average of the three in situ conservation metrics and
 assigns a priority category based on the results
 }
 \examples{

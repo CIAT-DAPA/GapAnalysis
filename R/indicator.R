@@ -61,12 +61,12 @@
 
 indicator <- function(FCSc_mean_df) {
 
-  opt=c("min","max","mean","in","ex")
+  opt <- c("min","max","mean","in","ex")
   data_all <- FCSc_mean_df
 
   #make final counts for species list (combined)
   out_df <- data.frame()
-  for (i in 1:length(opt)){
+  for (i in seq_len(length(opt))){
     #cat(i,"\n")
     #  i <- 5
     if(i==4 | i==5){    tvec <- paste(data_all[,paste("FCS",opt[i],sep="")])
@@ -84,7 +84,7 @@ indicator <- function(FCSc_mean_df) {
 
   #assign classes (exsitu)
   data_all$FCSex_class <- NA
-  for (i in 1:nrow(data_all)) {
+  for (i in seq_len(nrow(data_all))){
     if (data_all$FCSex[i] < 25) {
       data_all$FCSex_class[i] <- "HP"
     } else if (data_all$FCSex[i] >= 25 & data_all$FCSex[i] < 50) {
@@ -98,7 +98,7 @@ indicator <- function(FCSc_mean_df) {
 
   #assign classes (insitu)
   data_all$FCSin_class <- NA
-  for (i in 1:nrow(data_all)) {
+  for (i in seq_len(nrow(data_all))){
     if(!is.na(data_all$FCSin[i])){
       if (data_all$FCSin[i] < 25) {
         data_all$FCSin_class[i] <- "HP"

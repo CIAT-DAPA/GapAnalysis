@@ -114,7 +114,7 @@ ERSin <- function(Species_list,Occurrence_data,Raster_list,Pro_areas=NULL,Ecoreg
   }
 
 
-  if(Gap_Map==T){
+  if(Gap_Map==TRUE){
     GapMapIn_list <- list()
   }
 
@@ -159,7 +159,7 @@ ERSin <- function(Species_list,Occurrence_data,Raster_list,Pro_areas=NULL,Ecoreg
       df$species[i] <- as.character(Species_list[i])
       df$ERSin[i] <- ERSin
     }
-    if(Gap_Map==T){
+    if(Gap_Map==TRUE){
       cat("Calculating gap maps for ERSin gap analysis","\n")
 
       # ERSin Gap Map
@@ -169,7 +169,7 @@ ERSin <- function(Species_list,Occurrence_data,Raster_list,Pro_areas=NULL,Ecoreg
         GapMapIn_list[[i]] <- "All ecoregions within the model contain protected areas. There are no gaps"
 
         }else{
-        SdmMask = sdm
+        SdmMask <-  sdm
         SdmMask[which(SdmMask[]==0)] <- NA
         # pull selected ecoregions and mask to presence area of the model
         eco2 <- Ecoregions_shp[Ecoregions_shp$ECO_ID_U %in% ecoGap,]
@@ -185,7 +185,7 @@ ERSin <- function(Species_list,Occurrence_data,Raster_list,Pro_areas=NULL,Ecoreg
     }
   }
 
-  if(Gap_Map==T){
+  if(Gap_Map==TRUE){
     df <- list(ERSin=df, gap_maps = GapMapIn_list )
   }else{
     df <- list(ERSin=df)

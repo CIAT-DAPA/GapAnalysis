@@ -52,7 +52,7 @@ Cucurbita_splist <- unique(CucurbitaData$taxon)
 ## Obtaining rasterList object. ##
 data(CucurbitaRasters)
 CucurbitaRasters <- raster::unstack(CucurbitaRasters)
-##Obtaining Ecoregionsions shapefile
+##Obtaining ecoregions shapefile
 data(ecoregions)
 
 ERSex_df <- ERSex(Species_list = Cucurbita_splist,
@@ -66,6 +66,6 @@ ERSex_df <- ERSex(Species_list = Cucurbita_splist,
 \references{
 Castañeda-Álvarez et al. (2016) Nature Plants 2(4):16022. doi: 10.1038/nplants.2016.22
 Khoury et al. (2019) Ecological Indicators 98:420-429. doi: 10.1016/j.ecolind.2018.11.016
-The Nature Conservancy Geospatial Conservation Atlas. 2019. Terrestrial Ecoregions. 
+The Nature Conservancy Geospatial Conservation Atlas. 2019. Terrestrial Ecoregions.
 https://geospatial.tnc.org/datasets/7b7fb9d945544d41b3e7a91494c42930_0
 }

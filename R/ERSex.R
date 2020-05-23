@@ -29,7 +29,7 @@
 #' ## Obtaining rasterList object. ##
 #' data(CucurbitaRasters)
 #' CucurbitaRasters <- raster::unstack(CucurbitaRasters)
-#' ##Obtaining Ecoregionsions shapefile
+#' ##Obtaining ecoregions shapefile
 #' data(ecoregions)
 #'
 #' ERSex_df <- ERSex(Species_list = Cucurbita_splist,
@@ -43,13 +43,14 @@
 #'
 #' Castañeda-Álvarez et al. (2016) Nature Plants 2(4):16022. doi: 10.1038/nplants.2016.22
 #' Khoury et al. (2019) Ecological Indicators 98:420-429. doi: 10.1016/j.ecolind.2018.11.016
-#' The Nature Conservancy Geospatial Conservation Atlas. 2019. Terrestrial Ecoregions. 
-#' https://geospatial.tnc.org/datasets/7b7fb9d945544d41b3e7a91494c42930_0 
+#' The Nature Conservancy Geospatial Conservation Atlas. 2019. Terrestrial Ecoregions.
+#' https://geospatial.tnc.org/datasets/7b7fb9d945544d41b3e7a91494c42930_0
 #'
 #' @export
 #' @importFrom raster shapefile rasterToPoints crs
-#' @importFrom  fasterize fasterize
+#' @importFrom fasterize fasterize
 #' @importFrom sp coordinates proj4string SpatialPoints over CRS
+#' @importFrom sf st_as_sf
 
 
 ERSex <- function(Species_list,Occurrence_data, Raster_list, Buffer_distance=50000,Ecoregions_shp=NULL, Gap_Map=NULL) {
@@ -98,7 +99,7 @@ ERSex <- function(Species_list,Occurrence_data, Raster_list, Buffer_distance=500
     Ecoregions_shp <- Ecoregions_shp
   }
 
-  if(Gap_Map==T){
+  if(Gap_Map==TRUE){
     GapMapEx_list <- list()
   }
 
@@ -166,7 +167,7 @@ ERSex <- function(Species_list,Occurrence_data, Raster_list, Buffer_distance=500
         df$ERSex[i] <- ERSex
 
         # number of ecoregions present in model
-        if(Gap_Map==T){
+        if(Gap_Map==TRUE){
           cat("Calculating gap maps for ERSex gap analysis","\n")
 
           # ERSex Gap Map
@@ -191,7 +192,7 @@ ERSex <- function(Species_list,Occurrence_data, Raster_list, Buffer_distance=500
       }
     }
   }
-  if(Gap_Map==T){
+  if(Gap_Map==TRUE){
     df <- list(ERSex=df,buffer_list=buffer_list, gap_maps = GapMapEx_list )
   }else{
     df <- list(ERSex=df,buffer_list=buffer_list)
