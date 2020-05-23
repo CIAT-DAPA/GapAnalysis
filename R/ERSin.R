@@ -44,7 +44,7 @@
 #'                    Ecoregions_shp=ecoregions)
 #'
 #'@references
-#'
+#
 #' Khoury et al. (2019) Ecological Indicators 98:420-429. doi: 10.1016/j.ecolind.2018.11.016
 #'
 #' @export
@@ -119,7 +119,8 @@ ERSin <- function(Species_list,Occurrence_data,Raster_list,Pro_areas=NULL,Ecoreg
   }
 
   for(i in seq_len(length(Species_list))){
-    # select threshold map for a given species
+
+       # select threshold map for a given species
     for(j in seq_len(length(Raster_list))){
       if(grepl(j, i, ignore.case = TRUE)){
         sdm <- Raster_list[[j]]
@@ -168,7 +169,8 @@ ERSin <- function(Species_list,Occurrence_data,Raster_list,Pro_areas=NULL,Ecoreg
         GapMapIn_list[[i]] <- "All ecoregions within the model contain protected areas. There are no gaps"
 
         }else{
-
+        SdmMask = sdm
+        SdmMask[which(SdmMask[]==0)] <- NA
         # pull selected ecoregions and mask to presence area of the model
         eco2 <- Ecoregions_shp[Ecoregions_shp$ECO_ID_U %in% ecoGap,]
         #convert to sf object for conversion using fasterize

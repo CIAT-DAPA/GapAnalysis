@@ -20,13 +20,13 @@ ERSex(
 and type of records (G or H) for a given species}
 
 \item{Raster_list}{A list representing the species distribution models for the species list provided
-loaded in raster format. This list must match the same order of the species list.}
+loaded in raster format. This list must match the same order as the species list.}
 
 \item{Buffer_distance}{Geographical distance used to create circular buffers around germplasm site of collection points.
 Default: 50000 (50 km) around germplasm accession coordinates (CA50)}
 
-\item{Ecoregions_shp}{A shapefile representing Ecoregionsions information with a field ECO_ID_U representing Ecoregionsions Ids.
-If Ecoregions=NULL the function will use a shapefile provided for your use after run GetDatasets()}
+\item{Ecoregions_shp}{A shapefile representing Ecoregions information with a field ECO_ID_U representing Ecoregions Ids.
+If Ecoregions=NULL the function will use a shapefile provided for use after running GetDatasets()}
 
 \item{Gap_Map}{Default=FALSE, This option will calculate gap maps for each species analyzed and will retun a list
 with two slots ERSex and gap_maps, or three slots ERSex, buffer_list, and gap_maps}
@@ -66,4 +66,6 @@ ERSex_df <- ERSex(Species_list = Cucurbita_splist,
 \references{
 Castañeda-Álvarez et al. (2016) Nature Plants 2(4):16022. doi: 10.1038/nplants.2016.22
 Khoury et al. (2019) Ecological Indicators 98:420-429. doi: 10.1016/j.ecolind.2018.11.016
+The Nature Conservancy Geospatial Conservation Atlas. 2019. Terrestrial Ecoregions. 
+https://geospatial.tnc.org/datasets/7b7fb9d945544d41b3e7a91494c42930_0
 }

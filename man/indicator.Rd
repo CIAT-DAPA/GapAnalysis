@@ -2,7 +2,7 @@
 % Please edit documentation in R/indicator.R
 \name{indicator}
 \alias{indicator}
-\title{Conservation indicator across taxa based on ex situ and in situ gap analysis results}
+\title{Conservation indicator across taxa based on gap analysis results}
 \usage{
 indicator(FCSc_mean_df)
 }

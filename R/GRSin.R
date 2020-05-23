@@ -12,6 +12,8 @@
 #' @param Raster_list A list representing the species distribution models for the species list provided loaded in raster format. This list must match the same order of the species list.
 #' @param Pro_areas A raster file representing protected areas information. If Pro_areas=NULL the function will use a protected area raster file
 #'  provided for your use after run GetDatasets()
+#' @param Gap_Map Default=FALSE, This option will calculate gap maps for each species analyzed and will retun a list
+#'  with two slots ERSin and gap_maps
 #'
 #' @return This function returns a data frame with two columns:
 #'
@@ -72,7 +74,7 @@ GRSin <- function(Species_list,Occurrence_data,Raster_list,Pro_areas=NULL, Gap_M
   } else {
     Raster_list <- Raster_list
   }
-  
+
   #Checking if GapMapEx option is a boolean
   if(is.null(Gap_Map) | missing(Gap_Map)){ Gap_Map <- FALSE
   } else if(Gap_Map==TRUE | Gap_Map==FALSE){
@@ -93,12 +95,12 @@ GRSin <- function(Species_list,Occurrence_data,Raster_list,Pro_areas=NULL, Gap_M
   } else{
     Pro_areas <- Pro_areas
   }
-  
+
   if(Gap_Map==T){
     GapMapIn_list <- list()
   }
-  
-  
+
+
   # loop over species list
   for(i in seq_len(length(Species_list))){
     # select threshold map for a given species
@@ -132,7 +134,7 @@ GRSin <- function(Species_list,Occurrence_data,Raster_list,Pro_areas=NULL, Gap_M
       df$GRSin[i] <- 0
     }
     #GRSex gap map
-    
+
     if(Gap_Map==T){
       cat("Calculating gap maps for GRSin","\n")
       Pro_areas1[is.na(Pro_areas1),] <-  0

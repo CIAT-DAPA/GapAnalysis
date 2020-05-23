@@ -19,7 +19,7 @@ FCSin(
 and type of records (G or H) for a given species}
 
 \item{Raster_list}{A list representing the species distribution models for the species list provided
-loaded in raster format. This list must match the same order of the species list.}
+loaded in raster format. This list must match the same order as the species list.}
 
 \item{Ecoregions_shp}{A shapefile representing Ecoregions_shp information with a field ECO_NUM
 representing Ecoregions_shp Ids.}
@@ -40,7 +40,8 @@ FCSin \tab Final conservation score in situ  \cr
 }
 }
 \description{
-This function calculates the average of the three in situ conservation metrics
+This function calculates the average of the three in situ conservation metrics and 
+assigns a priority category based on the results
 }
 \examples{
 ##Obtaining occurrences from example

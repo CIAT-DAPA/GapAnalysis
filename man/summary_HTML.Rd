@@ -24,7 +24,7 @@ summary_HTML(
 and type of records (G or H) for a given species}
 
 \item{raster_List}{A list representing the species distribution models for the species list provided
-loaded in raster format. This list must match the same order of the species list.}
+loaded in raster format. This list must match the same order as the species list.}
 
 \item{proArea}{A raster file representing protected areas information.
 If proArea=NULL the funtion will use a protected area raster file provided for your use after run GetDatasets()}

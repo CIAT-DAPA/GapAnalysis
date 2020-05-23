@@ -20,7 +20,7 @@ ERSin(
 and type of records (G or H) for a given species}
 
 \item{Raster_list}{A list representing the species distribution models for the species list provided
-loaded in raster format. This list must match the same order of the species list.}
+loaded in raster format. This list must match the same order as the species list.}
 
 \item{Pro_areas}{A raster file representing protected areas information.
 If Pro_areas=NULL the funtion will use a protected area raster file provided for your use after run GetDatasets()}
@@ -45,7 +45,7 @@ The ERSin process provides an ecological measurement of the proportion of a spec
  within the total area of the distribution model, considering comprehensive conservation to have been accomplished
  only when every ecoregion potentially inhabited by a species is included within the distribution of the species
  located within a protected area.
- This function uses a thresholded species distribution model, an ecoregions file, and a raster file of protected areas
+ This function uses a thresholded species distribution model, an ecoregions file, and a protected areas file
 }
 \examples{
 ##Obtaining occurrences from example

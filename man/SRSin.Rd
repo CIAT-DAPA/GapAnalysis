@@ -13,7 +13,7 @@ SRSin(Species_list, Occurrence_data, Raster_list, Pro_areas = NULL)
 and type of records (G or H) for a given species}
 
 \item{Raster_list}{A list representing the species distribution models for the species list
-provided loaded in raster format. This list must match the same order of the species list.}
+provided loaded in raster format. This list must match the same order as the species list.}
 
 \item{Pro_areas}{A raster file representing protected areas information.
 If Pro_areas=NULL the function will use a protected area raster file
@@ -28,8 +28,8 @@ SRSin \tab SRSin value calculated\cr
 }
 }
 \description{
-The SRSin process calculates the proportion of all occurrences of a taxon within the distribution model
-that fall within a protected area
+The SRSin process calculates the proportion of all occurrences of a taxon falling within
+the distribution model that also fall within a protected area
 }
 \examples{
 ##Obtaining occurrences from example

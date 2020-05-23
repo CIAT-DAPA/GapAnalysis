@@ -19,7 +19,7 @@ GRSex(
 and type of records (G or H) for a given species}
 
 \item{Raster_list}{A list representing the species distribution models for the species list provided
-loaded in raster format. This list must match the same order of the species list.}
+loaded in raster format. This list must match the same order as the species list.}
 
 \item{Buffer_distance}{Geographical distance used to create circular buffers around germplasm.
 Default: 50000 (50 km) around germplasm accessions (CA50)}

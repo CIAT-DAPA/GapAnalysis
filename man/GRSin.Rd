@@ -4,7 +4,13 @@
 \alias{GRSin}
 \title{Geographical representativeness score in situ}
 \usage{
-GRSin(Species_list, Occurrence_data, Raster_list, Pro_areas = NULL)
+GRSin(
+  Species_list,
+  Occurrence_data,
+  Raster_list,
+  Pro_areas = NULL,
+  Gap_Map = NULL
+)
 }
 \arguments{
 \item{Species_list}{A species list to calculate the GRSin metrics.}
@@ -15,6 +21,9 @@ GRSin(Species_list, Occurrence_data, Raster_list, Pro_areas = NULL)
 
 \item{Pro_areas}{A raster file representing protected areas information. If Pro_areas=NULL the function will use a protected area raster file
 provided for your use after run GetDatasets()}
+
+\item{Gap_Map}{Default=FALSE, This option will calculate gap maps for each species analyzed and will retun a list
+with two slots ERSin and gap_maps}
 }
 \value{
 This function returns a data frame with two columns:

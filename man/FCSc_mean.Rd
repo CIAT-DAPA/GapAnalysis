@@ -2,7 +2,7 @@
 % Please edit documentation in R/FCSc_mean.R
 \name{FCSc_mean}
 \alias{FCSc_mean}
-\title{ombining ex situ and in situ conservation gap analysis results}
+\title{Combining ex situ and in situ gap analyses}
 \usage{
 FCSc_mean(FCSex_df, FCSin_df)
 }
