@@ -13,20 +13,23 @@ This library consists of 16 functions within 4 families: pre-analysis, ex situ c
 GapAnalysis can be installed as follows
 ```r
 library(devtools)
-install_github("ccsosa/GapAnalysis")
+devtools::install_github("ccsosa/GapAnalysis")
 ```
 A full list of libraries needed for the package is included below.
 
 ```r
-### this is not complete but I figure it is a reasonable placeholder for the time being.  
-suppressMessages(require(tmap))
 suppressMessages(require(raster))
-suppressMessages(require(maptools))
 suppressMessages(require(rgdal))
-suppressMessages(require(ff))
-suppressMessages(require(ffbase))
-suppressMessages(require(sf))
+suppressMessages(require(rgeos))
+suppressMessages(require(sp))
+suppressMessages(require(tmap))
 suppressMessages(require(dplyr))
+suppressMessages(require(sf))
+suppressMessages(require(geosphere))
+suppressMessages(require(dataverse))
+suppressMessages(require(data.table))
+suppressMessages(require(fasterize))
+suppressMessages(require(rmarkdown))
 ```
 
 ## Usage
