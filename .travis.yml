@@ -3,7 +3,23 @@
 language: r
 sudo: false
 cache: packages
-
-sudo: required
 dist: trusty
+warnings_are_errors: false
 
+addons:
+  apt:
+    packages:
+      - gdal-bin
+      - libgdal1-dev
+      - libproj-dev
+
+# Code coverage
+r_packages:
+  - covr
+
+after_success:
+- Rscript -e 'library(covr); codecov()'
+
+env:
+  global:
+    - R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
