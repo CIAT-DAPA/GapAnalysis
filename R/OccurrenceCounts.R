@@ -22,11 +22,9 @@
 #'  }
 #'
 #' @examples
-#' \dontrun{
 #' data(CucurbitaData)
 #' ##Obtaining species names from the data
 #' Cucurbita_splist <- unique(CucurbitaData$taxon)
-#' }
 #'@references
 #'
 #' Ramirez-Villegas et al. (2010) PLOS ONE, 5(10), e13497. doi: 10.1371/journal.pone.0013497

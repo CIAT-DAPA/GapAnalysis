@@ -14,11 +14,10 @@ Description: This R library was developed to support the assessment of the degre
 URL: https://github.com/ccsosa/GapAnalysis 
 BugReports: https://github.com/ccsosa/GapAnalysis/issues
 Depends:
-  R (>= 3.5.0)
+  R (>= 3.5.0), raster (>= 3.0)
 Imports:
   base (>= 3.5),
   utils (>= 3.5),
-  raster (>= 3.0),
   sp (>= 1.4.1),
   tmap (>= 2.3),
   dplyr (>= 0.4.0),
