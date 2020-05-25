@@ -59,6 +59,7 @@ FCSin_df <- FCSin(Species_list=Cucurbita_splist,
                                       Ecoregions_shp=ecoregions,
                                       Pro_areas=ProtectedAreas)
 
+## Combine gap analysis metrics
 FCSc_mean_df <- FCSc_mean(FCSex_df = FCSex_df,FCSin_df = FCSin_df)
 
 }
