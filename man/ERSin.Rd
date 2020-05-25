@@ -28,7 +28,7 @@ If Pro_areas=NULL the funtion will use a protected area raster file provided for
 \item{Ecoregions_shp}{A shapefile representing Ecoregions_shp information with a field ECO_NUM representing Ecoregions_shp Ids.
 If Ecoregions_shp=NULL the funtion will use a protected area raster file provided for your use after run GetDatasets()}
 
-\item{Gap_Map}{Default=FALSE, This option will calculate gap maps for each species analyzed and will return a list
+\item{Gap_Map}{Default=NULL, This option will calculate gap maps for each species analyzed and will return a list
 with two slots ERSin and gap_maps}
 }
 \value{

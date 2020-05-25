@@ -28,8 +28,7 @@ Default: 50000 (50 km) around germplasm accessions (CA50)}
 If Ecoregions_shp=NULL the funtion will use a shapefile provided for your use after run GetDatasets()}
 }
 \value{
-This function returns a list with gap maps if Gap_MapEx=TRUE. Otherwise, it returns a data frame
-summarizing the ex-situ gap analysis scores:
+This function returns a data frame summarizing the ex-situ gap analysis scores:
 
 \tabular{lcc}{
 species \tab Species name \cr

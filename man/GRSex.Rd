@@ -24,7 +24,7 @@ loaded in raster format. This list must match the same order as the species list
 \item{Buffer_distance}{Geographical distance used to create circular buffers around germplasm.
 Default: 50000 (50 km) around germplasm accessions (CA50)}
 
-\item{Gap_Map}{Default=FALSE, This option will calculate gap maps for each species analyzed and will retun a list
+\item{Gap_Map}{Default=NULL, This option will calculate gap maps for each species analyzed and will retun a list
 with two slots GRSex and gap_maps}
 }
 \value{
@@ -53,7 +53,7 @@ GRSex_df <- GRSex(Species_list = Cucurbita_splist,
                     Occurrence_data = CucurbitaData,
                     Raster_list = CucurbitaRasters,
                     Buffer_distance = 50000,
-                    Gap_Map = FALSE)
+                    Gap_Map = NULL)
 
 }
 \references{

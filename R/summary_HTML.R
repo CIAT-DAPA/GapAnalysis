@@ -31,24 +31,19 @@
 #' data(ProtectedAreas)
 #' ##Obtaining ecoregions shapefile
 #' data(ecoregions)
-#'
 #' #Running all three ex situ gap analysis steps
 #' FCSex_df <- FCSex(species_list=speciesList,
 #'                                       occurrenceData=CucurbitaData,
 #'                                       raster_list=CucurbitaRasters,
 #'                                       bufferDistance=50000,
 #'                                       ecoReg=ecoregions)
-#'
-#'
 #' #Running all three in situ gap analysis steps
 #' FCSin_df <- FCSin(species_list=speciesList,
 #'                                        occurrenceData=CucurbitaData,
 #'                                        raster_list=CucurbitaRasters,
 #'                                        proArea=ProtectedAreas,
 #'                                        ecoReg=ecoregions)
-#'
 #' fcsCombine <- FCSc_mean(fcsEx = FCSex_df,fcsIn = FCSin_df)
-#'
 #' summaryHTML_file <- summary_HTML(species_list=Cucurbita_splist,
 #'                                  occurrenceData = CucurbitaData,
 #'                                  raster_List=CucurbitaRasters,

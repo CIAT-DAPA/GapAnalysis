@@ -11,7 +11,7 @@
 #'  loaded in raster format. This list must match the same order as the species list.
 #' @param Buffer_distance Geographical distance used to create circular buffers around germplasm.
 #'  Default: 50000 (50 km) around germplasm accessions (CA50)
-#' @param Gap_Map Default=FALSE, This option will calculate gap maps for each species analyzed and will retun a list
+#' @param Gap_Map Default=NULL, This option will calculate gap maps for each species analyzed and will retun a list
 #'  with two slots GRSex and gap_maps
 #'
 #' @return This function returns a data frame with two columns:
@@ -33,7 +33,7 @@
 #'                     Occurrence_data = CucurbitaData,
 #'                     Raster_list = CucurbitaRasters,
 #'                     Buffer_distance = 50000,
-#'                     Gap_Map = FALSE)
+#'                     Gap_Map = NULL)
 #'
 #' @references
 #' Ramirez-Villegas et al. (2010) PLOS ONE, 5(10), e13497. doi: 10.1371/journal.pone.0013497

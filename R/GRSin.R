@@ -12,7 +12,7 @@
 #' @param Raster_list A list representing the species distribution models for the species list provided loaded in raster format. This list must match the same order of the species list.
 #' @param Pro_areas A raster file representing protected areas information. If Pro_areas=NULL the function will use a protected area raster file
 #'  provided for your use after run GetDatasets()
-#' @param Gap_Map Default=FALSE, This option will calculate gap maps for each species analyzed and will retun a list
+#' @param Gap_Map Default=NULL, This option will calculate gap maps for each species analyzed and will retun a list
 #'  with two slots ERSin and gap_maps
 #'
 #' @return This function returns a data frame with two columns:
@@ -36,7 +36,8 @@
 #' GRSin_df <- GRSin(Species_list = Cucurbita_splist,
 #'                     Occurrence_data = CucurbitaData,
 #'                     Raster_list = CucurbitaRasters,
-#'                     Pro_areas=ProtectedAreas)
+#'                     Pro_areas=ProtectedAreas,
+#'                     Gap_Map=NULL)
 #'
 #'
 #'@references
@@ -133,7 +134,7 @@ GRSin <- function(Species_list,Occurrence_data,Raster_list,Pro_areas=NULL, Gap_M
       df$species[i] <- as.character(Species_list[i])
       df$GRSin[i] <- 0
     }
-    #GRSex gap map
+    #GRSin gap map
 
     if(Gap_Map==TRUE){
       cat("Calculating gap maps for GRSin","\n")

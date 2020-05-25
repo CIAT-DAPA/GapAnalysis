@@ -9,7 +9,6 @@
 #' \dontrun{
 #' GetDatasets()
 #' }
-#'
 #' @references
 #'
 #' Khoury et al. (2019) Data in Brief 22:90-97. doi: 10.1016/j.dib.2018.11.125.

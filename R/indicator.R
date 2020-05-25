@@ -11,8 +11,8 @@
 #'  count_MP \tab Count of taxa medium priority for conservation action \cr
 #'  count_LP \tab Count of taxa low priority for conservation action \cr
 #'  count_SC \tab Count of taxa sufficiently conserved \cr
-#'  count_LP_SC Count of taxa low priority for conservation action or sufficiently conserved  \tab \cr
-#'  proportion_HP Proportion of taxa high priority for conservation action\tab \cr
+#'  count_LP_SC \tab Count of taxa low priority for conservation action or sufficiently conserved \cr
+#'  proportion_HP \tab Proportion of taxa high priority for conservation action \cr
 #'  proportion_MP \tab Proportion of taxa medium priority for conservation action   \cr
 #'  proportion_LP \tab Proportion of taxa low priority for conservation action \cr
 #'  proportion_SC \  Proportion of taxa sufficiently conserved  \cr
@@ -31,15 +31,12 @@
 #' data(ProtectedAreas)
 #' ##Obtaining ecoregions shapefile
 #' data(ecoregions)
-#'
 #' #Running all three ex situ gap analysis steps using FCSex function
 #' FCSex_df <- FCSex(Species_list=Cucurbita_splist,
 #'                   Occurrence_data=CucurbitaData,
 #'                   Raster_list=CucurbitaRasters,
 #'                   Buffer_distance=50000,
 #'                   Ecoregions_shp=ecoregions)
-#'
-#'
 #' #Running all three in situ gap analysis steps using FCSin function
 #' FCSin_df <- FCSin(Species_list=Cucurbita_splist,
 #'                   Occurrence_data=CucurbitaData,
@@ -48,7 +45,6 @@
 #'                   Pro_areas=ProtectedAreas)
 #' ## Combine gap analysis metrics
 #' FCSc_mean_df <- FCSc_mean(FCSex_df = FCSex_df,FCSin_df = FCSin_df)
-#'
 #' #Running indicator function
 #' indicator_df  <- indicator(FCSc_mean_df)
 #'

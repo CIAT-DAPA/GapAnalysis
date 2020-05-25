@@ -22,15 +22,15 @@ and type of records (G or H) for a given species}
 loaded in raster format. This list must match the same order as the species list.}
 
 \item{Ecoregions_shp}{A shapefile representing Ecoregions_shp information with a field ECO_NUM
-representing Ecoregions_shp Ids.}
+representing Ecoregions_shp Ids.If Ecoregions_shp=NULL the funtion will use
+an ecoregions raster file provided for your use}
 
 \item{Pro_areas}{A raster file representing protected areas information.If Pro_areas=NULL the funtion will use
 a protected area raster file provided for your use
 after run GetDatasets()}
 }
 \value{
-This function returns a list with gap maps if Gap_MapIn=TRUE. Otherwise,
-it returns a data frame summarizing the in situ gap analysis scores:
+This function returns a data frame summarizing the in situ gap analysis scores:
 \tabular{lcc}{
 species \tab Species name \cr
 SRSin \tab Sampling representativeness score in situ  \cr

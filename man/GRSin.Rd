@@ -22,7 +22,7 @@ GRSin(
 \item{Pro_areas}{A raster file representing protected areas information. If Pro_areas=NULL the function will use a protected area raster file
 provided for your use after run GetDatasets()}
 
-\item{Gap_Map}{Default=FALSE, This option will calculate gap maps for each species analyzed and will retun a list
+\item{Gap_Map}{Default=NULL, This option will calculate gap maps for each species analyzed and will retun a list
 with two slots ERSin and gap_maps}
 }
 \value{
@@ -53,7 +53,8 @@ data(ProtectedAreas)
 GRSin_df <- GRSin(Species_list = Cucurbita_splist,
                     Occurrence_data = CucurbitaData,
                     Raster_list = CucurbitaRasters,
-                    Pro_areas=ProtectedAreas)
+                    Pro_areas=ProtectedAreas,
+                    Gap_Map=NULL)
 
 
 }

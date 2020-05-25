@@ -13,7 +13,7 @@
 #'  Default: 50000 (50 km) around germplasm accession coordinates (CA50)
 #' @param Ecoregions_shp A shapefile representing Ecoregions information with a field ECO_ID_U representing Ecoregions Ids.
 #'  If Ecoregions=NULL the function will use a shapefile provided for use after running GetDatasets()
-#' @param Gap_Map Default=FALSE, This option will calculate gap maps for each species analyzed and will return a list
+#' @param Gap_Map Default=NULL, This option will calculate gap maps for each species analyzed and will return a list
 #' with two slots ERSex and gap_maps, or three slots ERSex, buffer_list, and gap_maps when Gap_Map=TRUE
 #' @return This function returns a dataframe as main result with two columns:
 #'
