@@ -18,8 +18,6 @@ This dataset is a subset of species distribution models for:
  C. cordata, C. digitata and C. palmata used in Khoury et al., 2020
 }
 \references{
-Khoury, CK, Carver, D, Kates, HR, et al. Distributions, conservation status,
- and abiotic stress tolerance potential of wild cucurbita (Cucurbita L.).
- Plants, People, Planet. 2019; 00: 1– 15. https://doi.org/10.1002/ppp3.10085
+Khoury et al. (2019) Diversity and Distributions 26(2):209-225. doi: 10.1111/DDI.1300
 }
 \keyword{datasets}

@@ -24,7 +24,7 @@ The SRSex process provides a general indication of the completeness of ex situ c
  calculating the ratio of germplasm accessions (G) available in ex situ repositories to reference (H) records for each taxon,
  making use of all compiled records, regardless of whether they include coordinates, with an ideal (i.e., comprehensive) conservation
  ratio of 1:1. In this and in the subsequent measurements, if no G or H records exist, taxa are automatically considered
- to be of high priority for further conservation action and assigned a value of 0. If there are more G than H records, 
+ to be of high priority for further conservation action and assigned a value of 0. If there are more G than H records,
 SRSex is set to 100.
 }
 \examples{
@@ -32,6 +32,7 @@ SRSex is set to 100.
 data(CucurbitaData)
 ##Obtaining species names from the data
 Cucurbita_splist <- unique(CucurbitaData$taxon)
+#Running SRSex
 SRSex_df <- SRSex(Species_list = Cucurbita_splist,
                     Occurrence_data = CucurbitaData)
 

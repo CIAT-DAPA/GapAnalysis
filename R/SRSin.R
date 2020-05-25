@@ -27,6 +27,7 @@
 #' CucurbitaRasters <- raster::unstack(CucurbitaRasters)
 #' ##Obtaining protected areas raster
 #' data(ProtectedAreas)
+#' #Running SRSin
 #' SRSin_df <- SRSin(Species_list = Cucurbita_splist,
 #'                     Occurrence_data = CucurbitaData,
 #'                     Raster_list=CucurbitaRasters,

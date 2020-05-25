@@ -48,7 +48,7 @@ Cucurbita_splist <- unique(CucurbitaData$taxon)
 ## Obtaining rasterList object. ##
 data(CucurbitaRasters)
 CucurbitaRasters <- raster::unstack(CucurbitaRasters)
-#Calculating GRSex value
+#Running GRSex
 GRSex_df <- GRSex(Species_list = Cucurbita_splist,
                     Occurrence_data = CucurbitaData,
                     Raster_list = CucurbitaRasters,

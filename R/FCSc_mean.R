@@ -31,7 +31,6 @@
 #' data(ProtectedAreas)
 #' ##Obtaining ecoregions shapefile
 #' data(ecoregions)
-#'
 #' #Running all three ex situ gap analysis steps using FCSex function
 #' FCSex_df <- FCSex(Species_list=Cucurbita_splist,
 #'                                       Occurrence_data=CucurbitaData,

@@ -10,7 +10,7 @@
 #' @param Buffer_distance Geographical distance used to create circular buffers around germplasm.
 #'  Default: 50000 (50 km) around germplasm accessions (CA50)
 #' @param Ecoregions_shp A shapefile representing ecoregions information with a field ECO_NUM representing ecoregions Ids.
-#'  If ecoReg=NULL the funtion will use a shapefile provided for your use after run GetDatasets()
+#'  If Ecoregions_shp=NULL the funtion will use a shapefile provided for your use after run GetDatasets()
 #' @return This function returns a list with gap maps if Gap_MapEx=TRUE. Otherwise, it returns a data frame
 #' summarizing the ex-situ gap analysis scores:
 #'
@@ -32,7 +32,6 @@
 #' CucurbitaRasters <- raster::unstack(CucurbitaRasters)
 #' ##Obtaining ecoregions shapefile
 #' data(ecoregions)
-#'
 #' #Running all three Ex-situ gap analysis steps using a unique function
 #' FCSex_df <- FCSex(Species_list=Cucurbita_splist,
 #'                                       Occurrence_data=CucurbitaData,

@@ -17,4 +17,7 @@ ProtectedAreas
 This dataset is a raster version of the world protected areas dataset
  used in Khoury et al., (2019)
 }
+\references{
+Khoury et al. (2019) Ecological Indicators 98:420-429. doi: 10.1016/j.ecolind.2018.11.016
+}
 \keyword{datasets}

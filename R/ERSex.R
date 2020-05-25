@@ -13,9 +13,9 @@
 #'  Default: 50000 (50 km) around germplasm accession coordinates (CA50)
 #' @param Ecoregions_shp A shapefile representing Ecoregions information with a field ECO_ID_U representing Ecoregions Ids.
 #'  If Ecoregions=NULL the function will use a shapefile provided for use after running GetDatasets()
-#' @param Gap_Map Default=FALSE, This option will calculate gap maps for each species analyzed and will retun a list
-#' with two slots ERSex and gap_maps, or three slots ERSex, buffer_list, and gap_maps
-#' @return This function returns a dataframe with two columns:
+#' @param Gap_Map Default=FALSE, This option will calculate gap maps for each species analyzed and will return a list
+#' with two slots ERSex and gap_maps, or three slots ERSex, buffer_list, and gap_maps when Gap_Map=TRUE
+#' @return This function returns a dataframe as main result with two columns:
 #'
 #' \tabular{lcc}{
 #' species \tab Species name \cr
@@ -31,7 +31,7 @@
 #' CucurbitaRasters <- raster::unstack(CucurbitaRasters)
 #' ##Obtaining ecoregions shapefile
 #' data(ecoregions)
-#'
+#' #Running ERSex
 #' ERSex_df <- ERSex(Species_list = Cucurbita_splist,
 #'                     Occurrence_data = CucurbitaData,
 #'                     Raster_list = CucurbitaRasters,
@@ -90,7 +90,7 @@ ERSex <- function(Species_list,Occurrence_data, Raster_list, Buffer_distance=500
   # Load in ecoregions shp
   #print(missing(Ecoregions_shp))
   if(is.null(Ecoregions_shp)){
-    if(file.exists(system.file("preloaded_data/ecoRegion/tnc_terr_ecoregions.shp",package = "GapAnalysis"))){
+    if(file.exists(system.file("data/preloaded_data/ecoRegion/tnc_terr_ecoregions.shp",package = "GapAnalysis"))){
       Ecoregions_shp <- raster::shapefile(system.file("preloaded_data/ecoRegion/tnc_terr_ecoregions.shp", package = "GapAnalysis"),encoding = "UTF-8")
     } else {
       stop("Ecoregions file is not available yet. Please run the function GetDatasets() and try again")

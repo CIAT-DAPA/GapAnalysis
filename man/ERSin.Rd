@@ -25,13 +25,14 @@ loaded in raster format. This list must match the same order as the species list
 \item{Pro_areas}{A raster file representing protected areas information.
 If Pro_areas=NULL the funtion will use a protected area raster file provided for your use after run GetDatasets()}
 
-\item{Ecoregions_shp}{A shapefile representing Ecoregions_shp information with a field ECO_NUM representing Ecoregions_shp Ids.}
+\item{Ecoregions_shp}{A shapefile representing Ecoregions_shp information with a field ECO_NUM representing Ecoregions_shp Ids.
+If Ecoregions_shp=NULL the funtion will use a protected area raster file provided for your use after run GetDatasets()}
 
-\item{Gap_Map}{Default=FALSE, This option will calculate gap maps for each species analyzed and will retun a list
+\item{Gap_Map}{Default=FALSE, This option will calculate gap maps for each species analyzed and will return a list
 with two slots ERSin and gap_maps}
 }
 \value{
-This function returns a data frame with two columns:
+This function returns a dataframe as main result with two columns:
 
 \tabular{lcc}{
 species \tab Species name \cr
@@ -59,7 +60,7 @@ CucurbitaRasters <- raster::unstack(CucurbitaRasters)
 data(ProtectedAreas)
 ##Obtaining ecoregions shapefile
 data(ecoregions)
-
+#Running ERSin
 ERSin_df <- ERSin(Species_list = Cucurbita_splist,
                    Occurrence_data = CucurbitaData,
                    Raster_list = CucurbitaRasters,

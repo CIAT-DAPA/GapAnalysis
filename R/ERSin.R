@@ -15,9 +15,10 @@
 #' @param Pro_areas A raster file representing protected areas information.
 #'  If Pro_areas=NULL the funtion will use a protected area raster file provided for your use after run GetDatasets()
 #' @param Ecoregions_shp A shapefile representing Ecoregions_shp information with a field ECO_NUM representing Ecoregions_shp Ids.
-#' @param Gap_Map Default=FALSE, This option will calculate gap maps for each species analyzed and will retun a list
+#'  If Ecoregions_shp=NULL the funtion will use a protected area raster file provided for your use after run GetDatasets()
+#' @param Gap_Map Default=FALSE, This option will calculate gap maps for each species analyzed and will return a list
 #'  with two slots ERSin and gap_maps
-#' @return This function returns a data frame with two columns:
+#' @return This function returns a dataframe as main result with two columns:
 #'
 #' \tabular{lcc}{
 #' species \tab Species name \cr
@@ -36,7 +37,7 @@
 #' data(ProtectedAreas)
 #' ##Obtaining ecoregions shapefile
 #' data(ecoregions)
-#'
+#' #Running ERSin
 #' ERSin_df <- ERSin(Species_list = Cucurbita_splist,
 #'                    Occurrence_data = CucurbitaData,
 #'                    Raster_list = CucurbitaRasters,
