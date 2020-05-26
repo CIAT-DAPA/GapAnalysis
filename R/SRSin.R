@@ -87,6 +87,9 @@ SRSin <- function(Species_list, Occurrence_data, Raster_list,Pro_areas=NULL){
     };rm(j)
     # restrict protected areas to those that are present within the model threshold
     Pro_areas1 <- raster::crop(x = Pro_areas,y = sdm)
+    if(raster::res(Pro_areas1)[1] != raster::res(sdm)[1]){
+      Pro_areas1 <- raster::resample(x = Pro_areas1, y = sdm)
+    }
     sdm[sdm == 0]<-NA
     Pro_areasSpecies <- sdm * Pro_areas1
 
