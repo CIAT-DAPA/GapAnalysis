@@ -114,6 +114,9 @@ GRSin <- function(Species_list,Occurrence_data,Raster_list,Pro_areas=NULL, Gap_M
     sdm1 <- sdm
     Pro_areas1 <- raster::crop(x = Pro_areas,y = sdm1)
     sdm1[sdm1[] == 0] <- NA
+    if(raster::res(Pro_areas1)[1] != raster::res(sdm)[1]){
+      Pro_areas1 <- raster::resample(x = Pro_areas1, y = sdm)
+    }
     cell_size <- raster::area(sdm1, na.rm=TRUE, weights=FALSE)
     cell_size <- cell_size[!is.na(cell_size)]
     thrshold_area <- length(cell_size)*median(cell_size)
