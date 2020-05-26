@@ -1,5 +1,5 @@
 #' @title Creating a summary HTML document for each taxon
-#' @name summary_HTML
+#' @name SummaryHTML
 #' @description Calls the summaryHTML rmd file information and displays
 #'  the quantitative and spatial results content.
 #' @param species_list A species list to calculate metrics.
@@ -44,7 +44,7 @@
 #'                                        proArea=ProtectedAreas,
 #'                                        ecoReg=ecoregions)
 #' fcsCombine <- FCSc_mean(fcsEx = FCSex_df,fcsIn = FCSin_df)
-#' summaryHTML_file <- summary_HTML(species_list=Cucurbita_splist,
+#' summaryHTML_file <- SummaryHTML(species_list=Cucurbita_splist,
 #'                                  occurrenceData = CucurbitaData,
 #'                                  raster_List=CucurbitaRasters,
 #'                                  proArea=ProtectedArea,
@@ -67,14 +67,14 @@
 #' @importFrom sp coordinates proj4string CRS
 #' @importFrom dplyr select filter
 
-summary_HTML <- function(Species_list, Occurrence_data, Raster_list,Buffer_distance=50000,Ecoregions_shp=NULL,Pro_areas=NULL
+SummaryHTML <- function(Species_list, Occurrence_data, Raster_list,Buffer_distance=50000,Ecoregions_shp=NULL,Pro_areas=NULL
                          outputFolder, writeRasters){
   out_dir <- system.file(package = "GapAnalysis")
-  
+
   if(!file.exists(paste0(out_dir,"/","preloaded_data","/","summaryHTML.Rmd"))){
     stop("Rmd file is not available yet. Please run the function preparingDatasets() and try again")
     } else {
-      n <- 1 
+      n <- 1
       for(i in Species_list){
         Species_list <- Species_list[n]
         Occurrence_data <- Occurrence_data[Occurrence_data$taxon == i, ]
