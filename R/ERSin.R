@@ -129,6 +129,9 @@ ERSin <- function(Species_list,Occurrence_data,Raster_list,Pro_areas=NULL,Ecoreg
     }
     # mask protected areas to threshold
     Pro_areas1 <- raster::crop(x = Pro_areas, y=sdm)
+    if(raster::res(Pro_areas1)[1] != raster::res(sdm)[1]){
+      Pro_areas1 <- raster::resample(x = Pro_areas1, y = sdm)
+    }
     sdm[sdm[] == 0] <- NA
     Pro_areas1 <- sdm * Pro_areas1
 
