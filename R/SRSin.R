@@ -96,17 +96,19 @@ SRSin <- function(Species_list, Occurrence_data, Raster_list,Pro_areas=NULL){
     # filter by specific species
 
     occData1 <- Occurrence_data[which(Occurrence_data$taxon==Species_list[i] & !is.na(Occurrence_data$latitude)),]
+    
 
-    # include only points that are inside of the predicted presences area. 
-    totalNum <- sum(!is.na(raster::extract(x = sdm,y = occData1)))
-    ### all know occurrence points
-    # totalNum <- nrow(occData1)
 
     # extract values to all points
     sp::coordinates(occData1) <- ~longitude+latitude
     sp::proj4string(occData1) <- sp::CRS("+proj=longlat +datum=WGS84")
     protectPoints <- sum(!is.na(raster::extract(x = Pro_areas1,y = occData1)))
-
+    
+    # include only points that are inside of the predicted presences area. 
+    totalNum <- sum(!is.na(raster::extract(x = sdm,y = occData1)))
+    ### all know occurrence points
+    # totalNum <- nrow(occData1)
+    
     #define SRSin
     if(protectPoints >= 0 ){
       SRSin <- 100 *(protectPoints/totalNum)
