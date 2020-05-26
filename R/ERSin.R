@@ -167,7 +167,11 @@ ERSin <- function(Species_list,Occurrence_data,Raster_list,Pro_areas=NULL,Ecoreg
       # select all ecoregions present in ecoVal (all points) but absent in ecoValG (g buffers)
       ecoGap <- ecoVal[!ecoVal %in% ecoValsPro]
       if(length(ecoGap) == 0){
-        GapMapIn_list[[i]] <- "All ecoregions within the model contain protected areas. There are no gaps"
+        r1 <- raster::raster()
+        raster::extent(r1) <- raster::extent(sdm)
+        raster::values(r1) <- NA
+        GapMapIn_list[[i]] <- r1
+          print("All ecoregions within the model contain protected areas. There are no gaps")
 
         }else{
         SdmMask <-  sdm
