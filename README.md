@@ -120,8 +120,6 @@ The recommended workflow is as follows:
 
 **Pre-analysis**
  - `GetDatasets` downloads the protected areas and ecoregions datasets from our data repository
- - `OccurrenceCounts` creates a .csv file with counts of G, H, and those record types with coordinates for all taxa, based on input occurrence data
- - `Gbuffer` is an internal function that creates a circular buffer of user-defined size (default is 50 km radius) around each G point for each taxon, which represents the geographic areas already considered to be sufficiently collected for ex situ conservation. The output of this process is a raster. Since this is not an exported function to use it you will need to type `GapAnalysis:::Gbuffer` in R. This  is a modified version of [geobuffer_pts.R](https://github.com/valentinitnelav/geobuffer).
 
 **Ex-situ Analysis**
  - `SRSex` calculates the Sampling Representativeness Score for _ex situ_ conservation
@@ -135,11 +133,14 @@ The recommended workflow is as follows:
  - `ERSin` calculates the Ecological Representativeness Score for _in situ_ conservation. During this process, an in situ ecological gap map is also created for each species by by mapping only the spatial areas within the distribution model of each taxon which are occupied by ecoregions not represented at all in protected areas 
  - `FCSin` calculates the Final Conservation Score for _in situ_ conservation as an average of the above 3 scores and assigns a priority category for each taxon based on the final conservation score
 
-
 **Summary evaluations**   
  - `FCSc_mean` computes the mean as well as minimum and maximum of the _ex situ_ and _in situ_ Final Conservation Scores. It also assigns taxa to priority categories based on final conservation scores (high priority (HP) for further conservation action assigned when FCS < 25, medium priority (MP) where 25 ≤ FCS < 50, low priority (LP) where 50 ≤ FCS < 75, and sufficiently conserved (SC) for taxa whose FCS ≥75)
 - `indicator` calculates an indicator across assessed taxa, which can be applied at national, regional, global, or any other scale (Khoury et al., 2019). The indicator is calculated separately with regard to ex situ, in situ, min, max, and combined (mean) conservation, by deriving the proportion of taxa categorized as SC or LP out of all taxa.
  - `SummaryHTML` produces a summary HTML output with taxon specific quantitative and spatial results
+
+**Internal functions**
+ - `OccurrenceCounts` creates a `data.frame` with counts of G, H, and those record types with coordinates for all taxa, based on input occurrence data
+ - `Gbuffer` is an internal function that creates a circular buffer of user-defined size (default is 50 km radius) around each G point for each taxon, which represents the geographic areas already considered to be sufficiently collected for ex situ conservation. The output of this process is a raster. Since this is not an exported function to use it you will need to type `GapAnalysis:::Gbuffer` in R. This  is a modified version of [geobuffer_pts.R](https://github.com/valentinitnelav/geobuffer).
 
 Each function can be run as a standalone method and in any order. However, we recommend following this workflow as it will ensure dependencies for individual functions are in place and that the variables are stored correctly to successfully produce the final summary document. For more details on each of these calculations, see the list of references below.
 
