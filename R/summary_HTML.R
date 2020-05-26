@@ -67,22 +67,23 @@
 #' @importFrom sp coordinates proj4string CRS
 #' @importFrom dplyr select filter
 
-summary_HTML <- function(species_list,occurrenceData, raster_List,  proArea,bufferDistance,
-                        #countsSummary,
-                        insituSummary, exsituSummary,
-                        fcsSummary,  outputFolder,
-                        writeRasters){
-
-out_dir <- system.file(package = "GapAnalysis")
-
-if(!file.exists(paste0(out_dir,"/","preloaded_data","/","summaryHTML.Rmd"))){
-  stop("Rmd file is not available yet. Please run the function preparingDatasets() and try again")
-} else {
-
-rmarkdown::render(input = paste0(out_dir,"/","preloaded_data","/","summaryHTML.Rmd"),
-      output_dir = outputFolder,
-      output_file  = "SummaryReport.html"
-       )
-
+summary_HTML <- function(Species_list, Occurrence_data, Raster_list,Buffer_distance=50000,Ecoregions_shp=NULL,Pro_areas=NULL
+                         outputFolder, writeRasters){
+  out_dir <- system.file(package = "GapAnalysis")
+  
+  if(!file.exists(paste0(out_dir,"/","preloaded_data","/","summaryHTML.Rmd"))){
+    stop("Rmd file is not available yet. Please run the function preparingDatasets() and try again")
+    } else {
+      n <- 1 
+      for(i in Species_list){
+        Species_list <- Species_list[n]
+        Occurrence_data <- Occurrence_data[Occurrence_data$taxon == i, ]
+        Raster_list <- Raster_list[n]
+        rmarkdown::render(input = paste0(out_dir,"/","preloaded_data","/","summaryHTML.Rmd"),
+                          output_dir = outputFolder,
+                          output_file  = paste(as.character(species_list[i]),"_SummaryReport.html")
+        )
+        n <- n+1
+      }
   }
 }
