@@ -1,7 +1,7 @@
 # GapAnalysis R package
 
 ## Description
-The GapAnalysis R package evaluates the ex situ and in situ conservation status of taxa, combines these metrics into an integrated conservation assessment, and calculates a conservation indicator metric across taxa. GapAnalysis generates quantitative and spatial outputs which demonstrate the state of conservation as well as where gaps in conservation exist. The methods are fully described in (insert GapAnalysis R paper link when published). Articles by Ramirez-Villegas et al. (2010), Castañeda-Álvarez and Khoury et al. (2016), and Khoury et al. (2019a, b) describe the main steps toward the current methodology.
+The GapAnalysis R package evaluates the ex situ and in situ conservation status of taxa, combines these metrics into an integrated  assessment, and calculates an indicator metric across taxa. GapAnalysis generates quantitative and spatial outputs which demonstrate the state of conservation as well as where gaps in protection exist. The methods are fully described in (insert GapAnalysis R paper link when published). Articles by Ramirez-Villegas et al. (2010), Castañeda-Álvarez and Khoury et al. (2016), and Khoury et al. (2019a, b) describe the main steps toward the current methodology.
 
 The GapAnalysis functions require the user to provide two inputs
 A `data.frame` of species occurrences
