@@ -45,7 +45,7 @@
 #' Khoury et al. (2019) Diversity and Distributions 26(2):209-225. doi: 10.1111/DDI.13008
 #'
 #' @export
-#' @importFrom dplyr left_join
+
 #' @importFrom raster overlay crop raster extent
 
 FCSin <- function(Species_list, Occurrence_data, Raster_list,Ecoregions_shp=NULL,Pro_areas=NULL) {
@@ -106,8 +106,8 @@ FCSin <- function(Species_list, Occurrence_data, Raster_list,Ecoregions_shp=NULL
 
 
     # join the dataframes based on species
-  FCSin_df <- dplyr::left_join(SRSin_df, GRSin_df, by ="species")
-  FCSin_df <- dplyr::left_join(FCSin_df, ERSin_df$ERSin, by = "species")
+  FCSin_df <- merge(SRSin_df, GRSin_df, by ="species")
+  FCSin_df <- merge(FCSin_df, ERSin_df$ERSin, by = "species")
       #dplyr::select("species","SRSin", "GRSin", "ERSin")
     # calculate the mean value for each row to determine fcs per species
     for(i in seq_len(nrow(FCSin_df))){

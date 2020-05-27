@@ -43,7 +43,6 @@
 #' Khoury et al. (2019) Ecological Indicators 98:420-429. doi: 10.1016/j.ecolind.2018.11.016
 #'
 #' @export
-#' @importFrom dplyr left_join
 
 
 FCSex <- function(Species_list, Occurrence_data, Raster_list, Buffer_distance=50000,Ecoregions_shp=NULL){
@@ -93,13 +92,13 @@ FCSex <- function(Species_list, Occurrence_data, Raster_list, Buffer_distance=50
   # join the dataframes based on species
 
   if(class(GRSex_df)!="list"){
-    FCSex_df <- dplyr::left_join(SRSex_df, GRSex_df, by ="species")
+    FCSex_df <- merge(SRSex_df, GRSex_df, by ="species")
   } else {
-    FCSex_df <- dplyr::left_join(SRSex_df, GRSex_df$GRSex, by ="species")
+    FCSex_df <- merge(SRSex_df, GRSex_df$GRSex, by ="species")
   }
 
 
-  FCSex_df <- dplyr::left_join(FCSex_df, ERSex_df$ERSex, by = "species")
+  FCSex_df <- merge(FCSex_df, ERSex_df$ERSex, by = "species")
   # calculate the mean value for each row to determine fcs per species
   for(i in seq_len(nrow(FCSex_df))){
     FCSex_df$FCSex[i] <- base::mean(c(FCSex_df$SRSex[i], FCSex_df$GRSex[i], FCSex_df$ERSex[i]))
