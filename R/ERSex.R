@@ -53,7 +53,7 @@
 #' @importFrom sf st_as_sf
 
 
-ERSex <- function(Species_list,Occurrence_data, Raster_list, Buffer_distance=50000,Ecoregions_shp=NULL, Gap_Map=NULL) {
+ERSex <- function(Species_list,Occurrence_data, Raster_list, Buffer_distance=50000,Ecoregions_shp=NULL,Gap_Map=NULL){
 
   taxon <- NULL
   type <- NULL
@@ -91,7 +91,7 @@ ERSex <- function(Species_list,Occurrence_data, Raster_list, Buffer_distance=500
   #print(missing(Ecoregions_shp))
   if(is.null(Ecoregions_shp)){
     if(file.exists(system.file("data/preloaded_data/ecoRegion/tnc_terr_ecoregions.shp",package = "GapAnalysis"))){
-      Ecoregions_shp <- raster::shapefile(system.file("preloaded_data/ecoRegion/tnc_terr_ecoregions.shp", package = "GapAnalysis"),encoding = "UTF-8")
+      Ecoregions_shp <- raster::shapefile(system.file("data/preloaded_data/ecoRegion/tnc_terr_ecoregions.shp", package = "GapAnalysis"),encoding = "UTF-8")
     } else {
       stop("Ecoregions file is not available yet. Please run the function GetDatasets() and try again")
     }

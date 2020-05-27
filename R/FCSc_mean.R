@@ -52,9 +52,6 @@
 #' Khoury et al. (2019) Diversity and Distributions 26(2): 209-225. doi: 10.1111/DDI.13008
 #'
 #' @export
-#' @importFrom magrittr %>%
-#' @importFrom dplyr left_join select
-
 
 FCSc_mean <- function(FCSex_df, FCSin_df) {
   df <- NULL
@@ -71,7 +68,8 @@ FCSc_mean <- function(FCSex_df, FCSin_df) {
     FCSin_df  <- FCSin_df
   }
   #join datasets and select necessary Columns
-  df <- dplyr::left_join(x = FCSex_df, y = FCSin_df, by = "species")
+  df <- merge(FCSex_df, FCSin_df, by ="species")
+  #df <- dplyr::left_join(x = FCSex_df, y = FCSin_df, by = "species")
   df <-  df[,c("species", "FCSex","FCSex_class", "FCSin", "FCSin_class")]
 
 

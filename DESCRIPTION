@@ -23,7 +23,6 @@ Imports:
   dplyr (>= 0.4.0),
   sf (>= 0.8),
   methods (>= 3.5),
-  magrittr (>= 1.5),
   geosphere (>= 1.5),
   dataverse (>= 0.2.0),
   data.table (>= 1.12),
