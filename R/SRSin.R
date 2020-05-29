@@ -134,18 +134,11 @@ SRSin <- function(Species_list, Occurrence_data, Raster_list,Pro_areas=NULL, Gap
     # number of ecoregions present in model
     if(Gap_Map==TRUE){
       # select all points within SDM outstide of protected areas  
-      proP <- inSDM[is.na(raster::extract(x = Pro_areas1,y = inSDM)),]
-      # generate map with sdm and point outside of protected area 
-      gap_map <- tm_shape(sdm)+
-        tm_raster()+
-        tm_shape(proP)+
-        tm_dots()
-      ####
-      # does not work at the moment. 
-      tmap::tmap_save(tm = gap_map, filename = 'tempMap.tiff',)
-      t1 <- raster::raster(paste0(getwd(), "/tempMap.tiff"))
-      raster::crs(t1) <- sp::CRS("+proj=longlat +datum=WGS84")
-        
+      gapP <- inSDM[is.na(raster::extract(x = Pro_areas1,y = inSDM)),]
+      gapP<- sp::SpatialPoints(coords = gapP@coords)
+      gap_map <- raster::rasterize(x = gapP, field = rep(x = 1, length(gapP)),
+                                   y = sdm, fun='count')
+      GapMapIn_list[[i]] <- gap_map 
       names(GapMapIn_list[[i]] ) <- Species_list[[i]]
       }
   if(Gap_Map==TRUE){
