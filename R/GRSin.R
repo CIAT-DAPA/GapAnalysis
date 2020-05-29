@@ -140,7 +140,7 @@ GRSin <- function(Species_list,Occurrence_data,Raster_list,Pro_areas=NULL, Gap_M
     #GRSin gap map
 
     if(Gap_Map==TRUE){
-      cat("Calculating gap maps for GRSin","\n")
+      message("Calculating gap maps for GRSin","\n")
       Pro_areas1[is.na(Pro_areas1),] <-  0
       gap_map <- sdm - Pro_areas1
       gap_map[gap_map == 0,] <- NA

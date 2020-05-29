@@ -164,7 +164,7 @@ ERSin <- function(Species_list,Occurrence_data,Raster_list,Pro_areas=NULL,Ecoreg
       df$ERSin[i] <- ERSin
     }
     if(Gap_Map==TRUE){
-      cat("Calculating gap maps for ERSin gap analysis","\n")
+      message("Calculating gap maps for ERSin gap analysis","\n")
 
       # ERSin Gap Map
       # select all ecoregions present in ecoVal (all points) but absent in ecoValG (g buffers)

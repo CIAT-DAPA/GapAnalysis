@@ -128,7 +128,7 @@ GRSex <- function(Species_list, Occurrence_data, Raster_list, Buffer_distance=50
     #GRSex gap map
 
     if(Gap_Map==TRUE){
-      cat("Calculating gap maps for GRSex","\n")
+      message("Calculating gap maps for GRSex","\n")
       bf2 <- buffer_rs
       bf2[is.na(bf2),] <- 0
       gap_map <- sdmMask - bf2
