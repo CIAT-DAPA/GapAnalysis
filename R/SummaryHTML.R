@@ -13,7 +13,7 @@
 #' If Pro_areas=NULL the funtion will use a protected area raster file provided for your use after run GetDatasets()
 #' @param Ecoregions_shp A shapefile representing Ecoregions information with a field ECO_ID_U representing Ecoregions Ids.
 #'  If Ecoregions=NULL the function will use a shapefile provided for use after running GetDatasets()
-#' @param outputFolder A path to save the HTML file resulting of this function
+#' @param Output_Folder A path to save the HTML file resulting of this function
 #' @param writeRasters Boolean field (default=F) to indicate if raster files should be saved
 #'
 #' @return This function returns a data frame file saved at a specified folder
@@ -36,7 +36,7 @@
 #'                                  Raster_list=CucurbitaRasters,
 #'                                  Pro_areas=ProtectedArea,
 #'                                  Buffer_distance=50000,
-#'                                  outputFolder=".",
+#'                                  Output_Folder=".",
 #'                                  writeRasters=F)
 #' }
 #'
@@ -52,22 +52,32 @@
 #' @importFrom dplyr select filter
 
 SummaryHTML <- function(Species_list, Occurrence_data, Raster_list,Buffer_distance=50000,Ecoregions_shp=NULL,Pro_areas=NULL,
-                         outputFolder, writeRasters){
+                         Output_Folder, writeRasters){
   out_dir <- system.file(package = "GapAnalysis")
 
   if(!file.exists(paste0(out_dir,"/data/","preloaded_data","/","summaryHTML.Rmd"))){
     stop("Rmd file is not available yet. Please run the function GetDatasets() and try again")
     } else {
-      n <- 1
-      for(i in Species_list){
-        Species_list <- Species_list[n]
-        Occurrence_data <- Occurrence_data[Occurrence_data$taxon == i, ]
-        Raster_list <- Raster_list[n]
-        rmarkdown::render(input = paste0(out_dir,"/","preloaded_data","/","summaryHTML.Rmd"),
-                          output_dir = outputFolder,
+      for(i in 1:length(Species_list)){
+        Sl <- Species_list[i]
+        Od <- Occurrence_data[Occurrence_data$taxon == Species_list[i], ]
+        if(class(Raster_list)=="RasterStack"){
+          Raster_list <- raster::unstack(Raster_list)
+        } else {
+          Raster_list <- Raster_list
+        }
+        Rl <- Raster_list[[i]]
+        rmarkdown::render(#input = paste0(out_dir,"/","preloaded_data","/","summaryHTML.Rmd"),
+                          input ="C:/Users/danie/Desktop/summaryHTML.Rmd",
+                          output_dir = Output_Folder,
                           output_file  = paste(as.character(Species_list[i]),"_SummaryReport.html")
         )
-        n <- n+1
       }
   }
 }
+
+SummaryHTML(Species_list = Species_list, 
+            Occurrence_data = Occurrence_data,
+            Raster_list = Raster_list,
+            Buffer_distance = 50000,
+            Output_Folder = "F:/nrelD/temp", writeRasters = FALSE)
