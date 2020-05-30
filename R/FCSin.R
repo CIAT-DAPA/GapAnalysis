@@ -13,6 +13,8 @@
 #' @param Pro_areas A raster file representing protected areas information.If Pro_areas=NULL the funtion will use
 #'  a protected area raster file provided for your use
 #'  after run GetDatasets()
+#' @param Gap_Map Default=NULL, This option will calculate gap maps for each species analyzed and will return a list
+#'  with four slots FCSin, SRSin_maps,GRSin_maps,and ERSin_maps
 #' @return This function returns a data frame summarizing the in situ gap analysis scores:
 #' \tabular{lcc}{
 #' species \tab Species name \cr
@@ -38,7 +40,8 @@
 #'                                       Occurrence_data=CucurbitaData,
 #'                                       Raster_list=CucurbitaRasters,
 #'                                       Ecoregions_shp=ecoregions,
-#'                                       Pro_areas=ProtectedAreas)
+#'                                       Pro_areas=ProtectedAreas,
+#'                                       Gap_Map=NULL)
 #'
 #' @references
 #'
@@ -48,7 +51,7 @@
 
 #' @importFrom raster overlay crop raster extent
 
-FCSin <- function(Species_list, Occurrence_data, Raster_list,Ecoregions_shp=NULL,Pro_areas=NULL) {
+FCSin <- function(Species_list, Occurrence_data, Raster_list,Ecoregions_shp=NULL,Pro_areas=NULL,Gap_Map=NULL) {
   SRSin_df <- NULL
   GRSin_df <- NULL
   ERSin_df <- NULL
@@ -86,29 +89,46 @@ FCSin <- function(Species_list, Occurrence_data, Raster_list,Ecoregions_shp=NULL
     Ecoregions_shp <- Ecoregions_shp
   }
 
+  #Checking if GapMapEx option is a boolean
+  if(is.null(Gap_Map) | missing(Gap_Map)){ Gap_Map <- FALSE
+  } else if(Gap_Map==TRUE | Gap_Map==FALSE){
+    Gap_Map <- Gap_Map
+  } else {
+    stop("Choose a valid option for GapMap (TRUE or FALSE)")
+  }
+
+
   # call SRSin
   SRSin_df <- SRSin(Species_list = Species_list,
                                  Occurrence_data = Occurrence_data,
                                  Raster_list = Raster_list,
-                                 Pro_areas=Pro_areas)
-  # call GRSin
+                                 Pro_areas=Pro_areas,
+                                 Gap_Map = Gap_Map)
+
   GRSin_df <- GRSin(Species_list = Species_list,
                                  Occurrence_data = Occurrence_data,
                                  Raster_list = Raster_list,
-                                 Pro_areas=Pro_areas)
-  # call ERSin
+                                 Pro_areas=Pro_areas,
+                                 Gap_Map = Gap_Map)
+
   ERSin_df <- ERSin(Species_list = Species_list,
                                  Occurrence_data =Occurrence_data,
                                  Raster_list = Raster_list,
                                  Pro_areas=Pro_areas,
                                  Ecoregions_shp=Ecoregions_shp,
-                                 Gap_Map=FALSE)
+                                 Gap_Map = Gap_Map)
 
 
+  if(Gap_Map==FALSE | is.null(Gap_Map)){
     # join the dataframes based on species
   FCSin_df <- merge(SRSin_df, GRSin_df, by ="species")
-  FCSin_df <- merge(FCSin_df, ERSin_df$ERSin, by = "species")
+  FCSin_df <- merge(FCSin_df, ERSin_df, by = "species")
       #dplyr::select("species","SRSin", "GRSin", "ERSin")
+  } else {
+    FCSin_df <- merge(SRSin_df$SRSin, GRSin_df$GRSin, by ="species")
+    FCSin_df <- merge(FCSin_df, ERSin_df$ERSin, by = "species")
+
+  }
     # calculate the mean value for each row to determine fcs per species
     for(i in seq_len(nrow(FCSin_df))){
       FCSin_df$FCSin[i] <- base::mean(c(FCSin_df$SRSin[i], FCSin_df$GRSin[i], FCSin_df$ERSin[i]))
@@ -127,6 +147,10 @@ FCSin <- function(Species_list, Occurrence_data, Raster_list,Ecoregions_shp=NULL
     }
   }
 
-
+  if(Gap_Map==TRUE){
+    FCSin_df <- list(FCSin=FCSin_df,SRSin_maps=SRSin_df$gap_maps,GRSin_maps=GRSin_df$GapMapIn_list,ERSin_maps=ERSin_df$gap_maps)
+  } else{
+    FCSin_df <- FCSin_df
+  }
   return(FCSin_df)
   }

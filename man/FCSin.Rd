@@ -9,7 +9,8 @@ FCSin(
   Occurrence_data,
   Raster_list,
   Ecoregions_shp = NULL,
-  Pro_areas = NULL
+  Pro_areas = NULL,
+  Gap_Map = NULL
 )
 }
 \arguments{
@@ -28,6 +29,9 @@ an ecoregions raster file provided for your use}
 \item{Pro_areas}{A raster file representing protected areas information.If Pro_areas=NULL the funtion will use
 a protected area raster file provided for your use
 after run GetDatasets()}
+
+\item{Gap_Map}{Default=NULL, This option will calculate gap maps for each species analyzed and will return a list
+with four slots FCSin, SRSin_maps,GRSin_maps,and ERSin_maps}
 }
 \value{
 This function returns a data frame summarizing the in situ gap analysis scores:
@@ -60,7 +64,8 @@ FCSin_df <- FCSin(Species_list=Cucurbita_splist,
                                       Occurrence_data=CucurbitaData,
                                       Raster_list=CucurbitaRasters,
                                       Ecoregions_shp=ecoregions,
-                                      Pro_areas=ProtectedAreas)
+                                      Pro_areas=ProtectedAreas,
+                                      Gap_Map=NULL)
 
 }
 \references{

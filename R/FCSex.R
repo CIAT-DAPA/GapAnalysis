@@ -11,6 +11,9 @@
 #'  Default: 50000 (50 km) around germplasm accessions (CA50)
 #' @param Ecoregions_shp A shapefile representing ecoregions information with a field ECO_NUM representing ecoregions Ids.
 #'  If Ecoregions_shp=NULL the funtion will use a shapefile provided for your use after run GetDatasets()
+#' @param Gap_Map Default=NULL, This option will calculate gap maps for each species analyzed and will return a list
+#'  with four three FCSex, GRSex_maps,and ERSex_maps
+
 #' @return This function returns a data frame summarizing the ex-situ gap analysis scores:
 #'
 #' \tabular{lcc}{
@@ -36,7 +39,8 @@
 #'                                       Occurrence_data=CucurbitaData,
 #'                                       Raster_list=CucurbitaRasters,
 #'                                       Buffer_distance=50000,
-#'                                       Ecoregions_shp=ecoregions)
+#'                                       Ecoregions_shp=ecoregions,
+#'                                       Gap_Map=NULL)
 #'
 #'@references
 #'
@@ -45,7 +49,7 @@
 #' @export
 
 
-FCSex <- function(Species_list, Occurrence_data, Raster_list, Buffer_distance=50000,Ecoregions_shp=NULL){
+FCSex <- function(Species_list, Occurrence_data, Raster_list, Buffer_distance=50000,Ecoregions_shp=NULL,Gap_Map=NULL){
 
   SRSex_df <- NULL
   GRSex_df <- NULL
@@ -72,6 +76,15 @@ FCSex <- function(Species_list, Occurrence_data, Raster_list, Buffer_distance=50
   }
 
 
+  #Checking if GapMapEx option is a boolean
+  if(is.null(Gap_Map) | missing(Gap_Map)){ Gap_Map <- FALSE
+  } else if(Gap_Map==TRUE | Gap_Map==FALSE){
+    Gap_Map <- Gap_Map
+  } else {
+    stop("Choose a valid option for GapMap (TRUE or FALSE)")
+  }
+
+
   # call SRSex
   SRSex_df <- SRSex(Species_list = Species_list,
                      Occurrence_data = Occurrence_data)
@@ -80,14 +93,14 @@ FCSex <- function(Species_list, Occurrence_data, Raster_list, Buffer_distance=50
                      Species_list = Species_list,
                     Raster_list = Raster_list,
                     Buffer_distance = Buffer_distance,
-                    Gap_Map=NULL)
+                    Gap_Map = Gap_Map)
   # call ERSex
   ERSex_df <- ERSex(Species_list = Species_list,
                      Occurrence_data = Occurrence_data,
                     Raster_list = Raster_list,
                     Buffer_distance = Buffer_distance,
                     Ecoregions_shp=Ecoregions_shp,
-                    Gap_Map=NULL)
+                    Gap_Map = Gap_Map)
 
   # join the dataframes based on species
 
@@ -115,6 +128,12 @@ FCSex <- function(Species_list, Occurrence_data, Raster_list, Buffer_distance=50
     } else {
       FCSex_df$FCSex_class[i] <- "SC"
     }
+  }
+
+  if(Gap_Map==TRUE){
+    FCSex_df <- list(FCSex=FCSex_df,GRSex_maps=GRSex_df$GapMapEx_list,ERSex_maps=ERSex_df$gap_maps)
+  } else{
+    FCSex_df <- FCSex_df
   }
 
   return(FCSex_df)

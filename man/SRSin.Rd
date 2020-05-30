@@ -4,7 +4,13 @@
 \alias{SRSin}
 \title{Sampling representativeness score in situ}
 \usage{
-SRSin(Species_list, Occurrence_data, Raster_list, Pro_areas = NULL)
+SRSin(
+  Species_list,
+  Occurrence_data,
+  Raster_list,
+  Pro_areas = NULL,
+  Gap_Map = NULL
+)
 }
 \arguments{
 \item{Species_list}{A species list to calculate the SRSin metric.}
@@ -45,7 +51,8 @@ data(ProtectedAreas)
 SRSin_df <- SRSin(Species_list = Cucurbita_splist,
                     Occurrence_data = CucurbitaData,
                     Raster_list=CucurbitaRasters,
-                    Pro_areas=ProtectedAreas)
+                    Pro_areas=ProtectedAreas,
+                    Gap_Map=TRUE)
 
 }
 \references{

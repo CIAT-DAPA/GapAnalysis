@@ -196,7 +196,7 @@ ERSin <- function(Species_list,Occurrence_data,Raster_list,Pro_areas=NULL,Ecoreg
   if(Gap_Map==TRUE){
     df <- list(ERSin=df, gap_maps = GapMapIn_list )
   }else{
-    df <- list(ERSin=df)
+    df <- df#list(ERSin=df)
   }
   return(df)
 }

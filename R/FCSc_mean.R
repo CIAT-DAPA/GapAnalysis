@@ -36,14 +36,16 @@
 #'                                       Occurrence_data=CucurbitaData,
 #'                                       Raster_list=CucurbitaRasters,
 #'                                       Buffer_distance=50000,
-#'                                       Ecoregions_shp=ecoregions
-#'                                       )
+#'                                       Ecoregions_shp=ecoregions,
+#'                                       Gap_Map=NULL)
+#'
 #' #Running all three in situ gap analysis steps using FCSin function
 #' FCSin_df <- FCSin(Species_list=Cucurbita_splist,
 #'                                       Occurrence_data=CucurbitaData,
 #'                                       Raster_list=CucurbitaRasters,
 #'                                       Ecoregions_shp=ecoregions,
-#'                                       Pro_areas=ProtectedAreas)
+#'                                       Pro_areas=ProtectedAreas,
+#'                                       Gap_Map=NULL)
 #' ## Combine gap analysis metrics
 #' FCSc_mean_df <- FCSc_mean(FCSex_df = FCSex_df,FCSin_df = FCSin_df)
 #'

@@ -76,8 +76,8 @@ SummaryHTML <- function(Species_list, Occurrence_data, Raster_list,Buffer_distan
   }
 }
 
-SummaryHTML(Species_list = Species_list, 
-            Occurrence_data = Occurrence_data,
-            Raster_list = Raster_list,
-            Buffer_distance = 50000,
-            Output_Folder = "F:/nrelD/temp", writeRasters = FALSE)
+# SummaryHTML(Species_list = Species_list,
+#             Occurrence_data = Occurrence_data,
+#             Raster_list = Raster_list,
+#             Buffer_distance = 50000,
+#             Output_Folder = "F:/nrelD/temp", writeRasters = FALSE)

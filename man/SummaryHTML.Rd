@@ -11,7 +11,7 @@ SummaryHTML(
   Buffer_distance = 50000,
   Ecoregions_shp = NULL,
   Pro_areas = NULL,
-  outputFolder,
+  Output_Folder,
   writeRasters
 )
 }
@@ -33,7 +33,7 @@ If Ecoregions=NULL the function will use a shapefile provided for use after runn
 \item{Pro_areas}{A raster file representing protected areas information.
 If Pro_areas=NULL the funtion will use a protected area raster file provided for your use after run GetDatasets()}
 
-\item{outputFolder}{A path to save the HTML file resulting of this function}
+\item{Output_Folder}{A path to save the HTML file resulting of this function}
 
 \item{writeRasters}{Boolean field (default=F) to indicate if raster files should be saved}
 }
@@ -63,7 +63,7 @@ summaryHTML_file <- SummaryHTML(Species_list=Cucurbita_splist,
                                  Raster_list=CucurbitaRasters,
                                  Pro_areas=ProtectedArea,
                                  Buffer_distance=50000,
-                                 outputFolder=".",
+                                 Output_Folder=".",
                                  writeRasters=F)
 }
 
