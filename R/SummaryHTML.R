@@ -68,7 +68,7 @@ SummaryHTML <- function(Species_list, Occurrence_data, Raster_list,Buffer_distan
         }
         Rl <- Raster_list[[i]]
         rmarkdown::render(#input = paste0(out_dir,"/","preloaded_data","/","summaryHTML.Rmd"),
-                          input ="C:/Users/danie/Desktop/summaryHTML.Rmd",
+                          input ="C:/Users/danie/Desktop/summaryHTML_ck.Rmd",
                           output_dir = Output_Folder,
                           output_file  = paste(as.character(Species_list[i]),"_SummaryReport.html")
         )
@@ -76,8 +76,8 @@ SummaryHTML <- function(Species_list, Occurrence_data, Raster_list,Buffer_distan
   }
 }
 
-# SummaryHTML(Species_list = Species_list,
-#             Occurrence_data = Occurrence_data,
-#             Raster_list = Raster_list,
-#             Buffer_distance = 50000,
-#             Output_Folder = "F:/nrelD/temp", writeRasters = FALSE)
+SummaryHTML(Species_list = Species_list,
+            Occurrence_data = Occurrence_data,
+            Raster_list = Raster_list,
+            Buffer_distance = 50000,
+            Output_Folder = "F:/nrelD/temp", writeRasters = FALSE)
