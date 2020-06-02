@@ -144,6 +144,8 @@ SRSin <- function(Species_list, Occurrence_data, Raster_list,Pro_areas=NULL, Gap
       gapP<- sp::SpatialPoints(coords = gapP@coords)
       gap_map <- raster::rasterize(x = gapP, field = rep(x = 1, length(gapP)),
                                    y = sdm, fun='count')
+      sdm[sdm==1,] <- 0 
+      gap_map <- sdm + gap_map
       GapMapIn_list[[i]] <- gap_map
       names(GapMapIn_list[[i]] ) <- Species_list[[i]]
       }
