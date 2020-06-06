@@ -49,7 +49,6 @@
 #' @importFrom tmap tmap_mode qtm
 #' @importFrom raster raster extend writeRaster crop extent
 #' @importFrom sp coordinates proj4string CRS
-#' @importFrom dplyr select filter
 
 SummaryHTML <- function(Species_list, Occurrence_data, Raster_list,Buffer_distance=50000,Ecoregions_shp=NULL,Pro_areas=NULL,
                          Output_Folder, writeRasters){
@@ -67,17 +66,10 @@ SummaryHTML <- function(Species_list, Occurrence_data, Raster_list,Buffer_distan
           Raster_list <- Raster_list
         }
         Rl <- Raster_list[[i]]
-        rmarkdown::render(#input = paste0(out_dir,"/","preloaded_data","/","summaryHTML.Rmd"),
-                          input ="C:/Users/danie/Desktop/summaryHTML_ck.Rmd",
+        rmarkdown::render(input = paste0(out_dir,"/","preloaded_data","/","summaryHTML.Rmd"),
                           output_dir = Output_Folder,
                           output_file  = paste(as.character(Species_list[i]),"_SummaryReport.html")
         )
       }
   }
 }
-
-SummaryHTML(Species_list = Species_list,
-            Occurrence_data = Occurrence_data,
-            Raster_list = Raster_list,
-            Buffer_distance = 50000,
-            Output_Folder = "F:/nrelD/temp", writeRasters = FALSE)

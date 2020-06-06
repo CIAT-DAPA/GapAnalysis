@@ -24,6 +24,9 @@ provided loaded in raster format. This list must match the same order as the spe
 \item{Pro_areas}{A raster file representing protected areas information.
 If Pro_areas=NULL the function will use a protected area raster file
 provided for your use after run GetDatasets()}
+
+\item{Gap_Map}{Default=NULL, This option will calculate gap maps for each species analyzed and will retun a list
+with two slots SRSin and gap_maps}
 }
 \value{
 This function returns a data frame with two columns:
@@ -52,7 +55,7 @@ SRSin_df <- SRSin(Species_list = Cucurbita_splist,
                     Occurrence_data = CucurbitaData,
                     Raster_list=CucurbitaRasters,
                     Pro_areas=ProtectedAreas,
-                    Gap_Map=TRUE)
+                    Gap_Map=NULL)
 
 }
 \references{

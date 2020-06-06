@@ -12,7 +12,7 @@ indicator(FCSc_mean_df)
 \value{
 this function returns a data frame object with the following columns:
 
-\tabular{lcc}{
+\tabular{lll}{
  opt \tab Final conservation score option \cr
  count_HP \tab Count of taxa high priority for conservation action \cr
  count_MP \tab Count of taxa medium priority for conservation action \cr

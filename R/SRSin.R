@@ -10,6 +10,8 @@
 #' @param Pro_areas A raster file representing protected areas information.
 #'  If Pro_areas=NULL the function will use a protected area raster file
 #'  provided for your use after run GetDatasets()
+#' @param Gap_Map Default=NULL, This option will calculate gap maps for each species analyzed and will retun a list
+#'   with two slots SRSin and gap_maps
 #' @return This function returns a data frame with two columns:
 #'
 #' \tabular{lcc}{
@@ -144,7 +146,7 @@ SRSin <- function(Species_list, Occurrence_data, Raster_list,Pro_areas=NULL, Gap
       gapP<- sp::SpatialPoints(coords = gapP@coords)
       gap_map <- raster::rasterize(x = gapP, field = rep(x = 1, length(gapP)),
                                    y = sdm, fun='count')
-      sdm[sdm==1,] <- 0 
+      sdm[sdm==1,] <- 0
       gap_map <- sdm + gap_map
       GapMapIn_list[[i]] <- gap_map
       names(GapMapIn_list[[i]] ) <- Species_list[[i]]
