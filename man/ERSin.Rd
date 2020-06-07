@@ -65,7 +65,8 @@ ERSin_df <- ERSin(Species_list = Cucurbita_splist,
                    Occurrence_data = CucurbitaData,
                    Raster_list = CucurbitaRasters,
                    Pro_areas= ProtectedAreas,
-                   Ecoregions_shp=ecoregions)
+                   Ecoregions_shp=ecoregions,
+                   Gap_Map=NULL)
 
 }
 \references{
