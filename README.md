@@ -17,20 +17,33 @@ devtools::install_github("ccsosa/GapAnalysis")
 ```
 A full list of libraries needed for the package is included below.
 
+Dependencies
 ```r
-suppressMessages(require(raster))
-suppressMessages(require(rgdal))
-suppressMessages(require(rgeos))
-suppressMessages(require(sp))
-suppressMessages(require(tmap))
-suppressMessages(require(dplyr))
-suppressMessages(require(sf))
-suppressMessages(require(geosphere))
-suppressMessages(require(dataverse))
-suppressMessages(require(data.table))
-suppressMessages(require(fasterize))
-suppressMessages(require(rmarkdown))
+base
+raster
 ```
+
+Imports
+```r
+base
+utils
+sp
+tmap
+sf
+methods
+geosphere
+dataverse
+data.table
+fasterize
+rmarkdown
+```
+
+Suggests
+```r
+rgdal
+rgeos
+```
+
 
 ## Usage
 We provide the below reproducible example (also available in the package documentation)
@@ -70,8 +83,10 @@ FCSin_df <- FCSin(Species_list=Cucurbita_splist,
                                       Pro_areas=ProtectedAreas)
 ## Combine gap analysis metrics
 FCSc_mean_df <- FCSc_mean(FCSex_df = FCSex_df,FCSin_df = FCSin_df)
+
 ##Running Conservation indicator across taxa
 indicator_df  <- indicator(FCSc_mean_df)
+
 ## Generate summary HTML file with all result
 summaryHTML_file <- summary_HTML(species_list=Cucurbita_splist,
                                  occurrenceData = CucurbitaData,
