@@ -19,29 +19,17 @@ A full list of libraries needed for the package is included below.
 
 Dependencies
 ```r
-base
 raster
 ```
 
 Imports
 ```r
-base
-utils
-sp
-tmap
-sf
-methods
-geosphere
-dataverse
-data.table
-fasterize
-rmarkdown
+base, utils, sp, tmap, sf, methods, geosphere, dataverse, data.table, fasterize, rmarkdown
 ```
 
 Suggests
 ```r
-rgdal
-rgeos
+knitr, rgdal, rgeos
 ```
 
 
