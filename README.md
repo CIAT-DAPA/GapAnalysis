@@ -48,18 +48,20 @@ data(ProtectedAreas)
 data(ecoregions)
 
 #Running all three ex situ gap analysis steps using FCSex function
-FCSex_df <- FCSex(Species_list=Cucurbita_splist,
-                                      Occurrence_data=CucurbitaData,
-                                      Raster_list=CucurbitaRasters,
-                                      Buffer_distance=50000,
-                                      Ecoregions_shp=ecoregions
-                                      )
+FCSex_df <- FCSex(Species_list=speciesList,
+                  Occurrence_data=CucurbitaData,
+                  Raster_list=CucurbitaRasters,
+                  Buffer_distance=50000,
+                  Ecoregions_shp=ecoregions
+)
+
 #Running all three in situ gap analysis steps using FCSin function
-FCSin_df <- FCSin(Species_list=Cucurbita_splist,
-                                      Occurrence_data=CucurbitaData,
-                                      Raster_list=CucurbitaRasters,
-                                      Ecoregions_shp=ecoregions,
-                                      Pro_areas=ProtectedAreas)
+FCSin_df <- FCSin(Species_list=speciesList,
+                  Occurrence_data=CucurbitaData,
+                  Raster_list=CucurbitaRasters,
+                  Ecoregions_shp=ecoregions,
+                  Pro_areas=ProtectedAreas)
+
 ## Combine gap analysis metrics
 FCSc_mean_df <- FCSc_mean(FCSex_df = FCSex_df,FCSin_df = FCSin_df)
 
@@ -67,16 +69,15 @@ FCSc_mean_df <- FCSc_mean(FCSex_df = FCSex_df,FCSin_df = FCSin_df)
 indicator_df  <- indicator(FCSc_mean_df)
 
 ## Generate summary HTML file with all result
-summaryHTML_file <- summary_HTML(species_list=Cucurbita_splist,
-                                 occurrenceData = CucurbitaData,
-                                 raster_List=CucurbitaRasters,
-                                 proArea=ProtectedArea,
-                                 bufferDistance=50000,
-                                 insituSummary=FCSin_df,
-                                 exsituSummary=FCSex_df,
-                                 fcsSummary=fcsCombine,
-                                 outputFolder=".",
-                                 writeRasters=F)
+GetDatasets()
+summaryHTML_file <- SummaryHTML(Species_list=speciesList,
+                                Occurrence_data = CucurbitaData,
+                                Raster_list=CucurbitaRasters,
+                                Buffer_distance=50000,
+                                Ecoregions_shp=ecoregions,
+                                Pro_areas=ProtectedAreas,
+                                Output_Folder=".",
+                                writeRasters=F)
 ```
 
 The below sub-sections provide further details on the input data and GapAnalysis steps.
