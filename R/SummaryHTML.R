@@ -54,6 +54,12 @@ SummaryHTML <- function(Species_list, Occurrence_data, Raster_list,Buffer_distan
                          Output_Folder, writeRasters){
   out_dir <- system.file(package = "GapAnalysis")
 
+
+  if(missing(Occurrence_data)){
+    stop("Please add a valid data frame with columns: taxon,latitude,longitude,type")
+  }
+
+
   if(!file.exists(paste0(out_dir,"/data/","preloaded_data","/","summaryHTML.Rmd"))){
     stop("Rmd file is not available yet. Please run the function GetDatasets() and try again")
     } else {

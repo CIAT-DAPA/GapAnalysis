@@ -58,6 +58,11 @@ FCSex <- function(Species_list, Occurrence_data, Raster_list, Buffer_distance=50
 
   #Checking Occurrence_data format
   par_names <- c("taxon","latitude","longitude","type")
+
+  if(missing(Occurrence_data)){
+    stop("Please add a valid data frame with columns: taxon,latitude,longitude,type")
+  }
+
   if(identical(names(Occurrence_data),par_names)==FALSE){
     stop("Please format the column names in your dataframe as taxon,latitude,longitude,type")
   }
@@ -131,7 +136,7 @@ FCSex <- function(Species_list, Occurrence_data, Raster_list, Buffer_distance=50
   }
 
   if(Gap_Map==TRUE){
-    FCSex_df <- list(FCSex=FCSex_df,GRSex_maps=GRSex_df$GapMapEx_list,ERSex_maps=ERSex_df$gap_maps)
+    FCSex_df <- list(FCSex=FCSex_df,GRSex_maps=GRSex_df$gap_maps,ERSex_maps=ERSex_df$gap_maps)
   } else{
     FCSex_df <- FCSex_df
   }

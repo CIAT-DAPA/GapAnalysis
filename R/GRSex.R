@@ -57,6 +57,10 @@ GRSex <- function(Species_list, Occurrence_data, Raster_list, Buffer_distance=50
   #Checking Occurrence_data format
   par_names <- c("taxon","latitude","longitude","type")
 
+  if(missing(Occurrence_data)){
+    stop("Please add a valid data frame with columns: taxon,latitude,longitude,type")
+  }
+
   if(identical(names(Occurrence_data),par_names)==FALSE){
     stop("Please format the column names in your dataframe as taxon,latitude,longitude,type")
   }
@@ -138,7 +142,7 @@ GRSex <- function(Species_list, Occurrence_data, Raster_list, Buffer_distance=50
     }
   }
   if(Gap_Map==TRUE){
-      df <- list(GRSex= df,GapMapEx_list=GapMapEx_list)
+      df <- list(GRSex= df,gap_maps=GapMapEx_list)
     } else {
       df <- df
     }
