@@ -92,7 +92,7 @@ SRSex_df <- SRSex(Species_list = speciesList,
 FCSex_df_list <- list()
 
 
-Running all three ex situ gap analysis steps using FCSex function
+#Running all three ex situ gap analysis steps using FCSex function
 
 #Choose if gap maps are calculated for ex situ gap analysis using diferent buffer size
 Gap_Map=FALSE
