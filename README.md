@@ -112,7 +112,7 @@ for(i in 1:length(speciesList)){
 
 #Returning FCSex object
 if(Gap_Map==TRUE){
-FCSex_df <- list(FCSex=do.call(rbind,lapply(FCSex_df_list, `[[`, 1)),
+  FCSex_df <- list(FCSex=do.call(rbind,lapply(FCSex_df_list, `[[`, 1)),
                  GRSex_maps=do.call(c,lapply(FCSex_df_list, `[[`, 2)),
                  ERSex_maps=do.call(c,lapply(FCSex_df_list, `[[`, 3))
                  )
