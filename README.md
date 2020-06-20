@@ -81,7 +81,7 @@ summaryHTML_file <- SummaryHTML(Species_list=speciesList,
                                 writeRasters=F)
 ```
 #Usage using different buffer distances for ex situ gap analysis
-
+```r
 #Buffer distances for 5, 10, and 20 km respectively
 
 buffer_distances <- c(5000,10000,20000) 
@@ -137,7 +137,7 @@ FCSc_mean_df <- FCSc_mean(FCSex_df = FCSex_df,FCSin_df = FCSin_df)
 
 ##Running Conservation indicator across taxa
 indicator_df  <- indicator(FCSc_mean_df)
-
+```
 
 The below sub-sections provide further details on the input data and GapAnalysis steps.
 
