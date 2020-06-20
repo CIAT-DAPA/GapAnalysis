@@ -145,6 +145,8 @@ SRSin <- function(Species_list, Occurrence_data, Raster_list,Pro_areas=NULL, Gap
 
     # number of ecoregions present in model
     if(Gap_Map==TRUE){
+      message(paste0("Calculating SRSin gap map for ",as.character(Species_list[i])),"\n")
+
       # select all points within SDM outstide of protected areas
       gapP <- inSDM[is.na(raster::extract(x = Pro_areas1,y = inSDM)),]
       gapP<- sp::SpatialPoints(coords = gapP@coords)

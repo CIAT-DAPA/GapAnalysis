@@ -32,11 +32,11 @@
 #' data(ecoregions)
 #' ##Running SummaryHTML function
 #' summaryHTML_file <- SummaryHTML(Species_list=Cucurbita_splist,
-#'                                  occurrenceData = CucurbitaData,
+#'                                  Occurrence_data = CucurbitaData,
 #'                                  Raster_list=CucurbitaRasters,
-#'                                  Pro_areas=ProtectedArea,
+#'                                  Pro_areas=ProtectedAreas,
 #'                                  Buffer_distance=50000,
-#'                                  Output_Folder=".",
+#'                                  Output_Folder="./",
 #'                                  writeRasters=F)
 #' }
 #'
@@ -49,6 +49,7 @@
 #' @importFrom tmap tmap_mode qtm
 #' @importFrom raster raster extend writeRaster crop extent
 #' @importFrom sp coordinates proj4string CRS
+
 
 SummaryHTML <- function(Species_list, Occurrence_data, Raster_list,Buffer_distance=50000,Ecoregions_shp=NULL,Pro_areas=NULL,
                          Output_Folder, writeRasters){

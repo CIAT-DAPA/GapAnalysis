@@ -26,10 +26,9 @@ Imports:
   dataverse (>= 0.2.0),
   data.table (>= 1.12),
   fasterize (>= 1.0.0),
-  rmarkdown (>= 2.1)
-Suggests: knitr,
-  rgeos(>= 0.5),
-  rgdal (>= 1.2-3)
+  rmarkdown (>= 2.1),
+Suggests:
+  knitr, rgdal (>= 1.2-3), rgeos(>= 0.5), kableExtra (>= 1.1.0)
 License: GPL-3
 LazyData: true
 Encoding: UTF-8

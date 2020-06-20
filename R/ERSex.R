@@ -173,7 +173,7 @@ ERSex <- function(Species_list,Occurrence_data, Raster_list, Buffer_distance=500
 
         # number of ecoregions present in model
         if(Gap_Map==TRUE){
-          message("Calculating gap maps for ERSex gap analysis","\n")
+          message(paste0("Calculating ERSex gap map for ",as.character(Species_list[i])),"\n")
 
           # ERSex Gap Map
           # select all ecoregions present in ecoVal(all points) but absent in ecoValG(g buffers)

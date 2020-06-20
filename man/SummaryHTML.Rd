@@ -59,11 +59,11 @@ data(ProtectedAreas)
 data(ecoregions)
 ##Running SummaryHTML function
 summaryHTML_file <- SummaryHTML(Species_list=Cucurbita_splist,
-                                 occurrenceData = CucurbitaData,
+                                 Occurrence_data = CucurbitaData,
                                  Raster_list=CucurbitaRasters,
-                                 Pro_areas=ProtectedArea,
+                                 Pro_areas=ProtectedAreas,
                                  Buffer_distance=50000,
-                                 Output_Folder=".",
+                                 Output_Folder="./",
                                  writeRasters=F)
 }
 
