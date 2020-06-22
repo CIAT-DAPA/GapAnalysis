@@ -8,7 +8,7 @@
 raster files
 }
 \source{
-\url{https://dataverse.harvard.edu/dataverse/GapAnalysisR}
+\url{https://dataverse.harvard.edu/dataverse/GapAnalysis}
 }
 \usage{
 CucurbitaRasters

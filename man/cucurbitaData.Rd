@@ -14,7 +14,7 @@ A data frame with 1184 rows and 4 variables:
 }
 }
 \source{
-\url{https://dataverse.harvard.edu/dataverse/GapAnalysisR}
+\url{https://dataverse.harvard.edu/dataverse/GapAnalysis}
 }
 \usage{
 CucurbitaData
