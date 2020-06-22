@@ -13,7 +13,7 @@ This library consists of 16 functions within 4 families: pre-analysis, ex situ c
 GapAnalysis can be installed as follows
 ```r
 library(devtools)
-devtools::install_github("ccsosa/GapAnalysis")
+remotes::install_github("ccsosa/GapAnalysis")
 ```
 A full list of libraries needed for the package is included below.
 
