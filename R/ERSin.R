@@ -182,8 +182,6 @@ ERSin <- function(Species_list,Occurrence_data,Raster_list,Pro_areas=NULL,Ecoreg
         raster::extent(r1) <- raster::extent(sdm)
         raster::values(r1) <- NA
         GapMapIn_list[[i]] <- r1
-          print("All ecoregions within the model contain protected areas. There are no gaps")
-
         }else{
         SdmMask <-  sdm
         SdmMask[which(SdmMask[]==0)] <- NA
