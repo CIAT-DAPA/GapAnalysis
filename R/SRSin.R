@@ -103,66 +103,81 @@ SRSin <- function(Species_list, Occurrence_data, Raster_list,Pro_areas=NULL, Gap
       if(grepl(j, i, ignore.case = TRUE)){
         sdm <- Raster_list[[j]]
       }
+      d1 <- Occurrence_data[Occurrence_data$taxon == Species_list[i],]
+    test <- GapAnalysis::paramTest(d1, sdm)
+    if(test[1] == TRUE){
+         stop(paste0("No Occurrence data exists, but and SDM was provide. Please check your occurrence data input for ", Species_list[i]))
+    }
+
     };rm(j)
-    # restrict protected areas to those that are present within the model threshold
-    Pro_areas1 <- raster::crop(x = Pro_areas,y = sdm)
-    if(raster::res(Pro_areas1)[1] != raster::res(sdm)[1]){
-      Pro_areas1 <- raster::resample(x = Pro_areas1, y = sdm)
-    }
-    sdm[sdm == 0]<-NA
-    Pro_areasSpecies <- sdm * Pro_areas1
 
-    # filter by specific species
-
-    occData1 <- Occurrence_data[which(Occurrence_data$taxon==Species_list[i] & !is.na(Occurrence_data$latitude)),]
-
-
-
-    # extract values to all points
-    sp::coordinates(occData1) <- ~longitude+latitude
-    sp::proj4string(occData1) <- sp::CRS("+proj=longlat +datum=WGS84")
-    # select all points within the SDM
-    inSDM <- occData1[!is.na(raster::extract(x = sdm,y = occData1)),]
-    # select all occurrences in SDM within protected area
-    protectPoints <- sum(!is.na(raster::extract(x = Pro_areas1,y = inSDM)))
-
-    # include only points that are inside of the predicted presences area.
-    totalNum <- dim(inSDM)[1]
-    ### all know occurrence points
-    # totalNum <- nrow(occData1)
-
-    #define SRSin
-    if(protectPoints >= 0 ){
-      SRSin <- 100 *(protectPoints/totalNum)
+    if(test[2] == FALSE){
+      df$species[i] <- as.character(Species_list[i])
+      df$SRSin[i] <- 0
+      paste0("Either no occurrence data or SDM was found for species ", as.character(Species_list[i]),
+    " the conservation metric was automatically assigned 0")
     }else{
-      SRSin <- 0
-    }
-
-    # add values to empty df
-    df$species[i] <- as.character(Species_list[i])
-    df$SRSin[i] <- SRSin
-
-
-    # number of ecoregions present in model
-    if(Gap_Map==TRUE){
-      message(paste0("Calculating SRSin gap map for ",as.character(Species_list[i])),"\n")
-
-      # select all points within SDM outstide of protected areas
-      gapP <- inSDM[is.na(raster::extract(x = Pro_areas1,y = inSDM)),]
-      gapP<- sp::SpatialPoints(coords = gapP@coords)
-      gap_map <- raster::rasterize(x = gapP, field = rep(x = 1, length(gapP)),
-                                   y = sdm, fun='count')
-      gap_map[is.na(gap_map),] <- 0
-      sdm[sdm ==0, ] <- NA
-      gap_map <- sdm * gap_map
-      GapMapIn_list[[i]] <- gap_map
-      names(GapMapIn_list[[i]] ) <- Species_list[[i]]
+      # restrict protected areas to those that are present within the model threshold
+      Pro_areas1 <- raster::crop(x = Pro_areas,y = sdm)
+      if(raster::res(Pro_areas1)[1] != raster::res(sdm)[1]){
+        Pro_areas1 <- raster::resample(x = Pro_areas1, y = sdm)
       }
+      sdm[sdm == 0]<-NA
+      Pro_areasSpecies <- sdm * Pro_areas1
+
+      # filter by specific species
+
+      occData1 <- Occurrence_data[which(Occurrence_data$taxon==Species_list[i] & !is.na(Occurrence_data$latitude)),]
+
+
+
+      # extract values to all points
+      sp::coordinates(occData1) <- ~longitude+latitude
+      sp::proj4string(occData1) <- sp::CRS("+proj=longlat +datum=WGS84")
+      # select all points within the SDM
+      inSDM <- occData1[!is.na(raster::extract(x = sdm,y = occData1)),]
+      # select all occurrences in SDM within protected area
+      protectPoints <- sum(!is.na(raster::extract(x = Pro_areas1,y = inSDM)))
+
+      # include only points that are inside of the predicted presences area.
+      totalNum <- dim(inSDM)[1]
+      ### all know occurrence points
+      # totalNum <- nrow(occData1)
+
+      #define SRSin
+      if(protectPoints >= 0 ){
+        SRSin <- 100 *(protectPoints/totalNum)
+      }else{
+        SRSin <- 0
+      }
+
+      # add values to empty df
+      df$species[i] <- as.character(Species_list[i])
+      df$SRSin[i] <- SRSin
+
+
+      # number of ecoregions present in model
+      if(Gap_Map==TRUE){
+        message(paste0("Calculating SRSin gap map for ",as.character(Species_list[i])),"\n")
+
+        # select all points within SDM outstide of protected areas
+        gapP <- inSDM[is.na(raster::extract(x = Pro_areas1,y = inSDM)),]
+        gapP<- sp::SpatialPoints(coords = gapP@coords)
+        gap_map <- raster::rasterize(x = gapP, field = rep(x = 1, length(gapP)),
+                                     y = sdm, fun='count')
+        gap_map[is.na(gap_map),] <- 0
+        sdm[sdm ==0, ] <- NA
+        gap_map <- sdm * gap_map
+        GapMapIn_list[[i]] <- gap_map
+        names(GapMapIn_list[[i]] ) <- Species_list[[i]]
+        }
+      }
+    if(Gap_Map==TRUE){
+      df <- list(SRSin=df, gap_maps = GapMapIn_list )
+    }else{
+      df <- df
     }
-  if(Gap_Map==TRUE){
-    df <- list(SRSin=df, gap_maps = GapMapIn_list )
-  }else{
-    df <- df
   }
+
 return(df)
 }

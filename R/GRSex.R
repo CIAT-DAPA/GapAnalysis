@@ -102,7 +102,21 @@ GRSex <- function(Species_list, Occurrence_data, Raster_list, Buffer_distance=50
       if(grepl(j, i, ignore.case = TRUE)){
         sdm <- Raster_list[[j]]
       }
+      d1 <- Occurrence_data[Occurrence_data$taxon == Species_list[i],]
+    test <- GapAnalysis::paramTest(d1, sdm)
+    if(test[1] == TRUE){
+         stop(paste0("No Occurrence data exists, but and SDM was provide. Please check your occurrence data input for ", Species_list[i]))
     }
+
+    };rm(j)
+
+    if(test[2] == FALSE){
+      df$species[i] <- as.character(Species_list[i])
+      df$GRSex[i] <- 0
+      paste0("Either no occurrence data or SDM was found for species ", as.character(Species_list[i]),
+    " the conservation metric was automatically assigned 0")
+    }else{
+
     # convert SDM from binary to 1-NA for mask and area
     sdmMask <- sdm
     sdmMask[sdmMask[] == 0] <- NA
@@ -146,6 +160,6 @@ GRSex <- function(Species_list, Occurrence_data, Raster_list, Buffer_distance=50
     } else {
       df <- df
     }
-
+  }
   return(df)
 }
