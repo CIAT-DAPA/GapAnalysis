@@ -129,12 +129,25 @@ ERSin <- function(Species_list,Occurrence_data,Raster_list,Pro_areas=NULL,Ecoreg
 
   for(i in seq_len(length(Species_list))){
 
-       # select threshold map for a given species
+    # select threshold map for a given species
     for(j in seq_len(length(Raster_list))){
       if(grepl(j, i, ignore.case = TRUE)){
         sdm <- Raster_list[[j]]
       }
-    }
+    d1 <- Occurrence_data[Occurrence_data$taxon == Species_list[i],]
+    test <- GapAnalysis::paramTest(d1, sdm)
+    if(test[1] == TRUE){
+       stop(paste0("No Occurrence data exists, but and SDM was provide. Please check your occurrence data input for ", Species_list[i]))
+  }
+
+  };rm(j)
+
+  if(test[2] == FALSE){
+    df$species[i] <- as.character(Species_list[i])
+    df$ERSin[i] <- 0
+    paste0("Either no occurrence data or SDM was found for species ", as.character(Species_list[i]),
+  " the conservation metric was automatically assigned 0")
+  }else{
     # mask protected areas to threshold
     Pro_areas1 <- raster::crop(x = Pro_areas, y=sdm)
     if(raster::res(Pro_areas1)[1] != raster::res(sdm)[1]){
@@ -204,5 +217,6 @@ ERSin <- function(Species_list,Occurrence_data,Raster_list,Pro_areas=NULL,Ecoreg
   }else{
     df <- df#list(ERSin=df)
   }
+}
   return(df)
 }

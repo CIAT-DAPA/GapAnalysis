@@ -115,7 +115,20 @@ GRSin <- function(Species_list,Occurrence_data,Raster_list,Pro_areas=NULL, Gap_M
       if(grepl(j, i, ignore.case = TRUE)){
         sdm <- Raster_list[[j]]
       }
+      d1 <- Occurrence_data[Occurrence_data$taxon == Species_list[i],]
+      test <- GapAnalysis::paramTest(d1, sdm)
+      if(test[1] == TRUE){
+         stop(paste0("No Occurrence data exists, but and SDM was provide. Please check your occurrence data input for ", Species_list[i]))
     }
+
+    };rm(j)
+
+    if(test[2] == FALSE){
+      df$species[i] <- as.character(Species_list[i])
+      df$GRSin[i] <- 0
+      paste0("Either no occurrence data or SDM was found for species ", as.character(Species_list[i]),
+    " the conservation metric was automatically assigned 0")
+    }else{
     # determine the area of predicted presence of a species based on the species distribution map
     sdm1 <- sdm
     Pro_areas1 <- raster::crop(x = Pro_areas,y = sdm1)
@@ -159,5 +172,6 @@ GRSin <- function(Species_list,Occurrence_data,Raster_list,Pro_areas=NULL, Gap_M
   } else {
     df <- df
   }
+}
   return(df)
 }
