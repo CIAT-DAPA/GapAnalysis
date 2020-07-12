@@ -49,7 +49,7 @@ Calls the summaryHTML rmd file information and displays
 ##Obtaining occurrences from example
 data(CucurbitaData)
 ##Obtaining species names from the data
-Cucurbita_splist <- unique(CucurbitaData$taxon)
+Cucurbita_splist <- unique(CucurbitaData$species)
 ##Obtaining raster_list
 data(CucurbitaRasters)
 CucurbitaRasters <- raster::unstack(CucurbitaRasters)

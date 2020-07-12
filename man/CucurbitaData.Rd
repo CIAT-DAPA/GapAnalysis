@@ -7,7 +7,7 @@
 \format{
 A data frame with 1184 rows and 4 variables:
 \describe{
-  \item{taxon}{character: Species name}
+  \item{species}{character: Species name}
   \item{latitude}{numeric:Latitude in decimal format}
   \item{longitude}{numeric: Longitude in decimal format}
   \item{type}{character: Source of the record,germplasm (G) or herbarium (H)}

@@ -1,6 +1,6 @@
 Package: GapAnalysis
 Title: Conservation Indicators using Spatial Information
-Version: 1.0
+Version: 1.0.1
 Authors@R: c(person("Dan", "Carver", role = "aut", comment = c(ORCID = "0000-0002-1344-6357"),
                     email= "carver.dan1@gmail.com"),
              person("Chrystian", "Sosa",role = "aut", comment = c(ORCID = "0000-0002-3734-3248"),

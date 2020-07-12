@@ -22,7 +22,7 @@
 #' ##Obtaining occurrences from example
 #' data(CucurbitaData)
 #' ##Obtaining species names from the data
-#' Cucurbita_splist <- unique(CucurbitaData$taxon)
+#' Cucurbita_splist <- unique(CucurbitaData$species)
 #' ##Obtaining raster_list
 #' data(CucurbitaRasters)
 #' CucurbitaRasters <- raster::unstack(CucurbitaRasters)
@@ -57,7 +57,7 @@ SummaryHTML <- function(Species_list, Occurrence_data, Raster_list,Buffer_distan
 
 
   if(missing(Occurrence_data)){
-    stop("Please add a valid data frame with columns: taxon,latitude,longitude,type")
+    stop("Please add a valid data frame with columns: species, latitude, longitude, type")
   }
 
 

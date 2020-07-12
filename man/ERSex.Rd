@@ -10,26 +10,26 @@ ERSex(
   Raster_list,
   Buffer_distance = 50000,
   Ecoregions_shp = NULL,
-  Gap_Map = NULL
+  Gap_Map = FALSE
 )
 }
 \arguments{
-\item{Species_list}{A species list to calculate the ERSex metrics.}
+\item{Species_list}{A vector of characters with the species names to calculate the GRSex metrics.}
 
 \item{Occurrence_data}{A data frame object with the species name, geographical coordinates,
 and type of records (G or H) for a given species}
 
-\item{Raster_list}{A list representing the species distribution models for the species list provided
-loaded in raster format. This list must match the same order as the species list.}
+\item{Raster_list}{A list of rasters representing the species distribution models for the species list provided
+in \var{Species_list}. The order of rasters in this list must match the same order as \var{Species_list}.}
 
-\item{Buffer_distance}{Geographical distance used to create circular buffers around germplasm site of collection points.
-Default: 50000 (50 km) around germplasm accession coordinates (CA50)}
+\item{Buffer_distance}{Geographical distance used to create circular buffers around germplasm.
+Default: 50000 (50 km) around germplasm accessions (CA50)}
 
 \item{Ecoregions_shp}{A shapefile representing Ecoregions information with a field ECO_ID_U representing Ecoregions Ids.
 If Ecoregions=NULL the function will use a shapefile provided for use after running GetDatasets()}
 
-\item{Gap_Map}{Default=NULL, This option will calculate gap maps for each species analyzed and will return a list
-with two slots ERSex and gap_maps, or three slots ERSex, buffer_list, and gap_maps when Gap_Map=TRUE}
+\item{Gap_Map}{logical, if \code{TRUE} the function will calculate gap maps for each species analyzed and
+will return a list with with two slots ERSex and gap_maps, or three slots ERSex, buffer_list, and gap_maps}
 }
 \value{
 This function returns a dataframe as main result with two columns:
@@ -48,7 +48,7 @@ The ERSex process provides an ecological measurement of the proportion of a spec
 \examples{
 ##Obtaining occurrences from example
 data(CucurbitaData)
-Cucurbita_splist <- unique(CucurbitaData$taxon)
+Cucurbita_splist <- unique(CucurbitaData$species)
 ## Obtaining rasterList object. ##
 data(CucurbitaRasters)
 CucurbitaRasters <- raster::unstack(CucurbitaRasters)
@@ -60,7 +60,7 @@ ERSex_df <- ERSex(Species_list = Cucurbita_splist,
                     Raster_list = CucurbitaRasters,
                     Buffer_distance = 50000,
                     Ecoregions_shp=ecoregions,
-                    Gap_Map=NULL)
+                    Gap_Map=FALSE)
 
 }
 \references{

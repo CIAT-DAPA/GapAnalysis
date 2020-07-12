@@ -5,7 +5,7 @@
 #' @param FCSc_mean_df A data frame object result of the function FCSc_mean
 #' @return this function returns a data frame object with the following columns:
 #'
-#' \tabular{lll}{
+#' \tabular{rr}{
 #'  opt \tab Final conservation score option \cr
 #'  count_HP \tab Count of taxa high priority for conservation action \cr
 #'  count_MP \tab Count of taxa medium priority for conservation action \cr
@@ -15,7 +15,7 @@
 #'  proportion_HP \tab Proportion of taxa high priority for conservation action \cr
 #'  proportion_MP \tab Proportion of taxa medium priority for conservation action   \cr
 #'  proportion_LP \tab Proportion of taxa low priority for conservation action \cr
-#'  proportion_SC \  Proportion of taxa sufficiently conserved  \cr
+#'  proportion_SC \tab  Proportion of taxa sufficiently conserved  \cr
 #'  proportion_LP_SC \tab Proportion of taxa low priority for conservation action or sufficiently conserved (indicator) \cr
 #' }
 #'
@@ -23,7 +23,7 @@
 #' ##Obtaining occurrences from example
 #' data(CucurbitaData)
 #' ##Obtaining species names from the data
-#' Cucurbita_splist <- unique(CucurbitaData$taxon)
+#' Cucurbita_splist <- unique(CucurbitaData$species)
 #' ##Obtaining raster_list
 #' data(CucurbitaRasters)
 #' CucurbitaRasters <- raster::unstack(CucurbitaRasters)

@@ -5,7 +5,7 @@
 #' @param FCSex_df A data frame or a list object result of the function FCSex
 #' @param FCSin_df A data frameor a list  object result of the function FCSin
 #'
-#' @return this function returns a data frame object with the following columns:
+#' @return This function returns a data frame object with the following columns:
 #'
 #' \tabular{lcc}{
 #'  species \tab Species name \cr
@@ -23,7 +23,7 @@
 #' ##Obtaining occurrences from example
 #' data(CucurbitaData)
 #' ##Obtaining species names from the data
-#' Cucurbita_splist <- unique(CucurbitaData$taxon)
+#' Cucurbita_splist <- unique(CucurbitaData$species)
 #' ##Obtaining raster_list
 #' data(CucurbitaRasters)
 #' CucurbitaRasters <- raster::unstack(CucurbitaRasters)
@@ -37,7 +37,7 @@
 #'                                       Raster_list=CucurbitaRasters,
 #'                                       Buffer_distance=50000,
 #'                                       Ecoregions_shp=ecoregions,
-#'                                       Gap_Map=NULL)
+#'                                       Gap_Map=FALSE)
 #'
 #' #Running all three in situ gap analysis steps using FCSin function
 #' FCSin_df <- FCSin(Species_list=Cucurbita_splist,
@@ -45,7 +45,7 @@
 #'                                       Raster_list=CucurbitaRasters,
 #'                                       Ecoregions_shp=ecoregions,
 #'                                       Pro_areas=ProtectedAreas,
-#'                                       Gap_Map=NULL)
+#'                                       Gap_Map=FALSE)
 #' ## Combine gap analysis metrics
 #' FCSc_mean_df <- FCSc_mean(FCSex_df = FCSex_df,FCSin_df = FCSin_df)
 #'
@@ -58,62 +58,45 @@
 FCSc_mean <- function(FCSex_df, FCSin_df) {
   df <- NULL
 
-  if(class(FCSex_df)=="list"){
+  if(!is.data.frame(FCSex_df)){
     FCSex_df <- FCSex_df$FCSex
   } else {
     FCSex_df <- FCSex_df
   }
 
-  if(class(FCSin_df )=="list"){
+  if(!is.data.frame(FCSin_df)){
     FCSin_df  <- FCSin_df$FCSin
   } else {
     FCSin_df  <- FCSin_df
   }
   #join datasets and select necessary Columns
-  df <- merge(FCSex_df, FCSin_df, by ="species")
+  df <- merge(FCSex_df, FCSin_df, by ="species",all.x=TRUE)
   #df <- dplyr::left_join(x = FCSex_df, y = FCSin_df, by = "species")
   df <-  df[,c("species", "FCSex","FCSex_class", "FCSin", "FCSin_class")]
-
 
   for(i in seq_len(nrow(df))){
     #compute FCS_min and FCS_min
     df$FCS_min[i] <- min(c(df$FCSex[i],df$FCSin[i]),na.rm=TRUE)
     df$FCS_max[i] <- max(c(df$FCSex[i],df$FCSin[i]),na.rm=TRUE)
     df$FCSc_mean[i] <- mean(c(df$FCSex[i],df$FCSin[i]),na.rm=TRUE)
-
-    #assign classes (min)
-    if (df$FCS_min[i] < 25) {
-      df$FCS_min_class[i] <- "HP"
-    } else if (df$FCS_min[i] >= 25 & df$FCS_min[i] < 50) {
-      df$FCS_min_class[i] <- "MP"
-    } else if (df$FCS_min[i] >= 50 & df$FCS_min[i] < 75) {
-      df$FCS_min_class[i] <- "LP"
-    } else {
-      df$FCS_min_class[i] <- "SC"
-    }
-
-    #assign classes (max)
-    if (df$FCS_max[i] < 25) {
-      df$FCS_max_class[i] <- "HP"
-    } else if (df$FCS_max[i] >= 25 & df$FCS_max[i] < 50) {
-      df$FCS_max_class[i] <- "MP"
-    } else if (df$FCS_max[i] >= 50 & df$FCS_max[i] < 75) {
-      df$FCS_max_class[i] <- "LP"
-    } else {
-      df$FCS_max_class[i] <- "SC"
-    }
-
-    #assign classes (mean)
-    if (df$FCSc_mean[i] < 25) {
-      df$FCSc_mean_class[i] <- "HP"
-    } else if (df$FCSc_mean[i] >= 25 & df$FCSc_mean[i] < 50) {
-      df$FCSc_mean_class[i] <- "MP"
-    } else if (df$FCSc_mean[i] >= 50 & df$FCSc_mean[i] < 75) {
-      df$FCSc_mean_class[i] <- "LP"
-    } else {
-      df$FCSc_mean_class[i] <- "SC"
-    }
-
   }
+
+
+  #assign classes (min)
+  df$FCS_min_class <- with(df, ifelse(FCS_min < 25, "HP",
+                                                ifelse(FCS_min >= 25 & FCS_min < 50, "MP",
+                                                       ifelse(FCS_min >= 50 & FCS_min < 75, "LP",
+                                                              "SC"))))
+  #assign classes (max)
+  df$FCS_max_class <- with(df, ifelse(FCS_max < 25, "HP",
+                                      ifelse(FCS_max >= 25 & FCS_max < 50, "MP",
+                                             ifelse(FCS_max >= 50 & FCS_max < 75, "LP",
+                                                    "SC"))))
+  df$FCSc_mean_class <- with(df, ifelse(FCSc_mean < 25, "HP",
+                                      ifelse(FCSc_mean >= 25 & FCSc_mean < 50, "MP",
+                                             ifelse(FCSc_mean >= 50 & FCSc_mean < 75, "LP",
+                                                    "SC"))))
+
+
   return(df)
 }

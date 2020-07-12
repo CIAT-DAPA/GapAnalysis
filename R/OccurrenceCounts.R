@@ -3,10 +3,9 @@
 #' @description This function creates a summary file counting
 #'  the total number of G and H occurrences, including those with coordinates
 #'
-#' @param species The name of a species
-#' @param Occurrence_data  A data frame object with the species name, g
-#'  geographical coordinates, and type of records (G or H) for a given species
-#'
+#' @param species A vector of characters with the species name.
+#' @param Occurrence_data A data frame object with the species name, geographical coordinates,
+#'  and type of records (G or H) for a given species#'
 #' @return This function returns a data frame object with the following columns:
 #'
 #' \tabular{lcc}{
@@ -24,7 +23,7 @@
 #' @examples
 #' data(CucurbitaData)
 #' ##Obtaining species names from the data
-#' Cucurbita_splist <- unique(CucurbitaData$taxon)
+#' Cucurbita_splist <- unique(CucurbitaData$species)
 #'@references
 #'
 #' Ramirez-Villegas et al. (2010) PLOS ONE, 5(10), e13497. doi: 10.1371/journal.pone.0013497
@@ -44,10 +43,10 @@ OccurrenceCounts <- function(species,Occurrence_data){
   type <- NULL
 
   #Checking Occurrence_data format
-  par_names <- c("taxon","latitude","longitude","type")
+  par_names <- c("species","latitude","longitude","type")
 
   if(identical(names(Occurrence_data),par_names)==FALSE){
-    stop("Please format the column names in your dataframe as taxon,latitude,longitude,type")
+    stop("Please format the column names in your dataframe as species, latitude, longitude, type")
   }
 
   # create an empty dataframe to store counts information
@@ -56,7 +55,7 @@ OccurrenceCounts <- function(species,Occurrence_data){
                 "totalGCoords","totalHRecords",	"totalHCoords")
   colnames(df) <- colNames
 
-  speciesOcc <- Occurrence_data[which(Occurrence_data$taxon==species),]
+  speciesOcc <- Occurrence_data[which(Occurrence_data$species==species),]
   speciesOcc$hasLat <- !is.na(speciesOcc$latitude) &
   speciesOcc$latitude != "\\N" & speciesOcc$latitude != "" &
     !is.null(speciesOcc$latitude) & speciesOcc$latitude != "NULL"
@@ -69,7 +68,7 @@ OccurrenceCounts <- function(species,Occurrence_data){
 
   # group by type and has coordinates
   tbl <- stats::aggregate(speciesOcc,list(type   = speciesOcc$type,hasLatLong =speciesOcc$hasLatLong), length)
-  tbl <- tbl[,c("type","hasLatLong","taxon")]; colnames(tbl)[3] <- "total"
+  tbl <- tbl[,c("type","hasLatLong","species")]; colnames(tbl)[3] <- "total"
 
    # assign values to the counts dataframe for the species
   df$species <- as.character(species)

@@ -16,9 +16,6 @@
 #'                                  Raster = CucurbitaRasters[[1]])
 #' }
 #' @author Dan Carver
-#'
-#' @references
-#'
 #' @export
 #' @keywords internal
 
@@ -29,7 +26,7 @@ paramTest <- function(Occurrence_data, Raster){
   # 1. Are there occurrences
   an <- nrow(Occurrence_data) > 0
   # 2. Are there occurrences with lat long
-  oc <- TRUE %in% complete.cases(Occurrence_data[,c("latitude", "longitude")])
+  oc <- TRUE %in% stats::complete.cases(Occurrence_data[,c("latitude", "longitude")])
   # 3. if no sdm exists
   sd <- class(Raster) == "RasterLayer"
   # 4.no occurrences with an SDM

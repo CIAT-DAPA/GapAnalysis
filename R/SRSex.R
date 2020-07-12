@@ -39,14 +39,14 @@ SRSex <- function(Species_list, Occurrence_data) {
   species <- NULL
 
   #Checking Occurrence_data format
-  par_names <- c("taxon","latitude","longitude","type")
+  par_names <- c("species","latitude","longitude","type")
 
   if(missing(Occurrence_data)){
-    stop("Please add a valid data frame with columns: taxon,latitude,longitude,type")
+    stop("Please add a valid data frame with columns: species, latitude, longitude, type")
   }
 
   if(identical(names(Occurrence_data),par_names)==FALSE){
-    stop("Please format the column names in your dataframe as taxon,latitude,longitude,type")
+    stop("Please format the column names in your dataframe as species, latitude, longitude, type")
   }
 
 
