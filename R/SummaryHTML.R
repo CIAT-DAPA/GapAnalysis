@@ -65,7 +65,7 @@ SummaryHTML <- function(Species_list, Occurrence_data, Raster_list,Buffer_distan
   if(!file.exists(paste0(out_dir,"/data/","preloaded_data","/","summaryHTML.Rmd"))){
     stop("Rmd file is not available yet. Please run the function GetDatasets() and try again")
     } else {
-      for(i in 1:length(Species_list)){
+      for(i in seq_len(length(Species_list))){
         Sl <- Species_list[i]
         Od <- Occurrence_data[Occurrence_data$species == Species_list[i], ]
         #Checking if user is using a raster list or a raster stack
