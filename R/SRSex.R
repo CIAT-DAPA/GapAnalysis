@@ -21,7 +21,7 @@
 #' ##Obtaining occurrences from example
 #' data(CucurbitaData)
 #' ##Obtaining species names from the data
-#' Cucurbita_splist <- unique(CucurbitaData$taxon)
+#' Cucurbita_splist <- unique(CucurbitaData$species)
 #' #Running SRSex
 #' SRSex_df <- SRSex(Species_list = Cucurbita_splist,
 #'                     Occurrence_data = CucurbitaData)

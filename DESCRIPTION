@@ -11,7 +11,7 @@ Authors@R: c(person("Dan", "Carver", role = "aut", comment = c(ORCID = "0000-000
                     email = "J.R.Villegas@cgiar.org"))
 Description: This R library was developed to support the assessment of the degree of conservation of taxa in conservation systems, 
   both in ex situ (in genebanks, botanical gardens, and other repositories) and in situ (in protected natural areas).
-URL: https://github.com/ccsosa/GapAnalysis 
+URL: https://github.com/CIAT-DAPA/GapAnalysis 
 BugReports: https://github.com/ccsosa/GapAnalysis/issues
 Depends:
   R (>= 3.5.0),
@@ -19,13 +19,13 @@ Depends:
 Imports:
   base (>= 3.5),
   utils (>= 3.5),
+  data.table,
   sp (>= 1.4.1),
   tmap (>= 2.3),
   sf (>= 0.8),
   methods (>= 3.5),
   geosphere (>= 1.5),
   dataverse (>= 0.2.0),
-  data.table (>= 1.12.8),
   fasterize (>= 1.0.0),
   rmarkdown (>= 2.1)
 Suggests:
@@ -33,7 +33,7 @@ Suggests:
   rgdal (>= 1.2-3),
   rgeos(>= 0.5),
   kableExtra (>= 1.1.0),
-  DT (>= 0.14)
+  DT
 License: GPL-3
 LazyData: true
 Encoding: UTF-8
