@@ -11,8 +11,8 @@
 #' @details \tabular{ll}{
 #' Package: \tab GapAnalysis\cr
 #' Type: \tab Package\cr
-#' Version: \tab 1.0.0\cr
-#' Date: \tab 2020-04-8\cr
+#' Version: \tab 1.0.1\cr
+#' Date: \tab 2020-07-13\cr
 #' License: \tab GPL-3\cr
 #' }
 #'

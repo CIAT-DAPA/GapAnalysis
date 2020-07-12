@@ -45,7 +45,7 @@ SRSex <- function(Species_list, Occurrence_data) {
     stop("Please add a valid data frame with columns: species, latitude, longitude, type")
   }
 
-  if(identical(names(Occurrence_data),par_names)==FALSE){
+  if(isFALSE(identical(names(Occurrence_data),par_names))){
     stop("Please format the column names in your dataframe as species, latitude, longitude, type")
   }
 
