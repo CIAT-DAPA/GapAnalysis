@@ -63,6 +63,7 @@ summaryHTML_file <- SummaryHTML(Species_list=Cucurbita_splist,
                                  Raster_list=CucurbitaRasters,
                                  Pro_areas=ProtectedAreas,
                                  Buffer_distance=50000,
+                                 Ecoregions_shp=ecoregions,
                                  Output_Folder="./",
                                  writeRasters=F)
 }

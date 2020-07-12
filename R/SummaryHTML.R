@@ -36,6 +36,7 @@
 #'                                  Raster_list=CucurbitaRasters,
 #'                                  Pro_areas=ProtectedAreas,
 #'                                  Buffer_distance=50000,
+#'                                  Ecoregions_shp=ecoregions,
 #'                                  Output_Folder="./",
 #'                                  writeRasters=F)
 #' }
@@ -66,8 +67,9 @@ SummaryHTML <- function(Species_list, Occurrence_data, Raster_list,Buffer_distan
     } else {
       for(i in 1:length(Species_list)){
         Sl <- Species_list[i]
-        Od <- Occurrence_data[Occurrence_data$taxon == Species_list[i], ]
-        if(class(Raster_list)=="RasterStack"){
+        Od <- Occurrence_data[Occurrence_data$species == Species_list[i], ]
+        #Checking if user is using a raster list or a raster stack
+        if (isTRUE("RasterStack" %in% class(Raster_list))) {
           Raster_list <- raster::unstack(Raster_list)
         } else {
           Raster_list <- Raster_list

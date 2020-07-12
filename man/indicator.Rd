@@ -10,7 +10,7 @@ indicator(FCSc_mean_df)
 \item{FCSc_mean_df}{A data frame object result of the function FCSc_mean}
 }
 \value{
-this function returns a data frame object with the following columns:
+This function returns a data frame object with the following columns:
 
 \tabular{rr}{
  opt \tab Final conservation score option \cr

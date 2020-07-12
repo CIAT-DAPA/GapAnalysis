@@ -3,7 +3,7 @@
 #' @description This function uses a data.frame resulting from the function FCSc_mean and
 #'  computes a conservation indicator across taxa.
 #' @param FCSc_mean_df A data frame object result of the function FCSc_mean
-#' @return this function returns a data frame object with the following columns:
+#' @return This function returns a data frame object with the following columns:
 #'
 #' \tabular{rr}{
 #'  opt \tab Final conservation score option \cr
