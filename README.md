@@ -17,9 +17,9 @@ A full list of libraries needed for the package is included below.
 
 **Dependencies:** `raster`
 
-**Imports:** `base, utils, sp, tmap, sf, methods, geosphere, dataverse, data.table, fasterize, rmarkdown`
+**Imports:** `base, utils, sp, tmap, data.table, sf, methods, geosphere, dataverse, data.table, fasterize, rmarkdown`
 
-**Suggests:** `knitr, rgdal, rgeos`
+**Suggests:** `knitr, rgdal, rgeos, kableExtra, DT`
 
 
 ## Usage
