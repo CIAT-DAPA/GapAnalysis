@@ -155,7 +155,7 @@ Cucurbita_digitata |  | | H
 
 **type:** All records must be classified as either a reference observation (typically the main presence data input into the species distribution modeling, labeled H as most records in our previous research source from herbaria), or as a “site of collection” location of an existing ex situ accession from a conservation repository (labeled G, as most records in our previous research source from genebanks). This distinction is significant for multiple evaluations and effort must be taken to ensure the correct assignment of these values.
 
-Digital repositories such as GBIF, EDDmaps, and IDIGBIO contain observed locations of a taxon considered “H” type occurrences in GapAnalyis. From our experience there can be duplication within and between such databases and care should be taken to reduce duplication where possible.
+Digital repositories such as GBIF, EDDmaps, and IDIGBIO contain observed locations of a taxon considered “H” type occurrences in GapAnalysis. From our experience there can be duplication within and between such databases and care should be taken to reduce duplication where possible.
 
 The major sources for G occurrence data that the authors have used in GapAnalysis include [USDA GRIN](https://npgsweb.ars-grin.gov/gringlobal/search.aspx), [GENESYS](https://www.genesys-pgr.org/), [FAO WIEWS](http://www.fao.org/wiews/en/), [PlantSearch](https://tools.bgci.org/plant_search.php), and [GBIF](https://www.gbif.org/) (records designated as 'living specimen'). Generally, data from these sources would be considered a G type if it is still an active and living accession. Duplication between these sources may exist.
 
