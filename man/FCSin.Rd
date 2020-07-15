@@ -10,17 +10,17 @@ FCSin(
   Raster_list,
   Ecoregions_shp = NULL,
   Pro_areas = NULL,
-  Gap_Map = NULL
+  Gap_Map = FALSE
 )
 }
 \arguments{
-\item{Species_list}{A species list to calculate metrics.}
+\item{Species_list}{A vector of characters with the species names to calculate the GRSex metrics.}
 
 \item{Occurrence_data}{A data frame object with the species name, geographical coordinates,
 and type of records (G or H) for a given species}
 
-\item{Raster_list}{A list representing the species distribution models for the species list provided
-loaded in raster format. This list must match the same order as the species list.}
+\item{Raster_list}{A list of rasters representing the species distribution models for the species list provided
+in \var{Species_list}. The order of rasters in this list must match the same order as \var{Species_list}.}
 
 \item{Ecoregions_shp}{A shapefile representing Ecoregions_shp information with a field ECO_NUM
 representing Ecoregions_shp Ids.If Ecoregions_shp=NULL the funtion will use
@@ -30,7 +30,7 @@ an ecoregions raster file provided for your use}
 a protected area raster file provided for your use
 after run GetDatasets()}
 
-\item{Gap_Map}{Default=NULL, This option will calculate gap maps for each species analyzed and will return a list
+\item{Gap_Map}{logical, if \code{TRUE} the function will calculate gap maps for each species analyzed and will return a list
 with four slots FCSin, SRSin_maps,GRSin_maps,and ERSin_maps}
 }
 \value{
@@ -51,7 +51,7 @@ assigns a priority category based on the results
 ##Obtaining occurrences from example
 data(CucurbitaData)
 ##Obtaining species names from the data
-Cucurbita_splist <- unique(CucurbitaData$taxon)
+Cucurbita_splist <- unique(CucurbitaData$species)
 ##Obtaining Raster_list
 data(CucurbitaRasters)
 CucurbitaRasters <- raster::unstack(CucurbitaRasters)
@@ -65,7 +65,7 @@ FCSin_df <- FCSin(Species_list=Cucurbita_splist,
                                       Raster_list=CucurbitaRasters,
                                       Ecoregions_shp=ecoregions,
                                       Pro_areas=ProtectedAreas,
-                                      Gap_Map=NULL)
+                                      Gap_Map=FALSE)
 
 }
 \references{

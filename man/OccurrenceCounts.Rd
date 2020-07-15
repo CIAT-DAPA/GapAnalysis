@@ -7,10 +7,10 @@
 OccurrenceCounts(species, Occurrence_data)
 }
 \arguments{
-\item{species}{The name of a species}
+\item{species}{A vector of characters with the species name.}
 
-\item{Occurrence_data}{A data frame object with the species name, g
-geographical coordinates, and type of records (G or H) for a given species}
+\item{Occurrence_data}{A data frame object with the species name, geographical coordinates,
+and type of records (G or H) for a given species#'}
 }
 \value{
 This function returns a data frame object with the following columns:
@@ -34,7 +34,7 @@ This function creates a summary file counting
 \examples{
 data(CucurbitaData)
 ##Obtaining species names from the data
-Cucurbita_splist <- unique(CucurbitaData$taxon)
+Cucurbita_splist <- unique(CucurbitaData$species)
 }
 \references{
 Ramirez-Villegas et al. (2010) PLOS ONE, 5(10), e13497. doi: 10.1371/journal.pone.0013497

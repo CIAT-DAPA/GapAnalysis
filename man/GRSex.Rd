@@ -9,23 +9,24 @@ GRSex(
   Occurrence_data,
   Raster_list,
   Buffer_distance = 50000,
-  Gap_Map = NULL
+  Gap_Map = FALSE
 )
 }
 \arguments{
-\item{Species_list}{A species list to calculate the GRSex metrics.}
+\item{Species_list}{A vector of characters with the species names to calculate the GRSex metrics.}
 
 \item{Occurrence_data}{A data frame object with the species name, geographical coordinates,
 and type of records (G or H) for a given species}
 
-\item{Raster_list}{A list representing the species distribution models for the species list provided
-loaded in raster format. This list must match the same order as the species list.}
+\item{Raster_list}{A list of rasters representing the species distribution models for the species list provided
+in \var{Species_list}. The order of rasters in this list must match the same order as \var{Species_list}.}
 
 \item{Buffer_distance}{Geographical distance used to create circular buffers around germplasm.
 Default: 50000 (50 km) around germplasm accessions (CA50)}
 
-\item{Gap_Map}{Default=NULL, This option will calculate gap maps for each species analyzed and will retun a list
-with two slots GRSex and gap_maps}
+\item{Gap_Map}{logical, if \code{TRUE} the function will calculate gap maps for each species analyzed and
+will return a list with two slots GRSex and gap_maps. If any value is provided, the function will assume that
+Gap_Map = TRUE}
 }
 \value{
 This function returns a data frame with two columns:
@@ -44,7 +45,7 @@ The GRSex process provides a geographic measurement of the proportion of a speci
 \examples{
 ##Obtaining occurrences from example
 data(CucurbitaData)
-Cucurbita_splist <- unique(CucurbitaData$taxon)
+Cucurbita_splist <- unique(CucurbitaData$species)
 ## Obtaining rasterList object. ##
 data(CucurbitaRasters)
 CucurbitaRasters <- raster::unstack(CucurbitaRasters)
@@ -53,7 +54,7 @@ GRSex_df <- GRSex(Species_list = Cucurbita_splist,
                     Occurrence_data = CucurbitaData,
                     Raster_list = CucurbitaRasters,
                     Buffer_distance = 50000,
-                    Gap_Map = NULL)
+                    Gap_Map = TRUE)
 
 }
 \references{

@@ -3,9 +3,7 @@
 ## Description
 The GapAnalysis R package evaluates the ex situ and in situ conservation status of taxa, combines these metrics into an integrated  assessment, and calculates an indicator metric across taxa. GapAnalysis generates quantitative and spatial outputs which demonstrate the state of conservation as well as where gaps in protection exist. The methods are fully described in (insert GapAnalysis R paper link when published). Articles by Ramirez-Villegas et al. (2010), Castañeda-Álvarez and Khoury et al. (2016), and Khoury et al. (2019a, b) describe the main steps toward the current methodology.
 
-The GapAnalysis functions require the user to provide two inputs
-A `data.frame` of species occurrences
-A `raster` object of the predicted habitat (species distribution model) for each assessed taxon
+The GapAnalysis functions require the user to provide two inputs: a `data.frame` of species occurrences, and a `raster` object of the predicted habitat (species distribution model) for each assessed taxon.
 
 This library consists of 16 functions within 4 families: pre-analysis, ex situ conservation gap analysis, in situ conservation gap analysis, and summary evaluations. In short, the pre-analysis process establishes the file structure and prepares the input data. The ex situ and in situ processes perform the respective conservation strategy gap analyses and produce both quantitative and spatial results. The combined assessment merges the individual assessments, summarizes the results across taxa, calculates the indicator, and generates a summary html document for each taxon, which can be used to evaluate outputs and aid conservation planning. 
 
@@ -19,9 +17,9 @@ A full list of libraries needed for the package is included below.
 
 **Dependencies:** `raster`
 
-**Imports:** `base, utils, sp, tmap, sf, methods, geosphere, dataverse, data.table, fasterize, rmarkdown`
+**Imports:** `base, utils, sp, tmap, data.table, sf, methods, geosphere, dataverse, data.table, fasterize, rmarkdown`
 
-**Suggests:** `knitr, rgdal, rgeos`
+**Suggests:** `knitr, rgdal, rgeos, kableExtra, DT`
 
 
 ## Usage
@@ -36,7 +34,7 @@ library(GapAnalysis)
 data(CucurbitaData)
 
 ##Obtaining species names from the data
-speciesList <- unique(CucurbitaData$taxon)
+speciesList <- unique(CucurbitaData$species)
 
 ##Obtaining raster_list
 data(CucurbitaRasters)
@@ -146,12 +144,12 @@ The below sub-sections provide further details on the input data and GapAnalysis
 
 A `data.frame` of species occurrences and record type. This process can handle single or multiple taxa.
 
-taxon | latitude | longitude | type
+species | latitude | longitude | type
 ------------ | ------------- | -------------| -------------
 Cucurbita_cordata | 28.9457 | -113.563 | G
 Cucurbita_digitata |  | | H
 
-**taxon:** this value will be the key for all functions in this library. Ensure it is consistent for all records and is included in the file name of your predicted potential habitat .tif as well.
+**species:** this value will be the key for all functions in this library. Ensure it is consistent for all records and is included in the file name of your predicted potential habitat .tif as well.
 
 **latitude** and **longitude** must be in decimal degrees, preferably with the highest accuracy possible.
 

@@ -49,7 +49,7 @@ Calls the summaryHTML rmd file information and displays
 ##Obtaining occurrences from example
 data(CucurbitaData)
 ##Obtaining species names from the data
-Cucurbita_splist <- unique(CucurbitaData$taxon)
+Cucurbita_splist <- unique(CucurbitaData$species)
 ##Obtaining raster_list
 data(CucurbitaRasters)
 CucurbitaRasters <- raster::unstack(CucurbitaRasters)
@@ -63,6 +63,7 @@ summaryHTML_file <- SummaryHTML(Species_list=Cucurbita_splist,
                                  Raster_list=CucurbitaRasters,
                                  Pro_areas=ProtectedAreas,
                                  Buffer_distance=50000,
+                                 Ecoregions_shp=ecoregions,
                                  Output_Folder="./",
                                  writeRasters=F)
 }

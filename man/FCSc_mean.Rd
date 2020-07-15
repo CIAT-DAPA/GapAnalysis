@@ -12,7 +12,7 @@ FCSc_mean(FCSex_df, FCSin_df)
 \item{FCSin_df}{A data frameor a list  object result of the function FCSin}
 }
 \value{
-this function returns a data frame object with the following columns:
+This function returns a data frame object with the following columns:
 
 \tabular{lcc}{
  species \tab Species name \cr
@@ -34,7 +34,7 @@ This function creates a final combined conservation score by averaging the FCSex
 ##Obtaining occurrences from example
 data(CucurbitaData)
 ##Obtaining species names from the data
-Cucurbita_splist <- unique(CucurbitaData$taxon)
+Cucurbita_splist <- unique(CucurbitaData$species)
 ##Obtaining raster_list
 data(CucurbitaRasters)
 CucurbitaRasters <- raster::unstack(CucurbitaRasters)
@@ -48,7 +48,7 @@ FCSex_df <- FCSex(Species_list=Cucurbita_splist,
                                       Raster_list=CucurbitaRasters,
                                       Buffer_distance=50000,
                                       Ecoregions_shp=ecoregions,
-                                      Gap_Map=NULL)
+                                      Gap_Map=FALSE)
 
 #Running all three in situ gap analysis steps using FCSin function
 FCSin_df <- FCSin(Species_list=Cucurbita_splist,
@@ -56,7 +56,7 @@ FCSin_df <- FCSin(Species_list=Cucurbita_splist,
                                       Raster_list=CucurbitaRasters,
                                       Ecoregions_shp=ecoregions,
                                       Pro_areas=ProtectedAreas,
-                                      Gap_Map=NULL)
+                                      Gap_Map=FALSE)
 ## Combine gap analysis metrics
 FCSc_mean_df <- FCSc_mean(FCSex_df = FCSex_df,FCSin_df = FCSin_df)
 

@@ -22,7 +22,7 @@
 #' ##Obtaining occurrences from example
 #' data(CucurbitaData)
 #' ##Obtaining species names from the data
-#' Cucurbita_splist <- unique(CucurbitaData$taxon)
+#' Cucurbita_splist <- unique(CucurbitaData$species)
 #' ##Obtaining raster_list
 #' data(CucurbitaRasters)
 #' CucurbitaRasters <- raster::unstack(CucurbitaRasters)
@@ -36,6 +36,7 @@
 #'                                  Raster_list=CucurbitaRasters,
 #'                                  Pro_areas=ProtectedAreas,
 #'                                  Buffer_distance=50000,
+#'                                  Ecoregions_shp=ecoregions,
 #'                                  Output_Folder="./",
 #'                                  writeRasters=F)
 #' }
@@ -57,17 +58,18 @@ SummaryHTML <- function(Species_list, Occurrence_data, Raster_list,Buffer_distan
 
 
   if(missing(Occurrence_data)){
-    stop("Please add a valid data frame with columns: taxon,latitude,longitude,type")
+    stop("Please add a valid data frame with columns: species, latitude, longitude, type")
   }
 
 
   if(!file.exists(paste0(out_dir,"/data/","preloaded_data","/","summaryHTML.Rmd"))){
     stop("Rmd file is not available yet. Please run the function GetDatasets() and try again")
     } else {
-      for(i in 1:length(Species_list)){
+      for(i in seq_len(length(Species_list))){
         Sl <- Species_list[i]
-        Od <- Occurrence_data[Occurrence_data$taxon == Species_list[i], ]
-        if(class(Raster_list)=="RasterStack"){
+        Od <- Occurrence_data[Occurrence_data$species == Species_list[i], ]
+        #Checking if user is using a raster list or a raster stack
+        if (isTRUE("RasterStack" %in% class(Raster_list))) {
           Raster_list <- raster::unstack(Raster_list)
         } else {
           Raster_list <- Raster_list
