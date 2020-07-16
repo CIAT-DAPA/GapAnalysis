@@ -78,7 +78,10 @@ summaryHTML_file <- SummaryHTML(Species_list=speciesList,
                                 Output_Folder=".",
                                 writeRasters=F)
 ```
-#Usage using different buffer distances for ex situ gap analysis
+
+
+# Usage using different buffer distances for ex situ gap analysis
+
 ```r
 #Buffer distances for 5, 10, and 20 km respectively
 
