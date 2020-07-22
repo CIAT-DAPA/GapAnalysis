@@ -76,7 +76,7 @@ summaryHTML_file <- SummaryHTML(Species_list=speciesList,
                                 Ecoregions_shp=ecoregions,
                                 Pro_areas=ProtectedAreas,
                                 Output_Folder=".",
-                                writeRasters=F)
+                                writeRasters=FALSE)
 ```
 
 
