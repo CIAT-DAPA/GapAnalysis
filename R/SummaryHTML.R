@@ -14,11 +14,11 @@
 #' @param Ecoregions_shp A shapefile representing Ecoregions information with a field ECO_ID_U representing Ecoregions Ids.
 #'  If Ecoregions=NULL the function will use a shapefile provided for use after running GetDatasets()
 #' @param Output_Folder A path to save the HTML file resulting of this function
-#' @param writeRasters Boolean field (default=F) to indicate if raster files should be saved
+#' @param writeRasters Boolean field (default=FALSE) to indicate if raster files should be saved
 #'
 #' @return This function returns a data frame file saved at a specified folder
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' ##Obtaining occurrences from example
 #' data(CucurbitaData)
 #' ##Obtaining species names from the data
@@ -30,6 +30,8 @@
 #' data(ProtectedAreas)
 #' ##Obtaining ecoregions shapefile
 #' data(ecoregions)
+#' ##Get datasets
+#' GetDatasets()
 #' ##Running SummaryHTML function
 #' summaryHTML_file <- SummaryHTML(Species_list=Cucurbita_splist,
 #'                                  Occurrence_data = CucurbitaData,
@@ -37,8 +39,8 @@
 #'                                  Pro_areas=ProtectedAreas,
 #'                                  Buffer_distance=50000,
 #'                                  Ecoregions_shp=ecoregions,
-#'                                  Output_Folder="./",
-#'                                  writeRasters=F)
+#'                                  Output_Folder=tempdir(),
+#'                                  writeRasters=FALSE)
 #' }
 #'
 #'@references

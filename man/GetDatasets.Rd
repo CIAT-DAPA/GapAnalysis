@@ -16,7 +16,7 @@ This function creates the data_preloaded folder.
  It downloads datasets from dataverse to allow the gapAnalysis package to function.
 }
 \examples{
-\dontrun{
+\donttest{
 GetDatasets()
 }
 }

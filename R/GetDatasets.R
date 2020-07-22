@@ -6,7 +6,7 @@
 #'  It creates the folder data_preloaded into the GapAnalysis.
 #' Please run this function after installing the package.
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' GetDatasets()
 #' }
 #' @references

@@ -35,7 +35,7 @@ If Pro_areas=NULL the funtion will use a protected area raster file provided for
 
 \item{Output_Folder}{A path to save the HTML file resulting of this function}
 
-\item{writeRasters}{Boolean field (default=F) to indicate if raster files should be saved}
+\item{writeRasters}{Boolean field (default=FALSE) to indicate if raster files should be saved}
 }
 \value{
 This function returns a data frame file saved at a specified folder
@@ -45,7 +45,7 @@ Calls the summaryHTML rmd file information and displays
  the quantitative and spatial results content.
 }
 \examples{
-\dontrun{
+\donttest{
 ##Obtaining occurrences from example
 data(CucurbitaData)
 ##Obtaining species names from the data
@@ -57,6 +57,8 @@ CucurbitaRasters <- raster::unstack(CucurbitaRasters)
 data(ProtectedAreas)
 ##Obtaining ecoregions shapefile
 data(ecoregions)
+##Get datasets
+GetDatasets()
 ##Running SummaryHTML function
 summaryHTML_file <- SummaryHTML(Species_list=Cucurbita_splist,
                                  Occurrence_data = CucurbitaData,
@@ -64,8 +66,8 @@ summaryHTML_file <- SummaryHTML(Species_list=Cucurbita_splist,
                                  Pro_areas=ProtectedAreas,
                                  Buffer_distance=50000,
                                  Ecoregions_shp=ecoregions,
-                                 Output_Folder="./",
-                                 writeRasters=F)
+                                 Output_Folder=tempdir(),
+                                 writeRasters=FALSE)
 }
 
 }

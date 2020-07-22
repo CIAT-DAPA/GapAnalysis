@@ -17,8 +17,4 @@ Date: \tab 2020-07-13\cr
 License: \tab GPL-3\cr
 }
 }
-\author{
-\strong{CIAT Decision and Policy Analysis research area}\cr
-email: \email{J.R.Villegas@cgiar.org}
-}
 \keyword{package}
