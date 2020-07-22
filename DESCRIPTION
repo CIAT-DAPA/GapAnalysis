@@ -8,7 +8,13 @@ Authors@R: c(person("Dan", "Carver", role = "aut", comment = c(ORCID = "0000-000
              person("Colin", "Khoury", role = "aut", comment = c(ORCID = "0000-0001-7893-5744"),
                     email= "c.khoury@cgiar.org"),
              person("Julian", "Ramirez-Villegas",role = c("aut","cre"), comment = c(ORCID = "0000-0002-8044-583X"),
-                    email = "J.R.Villegas@cgiar.org"))
+                    email = "J.R.Villegas@cgiar.org"),
+             person("Valentin", "Stefan",role = c("ctb"), email = "valentin.stefan@ufz.de"),
+             person("Harold", "Achicanoy",role = c("ctb"), email = "h.a.achicanoy@cgiar.org"),
+             person("Maria Victoria", "Diaz",role = c("ctb"), email = "m.v.diaz@cgiar.org"),
+             person("Steven", "Sotelo",role = c("ctb"), email = "h.sotelo@cgiar.org"),
+             person("Nora", "Castaneda-Alvarez",role = c("ctb"), email = "nora.castaneda@croptrust.org"),
+             person("Kaue", "De Sousa",role = c("ctb"), email = "k.desousa@cgiar.org"))
 Description: This R library was developed to support the assessment of the degree of conservation of taxa in conservation systems, 
   both in ex situ (in genebanks, botanical gardens, and other repositories) and in situ (in protected natural areas).
 URL: https://github.com/CIAT-DAPA/GapAnalysis
