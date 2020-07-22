@@ -152,7 +152,7 @@ species | latitude | longitude | type
 Cucurbita_cordata | 28.9457 | -113.563 | G
 Cucurbita_digitata |  | | H
 
-**species:** this value will be the key for all functions in this library. Ensure it is consistent for all records and is included in the file name of your predicted potential habitat .tif as well.
+**species:** this value will be the key for all functions in this library. Ensure it is consistent for all records and is included in the file name of your predicted potential habitat `raster` as well.
 
 **latitude** and **longitude** must be in decimal degrees, preferably with the highest accuracy possible.
 
