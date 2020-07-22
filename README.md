@@ -196,6 +196,7 @@ The recommended workflow is as follows:
 **Internal functions**
  - `OccurrenceCounts` creates a `data.frame` with counts of G, H, and those record types with coordinates for all taxa, based on input occurrence data
  - `Gbuffer` is an internal function that creates a circular buffer of user-defined size (default is 50 km radius) around each G point for each taxon, which represents the geographic areas already considered to be sufficiently collected for ex situ conservation. The output of this process is a raster. Since this is not an exported function to use it you will need to type `GapAnalysis:::Gbuffer` in R. This is a modified version of [geobuffer_pts.R](https://github.com/valentinitnelav/geobuffer).
+ - `ParamTest` checks if occurrence data and distribution models exist for each species and sets the conservation scores to zero if there are no occurrences with coordinates or no model.
 
 Each function can be run as a standalone method and in any order. However, we recommend following this workflow as it will ensure dependencies for individual functions are in place and that the variables are stored correctly to successfully produce the final summary document. For more details on each of these calculations, see the list of references below.
 
