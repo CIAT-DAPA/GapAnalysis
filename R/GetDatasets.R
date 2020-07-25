@@ -61,5 +61,5 @@ GetDatasets <- function(){
       message("WDPA FILE WAS ALREADY DOWNLOADED","\n")
     }
 
-  return("DATASETS WERE DOWNLOADED!")
+  return(message("DATASETS WERE DOWNLOADED!"))
 }
