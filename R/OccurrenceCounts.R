@@ -24,6 +24,8 @@
 #' data(CucurbitaData)
 #' ##Obtaining species names from the data
 #' Cucurbita_splist <- unique(CucurbitaData$species)
+#' sp_counts <- OccurrenceCounts(Cucurbita_splist[[1]],Occurrence_data)
+#'
 #'@references
 #'
 #' Ramirez-Villegas et al. (2010) PLOS ONE, 5(10), e13497. doi: 10.1371/journal.pone.0013497
@@ -45,7 +47,7 @@ OccurrenceCounts <- function(species,Occurrence_data){
   #Checking Occurrence_data format
   par_names <- c("species","latitude","longitude","type")
 
-  if(identical(names(Occurrence_data),par_names)==FALSE){
+  if(isFALSE(identical(names(Occurrence_data),par_names))){
     stop("Please format the column names in your dataframe as species, latitude, longitude, type")
   }
 

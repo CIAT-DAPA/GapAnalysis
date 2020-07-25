@@ -93,7 +93,6 @@ ERSex <- function(Species_list,Occurrence_data, Raster_list, Buffer_distance=500
     Raster_list <- Raster_list
   }
   # Load in ecoregions shp
-  #print(missing(Ecoregions_shp))
   if(is.null(Ecoregions_shp)){
     if(file.exists(system.file("data/preloaded_data/ecoRegion/tnc_terr_ecoregions.shp",package = "GapAnalysis"))){
       Ecoregions_shp <- raster::shapefile(system.file("data/preloaded_data/ecoRegion/tnc_terr_ecoregions.shp", package = "GapAnalysis"),encoding = "UTF-8")
@@ -155,7 +154,7 @@ ERSex <- function(Species_list,Occurrence_data, Raster_list, Buffer_distance=500
 
         #Checking raster projection and assumming it for the occurrences dataframe shapefile
         if(is.na(raster::crs(sdm))){
-          print("No coordinate system was provided, assuming  +proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0","\n")
+          warning("No coordinate system was provided, assuming  +proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0","\n")
           raster::projection(sdm) <- "+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0"
         }
         suppressWarnings(sp::proj4string(OccDataG) <- sp::CRS(raster::projection(sdm)))

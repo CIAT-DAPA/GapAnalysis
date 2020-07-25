@@ -34,7 +34,7 @@ GetDatasets <- function(){
                             paste0(example_dir,"/",data_Rmd$files$label[[1]]),
                             mode = "wb")
   } else {
-    cat("RMD FILE WAS ALREADY DOWNLOADED","\n")
+    message("RMD FILE WAS ALREADY DOWNLOADED","\n")
   }
 
 #TNC ECOREGIONS
@@ -58,7 +58,7 @@ GetDatasets <- function(){
                      paste0(prot_dir,"/",data_prot$files$label[[1]]),
                      mode = "wb")
     } else {
-      cat("WDPA FILE WAS ALREADY DOWNLOADED","\n")
+      message("WDPA FILE WAS ALREADY DOWNLOADED","\n")
     }
 
   return("DATASETS WERE DOWNLOADED!")

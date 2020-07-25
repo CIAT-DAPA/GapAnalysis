@@ -63,8 +63,7 @@ indicator <- function(FCSc_mean_df) {
   #make final counts for species list (combined)
   out_df <- data.frame()
   for (i in seq_len(length(opt))){
-    #cat(i,"\n")
-    #  i <- 5
+
     if(i==4 | i==5){    tvec <- paste(data_all[,paste("FCS",opt[i],sep="")])
     } else if(i==3){tvec <- paste(data_all[,paste("FCSc_",opt[i],"_class",sep="")])
     } else {

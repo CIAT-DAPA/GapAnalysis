@@ -35,6 +35,8 @@ This function creates a summary file counting
 data(CucurbitaData)
 ##Obtaining species names from the data
 Cucurbita_splist <- unique(CucurbitaData$species)
+sp_counts <- OccurrenceCounts(Cucurbita_splist[[1]],Occurrence_data)
+
 }
 \references{
 Ramirez-Villegas et al. (2010) PLOS ONE, 5(10), e13497. doi: 10.1371/journal.pone.0013497

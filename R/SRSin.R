@@ -131,7 +131,7 @@ SRSin <- function(Species_list, Occurrence_data, Raster_list,Pro_areas=NULL, Gap
       sp::coordinates(occData1) <- ~longitude+latitude
       #Checking raster projection and assumming it for the occurrences dataframe shapefile
       if(is.na(raster::crs(sdm))){
-        print("No coordinate system was provided, assuming  +proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0","\n")
+        warning("No coordinate system was provided, assuming  +proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0","\n")
         raster::projection(sdm) <- "+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0"
       }
       suppressWarnings(sp::proj4string(occData1) <- sp::CRS(raster::projection(sdm)))
