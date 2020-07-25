@@ -5,7 +5,7 @@
 #'
 #' @param species A vector of characters with the species name.
 #' @param Occurrence_data A data frame object with the species name, geographical coordinates,
-#'  and type of records (G or H) for a given species#'
+#'  and type of records (G or H) for a given species
 #' @return This function returns a data frame object with the following columns:
 #'
 #' \tabular{lcc}{
