@@ -134,7 +134,7 @@ ERSin <- function(Species_list,Occurrence_data,Raster_list,Pro_areas=NULL,Ecoreg
         sdm <- Raster_list[[j]]
       }
     d1 <- Occurrence_data[Occurrence_data$species == Species_list[i],]
-    test <- GapAnalysis::paramTest(d1, sdm)
+    test <- GapAnalysis::ParamTest(d1, sdm)
     if(isTRUE(test[1])){
        stop(paste0("No Occurrence data exists, but and SDM was provide. Please check your occurrence data input for ", Species_list[i]))
   }

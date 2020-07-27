@@ -1,5 +1,5 @@
-#'  @title Input Parameter Test
-#'
+#' @title Input Parameter Test
+#' 
 #' @description Preforms a series of test to validation that input occurrence
 #'   data and SDM meet require parameters
 #'
@@ -11,16 +11,19 @@
 #' @return A list with two binary values
 #'
 #' @examples
-#' \dontrun{
-#' test <- .paramTest(Occurrence_data = CucurbitaData[CucurbitaData$taxon == "Cucurbita Cordata"],
-#'                                  Raster = CucurbitaRasters[[1]])
-#' }
+#' ##Obtaining occurrences from example
+#' data(CucurbitaData)
+#' ##Obtaining Raster_list
+#' data(CucurbitaRasters)
+#' ##Run function
+#' test <- ParamTest(Occurrence_data = CucurbitaData[CucurbitaData$taxon == "Cucurbita Cordata",],
+#'                   Raster = CucurbitaRasters[[1]])
 #' @author Dan Carver
 #' @export
 #' @keywords internal
 
 
-paramTest <- function(Occurrence_data, Raster){
+ParamTest <- function(Occurrence_data, Raster){
   # tests three elements and returns a list of those values
   # these become checks within the function workflow.
   # 1. Are there occurrences
