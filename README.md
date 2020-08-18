@@ -10,6 +10,9 @@ This library consists of 12 functions within 4 families: pre-analysis, ex situ c
 ## Installation
 GapAnalysis can be installed as follows
 ```r
+#CRAN
+install.packages("GapAnalysis")
+#Alternative: GitHub
 library(devtools)
 remotes::install_github("CIAT-DAPA/GapAnalysis")
 ```
