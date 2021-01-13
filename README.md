@@ -26,7 +26,7 @@ A full list of libraries needed for the package is included below.
 
 
 ## Usage
-We provide the below reproducible example (also available in the package documentation). Please note this example is provided at 5 arc minutes resolution for efficient processing time; the results in the associated published article (Khoury et al. 2019c) and described in the associated R package article (Carver et al. 2021) differ as the analysis was conducted at 2.5 arc minutes resolution.
+We provide the below reproducible example (also available in the package documentation). Please note this example is provided at 10 arc minutes resolution for efficient processing time; the results in the associated published article (Khoury et al. 2019c) and described in the associated R package article (Carver et al. 2021) differ as the analysis was conducted at 2.5 arc minutes resolution.
 
 ```r
 ##Load package
