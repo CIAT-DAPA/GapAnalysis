@@ -116,7 +116,7 @@ ERSex <- function(Species_list,Occurrence_data, Raster_list, Buffer_distance=500
   for(i in seq_len(length(Species_list))){
 
     speciesOcc <- Occurrence_data[which(Occurrence_data$species==Species_list[i]),]
-
+    
     if(length(speciesOcc$type == "G") == 0){
       df$species[i] <- Species_list[i]
       df$ERSex[i] <- 0
@@ -150,14 +150,14 @@ ERSex <- function(Species_list,Occurrence_data, Raster_list, Buffer_distance=500
       } else {
 
 
-        sp::coordinates(OccDataG) <- ~longitude+latitude
+        #sp::coordinates(OccDataG) <- ~longitude+latitude
 
         #Checking raster projection and assumming it for the occurrences dataframe shapefile
         if(is.na(raster::crs(sdm))){
           warning("No coordinate system was provided, assuming  +proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0","\n")
           raster::projection(sdm) <- "+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0"
         }
-        suppressWarnings(sp::proj4string(OccDataG) <- sp::CRS(raster::projection(sdm)))
+        # suppressWarnings(sp::proj4string(OccDataG) <- sp::CRS(raster::projection(sdm)))
         # convert SDM from binary to 1-NA for mask and area
         SdmMask <- sdm
         SdmMask[which(SdmMask[] != 1)] <- NA

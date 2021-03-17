@@ -77,7 +77,7 @@ Gbuffer <- function(xy,
   # Validate the input and get the number of points in xy.
   tested <- .check_input(xy, dist_m, step_dg, crs, output)
   xy <- tested$xy
-  n_points <- tested$n_points
+  n_points <- nrow(xy)
 
   # A) Points at distance and bearing ---------------------------------------
 
@@ -93,8 +93,8 @@ Gbuffer <- function(xy,
   buff_pts <- data.table::as.data.table(
     geosphere::destPoint(p = xy,
                          b = rep(dg, each = n_points),
-                         d = dist_m,
-                         ...)
+                         d = dist_m
+                        )
   )
 
   # B) SpatialPolygon from points -------------------------------------------

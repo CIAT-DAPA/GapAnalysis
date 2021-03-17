@@ -119,14 +119,14 @@ GRSex <- function(Species_list, Occurrence_data, Raster_list, Buffer_distance=50
     } else {
 
       #
-      sp::coordinates(OccData ) <- ~longitude+latitude
+      # sp::coordinates(OccData ) <- ~longitude+latitude
 
       #Checking raster projection and assuming it for the occurrences dataframe shapefile
       if(is.na(raster::crs(sdm))){
         warning("No coordinate system was provided, assuming  +proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0","\n")
         raster::projection(sdm) <- "+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0"
       }
-      suppressWarnings(sp::proj4string(OccData) <- sp::CRS(raster::projection(sdm)))
+      # suppressWarnings(sp::proj4string(OccData) <- sp::CRS(raster::projection(sdm)))
 
       # select raster with species name
 
