@@ -18,7 +18,7 @@
 #' @importFrom dataverse get_dataset
 #' @importFrom utils download.file
 
-GetDatasets <- function(){
+GetDatasets <- function(Sys.setenv("dataverse.harvard.edu")){
 #LOADING FOLDER PARAMETERS
   out_dir <- system.file(package = "GapAnalysis")#"E:/EG3TC"#system.file("", package = "GapAnalysis")
   example_dir <- paste0(out_dir,"/","data","/","preloaded_data");if(!file.exists(example_dir)){dir.create(example_dir)}
