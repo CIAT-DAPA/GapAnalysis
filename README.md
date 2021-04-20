@@ -5,7 +5,7 @@ The GapAnalysis R package evaluates the ex situ and in situ conservation status 
 
 The GapAnalysis functions require the user to provide two inputs: a `data.frame` of species occurrences, and a `raster` object of the predicted habitat (species distribution model) for each assessed taxon.
 
-This library consists of 12 functions within 4 families: pre-analysis, ex situ conservation gap analysis, in situ conservation gap analysis, and summary evaluations. In short, the pre-analysis process establishes the file structure and prepares the input data. The ex situ and in situ processes perform the respective conservation strategy gap analyses and produce both quantitative and spatial results. The combined assessment merges the individual assessments, summarizes the results across taxa, calculates the indicator, and generates a summary html document for each taxon, which can be used to evaluate outputs and aid conservation planning. 
+This library consists of 12 functions within 4 families: pre-analysis, ex situ conservation gap analysis, in situ conservation gap analysis, and summary evaluations. In short, the pre-analysis process establishes the file structure and prepares the input data. The ex situ and in situ processes perform the respective conservation strategy gap analyses and produce both quantitative and spatial results. The combined assessment merges the individual assessments, summarizes the results across taxa, calculates the indicator, and generates a summary html document for each taxon, which can be used to evaluate outputs and aid conservation planning.
 
 ## Installation
 GapAnalysis can be installed as follows
@@ -26,7 +26,7 @@ A full list of libraries needed for the package is included below.
 
 
 ## Usage
-We provide the below reproducible example (also available in the package documentation). Please note this example is provided at 10 arc minutes resolution for efficient processing time; the results in the associated published article (Khoury et al. 2019c) and described in the associated R package article (Carver et al. 2021) differ as the analysis was conducted at 2.5 arc minutes resolution.
+We provide the below reproducible example (also available in the package documentation). Please note this example is provided at 10 arc minutes resolution for efficient processing time; the results in the associated published article (Khoury et al. 2019c) and described in the associated R package article (Carver et al. 2021) differ as the analysis was conducted at 2.5 arc minutes resolution. For more details on accessing and utilizing the 2.5 arc minutes dataset see [ecoregions and protected areas](#ecolink).
 
 ```r
 ##Load package
@@ -82,13 +82,12 @@ summaryHTML_file <- SummaryHTML(Species_list=speciesList,
                                 writeRasters=FALSE)
 ```
 
-
 ## Usage with different buffer distances for _ex situ_ gap analysis
 
 ```r
 #Buffer distances for 5, 10, and 20 km respectively
 
-buffer_distances <- c(5000,10000,20000) 
+buffer_distances <- c(5000,10000,20000)
 
 SRSex_df <- SRSex(Species_list = speciesList,
                   Occurrence_data = CucurbitaData)
@@ -109,8 +108,8 @@ for(i in 1:length(speciesList)){
                     Buffer_distance=buffer_distances[i],
                     Ecoregions_shp=ecoregions,
                     Gap_Map=Gap_Map)
-             
-  
+
+
 
 };rm(i)
 
@@ -167,6 +166,15 @@ The major sources for G occurrence data that the authors have used in GapAnalysi
 
 More information and examples of how to make the distinction between “H” and “G” points can be found [here](https://doi.org/10.1111/DDI.13008).
 
+<a name="ecolink">
+<b><i>Ecoregions and Protected Area </b></i>
+</a>
+The ecoregion and protected areas datasets are provide through the package via the `GetDatasets()` functions. The files will be downloaded and store at
+```r
+system.file("data/preloaded_data/ecoRegion/tnc_terr_ecoregions.shp",package = "GapAnalysis")
+```
+These files can be found accessed directly at the [Dataverse repository](https://dataverse.harvard.edu/dataverse/GapAnalysis) associated with this package.
+The original datasets can be found here([ecoregions](http://maps.tnc.org/gis_data.html), [world database of protected areas](https://www.protectedplanet.net/en/thematic-areas/wdpa?tab=WDPA)). The ecoregion dataset is provided in its native vector data type. The package's WDPA layer has been transformed from a vector to a binary raster at 2.5 arc minutes resolution raster.
 
 **_Predicted Habitat_**
 
@@ -181,14 +189,14 @@ The recommended workflow is as follows:
 
 **Ex-situ Analysis**
  - `SRSex` calculates the Sampling Representativeness Score for _ex situ_ conservation
- - `GRSex` calculates the Geographic Representativeness Score for _ex situ_ conservation. During this process, an ex situ geographic gap map is also created for each species by subtracting the G buffered areas out of the distribution model of each taxon, leaving only those areas considered not sufficiently sampled for ex situ conservation 
+ - `GRSex` calculates the Geographic Representativeness Score for _ex situ_ conservation. During this process, an ex situ geographic gap map is also created for each species by subtracting the G buffered areas out of the distribution model of each taxon, leaving only those areas considered not sufficiently sampled for ex situ conservation
  - `ERSex` calculates the Ecological Representativeness Score for _ex situ_ conservation. During this process, an ex situ ecological gap map is also created for each species by mapping only the spatial areas within the distribution model of each taxon which are occupied by ecoregions not represented by G buffers
  - `FCSex` calculates the Final Conservation Score for _ex situ_ conservation as an average of the above 3 scores and assigns a priority category for each taxon based on the final conservation score
 
 **In-situ Analysis**
  - `SRSin` calculates the Sampling Representativeness Score for _in situ_ conservation
- - `GRSin` calculates the Geographic Representativeness Score for _in situ_ conservation. During this process, an in situ geographic gap map is also created for each species by subtracting the protected areas out of the distribution model of each taxon, revealing those areas in the model not currently in protected areas 
- - `ERSin` calculates the Ecological Representativeness Score for _in situ_ conservation. During this process, an in situ ecological gap map is also created for each species by by mapping only the spatial areas within the distribution model of each taxon which are occupied by ecoregions not represented at all in protected areas 
+ - `GRSin` calculates the Geographic Representativeness Score for _in situ_ conservation. During this process, an in situ geographic gap map is also created for each species by subtracting the protected areas out of the distribution model of each taxon, revealing those areas in the model not currently in protected areas
+ - `ERSin` calculates the Ecological Representativeness Score for _in situ_ conservation. During this process, an in situ ecological gap map is also created for each species by by mapping only the spatial areas within the distribution model of each taxon which are occupied by ecoregions not represented at all in protected areas
  - `FCSin` calculates the Final Conservation Score for _in situ_ conservation as an average of the above 3 scores and assigns a priority category for each taxon based on the final conservation score
 
 **Summary evaluations**   
