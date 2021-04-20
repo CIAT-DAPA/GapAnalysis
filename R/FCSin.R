@@ -9,7 +9,7 @@
 #'  in \var{Species_list}. The order of rasters in this list must match the same order as \var{Species_list}.
 #' @param Ecoregions_shp A shapefile representing Ecoregions_shp information with a field ECO_NUM
 #'  representing Ecoregions_shp Ids.If Ecoregions_shp=NULL the funtion will use
-#'  an ecoregions raster file provided for your use
+#'  an ecoregions shapefile provided for your use
 #' @param Pro_areas A raster file representing protected areas information.If Pro_areas=NULL the funtion will use
 #'  a protected area raster file provided for your use
 #'  after run GetDatasets()
