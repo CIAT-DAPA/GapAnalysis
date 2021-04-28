@@ -1,6 +1,6 @@
 Package: GapAnalysis
 Title: Conservation Indicators using Spatial Information
-Version: 1.0.1
+Version: 1.0.2
 Authors@R: c(person("Dan", "Carver", role = c("aut","cph"), comment = c(ORCID = "0000-0002-1344-6357"),
                     email= "carver.dan1@gmail.com"),
              person("Chrystian", "Sosa",role = c("aut","cph"), comment = c(ORCID = "0000-0002-3734-3248"),
@@ -22,7 +22,7 @@ Description: Supports the assessment of the degree of conservation of taxa in co
 URL: https://github.com/CIAT-DAPA/GapAnalysis
 BugReports: https://github.com/CIAT-DAPA/GapAnalysis/issues
 Depends:
-  R (>= 3.5.0),
+  R (>= 4.0.0),
   raster (>= 3.0)
 Imports:
   base (>= 3.5),
@@ -33,7 +33,6 @@ Imports:
   sf (>= 0.8),
   methods (>= 3.5),
   geosphere (>= 1.5),
-  dataverse (>= 0.2.0),
   fasterize (>= 1.0.0),
   rmarkdown (>= 2.1)
 Suggests:
@@ -45,4 +44,4 @@ Suggests:
 License: GPL-3
 LazyData: true
 Encoding: UTF-8
-RoxygenNote: 7.1.0
+RoxygenNote: 7.1.1
