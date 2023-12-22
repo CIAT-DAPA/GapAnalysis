@@ -1,5 +1,20 @@
 # GapAnalysis R package
 
+## hot fix for dependency issue with rgeos. 
+- please see worked example in the doc for how to get around the error being thown by the FCSex function 
+```r
+Error in explodePolygons(x, ...) : 
+  package rgeos is needed to relate holes to their corresponding polygons
+```
+This involves directly source a few files from this repo to replace the functions use in gapanalysis. 
+#### changes 
+gbuffer has been revamped to use terra. This still returns a sp object so it's not package wide alternation. 
+
+FCSex, ERSex, GRSex functions have remove name space funciton calls when calling (gBuffer, ERSex, GRSex) to allow these replacement function to be source directly from this repo. 
+
+
+
+
 ## Description
 The GapAnalysis R package evaluates the ex situ and in situ conservation status of taxa, combines these metrics into an integrated  assessment, and calculates an indicator metric across taxa. GapAnalysis generates quantitative and spatial outputs which demonstrate the state of conservation as well as where gaps in protection exist. The methods are fully described in Carver et al. (2021). Articles by Ramirez-Villegas et al. (2010), Castañeda-Álvarez and Khoury et al. (2016), and Khoury et al. (2019a, b; 2020) describe the main steps toward the current methodology.
 
@@ -32,6 +47,18 @@ We provide the below reproducible example (also available in the package documen
 ##Load package
 library(raster)
 library(GapAnalysis)
+
+
+# temp fix --- source the ersex,grsex,and gbuffer function from the library folder
+# rather then the gapanalysis:: call. this  has a terra implimentation on the buffer process
+# so it works 
+# adjust this path to where ever these files are realtive to your current wd()
+source("R/ERSex.R")
+source("R/GRSex.R")
+source("R/Gbuffer.R")
+source("R/FCSex.R")
+
+
 
 ##Obtaining occurrences from example
 data(CucurbitaData)
