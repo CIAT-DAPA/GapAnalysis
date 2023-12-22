@@ -116,7 +116,7 @@ ERSex <- function(Species_list,Occurrence_data, Raster_list, Buffer_distance=500
   for(i in seq_len(length(Species_list))){
 
     speciesOcc <- Occurrence_data[which(Occurrence_data$species==Species_list[i]),]
-    
+
     if(length(speciesOcc$type == "G") == 0){
       df$species[i] <- Species_list[i]
       df$ERSex[i] <- 0
@@ -163,7 +163,7 @@ ERSex <- function(Species_list,Occurrence_data, Raster_list, Buffer_distance=500
         SdmMask[which(SdmMask[] != 1)] <- NA
 
         # buffer G points
-        buffer <- GapAnalysis::Gbuffer(xy = OccDataG,
+        buffer <- Gbuffer(xy = OccDataG,
                                        dist_m = Buffer_distance,
                                        output = 'sf')
         # rasterizing and making it into a mask

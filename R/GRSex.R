@@ -134,8 +134,7 @@ GRSex <- function(Species_list, Occurrence_data, Raster_list, Buffer_distance=50
       sdmMask <- sdm
       sdmMask[sdmMask[] != 1] <- NA #USING THIS TO AVOID PROBLEMS WITH NA FLOATING VALUES AS -9999 OR 3E8-178
       # buffer G points
-      buffer <- GapAnalysis::Gbuffer(xy = OccData ,
-                                     dist_m = Buffer_distance,
+      buffer <- Gbuffer(xy = OccData , dist_m = Buffer_distance,
                                      output = 'sf')
       # rasterizing and making it into a mask
       buffer_rs <- fasterize::fasterize(buffer, sdm)

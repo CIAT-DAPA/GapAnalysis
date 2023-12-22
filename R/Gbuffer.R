@@ -73,55 +73,65 @@ Gbuffer <- function(xy,
                           output = "sp",
                           ...){
 
-  id <- NULL
-  # Validate the input and get the number of points in xy.
-  tested <- .check_input(xy, dist_m, step_dg, crs, output)
-  xy <- tested$xy
-  n_points <- nrow(xy)
+  # id <- NULL
+  # # Validate the input and get the number of points in xy.
+  # tested <- .check_input(xy, dist_m, step_dg, crs, output)
+  # xy <- tested$xy
+  # n_points <- nrow(xy)
 
-  # A) Points at distance and bearing ---------------------------------------
+  # # A) Points at distance and bearing ---------------------------------------
+  #
+  # # Construct buffers as points at given distance and bearing.
+  #
+  # # A vector of bearings (follows a circle).
+  # dg <- seq(from = 0, to = 360, by = step_dg)
+  #
+  # # Construct equidistant points (the "buffer points"). Inspired from section
+  # # "Point at distance and bearing" from Robert J. Hijmans in "Introduction to
+  # # the 'geosphere' package" at:
+  # # https://cran.r-project.org/web/packages/geosphere/vignettes/geosphere.pdf
+  # buff_pts <- data.table::as.data.table(
+  #   geosphere::destPoint(p = xy,
+  #                        b = rep(dg, each = n_points),
+  #                        d = dist_m
+  #                       )
+  # )
+  #
+  #
+  # # B) SpatialPolygon from points -------------------------------------------
+  #
+  # # Make polygon buffers from the points created above.
+  #
+  # # Add column which indicates to which point ID from n_points each buffer point
+  # # belongs to.
+  # buff_pts[, id :=rep(1:n_points, times = length(dg))]
+  # # If the returns is desired as data.table or data.frame, then stop here.
+  # if(output == "data.table"){
+  #   data.table::setorder(buff_pts, id)
+  #   return(buff_pts)
+  # } else if(output == "data.frame"){
+  #   data.table::setorder(buff_pts, id)
+  #   return(as.data.frame(buff_pts))
+  # }
+  #
+  # # Split the "buffer points" by id.
+  # lst <- split(buff_pts, by = "id", keep.by = FALSE)
+  #
+  # # Make SpatialPolygons out of the list of coordinates.
+  # poly   <- lapply(lst, sp::Polygon, hole = FALSE)
+  # polys  <- lapply(list(poly), sp::Polygons, ID = NA)
+  # spolys <- sp::SpatialPolygons(Srl = polys, proj4string = sp::CRS(crs))
 
-  # Construct buffers as points at given distance and bearing.
+  library(terra)
+  spolys_buff <- terra::vect(xy, geom = c("longitude","latitude"),
+                        crs="+proj=longlat +datum=WGS84")|>
+    terra::buffer(dist_m)|>
+    terra::disagg()|>
+    st_as_sf()|>
+    as_Spatial()
 
-  # A vector of bearings (follows a circle).
-  dg <- seq(from = 0, to = 360, by = step_dg)
-
-  # Construct equidistant points (the "buffer points"). Inspired from section
-  # "Point at distance and bearing" from Robert J. Hijmans in "Introduction to
-  # the 'geosphere' package" at:
-  # https://cran.r-project.org/web/packages/geosphere/vignettes/geosphere.pdf
-  buff_pts <- data.table::as.data.table(
-    geosphere::destPoint(p = xy,
-                         b = rep(dg, each = n_points),
-                         d = dist_m
-                        )
-  )
-
-  # B) SpatialPolygon from points -------------------------------------------
-
-  # Make polygon buffers from the points created above.
-
-  # Add column which indicates to which point ID from n_points each buffer point
-  # belongs to.
-  buff_pts[, id :=rep(1:n_points, times = length(dg))]
-  # If the returns is desired as data.table or data.frame, then stop here.
-  if(output == "data.table"){
-    data.table::setorder(buff_pts, id)
-    return(buff_pts)
-  } else if(output == "data.frame"){
-    data.table::setorder(buff_pts, id)
-    return(as.data.frame(buff_pts))
-  }
-
-  # Split the "buffer points" by id.
-  lst <- split(buff_pts, by = "id", keep.by = FALSE)
-
-  # Make SpatialPolygons out of the list of coordinates.
-  poly   <- lapply(lst, sp::Polygon, hole = FALSE)
-  polys  <- lapply(list(poly), sp::Polygons, ID = NA)
-  spolys <- sp::SpatialPolygons(Srl = polys, proj4string = sp::CRS(crs))
   # Disaggregate (split in individual polygons).
-  spolys_buff <- sp::disaggregate(spolys)
+  # spolys_buff <- sp::disaggregate(spolys)
 
   if(output == "sp"){
     return(spolys_buff)
