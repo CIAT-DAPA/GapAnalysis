@@ -136,7 +136,7 @@ FCSin <- function(Species_list, Occurrence_data, Raster_list,Ecoregions_shp=NULL
 
   }
     # calculate the mean value for each row to determine fcs per species
-  FCSin_df$FCSin <- rowMeans(FCSin_df[, c("SRSin", "GRSin", "GRSin")])
+  FCSin_df$FCSin <- rowMeans(FCSin_df[, c("SRSin", "GRSin", "ERSin")])
 
 
 
