@@ -21,14 +21,11 @@
 #'
 #' @examples
 #' ##Obtaining occurrences from example
-#' data(CucurbitaData)
+data(CucurbitaData)
 #' ##Obtaining species names from the data
 #' Cucurbita_splist <- unique(CucurbitaData$species)
 #' ##Obtaining Raster_list
-#' data(CucurbitaRasters)
-#' CucurbitaRasters <- raster::unstack(CucurbitaRasters)
-#' ##Obtaining protected areas raster
-#' data(ProtectedAreas)
+
 #' #Running SRSin
 #' SRSin_df <- SRSin(Species_list = Cucurbita_splist,
 #'                     Occurrence_data = CucurbitaData,
@@ -42,6 +39,100 @@
 #'
 #' @export
 #' @importFrom raster raster crop projection
+
+
+
+# moving away from passing a full species list with loops inside the functions. Users will be expected to provide
+# there species organization structure via loops or the purrr library. As such all itorative elements will be list in the
+# first two parameter positions to support the purrr::map2()
+
+
+## preping the input dataset
+#' install.packages("raster")
+load("data/CucurbitaRasters.rda")
+CucurbitaRasts <- terra::rast(CucurbitaRasters) |> terra::wrap()
+#' # export for terra version
+save(CucurbitaRasts, file = "data/CucurbitaRasts.rda")
+load("data/CucurbitaRasts.rda")
+#' rm(CucurbitaRasters)
+#' #' ##Obtaining protected areas raster
+#' data(ProtectedAreas)
+#' # convert
+protectAreasRast <- terra::rast(ProtectedAreas) |> terra::wrap()
+save(protectAreasRast, file = "data/protectAreasRast.rda")
+load("data/protectAreasRast.rda")
+#'
+
+# testing parameters
+pacman::p_load(terra, sf, dplyr)
+load("data/CucurbitaData.rda")
+load("data/CucurbitaRasts.rda")
+load("data/protectAreasRast.rda")
+
+
+taxon <- CucurbitaData$species[1]
+occurrence_Data <- CucurbitaData
+sdm <- terra::unwrap(CucurbitaRasts)[[1]]
+protected_Areas <- terra::unwrap(protectAreasRast)
+
+SRSin <- function(taxon, sdm, occurrence_Data,  protected_Areas = NULL){
+
+
+  # filter the occurrence data to the species of interest
+  d1 <- occurrence_Data |>
+    dplyr::filter(species == taxon) |>
+    terra::vect(geom=c("longitude", "latitude"))
+
+
+  # assign a protected areas object is one is not provided.
+  if(is.null(protected_Areas)){
+    if(file.exists(system.file("data/preloaded_data/protectedArea/wdpa_reclass.tif",package = "GapAnalysis"))){
+      protected_Areas <- raster::raster(system.file("data/preloaded_data/protectedArea/wdpa_reclass.tif",package = "GapAnalysis")) |> terra::vect()
+    }
+    # else {
+    #   stop("Protected areas file is not available yet. Please run the function GetDatasets()  and try again")
+    # }
+
+  ## if there is occurrence data but no model we can report the total number of
+  ## occurrence data within protected areas, basically non spatially bound assessment
+  if(class(sdm) != "SpatRaster"){
+    totalObservations <- nrow(d1)
+    t1 <- terra::extract(x = protected_Areas,y = vect(d1))
+  }else{
+    mask1 <- ifel(test = sdm == 1, yes = 1, no = NA)
+    # determine the number of observations within the threshold
+    to <- terra::extract(x = mask1, y = vect(d1))
+    #
+    totalObservations <- sum(to$Threshold, na.rm = TRUE)
+
+    # crop protected areas raster
+    p1 <- terra::crop(x = protectedArea, y = mask1)
+    # multiple to create mask -- protected areas within the threshold of the model
+    p1 <- p1 * mask1
+    # extract values from crop
+    t1 <- terra::extract(x = p1,y = vect(occuranceData))
+    names(t1) <- c("ID", "layer")
+  }
+  # extracted values are 1 or NA so sum all the values to get the total.
+  totalInProtectArea <- sum(t1$layer, na.rm = TRUE)
+
+  #define SRS
+  if(totalInProtectArea >= 0 ){
+    srsInsitu <- 100 *(totalInProtectArea/totalObservations)
+  }else{
+    srsInsitu <- 0
+  }
+
+  #create data.frame with output
+  out_df <- data.frame(ID=occuranceData$taxon[1],
+                       NTOTAL=totalObservations,
+                       ProTotal = totalInProtectArea,
+                       SRS=srsInsitu)
+  return(out_df)
+}
+
+
+
 
 
 SRSin <- function(Species_list, Occurrence_data, Raster_list,Pro_areas=NULL, Gap_Map=FALSE){
