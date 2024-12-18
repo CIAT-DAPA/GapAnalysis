@@ -24,13 +24,13 @@
 #'
 #' @examples
 #' ##Obtaining occurrences from example
-#' data(CucurbitaData)
-#' Cucurbita_splist <- unique(CucurbitaData$species)
-#' ## Obtaining rasterList object. ##
-#' data(CucurbitaRasters)
-#' CucurbitaRasters <- raster::unstack(CucurbitaRasters)
-#' ##Obtaining ecoregions shapefile
-#' data(ecoregions)
+load("data/CucurbitaData.rda")
+#' ##Obtaining species names from the data
+taxon <- CucurbitaData$species[1]
+#' ##Obtaining Raster_list
+load("data/CucurbitaRasts.rda")
+#' ##Obtaining ecoregions layer
+load("data/ecoExample.rda")
 #' #Running ERSex
 #' ERSex_df <- ERSex(Species_list = Cucurbita_splist,
 #'                     Occurrence_data = CucurbitaData,
@@ -53,18 +53,101 @@
 #' @importFrom sf st_as_sf
 
 
-ERSex <- function(Species_list,Occurrence_data, Raster_list, Buffer_distance=50000,Ecoregions_shp=NULL,Gap_Map=FALSE){
+taxon <- taxon
+sdm <- terra::unwrap(CucurbitaRasts)$cordata
+occurrence_Data <- CucurbitaData
+ecoregions <- terra::vect(eco1,)
 
-  taxon <- NULL
-  type <- NULL
-  longitude <- NULL
-  latitude <-NULL
-  ECO_ID_U <- NULL
-  nc <- NULL
-  ecoVal <- NULL
-  ecoValsPro <- NULL
 
-  buffer_list <- list()
+ERSex <- function(taxon, sdm, occurrence_Data, ecoregions){
+  # filter the occurrence data to the species of interest
+  d1 <- occurrence_Data |>
+    dplyr::filter(species == taxon) |>
+    terra::vect(geom=c("longitude", "latitude"))
+
+
+  # determine the eco regions present in the
+  inter <- terra::intersect(x = d1, y = ecoregions)
+  # this is not flexable indexing... will need to adapt
+  ecoCodes <- unique(inter$ECO_ID_U)
+  # index with selection
+  n1 <- ecoregions[ecoregions$ECO_ID_U %in% ecoCodes, ]
+
+  # get a count in each ecoregion
+  v1 <- terra::zonal(x = sdm,
+                     z = n1,
+                     fun="sum",
+                     na.rm=TRUE)
+  v1$ECO_ID_U <- n1$ECO_ID_U
+
+  # assign names for better indexing
+  names(v1) <- c("count","ecoID")
+  # sum up all features based on eco ID
+
+  v2 <- v1 |>
+    dplyr::group_by(ecoID)|>
+    dplyr::summarise(
+      cellsInEco = sum(count, na.rm=TRUE)
+    )
+
+
+  # Number of ecoregions considered.
+  nEco <- v2 |>
+    dplyr::filter(cellsInEco > 0) |>
+    nrow()
+
+
+  if(class(ga50)[[1]] != "SpatRaster"){
+    ers <- 0
+    gEco <- NA
+    missingEcos <- v1$ECO_ID_U
+  }else{
+
+
+    # determine ecoregions in ga50 area
+    v2 <- terra::zonal(x = ga50,z = n1,fun="sum",na.rm=TRUE)
+    v2$ECO_ID_U <- n1$ECO_ID_U
+
+    # determine the ecoregions that are not being considered
+    areasWithGBuffer <- v2 |>
+      filter(layer >0) |>
+      filter(!is.nan(layer))
+    # get the total number number of eco regions with a g buffer area
+    gEco <- areasWithGBuffer |>
+      nrow()
+    # generate a list of the ecoregions ID that are inside the threshold but have no g buffer
+    missingEcos <- v1 |>
+      dplyr::filter(Threshold >0) |>
+      dplyr::filter(!ECO_ID_U %in% areasWithGBuffer$ECO_ID_U)|>
+      dplyr::select(ECO_ID_U)|>
+      pull()
+
+    # ERs calculation
+    ers <- min(c(100, (gEco/nEco)*100))
+
+  }
+  if(!is.null(rasterPath)){
+    # produce threshold map excluding collected eco regions.
+    n2 <- n1 |>
+      dplyr::filter(ECO_ID_U %in% missingEcos)|>
+      terra::rasterize(y = thres)
+    terra::writeRaster(x = n2, filename = rasterPath,overwrite=TRUE)
+  }
+
+  # generate filter
+
+  out_df = data.frame(ID=speciesData$taxon[1],
+                      SPP_N_ECO=nEco,
+                      G_N_ECO=gEco,
+                      ERS=ers)
+  out_df$missingEcos <- list(missingEcos)
+
+  # generate dataframe
+  return(out_df)
+
+
+}
+
 
   #Checking Occurrence_data format
   par_names <- c("species","latitude","longitude","type")
