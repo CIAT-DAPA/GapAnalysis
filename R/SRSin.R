@@ -1,45 +1,13 @@
-#' @title Sampling representativeness score in situ
-#' @name SRSin
-#' @description The SRSin process calculates the proportion of all occurrences of a taxon falling within
-#' the distribution model that also fall within a protected area
-#' @param occurrence_Data A data frame object with the species name, geographical coordinates,
-#'  and type of records (G or H) for a given species
-#' @param taxon A character vector with the species name used to index all records from the occurrence_Data
-#' @param sdm A terra rast object representing the species distribution models
-#' @param protected_Areas A terra rast object representing protected areas.
-#'  If Pro_areas=NULL the function will use a protected area raster file
-#'  provided for your use after run GetDatasets()
-#' @return This function returns a data frame with four columns:
-#'
-#' \tabular{lcc}{
-#' ID \tab Species name \cr
-#' NTOTAL  \tab Total number of records within the distribution\cr
-#' ProTotal \tab Total number of records within the distribution within a protected area\cr
-#' srs_insitu \tab SRSin value calculated\cr
-#' }
-#'
-#' @examples
-#' ##Obtaining occurrences from example
-#' load("data/CucurbitaData.rda")
-#' ##Obtaining species names from the data
-#' taxon <- CucurbitaData$species[1]
-#' ##Obtaining Raster_list
-#' load("data/CucurbitaRasts.rda")
-#' ##Obtaining protected areas raster
-#' load("data/protectAreasRast.rda")
-#' #' #Running SRSin
-#' SRSin_df <- SRSin(taxon = taxon,
-#'                   occurrence_Data = CucurbitaData,
-#'                   sdm = terra::unwrap(CucurbitaRasts)[[1]],
-#'                   protected_Areas = terra::unwrap(protectAreasRast))
 
-#'@references
-#' Carver et al. (2021) Ecography 44(7):1000-1009. https://doi.org/10.1111/ecog.05430
-#' Khoury et al. (2019) Diversity and Distributions 26(2):209-225. doi: 10.1111/DDI.13008.
-#'
-#' @export
-#' @importFrom raster raster crop projection
-
+##Obtaining occurrences from example
+load("data/CucurbitaData.rda")
+##Obtaining species names from the data
+taxon <- CucurbitaData$species[1]
+##Obtaining Raster_list
+load("data/CucurbitaRasts.rda")
+##Obtaining protected areas raster
+load("data/protectAreasRast.rda")
+#' #Running SRSin
 
 SRSin <- function(taxon, sdm, occurrence_Data,  protected_Areas = NULL){
 
@@ -90,10 +58,10 @@ SRSin <- function(taxon, sdm, occurrence_Data,  protected_Areas = NULL){
   }
 
   #create data.frame with output
-  out_df <- data.frame(ID=d1$species[1],
-                       NTOTAL=totalObservations,
-                       ProTotal = totalInProtectArea,
-                       srs_insitu=srsInsitu)
+  out_df <- data.frame(Taxon = taxon,
+                       "Total records" =totalObservations,
+                       "Records in Protected areas" = totalInProtectArea,
+                       "SRS insitu" = srsInsitu)
   return(out_df)
 }
 
