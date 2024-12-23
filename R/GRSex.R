@@ -43,7 +43,7 @@ GRSex <- function(taxon, sdm, gBuffer) {
   }
 
   #create data.frame with output
-  out_df <- data.frame(Taxon=speciesData$taxon[1],
+  out_df <- data.frame(Taxon=taxon,
                        'Area of model km2'=totalArea,
                        'G buffer areas in model km2' =gArea,
                        "GRS exsitu" =grs)
