@@ -74,7 +74,7 @@ ERSin <- function(taxon, sdm, occurrence_Data, protected_Areas, ecoregions, idCo
 
 
 
-  df <- data.frame(Taxon = taxon,
+  df <- dplyr::tibble(Taxon = taxon,
                    "Ecoregions within model" = totalEcoregions,
                    "Ecoregions with protected areas" = totalProtectedEcoregions,
                    "ERS insitu" = ers)

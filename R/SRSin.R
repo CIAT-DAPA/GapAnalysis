@@ -1,13 +1,13 @@
-
-##Obtaining occurrences from example
-load("data/CucurbitaData.rda")
-##Obtaining species names from the data
-taxon <- CucurbitaData$species[1]
-##Obtaining Raster_list
-load("data/CucurbitaRasts.rda")
-##Obtaining protected areas raster
-load("data/protectAreasRast.rda")
-#' #Running SRSin
+#'
+#' ##Obtaining occurrences from example
+#' load("data/CucurbitaData.rda")
+#' ##Obtaining species names from the data
+#' taxon <- CucurbitaData$species[1]
+#' ##Obtaining Raster_list
+#' load("data/CucurbitaRasts.rda")
+#' ##Obtaining protected areas raster
+#' load("data/protectAreasRast.rda")
+#' #' #Running SRSin
 
 SRSin <- function(taxon, sdm, occurrence_Data,  protected_Areas = NULL){
 
@@ -58,7 +58,7 @@ SRSin <- function(taxon, sdm, occurrence_Data,  protected_Areas = NULL){
   }
 
   #create data.frame with output
-  out_df <- data.frame(Taxon = taxon,
+  out_df <- dplyr::tibble(Taxon = taxon,
                        "Total records" =totalObservations,
                        "Records in Protected areas" = totalInProtectArea,
                        "SRS insitu" = srsInsitu)

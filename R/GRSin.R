@@ -36,7 +36,7 @@ GRSin <- function(taxon, sdm, protected_Areas = NULL){
     grs <- min(c(100, protectAreaSum/thresholdAreaSum*100))
   }
   # return objects
-  df <- data.frame(Taxon = taxon,
+  df <- dplyr::tibble(Taxon = taxon,
                    'Area of model km2' = round(thresholdAreaSum, digits = 0),
                    'Area in protected ares km2' = round(protectAreaSum, digits = 0),
                    "GRS insitu" = grs)

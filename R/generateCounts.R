@@ -1,17 +1,17 @@
 ## helper funtion that is used by SRSex and some good display information
-
-library(sf)
-library(terra)
-
-load("data/CucurbitaData.rda")
-
-
-library(dplyr)
-##Obtaining occurrences from example
-load("data/CucurbitaData.rda")
-
-occurrence_Data <- CucurbitaData
-taxon <- CucurbitaData$species[1]
+#
+# library(sf)
+# library(terra)
+#
+# load("data/CucurbitaData.rda")
+#
+#
+# library(dplyr)
+# ##Obtaining occurrences from example
+# load("data/CucurbitaData.rda")
+#
+# occurrence_Data <- CucurbitaData
+# taxon <- CucurbitaData$species[1]
 
 generateCounts <- function(taxon, occurrence_Data){
 

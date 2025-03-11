@@ -24,7 +24,7 @@ SRSex <- function(taxon, occurrence_Data) {
 
 
   #create data.frame with output
-  out_df <- data.frame(Taxon=sp_counts$species,
+  out_df <- dplyr::tibble(Taxon=sp_counts$species,
                        "Total records"=sp_counts$totalRecords,
                        "Total with cooordinates"=sp_counts$totalUseful,
                        "Total G records"= sp_counts$totalGRecords,

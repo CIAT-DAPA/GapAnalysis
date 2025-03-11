@@ -100,10 +100,11 @@ ERSex <- function(taxon, sdm, occurrence_Data, gBuffer, ecoregions, idColumn){
   ers <- min(c(100, (gEco/nEco)*100))
   # generate filter
 
-  out_df = data.frame(Taxon=taxon,
+  out_df = dplyr::tibble(Taxon=taxon,
                       `Ecoregions with records` =nEco,
                       `Ecoregions within G buffer` =gEco,
                       `ERS exsitu` =ers)
+
   out_df$`Ecoregion id outside G buffer` <- list(missingEcos)
 
   # generate dataframe

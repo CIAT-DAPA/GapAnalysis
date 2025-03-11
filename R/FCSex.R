@@ -34,16 +34,16 @@
 FCSex <- function(taxon,srsex, grsex, ersex){
 
   # calculate the mean across the three measures
-  srs <- srsex$SRS.exsitu
-  ers <- grsex$GRS.exsitu
-  grs <- ersex$ERS.exsitu
+  srs <- srsex$`SRS exsitu`
+  ers <- grsex$`GRS exsitu`
+  grs <- ersex$`ERS exsitu`
 
   # generate the mean exsitu score
   sp_fcs <- mean(c(srs,
                    ers,
                    grs), na.rm=T)
 
-  out_df <- data.frame(Taxon = taxon,
+  out_df <- tibble(Taxon = taxon,
                          "SRS exsitu"= srs,
                          "GRS exsitu" = grs,
                          "ERS exsitu"= ers,
@@ -66,5 +66,5 @@ FCSex <- function(taxon,srsex, grsex, ersex){
 }
 
 
-FCSex(taxon = taxon,srsex = srsex, grsex = grsex, ersex = ersex)
+# FCSex(taxon = taxon,srsex = srsex, grsex = grsex, ersex = ersex)
 

@@ -14,6 +14,10 @@ inst/doc
 .Trashes
 ehthumbs.db
 Thumbs.db
+# data folder for testing
+/run20241204
+# preprocessing data folder to ignore
+/preprocessingData
 
 man/.Rapp.history
 .DS_Store

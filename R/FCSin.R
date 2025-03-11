@@ -1,45 +1,45 @@
-##Obtaining occurrences from example
-load("data/CucurbitaData.rda")
-##Obtaining Raster_list
-load("data/CucurbitaRasts.rda")
-##Obtaining protected areas raster
-load("data/protectAreasRast.rda")
-## ecoregions
-load("data/ecoExample.rda")
-
-library(terra)
-library(dplyr)
+# ##Obtaining occurrences from example
+# load("data/CucurbitaData.rda")
+# ##Obtaining Raster_list
+# load("data/CucurbitaRasts.rda")
+# ##Obtaining protected areas raster
+# load("data/protectAreasRast.rda")
+# ## ecoregions
+# load("data/ecoExample.rda")
 #
-taxon <- CucurbitaData$species[1]
-sdm <- terra::unwrap(CucurbitaRasts)[[1]]
-occurrence_Data <- CucurbitaData
-ecoregions <- terra::vect(eco1)
-protected_Areas <- terra::unwrap(protectAreasRast)
-source("R/generateCounts.R")
-
-# source individual functions
-source("R/ERSin.R")
-source("R/SRSin.R")
-source("R/GRSin.R")
-
-# generate objects
-srsin <- SRSin(taxon = taxon, sdm = sdm, occurrence_Data = occurrence_Data, protected_Areas = protected_Areas)
-grsin <- GRSin(taxon = taxon, sdm = sdm, protected_Areas = protected_Areas)
-ersin <- ERSin(taxon = taxon, sdm = sdm, occurrence_Data = occurrence_Data, protected_Areas = protected_Areas,
-               ecoregions = ecoregions, idColumn = "ECO_ID_U")
+# library(terra)
+# library(dplyr)
+# #
+# taxon <- CucurbitaData$species[1]
+# sdm <- terra::unwrap(CucurbitaRasts)[[1]]
+# occurrence_Data <- CucurbitaData
+# ecoregions <- terra::vect(eco1)
+# protected_Areas <- terra::unwrap(protectAreasRast)
+# source("R/generateCounts.R")
+#
+# # source individual functions
+# source("R/ERSin.R")
+# source("R/SRSin.R")
+# source("R/GRSin.R")
+#
+# # generate objects
+# srsin <- SRSin(taxon = taxon, sdm = sdm, occurrence_Data = occurrence_Data, protected_Areas = protected_Areas)
+# grsin <- GRSin(taxon = taxon, sdm = sdm, protected_Areas = protected_Areas)
+# ersin <- ERSin(taxon = taxon, sdm = sdm, occurrence_Data = occurrence_Data, protected_Areas = protected_Areas,
+#                ecoregions = ecoregions, idColumn = "ECO_ID_U")
 
 
 FCSin <- function(taxon, srsin, grsin, ersin){
   # define variables
-  srs <- srsin$SRS.insitu
-  ers <- grsin$GRS.insitu
-  grs <- ersin$ERS.insitu
+  srs <- srsin$`SRS insitu`
+  ers <- grsin$`GRS insitu`
+  grs <- ersin$`ERS insitu`
 
 
   # calculate the mean across the three measures
   sp_fcs <- mean(c(srs,grs,ers), na.rm=T)
 
-  out_df <- data.frame(Taxon=taxon,
+  out_df <- dplyr::tibble(Taxon=taxon,
                        "SRS insitu" = srs,
                        "GRS insitu"= grs,
                        "ERS insitu" = ers,
@@ -57,6 +57,6 @@ FCSin <- function(taxon, srsin, grsin, ersin){
     score <- "LP"
   }
 
-  out_df$FCS_Score <- score
+  out_df$`FCS insitu score` <- score
   return(out_df)
 }
