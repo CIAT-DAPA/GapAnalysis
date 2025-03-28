@@ -65,9 +65,12 @@ print(ersin)
 
 
 
+
+
+
 ####### VIGNETTE WITH MULTIPLE ITERATIONS ######################################
 
-# Load libraries
+# Load packages
 pacman::p_load(dplyr, terra, sf)
 
 ## Obtaining occurrences from example
@@ -82,8 +85,275 @@ load("data/ecoExample.rda")
 # Prep list of species
 taxa <- unique(CucurbitaData$species)
 
+########################################################################
 ###############################################################################
-### Method 1: Pre-create a dataframe
+### Method 1: Named List
+
+### DC: this is great and I think it's probably the option that we want to lead with
+### can you fill out the workflow so it includes the two additional Insitue functions and the fcsmean
+
+
+# Create an empty named list to store results
+results_list <- list()
+
+# Run using a for loop
+for (i in seq_along(taxa)) {
+  taxon <- taxa[i]
+
+  # Assign the data for the selected taxon
+  sdm <- terra::unwrap(CucurbitaRasts)[[i]]
+  occurrence_Data <- CucurbitaData[CucurbitaData$species == taxon, ]
+  ecoregions <- terra::vect(eco1)
+  protectAreasRast <- terra::unwrap(protectAreasRast)
+
+  # Generate gBuffer
+  gBuffer <- generateGBuffers(taxon = taxon, occurrence_Data = occurrence_Data, bufferDistM = 50000)
+
+  # Ex-situ analysis
+  srsex <- SRSex(taxon = taxon, occurrence_Data = occurrence_Data)
+  grsex <- GRSex(taxon = taxon, sdm = sdm, gBuffer = gBuffer)
+  ersex <- ERSex(taxon = taxon, sdm = sdm, occurrence_Data = occurrence_Data, gBuffer = gBuffer, ecoregions = ecoregions, idColumn = "ECO_ID_U")
+  fcsex <- FCSex(taxon = taxon, srsex = srsex, grsex = grsex, ersex = ersex)
+
+  # In-situ analysis
+  srsin <- SRSin(taxon = taxon, sdm = sdm, occurrence_Data = occurrence_Data, protected_Areas = protectAreasRast)
+  grsin <- GRSin(taxon = taxon, sdm = sdm, protected_Areas = protectAreasRast)
+  ersin <- ERSin(taxon = taxon, sdm = sdm, occurrence_Data = occurrence_Data, protected_Areas = protectAreasRast, ecoregions = ecoregions, idColumn = "ECO_ID_U")
+  fcsin <- FCSin(taxon = taxon, srsin = srsin, grsin = grsin, ersin = ersin)
+
+  # FCSmean calculation
+  fcsmean <- FCSc_mean(taxon = taxon, fcsin = fcsin, fcsex = fcsex)
+
+  # Store results in the named list
+  results_list[[taxon]] <- list(
+    srsex = srsex, grsex = grsex, ersex = ersex, fcsex = fcsex,
+    srsin = srsin, grsin = grsin, ersin = ersin, fcsin = fcsin, fcsmean = fcsmean
+  )
+
+  # Print results
+  print(paste("Taxon:", taxon))
+  print(srsex)
+  print(grsex)
+  print(ersex)
+  print(fcsex)
+  print(srsin)
+  print(grsin)
+  print(ersin)
+  print(fcsin)
+  print(fcsmean)
+}
+
+
+
+
+###############################################################################
+### Method 2: Conditional Binding
+
+## i like this better as a approach but the specific output is super helpful because column names are reused and will be changed from what is produced by
+## the specific functions
+
+# Create an empty dataframe to store results
+results_df <- NULL
+
+# Run using a for loop
+for (i in seq_along(taxa)) {
+  taxon <- taxa[i]
+
+  # Assign the data for the selected taxon
+  sdm <- terra::unwrap(CucurbitaRasts)[[i]]
+  occurrence_Data <- CucurbitaData[CucurbitaData$species == taxon, ]
+  ecoregions <- terra::vect(eco1)
+  protectAreasRast <- terra::unwrap(protectAreasRast)
+
+  # Generate gBuffer
+  gBuffer <- generateGBuffers(taxon = taxon, occurrence_Data = occurrence_Data, bufferDistM = 50000)
+
+  # Ex-situ analysis
+  srsex <- SRSex(taxon = taxon, occurrence_Data = occurrence_Data)
+  grsex <- GRSex(taxon = taxon, sdm = sdm, gBuffer = gBuffer)
+  ersex <- ERSex(taxon = taxon, sdm = sdm, occurrence_Data = occurrence_Data, gBuffer = gBuffer, ecoregions = ecoregions, idColumn = "ECO_ID_U")
+  fcsex <- FCSex(taxon = taxon, srsex = srsex, grsex = grsex, ersex = ersex)
+
+  # In-situ analysis
+  srsin <- SRSin(taxon = taxon, sdm = sdm, occurrence_Data = occurrence_Data, protected_Areas = protectAreasRast)
+  grsin <- GRSin(taxon = taxon, sdm = sdm, protected_Areas = protectAreasRast)
+  ersin <- ERSin(taxon = taxon, sdm = sdm, occurrence_Data = occurrence_Data, protected_Areas = protectAreasRast, ecoregions = ecoregions, idColumn = "ECO_ID_U")
+  fcsin <- FCSin(taxon = taxon, srsin = srsin, grsin = grsin, ersin = ersin)
+
+  # FCSmean calculation
+  fcsmean <- FCSc_mean(taxon = taxon, fcsin = fcsin, fcsex = fcsex)
+
+  # Store results using conditional binding
+  if (is.null(results_df)) {
+    results_df <- data.frame(
+      taxon = taxon,
+      srsex = srsex, grsex = grsex, ersex = ersex, fcsex = fcsex,
+      srsin = srsin, grsin = grsin, ersin = ersin, fcsin = fcsin, fcsmean = fcsmean
+    )
+  } else {
+    results_df <- bind_rows(
+      results_df,
+      data.frame(
+        taxon = taxon,
+        srsex = srsex, grsex = grsex, ersex = ersex, fcsex = fcsex,
+        srsin = srsin, grsin = grsin, ersin = ersin, fcsin = fcsin, fcsmean = fcsmean
+      )
+    )
+  }
+
+  # Print results
+  print(paste("Taxon:", taxon))
+  print(srsex)
+  print(grsex)
+  print(ersex)
+  print(fcsex)
+  print(srsin)
+  print(grsin)
+  print(ersin)
+  print(fcsin)
+  print(fcsmean)
+}
+
+
+
+
+
+###############################################################################
+### Method 3: purrr::map2
+
+# Load package
+library(purrr)
+
+# Prep list of species
+speciesList <- unique(CucurbitaData$species)
+sdms <- lapply(1:length(speciesList), function(i) terra::unwrap(CucurbitaRasts)[[i]])
+
+## altering to use the name raster list indexing as a input and producing a specific function
+## before calling purrr
+
+
+
+# Load package
+library(purrr)
+
+# Prep list of species
+speciesList <- unique(CucurbitaData$species)
+
+# Prep raster datasets to ensure the correct one is selected
+sdms <- terra::unwrap(CucurbitaRasts)
+# Match the order of the SDMs to the order of the species in the taxa object
+sdmList <- list(
+  sdms$cordata,
+  sdms$digitata,
+  sdms$palmata
+)
+names(sdmList) <- taxa
+
+# Define the workflow function
+purrrWorkflow <- function(taxon, sdms) {
+  sdm <- sdms[taxon][[1]] # Extract the raster from the list object
+
+  # Assign the data for the selected taxon
+  occurrence_Data <- CucurbitaData[CucurbitaData$species == taxon, ]
+  ecoregions <- terra::vect(eco1)
+  protectAreasRast <- terra::unwrap(protectAreasRast)
+
+  # Generate gBuffer
+  gBuffer <- generateGBuffers(taxon = taxon, occurrence_Data = occurrence_Data, bufferDistM = 50000)
+
+  # Ex-situ analysis
+  srsex <- SRSex(taxon = taxon, occurrence_Data = occurrence_Data)
+  grsex <- GRSex(taxon = taxon, sdm = sdm, gBuffer = gBuffer)
+  ersex <- ERSex(taxon = taxon, sdm = sdm, occurrence_Data = occurrence_Data, gBuffer = gBuffer, ecoregions = ecoregions, idColumn = "ECO_ID_U")
+  fcsex <- FCSex(taxon = taxon, srsex = srsex, grsex = grsex, ersex = ersex)
+
+  # In-situ analysis
+  srsin <- SRSin(taxon = taxon, sdm = sdm, occurrence_Data = occurrence_Data, protected_Areas = protectAreasRast)
+  grsin <- GRSin(taxon = taxon, sdm = sdm, protected_Areas = protectAreasRast)
+  ersin <- ERSin(taxon = taxon, sdm = sdm, occurrence_Data = occurrence_Data, protected_Areas = protectAreasRast, ecoregions = ecoregions, idColumn = "ECO_ID_U")
+  fcsin <- FCSin(taxon = taxon, srsin = srsin, grsin = grsin, ersin = ersin)
+
+  # FCSmean calculation
+  fcsmean <- FCSc_mean(taxon = taxon, fcsin = fcsin, fcsex = fcsex)
+
+  # Return results as a list
+  return(list(
+    taxon = taxon,
+    srsex = srsex, grsex = grsex, ersex = ersex, fcsex = fcsex,
+    srsin = srsin, grsin = grsin, ersin = ersin, fcsin = fcsin, fcsmean = fcsmean
+  ))
+}
+
+# Run the workflow using purrr::map
+results <- purrr::map(.x = speciesList, .f = purrrWorkflow, sdms = sdmList)
+names(results) <- speciesList
+
+# Alternative: purrr::map2 (if using two separate lists like speciesList and sdms)
+results <- purrr::map2(.x = speciesList, .y = sdmList, .f = function(taxon, sdm) {
+  # Include the same logic as above
+  occurrence_Data <- CucurbitaData[CucurbitaData$species == taxon, ]
+  ecoregions <- terra::vect(eco1)
+  protectAreasRast <- terra::unwrap(protectAreasRast)
+
+  # Ex-situ and in-situ analyses as above
+  gBuffer <- generateGBuffers(taxon = taxon, occurrence_Data = occurrence_Data, bufferDistM = 50000)
+  srsex <- SRSex(taxon = taxon, occurrence_Data = occurrence_Data)
+  grsex <- GRSex(taxon = taxon, sdm = sdm, gBuffer = gBuffer)
+  ersex <- ERSex(taxon = taxon, sdm = sdm, occurrence_Data = occurrence_Data, gBuffer = gBuffer, ecoregions = ecoregions, idColumn = "ECO_ID_U")
+  fcsex <- FCSex(taxon = taxon, srsex = srsex, grsex = grsex, ersex = ersex)
+
+  srsin <- SRSin(taxon = taxon, sdm = sdm, occurrence_Data = occurrence_Data, protected_Areas = protectAreasRast)
+  grsin <- GRSin(taxon = taxon, sdm = sdm, protected_Areas = protectAreasRast)
+  ersin <- ERSin(taxon = taxon, sdm = sdm, occurrence_Data = occurrence_Data, protected_Areas = protectAreasRast, ecoregions = ecoregions, idColumn = "ECO_ID_U")
+  fcsin <- FCSin(taxon = taxon, srsin = srsin, grsin = grsin, ersin = ersin)
+
+  fcsmean <- FCSc_mean(taxon = taxon, fcsin = fcsin, fcsex = fcsex)
+
+  return(list(
+    taxon = taxon,
+    srsex = srsex, grsex = grsex, ersex = ersex, fcsex = fcsex,
+    srsin = srsin, grsin = grsin, ersin = ersin, fcsin = fcsin, fcsmean = fcsmean
+  ))
+})
+
+# Display results
+results
+
+
+
+### this total works, option above just seems a bit clearer to me as there's less wrapped into the purrr functions .
+# Run purrr::map2 function to generate metrics for all taxa
+results <- purrr::map2(speciesList, sdms, ~ {
+  taxon <- .x
+  sdm <- .y
+
+  # Assign the data for the selected taxon
+  occurrence_Data <- CucurbitaData[CucurbitaData$species == taxon, ]
+  ecoregions <- terra::vect(eco1)
+  protectAreasRast <- terra::unwrap(protectAreasRast)
+
+  # Generate gBuffer
+  gBuffer <- generateGBuffers(taxon = taxon, occurrence_Data = occurrence_Data, bufferDistM = 50000)
+
+  # Generate objects for each function
+  srsex <- SRSex(taxon = taxon, occurrence_Data = occurrence_Data)
+  grsex <- GRSex(taxon = taxon, sdm = sdm, gBuffer = gBuffer)
+  ersex <- ERSex(taxon = taxon, sdm = sdm, occurrence_Data = occurrence_Data, gBuffer = gBuffer, ecoregions = ecoregions, idColumn = "ECO_ID_U")
+  fcsex <- FCSex(taxon = taxon, srsex = srsex, grsex = grsex, ersex = ersex)
+  ersin <- ERSin(taxon = taxon, sdm = sdm, occurrence_Data = occurrence_Data, protected_Areas = protectAreasRast, ecoregions = ecoregions, idColumn = "ECO_ID_U")
+
+  list(taxon = taxon, srsex = srsex, grsex = grsex, ersex = ersex, fcsex = fcsex, ersin = ersin)
+})
+
+# Display results
+results
+
+
+
+
+###############################################################################
+## SG drop??
+### Method 4 : Pre-create a dataframe
 
 # Create an empty dataframe to store results
 ### were building this out more so it's prepped to store the results Not sure important in this cause but you generally want to avoid
@@ -94,13 +364,13 @@ names(results_df) <- c("Taxon",
                        "SRS insitu","GRS insitu","ERS insitu","FCS insitu","FCS insitu score",
                        "FCSc_min","FCSc_max","FCSc_mean","FCSc_min_class",  "FCSc_max_class", "FCSc_mean_class")
 
-# prep raster datasets to ensure the correct one is selected
+# prep raster datasets to make sure the correct one is selected
 sdms <- terra::unwrap(CucurbitaRasts)
 # match the order of the SDMs to the order of the species in the taxa object
 sdmList <- list(
-   sdms$cordata,
-   sdms$digitata,
-   sdms$palmata
+  sdms$cordata,
+  sdms$digitata,
+  sdms$palmata
 )
 names(sdmList) <- taxa
 
@@ -169,185 +439,6 @@ for (i in seq_along(taxa)) {
   print(ersin)
 
 }
-
-
-###############################################################################
-### Method 2: Conditional Binding
-
-## i like this better as a approach but the specific output is super helpful because column names are reused and will be changed from what is produced by
-## the specific functions
-
-# Create an empty dataframe to store results
-results_df <- NULL
-
-# Run using a for loop
-for (i in seq_along(taxa)) {
-  taxon <- taxa[i]
-
-  # Assign the data for the selected taxon
-  sdm <- terra::unwrap(CucurbitaRasts)[[i]]
-  occurrence_Data <- CucurbitaData[CucurbitaData$species == taxon, ]
-  ecoregions <- terra::vect(eco1)
-  protectAreasRast <- terra::unwrap(protectAreasRast)
-
-  # Generate gBuffer
-  gBuffer <- generateGBuffers(taxon = taxon, occurrence_Data = occurrence_Data, bufferDistM = 50000)
-
-  # Generate objects for each function
-  srsex <- SRSex(taxon = taxon, occurrence_Data = occurrence_Data)
-  grsex <- GRSex(taxon = taxon, sdm = sdm, gBuffer = gBuffer)
-  ersex <- ERSex(taxon = taxon, sdm = sdm, occurrence_Data = occurrence_Data, gBuffer = gBuffer, ecoregions = ecoregions, idColumn = "ECO_ID_U")
-
-  # Generate FCSex
-  fcsex <- FCSex(taxon = taxon, srsex = srsex, grsex = grsex, ersex = ersex)
-
-  # In-situ analysis
-  ersin <- ERSin(taxon = taxon, sdm = sdm, occurrence_Data = occurrence_Data, protected_Areas = protectAreasRast, ecoregions = ecoregions, idColumn = "ECO_ID_U")
-
-  # Store results using conditional binding
-  if (is.null(results_df)) {
-    results_df <- data.frame(taxon = taxon, srsex = srsex, grsex = grsex, ersex = ersex, fcsex = fcsex, ersin = ersin)
-  } else {
-    results_df <- bind_rows(results_df, data.frame(taxon = taxon, srsex = srsex, grsex = grsex, ersex = ersex, fcsex = fcsex, ersin = ersin))
-  }
-
-  # Print results
-  print(paste("Taxon:", taxon))
-  print(srsex)
-  print(grsex)
-  print(ersex)
-  print(fcsex)
-  print(ersin)
-}
-
-
-###############################################################################
-### Method 3: Named List
-
-### this is great and I think it's probably the option that we want to lead with
-### can you fill out the workflow so it includes the two additional Insitue functions and the fcsmean
-
-
-# Create an empty named list to store results
-results_list <- list()
-
-# Run using a for loop
-for (i in seq_along(taxa)) {
-  taxon <- taxa[i]
-
-  # Assign the data for the selected taxon
-  sdm <- terra::unwrap(CucurbitaRasts)[[i]]
-  occurrence_Data <- CucurbitaData[CucurbitaData$species == taxon, ]
-  ecoregions <- terra::vect(eco1)
-  protectAreasRast <- terra::unwrap(protectAreasRast)
-
-  # Generate gBuffer
-  gBuffer <- generateGBuffers(taxon = taxon, occurrence_Data = occurrence_Data, bufferDistM = 50000)
-
-  # Generate objects for each function
-  srsex <- SRSex(taxon = taxon, occurrence_Data = occurrence_Data)
-  grsex <- GRSex(taxon = taxon, sdm = sdm, gBuffer = gBuffer)
-  ersex <- ERSex(taxon = taxon, sdm = sdm, occurrence_Data = occurrence_Data, gBuffer = gBuffer, ecoregions = ecoregions, idColumn = "ECO_ID_U")
-
-  # Generate FCSex
-  fcsex <- FCSex(taxon = taxon, srsex = srsex, grsex = grsex, ersex = ersex)
-
-  # In-situ analysis
-  ersin <- ERSin(taxon = taxon, sdm = sdm, occurrence_Data = occurrence_Data, protected_Areas = protectAreasRast, ecoregions = ecoregions, idColumn = "ECO_ID_U")
-
-  # Store the results in the named list
-  results_list[[taxon]] <- list(srsex = srsex, grsex = grsex, ersex = ersex, fcsex = fcsex, ersin = ersin)
-
-  # Print results
-  print(paste("Taxon:", taxon))
-  print(srsex)
-  print(grsex)
-  print(ersex)
-  print(fcsex)
-  print(ersin)
-}
-
-
-###############################################################################
-### Method 4: purrr::map2
-
-# Load package
-library(purrr)
-
-# Prep list of species
-speciesList <- unique(CucurbitaData$species)
-sdms <- lapply(1:length(speciesList), function(i) terra::unwrap(CucurbitaRasts)[[i]])
-
-## altering to use the name raster list indexing as a input and producing a specific function
-## before calling purrr
-
-# prep raster datasets to ensure the correct one is selected
-sdms <- terra::unwrap(CucurbitaRasts)
-# match the order of the SDMs to the order of the species in the taxa object
-sdmList <- list(
-  sdms$cordata,
-  sdms$digitata,
-  sdms$palmata
-)
-names(sdmList) <- taxa
-
-
-purrrWorkflow <- function(speciesList, sdms){
-  taxon <- speciesList
-  sdm <- sdms[taxon][[1]] # extra indexing is needed her to get the raster out of the list object.
-
-  # Assign the data for the selected taxon
-  occurrence_Data <- CucurbitaData[CucurbitaData$species == taxon, ]
-  ecoregions <- terra::vect(eco1)
-  protectAreasRast <- terra::unwrap(protectAreasRast)
-
-  # Generate gBuffer
-  gBuffer <- generateGBuffers(taxon = taxon, occurrence_Data = occurrence_Data, bufferDistM = 50000)
-
-  # Generate objects for each function
-  srsex <- SRSex(taxon = taxon, occurrence_Data = occurrence_Data)
-  grsex <- GRSex(taxon = taxon, sdm = sdm, gBuffer = gBuffer)
-  ersex <- ERSex(taxon = taxon, sdm = sdm, occurrence_Data = occurrence_Data, gBuffer = gBuffer, ecoregions = ecoregions, idColumn = "ECO_ID_U")
-  fcsex <- FCSex(taxon = taxon, srsex = srsex, grsex = grsex, ersex = ersex)
-  ersin <- ERSin(taxon = taxon, sdm = sdm, occurrence_Data = occurrence_Data, protected_Areas = protectAreasRast, ecoregions = ecoregions, idColumn = "ECO_ID_U")
-
-  return(list(taxon = taxon, srsex = srsex, grsex = grsex, ersex = ersex, fcsex = fcsex, ersin = ersin))
-}
-
-# single purrr over species list with predefined function
-results <- purrr::map(.x = speciesList, .f = purrrWorkflow, sdms = sdmList)
-names(results) <- speciesList
-
-
-### this total works, option above just seems a bit clearer to me as there's less wrapped into the purrr functions .
-# Run purrr::map2 function to generate metrics for all taxa
-results <- purrr::map2(speciesList, sdms, ~ {
-  taxon <- .x
-  sdm <- .y
-
-  # Assign the data for the selected taxon
-  occurrence_Data <- CucurbitaData[CucurbitaData$species == taxon, ]
-  ecoregions <- terra::vect(eco1)
-  protectAreasRast <- terra::unwrap(protectAreasRast)
-
-  # Generate gBuffer
-  gBuffer <- generateGBuffers(taxon = taxon, occurrence_Data = occurrence_Data, bufferDistM = 50000)
-
-  # Generate objects for each function
-  srsex <- SRSex(taxon = taxon, occurrence_Data = occurrence_Data)
-  grsex <- GRSex(taxon = taxon, sdm = sdm, gBuffer = gBuffer)
-  ersex <- ERSex(taxon = taxon, sdm = sdm, occurrence_Data = occurrence_Data, gBuffer = gBuffer, ecoregions = ecoregions, idColumn = "ECO_ID_U")
-  fcsex <- FCSex(taxon = taxon, srsex = srsex, grsex = grsex, ersex = ersex)
-  ersin <- ERSin(taxon = taxon, sdm = sdm, occurrence_Data = occurrence_Data, protected_Areas = protectAreasRast, ecoregions = ecoregions, idColumn = "ECO_ID_U")
-
-  list(taxon = taxon, srsex = srsex, grsex = grsex, ersex = ersex, fcsex = fcsex, ersin = ersin)
-})
-
-# Display results
-results
-
-
-
 
 
 
@@ -568,6 +659,12 @@ write.xlsx(ersin, "varizonica_1k_ersin.xlsx", overwrite = TRUE)
 
 ##################### PART III: Run with different data sources #########################
 # gather 2 ecoregion files and test results
+
+
+
+
+
+
 
 
 
