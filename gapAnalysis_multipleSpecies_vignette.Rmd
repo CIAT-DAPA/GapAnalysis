@@ -2,14 +2,14 @@
 title: "Gap Analysis workflow for Multiple Species"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Gap Analysis for Multiple Species}
+  %\VignetteIndexEntry{Gap Analysis workflow for Multiple Species}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
 
 
 ```{r setup, include = FALSE}
-load("C:/Users/sgora/Desktop/Agrobiodiversity/GapR/GapAnalysis/data/CucurbitaData.rda")
+
 
 ```
 
