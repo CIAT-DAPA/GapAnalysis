@@ -10,12 +10,18 @@
 checkRaster <- function(raster){
   # check class and convert if needed
   c1 <- class(raster)
-  if(class(c1)!="SpatRaster"){
+  if(c1[1]!="SpatRaster"){
     raster <- terra::rast(raster)
     message(paste("Changed the object type from ", c1,
                   " to the required object terra rast"  ))
   }
-
+  # check to see if this there is only one values in raster
+  vals <- unique(terra::values(raster))[,1]
+  if(length(vals) > 2){
+    message(paste("Your input raster contain the following values ", vals,
+                  " please alter the raster so the that only NA/NaN and 1 are present."  ))
+    stop()
+  }
   crs <- terra::crs(raster)
   # crs
   if(!terra::same.crs(crs, terra::crs("epsg:4326"))){

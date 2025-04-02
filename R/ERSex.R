@@ -30,7 +30,8 @@ ERSex <- function(taxon, sdm, occurrence_Data, gBuffer, ecoregions, idColumn){
   # filter the occurrence data to the species of interest
   d1 <- occurrence_Data |>
     dplyr::filter(species == taxon) |>
-    terra::vect(geom=c("longitude", "latitude"))
+    terra::vect(geom=c("longitude", "latitude"), crs="+proj=longlat +datum=WGS84")
+
 
   # determine the eco regions present in the
   inter <- terra::intersect(x = d1, y = ecoregions) |>
