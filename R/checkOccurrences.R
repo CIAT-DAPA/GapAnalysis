@@ -8,7 +8,10 @@
 #
 # values <- checkOccurrences(csv)
 
-checkOccurrences <- function(csv, removeDuplicated = FALSE){
+checkOccurrences <- function(csv, taxon, removeDuplicated = FALSE){
+
+  # subset to the species of interest
+  csv <- csv
 
   # check column names
   ## if don't match error out
@@ -17,7 +20,7 @@ checkOccurrences <- function(csv, removeDuplicated = FALSE){
   # select columns of interest
   missing_columns <- setdiff(requiredCols, names(csv))
   if(length(missing_columns) == 0){
-    df <- csv |>
+    csv <- csv |>
       dplyr::mutate(index = dplyr::row_number())|>
       dplyr::select(index, dplyr::all_of(requiredCols))
   }else{
@@ -25,6 +28,13 @@ checkOccurrences <- function(csv, removeDuplicated = FALSE){
                missing_columns,
                ". Please add in order to move forward. Theres are case sensitive"))
   }
+
+  # subset to the species of interest
+  totalRows <- nrow(csv)
+  df <- csv[csv$species == taxon, ]
+  message(paste("A total of ", nrow(df),
+                " out of the ", totalRows, "contained records for ", taxon))
+
 
   # change the data type of the columns
   colTypes <- lapply(df, class)
@@ -62,9 +72,8 @@ checkOccurrences <- function(csv, removeDuplicated = FALSE){
   invalidCoords <- size - nrow(df)
   # message
   message(paste("Removed  ", invalidCoords,
-                " records because lat values were outside the range of -90-90 ",
-                "or lonitude values were outside the range of -180-180,
-                or there is a no value present for latitude or longitude for a record."))
+                " records because lat values were outside the range of -90 to 90 or lonitude values were outside the range of -180-180",
+                "or there is a no value present for latitude or longitude for a record."))
 
 
   # Check for duplicated records (all rows)

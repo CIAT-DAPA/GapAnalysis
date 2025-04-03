@@ -1,8 +1,8 @@
 
 # # custom input data  ------------------------------------------------------
-sdm <- terra::rast("testData/Vitis acerifolia/prj_threshold.tif")
-sdm <- subst(sdm, 0, NaN)
-proArea <- terra::rast("testData/wdpa_reclass.tif")
+# sdm <- terra::rast("testData/Vitis acerifolia/prj_threshold.tif")
+# sdm <- subst(sdm, 0, NaN)
+# proArea <- terra::rast("testData/wdpa_reclass.tif")
 
 checkProtectAreas <- function(proArea, sdm){
   # check class and convert if needed
@@ -33,14 +33,10 @@ checkProtectAreas <- function(proArea, sdm){
   modelSize <- terra::res(sdm)
   if(cellSize[1] != modelSize[1] | cellSize[2] != modelSize[2] ){
     proArea <- resample(proArea, sdm, method = "near")
+    # this statement is printing twice? not sure why
     message(paste("Changed the cell size of the protected area from ", cellSize,
                   " to the cell size of the sdm ", modelSize  ))
   }
-  # extent
-  ## not going to worry about the extent here
-  ## basically it can be limited by either the points, the buffered points, or
-  ## the sdm. Because of that variabily it's better to handle this in the specific
-  ## functions
 
   return(proArea)
 }

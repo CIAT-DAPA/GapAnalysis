@@ -25,6 +25,10 @@ generateGBuffers <- function(taxon, occurrence_Data, bufferDistM){
   }else{
     d2 <- "No G points present"
   }
-
+  # generate a plot of the points for a quality check)
+  terra::plot(d2,  main = "Buffer G points",
+              xlab = "Longitude", ylab = "Latitude")
+  # add points as reference
+  terra::plot(d1, add = TRUE)
   return(d2)
 }

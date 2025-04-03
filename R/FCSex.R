@@ -31,12 +31,12 @@
 #                ecoregions = ecoregions, idColumn = "ECO_ID_U")
 
 
-FCSex <- function(taxon,srsex, grsex, ersex){
+FCSex <- function(taxon, srsex, grsex, ersex){
 
   # calculate the mean across the three measures
   srs <- srsex$`SRS exsitu`
-  ers <- grsex$`GRS exsitu`
-  grs <- ersex$`ERS exsitu`
+  grs <- grsex$results$`GRS exsitu`
+  ers <- ersex$results$`ERS exsitu`
 
   # generate the mean exsitu score
   sp_fcs <- mean(c(srs,

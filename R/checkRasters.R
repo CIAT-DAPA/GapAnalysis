@@ -17,7 +17,8 @@ checkRaster <- function(raster){
   }
   # check to see if this there is only one values in raster
   vals <- unique(terra::values(raster))[,1]
-  if(length(vals) > 2){
+  vals <- vals[!is.na(vals)]
+  if(length(vals) > 1 ){
     message(paste("Your input raster contain the following values ", vals,
                   " please alter the raster so the that only NA/NaN and 1 are present."  ))
     stop()

@@ -29,8 +29,13 @@ GRSex <- function(taxon, sdm, gBuffer) {
   }else{
     ## rasterize the object
     b1 <- terra::rasterize(x = gBuffer, y = sdm)
-    c2 <- r1 * b1
+    c2 <- r1 * b1 * sdm
     gArea <- sum(values(c2), na.rm = TRUE)
+
+    # gap map
+    ## reclass from NA to 0
+    b2 <- b1 * -1
+    gMap <- terra::mask(x = sdm, b1, inverse=TRUE )
 
     # clause to determine if any of the buffered area falls within predicted area
     if(gArea == 0){
@@ -42,10 +47,19 @@ GRSex <- function(taxon, sdm, gBuffer) {
     }
   }
 
-  #create data.frame with output
+  # create data.frame with output
   out_df <- dplyr::tibble(Taxon=taxon,
                        'Area of model km2'=totalArea,
                        'G buffer areas in model km2' =gArea,
                        "GRS exsitu" =grs)
-  return(out_df)
+  # map objects
+  terra::plot(gMap,  main = "SDM areas outside of the G Buffer zone",
+              xlab = "Longitude", ylab = "Latitude")
+  #
+  output <- list(
+    results = out_df,
+    gGaps = gMap
+  )
+  return(output)
 }
+

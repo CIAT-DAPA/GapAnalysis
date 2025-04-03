@@ -22,37 +22,42 @@ for(i in files){
   print(i)
   source(i)}
 
-# check points -- optional
-dim(occurrence_Data)
-data <- checkOccurrences(csv = occurrence_Data)
-dim(data)
-
-# check rasters -- optional
-CucurbitaRasts
-rasters <- checkRaster(raster = CucurbitaRasts)
-rasters
-
 # download data or set required files
 ecos <- terra::vect(eco1) # currently a sf object see if it runs or change
 proAreas <- terra::unwrap(protectAreasRast)
 
 
-
 # Start the single species workflow  --------------------------------------
 
-taxon <- unique(data$species)[2]
-sdm <- rasters$digitata
+taxon <- unique(occurrence_Data$species)[2]
+sdm <- raster$digitata
+# reclassify the values in the sdm to NA and 0
+sdm <- subst(sdm, 0, NA)
 
-# gBuffers
-gbuffers <- generateGBuffers(taxon = taxon, occurrence_Data = data, bufferDistM = 50000)
+# run the srsex on the raw occurrence data to include all records regardless of presence of lat lon
+srsex <- SRSex(taxon = taxon, occurrence_Data = occurrence_Data)
+
+# run checks on the inputs
+## points
+data <- checkOccurrences(csv = occurrence_Data, taxon = taxon)
+## sdm
+sdm <- checkRaster(sdm)
+## protected area
+proArea <- checkProtectAreas(proArea = proAreas, sdm = sdm)
+## ecoregion check
+eco <- checkEcoregion(eco = ecos, sdm = sdm, uniqueID ="ECO_ID_U" )
+
+# generate gbuffer objects
+## gBuffers
+gbuffers <- generateGBuffers(taxon = taxon,
+                             occurrence_Data = data,
+                             bufferDistM = 50000)
 
 ### Exsitu
-#srs - this can run with cleaned data which will remove all non lat lon points or the original data
-srsex <- SRSex(taxon = taxon, occurrence_Data = occurrence_Data)
-### lets no even show the running this on the quality check data --- because we need the full sample
-srsexSpatial <- SRSex(taxon = taxon, occurrence_Data = data)
 #grs
-grsex <- GRSex(taxon = taxon, sdm = sdm, gBuffer = gbuffers)
+grsex <- GRSex(taxon = taxon,
+               sdm = sdm,
+               gBuffer = gbuffers)
 #ers
 ersex <- ERSex(taxon = taxon,
                sdm = sdm,
@@ -61,7 +66,7 @@ ersex <- ERSex(taxon = taxon,
                ecoregions = ecos,
                idColumn = "ECO_CODE" )
 # fcsex
-fcsex <- FCSex(taxon = taxon, srsex = srsex,grsex = grsex, ersex = ersex)
+fcsex <- FCSex(taxon = taxon, srsex = srsex, grsex = grsex, ersex = ersex)
 
 ### Insitu
 # srs
@@ -100,19 +105,30 @@ allData <- read.csv("testData/allVitisData.csv")|>
                 "latitude",
                 "longitude",
                 "type")
-data <- checkOccurrences(allData)
 sdm <- terra::rast("testData/Vitis acerifolia/prj_threshold.tif")
-proArea <- terra::rast("testData/wdpa_reclass.tif") |>
-  terra::crop(sdm)
-taxon <- unique(data$species)[15]
+sdm <- subst(sdm, 0, NA)
+proArea <- terra::rast("testData/wdpa_reclass.tif")
+taxon <- unique(allData$species)[1]
+
+# srsex
+srsex <- SRSex(taxon = taxon, occurrence_Data = allData)
+
+# run checks on the inputs
+## points
+data <- checkOccurrences(csv = allData, taxon = taxon)
+## sdm
+sdm <- checkRaster(sdm)
+## protected area
+proArea <- checkProtectAreas(proArea = proArea, sdm = sdm)
+## ecoregion check
+eco <- checkEcoregion(eco = ecos, sdm = sdm, uniqueID ="US_L3CODE" )
+
+
 
 # gBuffers
 gbuffers <- generateGBuffers(taxon = taxon, occurrence_Data = data, bufferDistM = 50000)
 
 ### Exsitu
-#srs - this can run with cleaned data which will remove all non lat lon points or the original data
-srsex <- SRSex(taxon = taxon,occurrence_Data = allData)
-srsexSpatial <- SRSex(taxon = taxon,occurrence_Data = data)
 #grs
 ### getting a higher value the in the vitis workflow. Make just buffers are being cropped
 grsex <- GRSex(taxon = taxon, sdm = sdm, gBuffer = gbuffers)
@@ -122,7 +138,7 @@ ersex <- ERSex(taxon = taxon,
                sdm = sdm,
                occurrence_Data = data,
                gBuffer = gbuffers,
-               ecoregions = ecos,
+               ecoregions = eco,
                idColumn = "US_L3CODE" )
 # fcsex
 fcsex <- FCSex(taxon = taxon, srsex = srsex,grsex = grsex, ersex = ersex)
