@@ -28,9 +28,8 @@ proAreas <- terra::unwrap(protectAreasRast)
 
 
 # Start the single species workflow  --------------------------------------
-
 taxon <- unique(occurrence_Data$species)[2]
-sdm <- raster$digitata
+sdm <- terra::unwrap(CucurbitaRasts)$digitata
 # reclassify the values in the sdm to NA and 0
 sdm <- subst(sdm, 0, NA)
 
@@ -73,7 +72,7 @@ fcsex <- FCSex(taxon = taxon, srsex = srsex, grsex = grsex, ersex = ersex)
 srsin <- SRSin(taxon = taxon,
                sdm = sdm,
                occurrence_Data = data,
-               protected_Areas = proAreas)
+               protectedAreas = proAreas)
 # grs
 grsin <- GRSin(taxon = taxon,
                sdm = sdm,
