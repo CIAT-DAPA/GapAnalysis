@@ -31,9 +31,9 @@
 
 FCSin <- function(taxon, srsin, grsin, ersin){
   # define variables
-  srs <- srsin$`SRS insitu`
-  ers <- grsin$`GRS insitu`
-  grs <- ersin$`ERS insitu`
+  srs <- srsin$results$`SRS insitu`
+  grs <- grsin$results$`GRS insitu`
+  ers <- ersin$results$`ERS insitu`
 
 
   # calculate the mean across the three measures

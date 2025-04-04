@@ -10,9 +10,6 @@
 
 checkOccurrences <- function(csv, taxon, removeDuplicated = FALSE){
 
-  # subset to the species of interest
-  csv <- csv
-
   # check column names
   ## if don't match error out
   ## provide a message of the require

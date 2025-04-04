@@ -19,64 +19,49 @@
 #
 # ERSin(taxon, sdm, occurrence_Data, protected_Areas, ecoregions, idColumn)
 
-ERSin <- function(taxon, sdm, occurrence_Data, protected_Areas, ecoregions, idColumn) {
-  # mask protected areas layer
-  mask1 <- ifel(test = sdm == 1, yes = 1, no = NA)
-  # crop protected areas raster
-  p1 <- terra::crop(x = protected_Areas, y = sdm)
-  # multiple to create mask
-  p1 <- p1 * mask1
+ERSin <- function(taxon, sdm, occurrence_Data, protectedAreas, ecoregions, idColumn) {
+  # crop protected areas to sdm
+  pro <- terra::crop(protectedAreas, sdm)
+  # mask to model
+  proMask <- pro * sdm
+  # crop ecos to sdm
+  eco <- terra::crop(ecoregions, sdm)
 
-  # filter the occurrence data to the species of interest
-  d1 <- occurrence_Data |>
-    dplyr::filter(species == taxon) |>
-    terra::vect(geom=c("longitude", "latitude"))
-
-  # determine the eco regions present in the
-  inter <- terra::intersect(x = d1, y = ecoregions) |>
-    terra::as.data.frame()
-  # select ecoregions of interest
-  ecoCodes <- unique(inter[,idColumn])
-  # index with selection
-  ## conver to table for easier indexing
-  eco2 <- terra::as.data.frame(ecoregions)
-  ## select
-  n1 <- ecoregions[eco2[,idColumn] %in% ecoCodes, ]
-
-  # total number of eco regions within the SDM
-  ## ecoregions with predicted presence within the boundaries
-  totEco <- terra::zonal(x = sdm , z = n1, fun = "sum",na.rm=TRUE)
-
-  totEco$ecoID <- as.data.frame(n1)[,idColumn]
-
-  # reduce to number of rows for simple math
-  totalEcoregions <- totEco |>
-    dplyr::filter_at(1, all_vars(. >= 1)) |>
-    dplyr::select(ecoID) |>
-    dplyr::distinct()|>
-    nrow()
-  # total number of eco regions within the SDM with protect areas.
-  totProEco <- terra::zonal(x = p1 ,z = n1, fun = "sum",na.rm=TRUE)
-  # assign the eco id
-  totProEco$ecoID <- as.data.frame(n1)[,idColumn]
-  # filter to include ecoregions with protected areas
-  totalProtectedEcoregions <- totProEco |>
-    dplyr::filter_at(1, all_vars(. >= 1)) |>
-    dplyr::select(ecoID) |>
-    dplyr::distinct()|>
-    nrow()
-
-  if(totalProtectedEcoregions == 0){
+  # Get ecoregions in sdm
+  totEco <- terra::zonal(x = sdm , z = eco, fun = "sum",na.rm=TRUE) |> pull()
+  nEcoModel <- length(totEco[!is.na(totEco)])
+  # Get ecoregions in pro areas
+  totPro <- terra::zonal(x = sdm , z = eco, fun = "sum",na.rm=TRUE) |> pull()
+  nProModel <- length(totPro[!is.na(totPro)])
+  # add the eco results to ecoregion layer
+  eco$inDist <- totEco
+  eco$protected <- totPro
+  # filter spatial object for output
+  eco1 <- eco[!is.na(eco$inDist), ]
+  eco1 <- eco1[is.na(eco1$protected), ]
+  # calculate the ers
+  if(nProModel == 0){
     ers <- 0
   }else{
-    ers <- (totalProtectedEcoregions/totalEcoregions)*100
+    ers <- (nProModel/nEcoModel)*100
+  }
+  #results
+  df <- dplyr::tibble(Taxon = taxon,
+                   "Ecoregions within model" = nEcoModel,
+                   "Ecoregions with protected areas" = nProModel,
+                   "ERS insitu" = ers)
+  # plot missing ecos
+  terra::plot(sdm, col = "yellow",
+              main = "Ecoregions within the SDM without Protected Area",
+              xlab = "Longitude", ylab = "Latitude")
+  if(nrow(eco1) >0 ){
+    terra::plot(eco1, add = TRUE)
   }
 
-
-
-  df <- dplyr::tibble(Taxon = taxon,
-                   "Ecoregions within model" = totalEcoregions,
-                   "Ecoregions with protected areas" = totalProtectedEcoregions,
-                   "ERS insitu" = ers)
-  return(df)
+  # output
+  output = list(
+    results = df,
+    missingEcos = eco1
+  )
+  return(output)
 }

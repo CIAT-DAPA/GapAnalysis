@@ -76,12 +76,12 @@ srsin <- SRSin(taxon = taxon,
 # grs
 grsin <- GRSin(taxon = taxon,
                sdm = sdm,
-               protected_Areas = proAreas)
+               protectedAreas  = proAreas)
 # ers
 ersin <- ERSin(taxon = taxon,
                sdm = sdm,
                occurrence_Data = data,
-               protected_Areas = proAreas,
+               protectedAreas = proAreas,
                ecoregions = ecos,
                idColumn = "ECO_CODE")
 # fcs
@@ -108,66 +108,4 @@ sdm <- terra::rast("testData/Vitis acerifolia/prj_threshold.tif")
 sdm <- subst(sdm, 0, NA)
 proArea <- terra::rast("testData/wdpa_reclass.tif")
 taxon <- unique(allData$species)[1]
-
-# srsex
-srsex <- SRSex(taxon = taxon, occurrence_Data = allData)
-
-# run checks on the inputs
-## points
-data <- checkOccurrences(csv = allData, taxon = taxon)
-## sdm
-sdm <- checkRaster(sdm)
-## protected area
-proArea <- checkProtectAreas(proArea = proArea, sdm = sdm)
-## ecoregion check
-eco <- checkEcoregion(eco = ecos, sdm = sdm, uniqueID ="US_L3CODE" )
-
-
-
-# gBuffers
-gbuffers <- generateGBuffers(taxon = taxon, occurrence_Data = data, bufferDistM = 50000)
-
-### Exsitu
-#grs
-### getting a higher value the in the vitis workflow. Make just buffers are being cropped
-grsex <- GRSex(taxon = taxon, sdm = sdm, gBuffer = gbuffers)
-#ers
-# troubleshoot SpatVector must have polygon geometry
-ersex <- ERSex(taxon = taxon,
-               sdm = sdm,
-               occurrence_Data = data,
-               gBuffer = gbuffers,
-               ecoregions = eco,
-               idColumn = "US_L3CODE" )
-# fcsex
-fcsex <- FCSex(taxon = taxon, srsex = srsex,grsex = grsex, ersex = ersex)
-
-### Insitu
-## need more troubleshooting
-# srs
-srsin <- SRSin(taxon = taxon,
-               sdm = sdm,
-               occurrence_Data = data,
-               protected_Areas = proArea)
-# grs
-grsin <- GRSin(taxon = taxon,
-               sdm = sdm,
-               protected_Areas = proArea)
-# ers
-ersin <- ERSin(taxon = taxon,
-               sdm = sdm,
-               occurrence_Data = data,
-               protected_Areas = proArea,
-               ecoregions = ecos,
-               idColumn = "ECO_CODE")
-# fcs
-fcsin <- FCSin(taxon = taxon,
-               srsin = srsin,
-               grsin = grsin,
-               ersin = ersin)
-
-### final score
-fcs_combined <- FCSc_mean(taxon = taxon,
-                          fcsin = fcsin,
-                          fcsex = fcsex)
 
