@@ -44,7 +44,7 @@ GRSin <- function(taxon, sdm, protectedAreas){
               main = "Protect areas within the SDM",
               xlab = "Longitude", ylab = "Latitude")
   terra::plot(proMask, col = color_palette2, add = TRUE)
-  terra::add_legend("topright", legend = c("SDM", "Protected"),
+  terra::add_legend("bottomright", legend = c("SDM", "Protected"),
                                        pch = 16, col = c("yellow", "darkgreen"), cex = 1)
   # create output data
   output <- list(

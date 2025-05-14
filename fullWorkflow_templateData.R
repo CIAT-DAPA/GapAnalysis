@@ -31,15 +31,18 @@ proAreas <- terra::unwrap(protectAreasRast)
 taxon <- unique(occurrence_Data$species)[2]
 sdm <- terra::unwrap(CucurbitaRasts)$digitata
 # reclassify the values in the sdm to NA and 0
-sdm <- subst(sdm, 0, NA)
+sdm <- terra::subst(sdm, 0, NA)
 
-# run the srsex on the raw occurrence data to include all records regardless of presence of lat lon
+# run the srsex on the raw occurrence data to include all records
+# regardless of presence of lat lon
 srsex <- SRSex(taxon = taxon, occurrence_Data = occurrence_Data)
 
 # run checks on the inputs
 ## points
 data <- checkOccurrences(csv = occurrence_Data, taxon = taxon)
 ## sdm
+
+### add a
 sdm <- checkRaster(sdm)
 ## protected area
 proArea <- checkProtectAreas(proArea = proAreas, sdm = sdm)
@@ -98,14 +101,14 @@ fcs_combined <- FCSc_mean(taxon = taxon,
 
 
 # custom input data  ------------------------------------------------------
-ecos <- terra::vect("testData/us_eco_l3.shp") |>terra::makeValid()
-allData <- read.csv("testData/allVitisData.csv")|>
-  dplyr::select(species = "taxon",
-                "latitude",
-                "longitude",
-                "type")
-sdm <- terra::rast("testData/Vitis acerifolia/prj_threshold.tif")
-sdm <- subst(sdm, 0, NA)
-proArea <- terra::rast("testData/wdpa_reclass.tif")
-taxon <- unique(allData$species)[1]
+# ecos <- terra::vect("testData/us_eco_l3.shp") |>terra::makeValid()
+# allData <- read.csv("testData/allVitisData.csv")|>
+#   dplyr::select(species = "taxon",
+#                 "latitude",
+#                 "longitude",
+#                 "type")
+# sdm <- terra::rast("testData/Vitis acerifolia/prj_threshold.tif")
+# sdm <- subst(sdm, 0, NA)
+# proArea <- terra::rast("testData/wdpa_reclass.tif")
+# taxon <- unique(allData$species)[1]
 
