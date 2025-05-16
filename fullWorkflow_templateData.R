@@ -26,7 +26,7 @@ for(i in files){
 ecos <- terra::vect(eco1) # currently a sf object see if it runs or change
 proAreas <- terra::unwrap(protectAreasRast)
 
-
+r1 <- terra::rast("~/trueNAS/work/cwr_wildgrapes/data/geospatial_datasets/protectedLands/wdpa_rasterized_all.tif")
 # Start the single species workflow  --------------------------------------
 taxon <- unique(occurrence_Data$species)[2]
 sdm <- terra::unwrap(CucurbitaRasts)$digitata
