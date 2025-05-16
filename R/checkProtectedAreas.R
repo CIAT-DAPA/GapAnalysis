@@ -37,6 +37,7 @@ checkProtectAreas <- function(proArea, sdm){
     message(paste("Changed the cell size of the protected area from ", cellSize,
                   " to the cell size of the sdm ", modelSize  ))
   }
+  message(paste("All checks completed"))
 
   return(proArea)
 }

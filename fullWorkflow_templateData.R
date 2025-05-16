@@ -1,7 +1,7 @@
 
 ## meant to replicated the user experience where they are bringing in there point data and rasters
 # Load libraries
-pacman::p_load(dplyr, terra, sf)
+pacman::p_load(dplyr, terra, sf, leaflet,htmltools)
 
 ##Obtaining occurrences from example
 load("data/CucurbitaData.rda")
@@ -39,7 +39,7 @@ srsex <- SRSex(taxon = taxon, occurrence_Data = occurrence_Data)
 
 # run checks on the inputs
 ## points
-data <- checkOccurrences(csv = occurrence_Data, taxon = taxon)
+occurrences <- checkOccurrences(csv = occurrence_Data, taxon = taxon)
 ## sdm
 
 ### add a
@@ -52,19 +52,19 @@ eco <- checkEcoregion(eco = ecos, sdm = sdm, uniqueID ="ECO_ID_U" )
 # generate gbuffer objects
 ## gBuffers
 gbuffers <- generateGBuffers(taxon = taxon,
-                             occurrence_Data = data,
+                             occurrence_Data = occurrences$data,
                              bufferDistM = 50000)
 
 ### Exsitu
 #grs
 grsex <- GRSex(taxon = taxon,
                sdm = sdm,
-               gBuffer = gbuffers)
+               gBuffer = gbuffers$data)
 #ers
 ersex <- ERSex(taxon = taxon,
                sdm = sdm,
-               occurrence_Data = data,
-               gBuffer = gbuffers,
+               occurrence_Data = occurrences$data ,
+               gBuffer = gbuffers$data,
                ecoregions = ecos,
                idColumn = "ECO_CODE" )
 # fcsex
@@ -72,9 +72,13 @@ fcsex <- FCSex(taxon = taxon, srsex = srsex, grsex = grsex, ersex = ersex)
 
 ### Insitu
 # srs
+### not liking this map at all.... please take a look as it confusing why there is not
+### direct overlap between the points and the SDM. I'm guessing this is just a image scale
+### reduction issue but if feel more confusing then helpful at this point.
+### we represent this metric different in other work but it'll take some effort to reproduce
 srsin <- SRSin(taxon = taxon,
                sdm = sdm,
-               occurrence_Data = data,
+               occurrence_Data = occurrences$data,
                protectedAreas = proAreas)
 # grs
 grsin <- GRSin(taxon = taxon,
@@ -83,7 +87,7 @@ grsin <- GRSin(taxon = taxon,
 # ers
 ersin <- ERSin(taxon = taxon,
                sdm = sdm,
-               occurrence_Data = data,
+               occurrence_Data = occurrences$data,
                protectedAreas = proAreas,
                ecoregions = ecos,
                idColumn = "ECO_CODE")
@@ -101,14 +105,14 @@ fcs_combined <- FCSc_mean(taxon = taxon,
 
 
 # custom input data  ------------------------------------------------------
-# ecos <- terra::vect("testData/us_eco_l3.shp") |>terra::makeValid()
-# allData <- read.csv("testData/allVitisData.csv")|>
-#   dplyr::select(species = "taxon",
-#                 "latitude",
-#                 "longitude",
-#                 "type")
-# sdm <- terra::rast("testData/Vitis acerifolia/prj_threshold.tif")
-# sdm <- subst(sdm, 0, NA)
-# proArea <- terra::rast("testData/wdpa_reclass.tif")
-# taxon <- unique(allData$species)[1]
+ecos <- terra::vect("testData/us_eco_l3.shp") |>terra::makeValid()
+allData <- read.csv("testData/allVitisData.csv")|>
+  dplyr::select(species = "taxon",
+                "latitude",
+                "longitude",
+                "type")
+sdm <- terra::rast("testData/Vitis acerifolia/prj_threshold.tif")
+sdm <- subst(sdm, 0, NA)
+proArea <- terra::rast("testData/wdpa_reclass.tif")
+taxon <- unique(allData$species)[1]
 

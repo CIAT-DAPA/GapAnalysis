@@ -38,6 +38,7 @@ checkEcoregion <- function(eco, sdm, uniqueID){
   ## basically it can be limited by either the points, the buffered points, or
   ## the sdm. Because of that variabily it's better to handle this in the specific
   ## functions
+  message(paste("All checks completed"))
 
   return(ecos)
 }

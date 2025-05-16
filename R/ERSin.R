@@ -58,10 +58,29 @@ ERSin <- function(taxon, sdm, occurrence_Data, protectedAreas, ecoregions, idCol
     terra::plot(eco1, add = TRUE)
   }
 
+  map_title <- "<h3 style='text-align:center; background-color:rgba(255,255,255,0.7); padding:2px;'>Ecoregions within the SDM without Protected Area</h3>"
+  map <- leaflet() |>
+    addTiles() |>
+    addRasterImage(
+      x = sdm,
+      colors = "#47ae24"
+    )|>
+    addPolygons(data = eco1,
+                color = "#444444",
+                weight = 1,
+                opacity = 1.0,
+                popup = ~ECO_NAME,
+                fillOpacity = 0.5,
+                fillColor = "#f0a01f")|>
+    addControl(html = map_title, position = "bottomleft")
+
+
+
   # output
   output = list(
     results = df,
-    missingEcos = eco1
+    missingEcos = eco1,
+    map = map
   )
   return(output)
 }

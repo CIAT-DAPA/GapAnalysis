@@ -30,6 +30,7 @@ checkRaster <- function(raster){
     message(paste("Changed the crs from ", crs,
                   " to the required epsg:4326"  ))
   }
+  message(paste("All checks completed"))
 
   return(raster)
 }

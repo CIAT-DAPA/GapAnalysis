@@ -86,8 +86,29 @@ checkOccurrences <- function(csv, taxon, removeDuplicated = FALSE){
 
   # generate a plot of the points for a quality check
   points <- terra::vect(df, geom = c("longitude", "latitude"), crs =  "EPSG:4326")
-  terra::plot(points,  main = "Quality Points for Gap Analysis",
-              xlab = "Longitude", ylab = "Latitude")
+  # terra::plot(points,  main = "Quality Points for Gap Analysis",
+  #             xlab = "Longitude", ylab = "Latitude")
+
+
+  map_title <- "<h3 style='text-align:center; background-color:rgba(255,255,255,0.7); padding:2px;'>Quality Points for Gap Analysis</h3>"
+  df$color <- ifelse(df$type == "G", yes = "#6300f0", no = "#1184d4")
+  # Create the Leaflet map
+  map <- leaflet(data = df) %>%
+    addTiles() %>%  # Adds default OpenStreetMap map tiles
+    addCircleMarkers(
+      lng = ~longitude,
+      lat = ~latitude,
+      popup = ~paste("Point type:", ~type), # Optional: add popups
+      radius = 5,          # Adjust marker size
+      stroke = FALSE,
+      color = ~color,
+      fillOpacity = 0.8
+    ) |>
+    addControl(html = map_title, position = "bottomleft") #
+
+  message(paste("All checks completed"))
+
   # return
-  return(df)
+  return(list(data = df,
+         map = map))
 }

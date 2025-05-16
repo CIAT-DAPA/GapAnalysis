@@ -53,12 +53,24 @@ GRSex <- function(taxon, sdm, gBuffer) {
                        'G buffer areas in model km2' =gArea,
                        "GRS exsitu" =grs)
   # map objects
-  terra::plot(gMap,  main = "SDM areas outside of the G Buffer zone",
-              xlab = "Longitude", ylab = "Latitude")
+  # terra::plot(gMap,  main = "SDM areas outside of the G Buffer zone",
+  #             xlab = "Longitude", ylab = "Latitude")
+
+  # leaflet map of
+  map_title <- "<h3 style='text-align:center; background-color:rgba(255,255,255,0.7); padding:2px;'>SDM areas outside of the G Buffer zone</h3>"
+  map <- leaflet() |>
+    addTiles() |>
+    addRasterImage(gMap,
+                   colors = "#47b322")|>
+    addControl(html = map_title, position = "bottomleft")
+
+
+
   #
   output <- list(
     results = out_df,
-    gGaps = gMap
+    gGaps = gMap,
+    map = map
   )
   return(output)
 }

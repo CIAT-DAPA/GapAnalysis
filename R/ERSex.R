@@ -41,24 +41,6 @@ ERSex <- function(taxon, sdm, occurrence_Data, gBuffer, ecoregions, idColumn){
   # ## conver to table for easier indexing
   eco2 <- terra::as.data.frame(ecoSelect) |>
     dplyr::select(ecoID = idColumn, count = sdmSum)
-  # ## select
-  # n1 <- ecoregions[eco2[,idColumn] %in% ecoCodes, ]
-
-  # # get a count in each ecoregion
-  # v1 <- terra::zonal(x = sdm,
-  #                    z = n1,
-  #                    fun="sum",
-  #                    na.rm=TRUE)
-  # v1$ECO_ID_U <- n1$ECO_ID_U
-  #
-  # # assign names for better indexing
-  # names(v1) <- c("","ecoID")
-  # sum up all features based on eco ID
-  # v2 <- eco2 |>
-  #   dplyr::group_by(ecoID)|>
-  #   dplyr::summarise(
-  #     cellsInEco = sum(count, na.rm=TRUE)
-  #   )
 
 
   # Number of ecoregions considered.
@@ -100,16 +82,47 @@ ERSex <- function(taxon, sdm, occurrence_Data, gBuffer, ecoregions, idColumn){
   gapEcos <- ecoSelect[ids,]
 
   # map of results
-  terra::plot(gapEcos, main = "Ecoregions outside of the G Buffer areas",
-              xlab = "Longitude", ylab = "Latitude")
-  # mask the buffers to the sdm
-  terra::plot(b1, add = TRUE)
-  terra::plot(d1, add = TRUE)
+  # terra::plot(gapEcos, main = "Ecoregions outside of the G Buffer areas",
+  #             xlab = "Longitude", ylab = "Latitude")
+  # # mask the buffers to the sdm
+  # terra::plot(b1, add = TRUE)
+  # terra::plot(d1, add = TRUE)
+
+  # leaflet map of
+  map_title <- "<h3 style='text-align:center; background-color:rgba(255,255,255,0.7); padding:2px;'>Ecoregions outside of the G Buffer areas</h3>"
+  map <- leaflet() |>
+    addTiles() |>
+    addPolygons(data = ecoSelect,
+                color = "#444444",
+                weight = 1,
+                opacity = 1.0,
+                fillOpacity = 0.1,
+                popup = ~ECO_NAME,
+                fillColor = NA)|>
+    addPolygons(data = gapEcos,
+                color = "#444444",
+                weight = 1,
+                opacity = 1.0,
+                popup = ~ECO_NAME,
+                fillOpacity = 0.5,
+                fillColor = "#f0a01f")|>
+    addRasterImage(
+      x = b1,
+      colors = "#746fae"
+    )|>
+    addCircleMarkers(
+      data = d1,
+      color = ~color,
+      radius = 2,
+      opacity = 1
+    )|>
+    addControl(html = map_title, position = "bottomleft")
 
   # export results
   output <- list(
     results = out_df,
-    ecoGaps = gapEcos
+    ecoGaps = gapEcos,
+    map = map
   )
 
   # generate dataframe
