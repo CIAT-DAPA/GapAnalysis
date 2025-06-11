@@ -1,34 +1,16 @@
-# ##Obtaining occurrences from example
-# load("data/CucurbitaData.rda")
-# ##Obtaining Raster_list
-# load("data/CucurbitaRasts.rda")
-# ##Obtaining protected areas raster
-# load("data/protectAreasRast.rda")
-# ## ecoregions
-# load("data/ecoExample.rda")
-#
-# library(terra)
-# library(dplyr)
-# #
-# taxon <- CucurbitaData$species[1]
-# sdm <- terra::unwrap(CucurbitaRasts)[[1]]
-# occurrence_Data <- CucurbitaData
-# ecoregions <- terra::vect(eco1)
-# protected_Areas <- terra::unwrap(protectAreasRast)
-# source("R/generateCounts.R")
-#
-# # source individual functions
-# source("R/ERSin.R")
-# source("R/SRSin.R")
-# source("R/GRSin.R")
-#
-# # generate objects
-# srsin <- SRSin(taxon = taxon, sdm = sdm, occurrence_Data = occurrence_Data, protected_Areas = protected_Areas)
-# grsin <- GRSin(taxon = taxon, sdm = sdm, protected_Areas = protected_Areas)
-# ersin <- ERSin(taxon = taxon, sdm = sdm, occurrence_Data = occurrence_Data, protected_Areas = protected_Areas,
-#                ecoregions = ecoregions, idColumn = "ECO_ID_U")
 
 
+#' Title
+#'
+#' @param taxon
+#' @param srsin
+#' @param grsin
+#' @param ersin
+#'
+#' @return
+#' @export
+#'
+#' @examples
 FCSin <- function(taxon, srsin, grsin, ersin){
   # define variables
   srs <- srsin$results$`SRS insitu`

@@ -1,13 +1,14 @@
-#
-# load("data/CucurbitaData.rda")
-#
-#
-# csv <- CucurbitaData
-# names(csv)<- c("species","latitude","longitude","type")
-#
-#
-# values <- checkOccurrences(csv)
 
+#' Title
+#'
+#' @param csv
+#' @param taxon
+#' @param removeDuplicated
+#'
+#' @return
+#' @export
+#'
+#' @examples
 checkOccurrences <- function(csv, taxon, removeDuplicated = FALSE){
 
   # check column names

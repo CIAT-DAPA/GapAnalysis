@@ -1,16 +1,14 @@
-#
-# ##Obtaining occurrences from example
-# load("data/CucurbitaData.rda")
-# ##Obtaining species names from the data
-# taxon <- CucurbitaData$species[1]
-#
-# taxon <- taxon
-# occurrence_Data <- CucurbitaData
-# bufferDistM <- 50000
-#
 
-
-
+#' Title
+#'
+#' @param taxon
+#' @param occurrence_Data
+#' @param bufferDistM
+#'
+#' @return
+#' @export
+#'
+#' @examples
 generateGBuffers <- function(taxon, occurrence_Data, bufferDistM){
 
   # filter the occurrence data to the species of interest

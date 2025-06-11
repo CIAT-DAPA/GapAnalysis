@@ -1,12 +1,12 @@
-# load("data/CucurbitaRasts.rda")
-#
-#
-# rasters <- terra::unwrap(CucurbitaRasts)
-#
-# raster <- rasters$cordata
-#
-# checkRaster(raster)
 
+#' Title
+#'
+#' @param raster
+#'
+#' @return
+#' @export
+#'
+#' @examples
 checkRaster <- function(raster){
   # check class and convert if needed
   c1 <- class(raster)

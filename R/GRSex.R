@@ -1,20 +1,14 @@
-# ##Obtaining occurrences from example
-# load("data/CucurbitaData.rda")
-# ##Obtaining Raster_list
-# load("data/CucurbitaRasts.rda")
-# ##Obtaining protected areas raster
-# load("data/protectAreasRast.rda")
-#
-# library(terra)
-# library(dplyr)
-# #
-# taxon <- CucurbitaData$species[1]
-# sdm <- terra::unwrap(CucurbitaRasts)[[1]]
-# occurrence_Data <- CucurbitaData
-# source("R/generateGBuffers.R")
-# gBuffer <- generateGBuffers(taxon = taxon, occurrence_Data = occurrence_Data, bufferDistM =  50000)
 
-
+#' Title
+#'
+#' @param taxon
+#' @param sdm
+#' @param gBuffer
+#'
+#' @return
+#' @export
+#'
+#' @examples
 GRSex <- function(taxon, sdm, gBuffer) {
   ## all the areas of the cells
   r1 <- cellSize(sdm,unit="km")

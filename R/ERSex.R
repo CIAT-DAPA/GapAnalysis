@@ -1,31 +1,16 @@
-#
-# ##Obtaining occurrences from example
-# load("data/CucurbitaData.rda")
-# ##Obtaining species names from the data
-# taxon <- CucurbitaData$species[1]
-# ##Obtaining Raster_list
-# load("data/CucurbitaRasts.rda")
-# ##Obtaining ecoregions layer
-# load("data/ecoExample.rda")
-#
-#
-# taxon <- taxon
-# sdm <- terra::unwrap(CucurbitaRasts)$cordata
-# occurrence_Data <- CucurbitaData
-# ecoregions <- terra::vect(eco1)
-# source("R/generateGBuffers.R")
-# gBuffer <- generateGBuffers(taxon = taxon,
-#                             occurrence_Data = occurrence_Data,
-#                             bufferDistM =  50000)
-# idColumn  <- "ECO_ID_U"
-#
-# ERSex(taxon = taxon,
-#       sdm = sdm,
-#       occurrence_Data = occurrence_Data,
-#       gBuffer = gBuffer,
-#       ecoregions = ecoregions,
-#       idColumn = "ECO_ID_U")
-
+#' Title
+#'
+#' @param taxon
+#' @param sdm
+#' @param occurrence_Data
+#' @param gBuffer
+#' @param ecoregions
+#' @param idColumn
+#'
+#' @return
+#' @export
+#'
+#' @examples
 ERSex <- function(taxon, sdm, occurrence_Data, gBuffer, ecoregions, idColumn){
   # filter the occurrence data to the species of interest
   d1 <- occurrence_Data |>

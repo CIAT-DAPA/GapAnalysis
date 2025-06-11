@@ -2,74 +2,13 @@
 % Please edit documentation in R/ERSin.R
 \name{ERSin}
 \alias{ERSin}
-\title{Ecological representativeness score in situ}
+\title{Title}
 \usage{
-ERSin(
-  Species_list,
-  Occurrence_data,
-  Raster_list,
-  Pro_areas = NULL,
-  Ecoregions_shp = NULL,
-  Gap_Map = FALSE
-)
+ERSin(taxon, sdm, occurrence_Data, protectedAreas, ecoregions, idColumn)
 }
 \arguments{
-\item{Species_list}{A vector of characters with the species names to calculate the GRSex metrics.}
-
-\item{Occurrence_data}{A data frame object with the species name, geographical coordinates,
-and type of records (G or H) for a given species}
-
-\item{Raster_list}{A list of rasters representing the species distribution models for the species list provided
-in \var{Species_list}. The order of rasters in this list must match the same order as \var{Species_list}.}
-
-\item{Pro_areas}{A raster file representing protected areas information.
-If Pro_areas=NULL the function will use a protected area raster file
-provided for your use after run GetDatasets()}
-
-\item{Ecoregions_shp}{A shapefile representing Ecoregions_shp information with a field ECO_NUM representing Ecoregions_shp Ids.
-If Ecoregions_shp=NULL the funtion will use a ecoregion shapefile file provided for your use after run GetDatasets()}
-
-\item{Gap_Map}{logical, if \code{TRUE} the function will calculate gap maps for each species analyzed and will return a list
-with two slots ERSin and gap_maps}
-}
-\value{
-This function returns a dataframe as main result with two columns:
-
-\tabular{lcc}{
-species \tab Species name \cr
-ERSin \tab ERSin value calculated\cr
-}
+\item{idColumn}{}
 }
 \description{
-The ERSin process provides an ecological measurement of the proportion of a species range
- that can be considered to be conserved in protected areas. The ERSin calculates the proportion of ecoregions
- encompassed within the range of the taxon located inside protected areas to the ecoregions encompassed
- within the total area of the distribution model, considering comprehensive conservation to have been accomplished
- only when every ecoregion potentially inhabited by a species is included within the distribution of the species
- located within a protected area.
- This function uses a thresholded species distribution model, an ecoregions file, and a protected areas file
-}
-\examples{
-##Obtaining occurrences from example
-data(CucurbitaData)
-##Obtaining species names from the data
-Cucurbita_splist <- unique(CucurbitaData$species)
-##Obtaining Raster_list
-data(CucurbitaRasters)
-CucurbitaRasters <- raster::unstack(CucurbitaRasters)
-##Obtaining protected areas raster
-data(ProtectedAreas)
-##Obtaining ecoregions shapefile
-data(ecoregions)
-#Running ERSin
-ERSin_df <- ERSin(Species_list = Cucurbita_splist,
-                   Occurrence_data = CucurbitaData,
-                   Raster_list = CucurbitaRasters,
-                   Pro_areas= ProtectedAreas,
-                   Ecoregions_shp=ecoregions,
-                   Gap_Map=FALSE)
-
-}
-\references{
-Khoury et al. (2019) Ecological Indicators 98:420-429. doi: 10.1016/j.ecolind.2018.11.016
+Title
 }

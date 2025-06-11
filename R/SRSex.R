@@ -1,10 +1,13 @@
 
-library(dplyr)
-##Obtaining occurrences from example
-load("data/CucurbitaData.rda")
-
-occurrence_Data <- CucurbitaData
-taxon <- CucurbitaData$species[1]
+#' Title
+#'
+#' @param taxon
+#' @param occurrence_Data
+#'
+#' @return
+#' @export
+#'
+#' @examples
 SRSex <- function(taxon, occurrence_Data) {
   # generarte the counts data for species
   sp_counts <- generateCounts(taxon = taxon,

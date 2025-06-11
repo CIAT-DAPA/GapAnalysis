@@ -2,65 +2,13 @@
 % Please edit documentation in R/FCSc_mean.R
 \name{FCSc_mean}
 \alias{FCSc_mean}
-\title{Combining ex situ and in situ gap analyses}
+\title{Title}
 \usage{
-FCSc_mean(FCSex_df, FCSin_df)
+FCSc_mean(taxon, fcsin, fcsex)
 }
 \arguments{
-\item{FCSex_df}{A data frame or a list object result of the function FCSex}
-
-\item{FCSin_df}{A data frameor a list  object result of the function FCSin}
-}
-\value{
-This function returns a data frame object with the following columns:
-
-\tabular{lcc}{
- species \tab Species name \cr
- FCSex \tab Final conservation score ex situ  \cr
- FCSin \tab Final conservation score in situ  \cr
- FCS_min \tab Final conservation score (mininum value among FCSin and FCSex) \cr
- FCS_max \tab Final conservation score (maximum value among FCSin and FCSex) \cr
- FCSc_mean \tab Final conservation score combined (average value between FCSin and FCSex) \cr
- FCS_min_class \tab Final conservation category using FCS_min value \cr
- FCS_max_class \tab Final conservation category using FCS_max value \cr
- FCSc_mean_class \tab Final conservation category using FCSc_mean value \cr
-}
+\item{fcsex}{}
 }
 \description{
-This function creates a final combined conservation score by averaging the FCSex and FCSin
- It also assigns priority categories based on quantitative results
-}
-\examples{
-##Obtaining occurrences from example
-data(CucurbitaData)
-##Obtaining species names from the data
-Cucurbita_splist <- unique(CucurbitaData$species)
-##Obtaining raster_list
-data(CucurbitaRasters)
-CucurbitaRasters <- raster::unstack(CucurbitaRasters)
-##Obtaining protected areas raster
-data(ProtectedAreas)
-##Obtaining ecoregions shapefile
-data(ecoregions)
-#Running all three ex situ gap analysis steps using FCSex function
-FCSex_df <- FCSex(Species_list=Cucurbita_splist,
-                                      Occurrence_data=CucurbitaData,
-                                      Raster_list=CucurbitaRasters,
-                                      Buffer_distance=50000,
-                                      Ecoregions_shp=ecoregions,
-                                      Gap_Map=FALSE)
-
-#Running all three in situ gap analysis steps using FCSin function
-FCSin_df <- FCSin(Species_list=Cucurbita_splist,
-                                      Occurrence_data=CucurbitaData,
-                                      Raster_list=CucurbitaRasters,
-                                      Ecoregions_shp=ecoregions,
-                                      Pro_areas=ProtectedAreas,
-                                      Gap_Map=FALSE)
-## Combine gap analysis metrics
-FCSc_mean_df <- FCSc_mean(FCSex_df = FCSex_df,FCSin_df = FCSin_df)
-
-}
-\references{
-Khoury et al. (2019) Diversity and Distributions 26(2): 209-225. doi: 10.1111/DDI.13008
+Title
 }

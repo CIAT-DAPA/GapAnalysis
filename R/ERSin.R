@@ -1,24 +1,17 @@
-#
-# ##Obtaining occurrences from example
-# load("data/CucurbitaData.rda")
-# ##Obtaining Raster_list
-# load("data/CucurbitaRasts.rda")
-# ##Obtaining protected areas raster
-# load("data/protectAreasRast.rda")
-# load("data/ecoExample.rda")
-#
-# taxon <- CucurbitaData$species[1]
-# sdm <- terra::unwrap(CucurbitaRasts)$cordata
-# occurrence_Data <- CucurbitaData
-# ecoregions <- terra::vect(eco1)
-# idColumn <- "ECO_ID_U"
-# protected_Areas <- terra::unwrap(protectAreasRast)
-#
-# library(terra)
-# library(dplyr)
-#
-# ERSin(taxon, sdm, occurrence_Data, protected_Areas, ecoregions, idColumn)
 
+#' Title
+#'
+#' @param taxon
+#' @param sdm
+#' @param occurrence_Data
+#' @param protectedAreas
+#' @param ecoregions
+#' @param idColumn
+#'
+#' @return
+#' @export
+#'
+#' @examples
 ERSin <- function(taxon, sdm, occurrence_Data, protectedAreas, ecoregions, idColumn) {
   # crop protected areas to sdm
   pro <- terra::crop(protectedAreas, sdm)

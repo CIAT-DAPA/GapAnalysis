@@ -1,14 +1,10 @@
 
-# download data function
-
-# wwf datasets
-# https://www.worldwildlife.org/publications/terrestrial-ecoregions-of-the-world
-
-## preprocessing sets
-#
-
-
-
+#' Title
+#'
+#' @return
+#' @export
+#'
+#' @examples
 GetDatasets <- function(){
   #LOADING FOLDER PARAMETERS
   out_dir <- system.file(package = "GapAnalysis")#"E:/EG3TC"#system.file("", package = "GapAnalysis")

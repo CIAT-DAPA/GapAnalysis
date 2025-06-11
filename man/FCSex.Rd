@@ -2,69 +2,13 @@
 % Please edit documentation in R/FCSex.R
 \name{FCSex}
 \alias{FCSex}
-\title{Final conservation score ex situ}
+\title{Title}
 \usage{
-FCSex(
-  Species_list,
-  Occurrence_data,
-  Raster_list,
-  Buffer_distance = 50000,
-  Ecoregions_shp = NULL,
-  Gap_Map = FALSE
-)
+FCSex(taxon, srsex, grsex, ersex)
 }
 \arguments{
-\item{Species_list}{A vector of characters with the species names to calculate the GRSex metrics.}
-
-\item{Occurrence_data}{A data frame object with the species name, geographical coordinates,
-and type of records (G or H) for a given species}
-
-\item{Raster_list}{A list of rasters representing the species distribution models for the species list provided
-in \var{Species_list}. The order of rasters in this list must match the same order as \var{Species_list}.}
-
-\item{Buffer_distance}{Geographical distance used to create circular buffers around germplasm.
-Default: 50000 (50 km) around germplasm accessions (CA50)}
-
-\item{Ecoregions_shp}{A shapefile representing Ecoregions information with a field ECO_ID_U representing Ecoregions Ids.
-If Ecoregions=NULL the function will use a shapefile provided for use after running GetDatasets()}
-
-\item{Gap_Map}{logical, if \code{TRUE} the function will calculate gap maps for each species analyzed and will return a list
-with three slots: FCSex, GRSex_maps,and ERSex_maps}
-}
-\value{
-This function returns a data frame summarizing the ex-situ gap analysis scores:
-
-\tabular{lcc}{
-species \tab Species name \cr
-SRSex \tab Sampling representativeness score ex situ \cr
-GRSex \tab Geographical representativeness score ex situ \cr
-ERSex \tab Ecological representativeness score ex situ \cr
-FCSex \tab Final conservation score ex situ  \cr
-}
+\item{ersex}{}
 }
 \description{
-This function calculates the average of the three ex situ conservation metrics
-  returning a final conservation score summary table. It also assigns conservation priority categories
-}
-\examples{
-##Obtaining occurrences from example
-data(CucurbitaData)
-##Obtaining species names from the data
-Cucurbita_splist <- unique(CucurbitaData$species)
-##Obtaining raster_list
-data(CucurbitaRasters)
-CucurbitaRasters <- raster::unstack(CucurbitaRasters)
-##Obtaining ecoregions shapefile
-data(ecoregions)
-#Running all three Ex-situ gap analysis steps using a unique function
-FCSex_df <- FCSex(Species_list=Cucurbita_splist,
-                                      Occurrence_data=CucurbitaData,
-                                      Raster_list=CucurbitaRasters,
-                                      Buffer_distance=50000,
-                                      Ecoregions_shp=ecoregions,
-                                      Gap_Map=TRUE)
-
-}
-\references{
-Khoury et al. (2019) Ecological Indicators 98:420-429. doi: 10.1016/j.ecolind.2018.11.016
+Title
 }

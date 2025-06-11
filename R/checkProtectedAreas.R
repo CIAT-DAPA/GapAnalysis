@@ -1,9 +1,13 @@
 
-# # custom input data  ------------------------------------------------------
-# sdm <- terra::rast("testData/Vitis acerifolia/prj_threshold.tif")
-# sdm <- subst(sdm, 0, NaN)
-# proArea <- terra::rast("testData/wdpa_reclass.tif")
-
+#' Title
+#'
+#' @param proArea
+#' @param sdm
+#'
+#' @return
+#' @export
+#'
+#' @examples
 checkProtectAreas <- function(proArea, sdm){
   # check class and convert if needed
   c1 <- class(proArea)

@@ -1,18 +1,14 @@
-# ##Obtaining occurrences from example
-# load("data/CucurbitaData.rda")
-# ##Obtaining Raster_list
-# load("data/CucurbitaRasts.rda")
-# ##Obtaining protected areas raster
-# load("data/protectAreasRast.rda")
-#
-# library(terra)
-# library(dplyr)
-#
-# taxon <- CucurbitaData$species[1]
-# sdm <- terra::unwrap(CucurbitaRasts)[[1]]
-# occurrence_Data <- CucurbitaData
-# protected_Areas <- terra::unwrap(protectAreasRast)
 
+#' Title
+#'
+#' @param taxon
+#' @param sdm
+#' @param protectedAreas
+#'
+#' @return
+#' @export
+#'
+#' @examples
 GRSin <- function(taxon, sdm, protectedAreas){
   # total area of the SDM inside protected areas over
   # total aras of the SDM

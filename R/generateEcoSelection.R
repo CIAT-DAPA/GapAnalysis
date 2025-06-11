@@ -1,17 +1,15 @@
-#'
-#' #' ##Obtaining occurrences from example
-#' load("data/CucurbitaData.rda")
-#' #' ##Obtaining species names from the data
-#' taxon <- CucurbitaData$species[1]
-#' #' ##Obtaining ecoregions layer
-#' load("data/ecoExample.rda")
-#'
-#'
-#' taxon <- taxon
-#' occurrence_Data <- CucurbitaData
-#' ecoregions <- terra::vect(eco1)
-#' idColumn <- "ECO_ID_U"
 
+#' Title
+#'
+#' @param taxon
+#' @param ococcurrence_Data
+#' @param ecoregions
+#' @param idColumn
+#'
+#' @return
+#' @export
+#'
+#' @examples
 generateEcoSelection <- function(taxon, ococcurrence_Data, ecoregions, idColumn){
 
   # filter the occurrence data to the species of interest

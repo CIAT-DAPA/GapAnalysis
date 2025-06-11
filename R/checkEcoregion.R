@@ -1,13 +1,14 @@
-# test ecoregion files
-##
 
-
-
-# # custom input data  ------------------------------------------------------
-sdm <- terra::rast("testData/Vitis acerifolia/prj_threshold.tif")
-sdm <- subst(sdm, 0, NaN)
-eco <- terra::vect("testData/us_eco_l3.shp")
-uniqueID <- "US_L3CODE"
+#' Check Ecoregion for compatability
+#'
+#' @param eco
+#' @param sdm
+#' @param uniqueID
+#'
+#' @return
+#' @export
+#'
+#' @examples
 checkEcoregion <- function(eco, sdm, uniqueID){
   # check class and convert if needed
   c1 <- class(eco)

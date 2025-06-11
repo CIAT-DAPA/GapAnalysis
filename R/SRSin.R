@@ -1,14 +1,15 @@
-#'
-#' ##Obtaining occurrences from example
-#' load("data/CucurbitaData.rda")
-#' ##Obtaining species names from the data
-#' taxon <- CucurbitaData$species[1]
-#' ##Obtaining Raster_list
-#' load("data/CucurbitaRasts.rda")
-#' ##Obtaining protected areas raster
-#' load("data/protectAreasRast.rda")
-#' #' #Running SRSin
 
+#' Title
+#'
+#' @param taxon
+#' @param sdm
+#' @param occurrence_Data
+#' @param protectedAreas
+#'
+#' @return
+#' @export
+#'
+#' @examples
 SRSin <- function(taxon, sdm, occurrence_Data,  protectedAreas){
   # remove all points not inside of the sdm
   # then test those for presence in protected areas

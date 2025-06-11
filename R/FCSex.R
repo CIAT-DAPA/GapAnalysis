@@ -1,36 +1,15 @@
-# ##Obtaining occurrences from example
-# load("data/CucurbitaData.rda")
-# ##Obtaining Raster_list
-# load("data/CucurbitaRasts.rda")
-# ##Obtaining protected areas raster
-# load("data/protectAreasRast.rda")
-# ## ecoregions
-# load("data/ecoExample.rda")
-#
-# library(terra)
-# library(dplyr)
-#
-# # prep for the function
-# taxon <- CucurbitaData$species[1]
-# sdm <- terra::unwrap(CucurbitaRasts)[[1]]
-# occurrence_Data <- CucurbitaData
-# ecoregions <- terra::vect(eco1)
-# source("R/generateGBuffers.R")
-# source("R/generateCounts.R")
-# gBuffer <- generateGBuffers(taxon = taxon, occurrence_Data = occurrence_Data, bufferDistM =  50000)
-#
-# # source individual functions
-# source("R/ERSex.R")
-# source("R/SRSex.R")
-# source("R/GRSex.R")
-#
-# # generate objects
-# srsex <- SRSex(taxon = taxon, occurrence_Data = occurrence_Data)
-# grsex <- GRSex(taxon = taxon, sdm = sdm, gBuffer = gBuffer)
-# ersex <- ERSex(taxon = taxon, sdm = sdm, occurrence_Data = occurrence_Data, gBuffer = gBuffer,
-#                ecoregions = ecoregions, idColumn = "ECO_ID_U")
 
-
+#' Title
+#'
+#' @param taxon
+#' @param srsex
+#' @param grsex
+#' @param ersex
+#'
+#' @return
+#' @export
+#'
+#' @examples
 FCSex <- function(taxon, srsex, grsex, ersex){
 
   # calculate the mean across the three measures
@@ -43,7 +22,7 @@ FCSex <- function(taxon, srsex, grsex, ersex){
                    ers,
                    grs), na.rm=T)
 
-  out_df <- tibble(Taxon = taxon,
+  out_df <- dplyr::tibble(Taxon = taxon,
                          "SRS exsitu"= srs,
                          "GRS exsitu" = grs,
                          "ERS exsitu"= ers,
@@ -64,7 +43,3 @@ FCSex <- function(taxon, srsex, grsex, ersex){
   return(out_df)
 
 }
-
-
-# FCSex(taxon = taxon,srsex = srsex, grsex = grsex, ersex = ersex)
-

@@ -2,72 +2,13 @@
 % Please edit documentation in R/FCSin.R
 \name{FCSin}
 \alias{FCSin}
-\title{Final conservation score in situ}
+\title{Title}
 \usage{
-FCSin(
-  Species_list,
-  Occurrence_data,
-  Raster_list,
-  Ecoregions_shp = NULL,
-  Pro_areas = NULL,
-  Gap_Map = FALSE
-)
+FCSin(taxon, srsin, grsin, ersin)
 }
 \arguments{
-\item{Species_list}{A vector of characters with the species names to calculate the GRSex metrics.}
-
-\item{Occurrence_data}{A data frame object with the species name, geographical coordinates,
-and type of records (G or H) for a given species}
-
-\item{Raster_list}{A list of rasters representing the species distribution models for the species list provided
-in \var{Species_list}. The order of rasters in this list must match the same order as \var{Species_list}.}
-
-\item{Ecoregions_shp}{A shapefile representing Ecoregions_shp information with a field ECO_NUM
-representing Ecoregions_shp Ids.If Ecoregions_shp=NULL the funtion will use
-an ecoregions shapefile provided for your use}
-
-\item{Pro_areas}{A raster file representing protected areas information.If Pro_areas=NULL the funtion will use
-a protected area raster file provided for your use
-after run GetDatasets()}
-
-\item{Gap_Map}{logical, if \code{TRUE} the function will calculate gap maps for each species analyzed and will return a list
-with four slots FCSin, SRSin_maps,GRSin_maps,and ERSin_maps}
-}
-\value{
-This function returns a data frame summarizing the in situ gap analysis scores:
-\tabular{lcc}{
-species \tab Species name \cr
-SRSin \tab Sampling representativeness score in situ  \cr
-GRSin \tab Geographical representativeness score in situ \cr
-ERSin \tab Ecological representativeness score in situ \cr
-FCSin \tab Final conservation score in situ  \cr
-}
+\item{ersin}{}
 }
 \description{
-This function calculates the average of the three in situ conservation metrics and
-assigns a priority category based on the results
-}
-\examples{
-##Obtaining occurrences from example
-data(CucurbitaData)
-##Obtaining species names from the data
-Cucurbita_splist <- unique(CucurbitaData$species)
-##Obtaining Raster_list
-data(CucurbitaRasters)
-CucurbitaRasters <- raster::unstack(CucurbitaRasters)
-##Obtaining protected areas raster
-data(ProtectedAreas)
-##Obtaining Ecoregions_shpions shapefile
-data(ecoregions)
-#Running all three In-situ gap analysis steps using a unique function
-FCSin_df <- FCSin(Species_list=Cucurbita_splist,
-                                      Occurrence_data=CucurbitaData,
-                                      Raster_list=CucurbitaRasters,
-                                      Ecoregions_shp=ecoregions,
-                                      Pro_areas=ProtectedAreas,
-                                      Gap_Map=FALSE)
-
-}
-\references{
-Khoury et al. (2019) Diversity and Distributions 26(2):209-225. doi: 10.1111/DDI.13008
+Title
 }
