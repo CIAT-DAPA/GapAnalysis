@@ -24,21 +24,26 @@ ERSin <- function(taxon, sdm, occurrence_Data, protectedAreas, ecoregions, idCol
   pro <- terra::crop(protectedAreas, sdm)
   # mask to model
   proMask <- pro * sdm
+  # set id column for easier indexing
+  ecoregions$id_column <- as.data.frame(ecoregions)[,idColumn]
+  # aggregates spatial features
+  ecoregions <- terra::aggregate(x = ecoregions, by = "id_column")
+
   # crop ecos to sdm
   eco <- terra::crop(ecoregions, sdm)
 
   # Get ecoregions in sdm
-  totEco <- terra::zonal(x = sdm , z = eco, fun = "sum",na.rm=TRUE) |> pull()
-  nEcoModel <- length(totEco[!is.na(totEco)])
+  eco$totEco <- terra::zonal(x = sdm , z = eco, fun = "sum",na.rm=TRUE) |> pull()
+  selectedEcos <- eco[eco$totEco > 0 , ]
+  nEcoModel <- nrow(selectedEcos)
   # Get ecoregions in pro areas
-  totPro <- terra::zonal(x = sdm , z = eco, fun = "sum",na.rm=TRUE) |> pull()
-  nProModel <- length(totPro[!is.na(totPro)])
-  # add the eco results to ecoregion layer
-  eco$inDist <- totEco
-  eco$protected <- totPro
-  # filter spatial object for output
-  eco1 <- eco[!is.na(eco$inDist), ]
-  eco1 <- eco1[is.na(eco1$protected), ]
+  eco$totPro <- terra::zonal(x = sdm , z = eco, fun = "sum",na.rm=TRUE) |> pull()
+  protectedEcos <- eco[eco$totPro > 0 , ]
+  nProModel <- nrow(protectedEcos)
+  # get missing ecos
+  missingEcos <- selectedEcos[!selectedEcos$id_column %in% protectedEcos$id_column, ]
+
+
   # calculate the ers
   if(nProModel == 0){
     ers <- 0
@@ -50,36 +55,49 @@ ERSin <- function(taxon, sdm, occurrence_Data, protectedAreas, ecoregions, idCol
                    "Ecoregions within model" = nEcoModel,
                    "Ecoregions with protected areas" = nProModel,
                    "ERS insitu" = ers)
-  # plot missing ecos
-  terra::plot(sdm, col = "yellow",
-              main = "Ecoregions within the SDM without Protected Area",
-              xlab = "Longitude", ylab = "Latitude")
-  if(nrow(eco1) >0 ){
-    terra::plot(eco1, add = TRUE)
-  }
-
+  # generate the base map
   map_title <- "<h3 style='text-align:center; background-color:rgba(255,255,255,0.7); padding:2px;'>Ecoregions within the SDM without Protected Area</h3>"
   map <- leaflet() |>
     addTiles() |>
-    addRasterImage(
-      x = sdm,
-      colors = "#47ae24"
-    )|>
-    addPolygons(data = eco1,
+    addPolygons(data = selectedEcos,
+                color = "#444444",
+                weight = 1,
+                opacity = 1.0,
+                popup = ~ECO_NAME,
+                fillOpacity = 0.5,
+                fillColor = "#44444420")|>
+    addPolygons(data = missingEcos,
                 color = "#444444",
                 weight = 1,
                 opacity = 1.0,
                 popup = ~ECO_NAME,
                 fillOpacity = 0.5,
                 fillColor = "#f0a01f")|>
+    addRasterImage(
+      x = sdm,
+      colors = "#47ae24"
+    ) |>
+    addRasterImage(
+      x = proMask,
+      colors = "#746fae"
+    )|>
+    addLegend(
+      position = "topright",
+      title = "ERS in situ",
+      colors = c("#47ae24","#746fae", "#f0a01f", "#44444440"),
+      labels = c("Distribution","Protected Areas", "Eco gaps", "All Ecos"),
+      opacity = 1
+    )|>
     addControl(html = map_title, position = "bottomleft")
+
+
 
 
 
   # output
   output = list(
     results = df,
-    missingEcos = eco1,
+    missingEcos = missingEcos,
     map = map
   )
   return(output)

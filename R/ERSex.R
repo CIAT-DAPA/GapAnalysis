@@ -31,21 +31,24 @@ ERSex <- function(taxon, sdm, occurrence_Data, gBuffer, ecoregions, idColumn){
   d1 <- occurrence_Data |>
     dplyr::filter(species == taxon) |>
     terra::vect(geom=c("longitude", "latitude"), crs="+proj=longlat +datum=WGS84")
+  # set id column for easier indexing
+  ecoregions$id_column <- as.data.frame(ecoregions)[,idColumn]
+  # aggregates spatial features
+  ecoregions <- terra::aggregate(x = ecoregions, by = "id_column")
+
+
   # determine the eco regions present in the
+  ## crop ecos
+  ecoregions <- terra::crop(ecoregions, sdm)
   ecoregions$sdmSum <- terra::zonal(x = sdm, z = ecoregions, fun = "sum", na.rm=TRUE)
   # subset ecoregions to feautres with greated then 0
   ecoSelect <- ecoregions[ecoregions$sdmSum >0, ]
-  # select ecoregions of interest
-  ecoCodes <- unique(ecoSelect[,idColumn])
   # # index with selection
   # ## conver to table for easier indexing
   eco2 <- terra::as.data.frame(ecoSelect) |>
-    dplyr::select(ecoID = idColumn, count = sdmSum)
+    dplyr::select(ecoID = id_column, count = sdmSum)
 
-
-  # Number of ecoregions considered.
-  nEco <- nrow(eco2)
-
+  # condition for no G points
   if(class(gBuffer) == "Character"){
     ers <- 0
     gEco <- NA
@@ -55,41 +58,38 @@ ERSex <- function(taxon, sdm, occurrence_Data, gBuffer, ecoregions, idColumn){
     b1 <- terra::rasterize(x = gBuffer, y = sdm) |> terra::mask(sdm)
     # determine ecoregions in ga50 area
     eco2$bufferEcos <- terra::zonal(x = b1,z = ecoSelect,fun="sum",na.rm=TRUE) |> unlist()
-    #assing names for easier indexing
-    names(eco2) <- c("ecoID ", "count", "bufferEcos")
-    # determine the ecoregions that are not being considered
-    areasWithOutGBuffer <- eco2 |>
-      filter(is.nan(bufferEcos) | is.na(bufferEcos))
-    # get the total number number of eco regions with a g buffer area
-    gEco <- eco2 |>
-      filter(bufferEcos >0 )|>
-      filter(!is.nan(bufferEcos))|>
-      nrow()
-    # generate a list of the ecoregions ID that are inside the threshold but have no g buffer
-    missingEcos <- nrow(areasWithOutGBuffer)
+    # group by data to get single value per ecoregion
+    ecoGrouped <- eco2 |>
+        dplyr::mutate(bufferEcos = case_when(
+          is.na(bufferEcos) ~ 0,
+          is.nan(bufferEcos)~ 0,
+          TRUE ~ bufferEcos)
+          )|>
+        dplyr::group_by(ecoID)|>
+        dplyr::summarise(inDistribution = sum(count, na.rm = TRUE),
+                         inGBuffer = sum(bufferEcos, na.rm = TRUE))
+    # total eco
+    totalEcosCount <- nrow(ecoGrouped)
+    # ecoregions with coverage
+    gEcoIds <- ecoGrouped[ecoGrouped$inGBuffer > 0, "ecoID"] |>pull()
+    gEcoCounts <- length(gEcoIds)
+    # select map elements
+    missingEcos <- ecoSelect[!ecoSelect$id_column %in% gEcoIds, ]
+
   }
 
   # ERs calculation
-  ers <- min(c(100, (gEco/nEco)*100))
+  ers <- min(c(100, (gEcoCounts/totalEcosCount)*100))
   # generate filter
 
   out_df = dplyr::tibble(Taxon=taxon,
-                      `Ecoregions with records` =nEco,
-                      `Ecoregions within G buffer` =gEco,
+                      `Ecoregions with records` =totalEcosCount,
+                      `Ecoregions within G buffer` =gEcoCounts,
                       `ERS exsitu` = ers)
-  # index the selected features
-  ids <- ecoSelect[,idColumn][[1]][,1] %in% areasWithOutGBuffer$`ecoID `
-  gapEcos <- ecoSelect[ids,]
 
-  # map of results
-  # terra::plot(gapEcos, main = "Ecoregions outside of the G Buffer areas",
-  #             xlab = "Longitude", ylab = "Latitude")
-  # # mask the buffers to the sdm
-  # terra::plot(b1, add = TRUE)
-  # terra::plot(d1, add = TRUE)
-
-  # leaflet map of
+  # leaflet map of results
   map_title <- "<h3 style='text-align:center; background-color:rgba(255,255,255,0.7); padding:2px;'>Ecoregions outside of the G Buffer areas</h3>"
+  # base map element
   map <- leaflet() |>
     addTiles() |>
     addPolygons(data = ecoSelect,
@@ -99,29 +99,54 @@ ERSex <- function(taxon, sdm, occurrence_Data, gBuffer, ecoregions, idColumn){
                 fillOpacity = 0.1,
                 popup = ~ECO_NAME,
                 fillColor = NA)|>
-    addPolygons(data = gapEcos,
-                color = "#444444",
-                weight = 1,
-                opacity = 1.0,
-                popup = ~ECO_NAME,
-                fillOpacity = 0.5,
-                fillColor = "#f0a01f")|>
-    addRasterImage(
-      x = b1,
-      colors = "#746fae"
-    )|>
-    addCircleMarkers(
-      data = d1,
-      color = ~color,
-      radius = 2,
+    addLegend(
+      position = "topright",
+      title = "ERS ex situ",
+      colors = c("#47ae24", "#746fae", "#f0a01f", "#44444440"),
+      labels = c("Distribution", "G buffer",  "Eco gaps", "All Ecos"),
       opacity = 1
     )|>
     addControl(html = map_title, position = "bottomleft")
 
+  if(ers > 0){
+    # add additional map elements
+    map <- map |>
+      addPolygons(data = missingEcos,
+                  color = "#444444",
+                  weight = 1,
+                  opacity = 1.0,
+                  popup = ~ECO_NAME,
+                  fillOpacity = 0.5,
+                  fillColor = "#f0a01f")|>
+      addRasterImage(
+        x = sdm,
+        colors = "#47ae24"
+      )|>
+      addRasterImage(
+        x = b1,
+        colors = "#746fae"
+      )|>
+      addCircleMarkers(
+        data = d1,
+        color = ~color,
+        radius = 2,
+        opacity = 1
+      )
+  }else{
+    map <- map |>
+      addCircleMarkers(
+        data = d1,
+        color = ~color,
+        radius = 2,
+        opacity = 1
+      )
+  }
+
+
   # export results
   output <- list(
     results = out_df,
-    ecoGaps = gapEcos,
+    ecoGaps = missingEcos,
     map = map
   )
 

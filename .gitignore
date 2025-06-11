@@ -14,11 +14,6 @@ inst/doc
 .Trashes
 ehthumbs.db
 Thumbs.db
-# data folder for testing
-/run20241204
-# preprocessing data folder to ignore
-/preprocessingData
-
 man/.Rapp.history
 .DS_Store
 revdep/checks
@@ -27,5 +22,10 @@ revdep/checks.noindex
 revdep/library.noindex
 revdep/data.sqlite
 
+
+# data folder for testing
+/run20241204
+# preprocessing data folder to ignore
+/preprocessingData
 # testData
 /testData

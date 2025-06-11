@@ -28,8 +28,8 @@ proAreas <- terra::unwrap(protectAreasRast)
 
 r1 <- terra::rast("~/trueNAS/work/cwr_wildgrapes/data/geospatial_datasets/protectedLands/wdpa_rasterized_all.tif")
 # Start the single species workflow  --------------------------------------
-taxon <- unique(occurrence_Data$species)[2]
-sdm <- terra::unwrap(CucurbitaRasts)$digitata
+taxon <- unique(occurrence_Data$species)[1]
+sdm <- terra::unwrap(CucurbitaRasts)$cordata
 # reclassify the values in the sdm to NA and 0
 sdm <- terra::subst(sdm, 0, NA)
 
@@ -54,6 +54,7 @@ eco <- checkEcoregion(eco = ecos, sdm = sdm, uniqueID ="ECO_ID_U" )
 gbuffers <- generateGBuffers(taxon = taxon,
                              occurrence_Data = occurrences$data,
                              bufferDistM = 50000)
+
 
 ### Exsitu
 #grs
@@ -102,17 +103,4 @@ fcs_combined <- FCSc_mean(taxon = taxon,
                           fcsin = fcsin,
                           fcsex = fcsex)
 
-
-
-# custom input data  ------------------------------------------------------
-ecos <- terra::vect("testData/us_eco_l3.shp") |>terra::makeValid()
-allData <- read.csv("testData/allVitisData.csv")|>
-  dplyr::select(species = "taxon",
-                "latitude",
-                "longitude",
-                "type")
-sdm <- terra::rast("testData/Vitis acerifolia/prj_threshold.tif")
-sdm <- subst(sdm, 0, NA)
-proArea <- terra::rast("testData/wdpa_reclass.tif")
-taxon <- unique(allData$species)[1]
 

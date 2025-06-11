@@ -37,15 +37,6 @@ GRSin <- function(taxon, sdm, protectedAreas){
                    'Area of model km2' = round(sdmArea, digits = 0),
                    'Area in protected ares km2' = round(proArea, digits = 0),
                    "GRS insitu" = grs)
-  # map of protected areas within model extent
-  # color_palette1 <- colorRampPalette(c("yellow"))(256)
-  # color_palette2 <- colorRampPalette(c("darkgreen"))(256)
-  # terra::plot(sdm, col = color_palette1,
-  #             main = "Protect areas within the SDM",
-  #             xlab = "Longitude", ylab = "Latitude")
-  # terra::plot(proMask, col = color_palette2, add = TRUE)
-  # terra::add_legend("bottomright", legend = c("SDM", "Protected"),
-  #                                      pch = 16, col = c("yellow", "darkgreen"), cex = 1)
 
   map_title <- "<h3 style='text-align:center; background-color:rgba(255,255,255,0.7); padding:2px;'>Protect areas within the SDM</h3>"
   map <- leaflet() |>
@@ -57,6 +48,13 @@ GRSin <- function(taxon, sdm, protectedAreas){
     addRasterImage(
       x = proMask,
       colors = "#746fae"
+    )|>
+    addLegend(
+      position = "topright",
+      title = "GRS in situ",
+      colors = c("#47ae24","#746fae"),
+      labels = c("Distribution","Protected Areas"),
+      opacity = 1
     )|>
     addControl(html = map_title, position = "bottomleft")
 
