@@ -1,14 +1,25 @@
-
-#' Check Ecoregion for compatability
-#'
 #' @param eco
+#'
+#' @param sdm
+#' @param uniqueID
+#'
+#' @title Download datasets from Dataverse
+#' @name GetDataSets
+#' @description
+#' A short description...
+#' @param eco
+#'
 #' @param sdm
 #' @param uniqueID
 #'
 #' @return
-#' @export
 #'
 #' @examples
+#'
+#'
+#' @references
+#' Khoury et al. (2019) Ecological Indicators 98:420-429. doi: 10.1016/j.ecolind.2018.11.016
+#' Carver et al. (2021) GapAnalysis: an R package to calculate conservation indicators using spatial information
 checkEcoregion <- function(eco, sdm, uniqueID){
   # check class and convert if needed
   c1 <- class(eco)

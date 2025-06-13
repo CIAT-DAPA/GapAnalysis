@@ -1,15 +1,18 @@
-
-#' Title
+#' @title Download datasets from Dataverse
+#' @name GetDataSets
+#' @description
+#' A short description...
 #'
-#' @param taxon
-#' @param ococcurrence_Data
-#' @param ecoregions
-#' @param idColumn
+#' @param
 #'
 #' @return
-#' @export
 #'
 #' @examples
+#'
+#'
+#' @references
+#' Khoury et al. (2019) Ecological Indicators 98:420-429. doi: 10.1016/j.ecolind.2018.11.016
+#' Carver et al. (2021) GapAnalysis: an R package to calculate conservation indicators using spatial information
 generateEcoSelection <- function(taxon, ococcurrence_Data, ecoregions, idColumn){
 
   # filter the occurrence data to the species of interest

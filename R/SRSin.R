@@ -1,15 +1,22 @@
 
-#' Title
-#'
+#' @title Sampling representativeness score in situ
+#' @name SRSin
+#' @description The SRSin process calculates the proportion of all occurrences of a taxon falling within
+#' the distribution model that also fall within a protected area
 #' @param taxon
+#'
 #' @param sdm
 #' @param occurrence_Data
 #' @param protectedAreas
 #'
 #' @return
-#' @export
 #'
 #' @examples
+#'
+#'
+#' @references
+#' Khoury et al. (2019) Ecological Indicators 98:420-429. doi: 10.1016/j.ecolind.2018.11.016
+#' Carver et al. (2021) GapAnalysis: an R package to calculate conservation indicators using spatial information
 SRSin <- function(taxon, sdm, occurrence_Data,  protectedAreas){
   # remove all points not inside of the sdm
   # then test those for presence in protected areas

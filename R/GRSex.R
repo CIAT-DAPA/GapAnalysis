@@ -1,14 +1,24 @@
 
-#' Title
-#'
+#' @title Geographical representativeness score ex situ
+#' @name GRSex
+#' @description The GRSex process provides a geographic measurement of the proportion of a species’ range
+#'  that can be considered to be conserved in ex situ repositories. The GRSex uses buffers (default 50 km radius)
+#'  created around each G coordinate point to estimate geographic areas already well collected within the distribution
+#'  models of each taxon, and then calculates the proportion of the distribution model covered by these buffers.
 #' @param taxon
+#'
 #' @param sdm
 #' @param gBuffer
 #'
+#'
 #' @return
-#' @export
 #'
 #' @examples
+#'
+#'
+#' @references
+#' Khoury et al. (2019) Ecological Indicators 98:420-429. doi: 10.1016/j.ecolind.2018.11.016
+#' Carver et al. (2021) GapAnalysis: an R package to calculate conservation indicators using spatial information
 GRSex <- function(taxon, sdm, gBuffer) {
   ## all the areas of the cells
   r1 <- cellSize(sdm,unit="km")

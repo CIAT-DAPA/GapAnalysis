@@ -1,16 +1,28 @@
-#' Title
+
+#' @title Download datasets from Dataverse
+#' @name ERSex
+#' @description The ERSex process provides an ecological measurement of the proportion of a species
+#'  range that can be considered to be conserved in ex situ repositories. The ERSex calculates the
+#'  proportion of terrestrial ecoregions (The Nature Conservancy Geospatial Conservation Atlas 2019)
+#'  represented within the G buffered areas out of the total number of ecoregions occupied by the distribution model.
 #'
 #' @param taxon
+#'
 #' @param sdm
 #' @param occurrence_Data
 #' @param gBuffer
 #' @param ecoregions
 #' @param idColumn
 #'
+#'
 #' @return
-#' @export
 #'
 #' @examples
+#'
+#'
+#' @references
+#' Khoury et al. (2019) Ecological Indicators 98:420-429. doi: 10.1016/j.ecolind.2018.11.016
+#' Carver et al. (2021) GapAnalysis: an R package to calculate conservation indicators using spatial information
 ERSex <- function(taxon, sdm, occurrence_Data, gBuffer, ecoregions, idColumn){
   # filter the occurrence data to the species of interest
   d1 <- occurrence_Data |>

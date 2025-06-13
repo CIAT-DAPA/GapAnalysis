@@ -1,16 +1,24 @@
 
-
-#' Title
+#'
+#' @title Final conservation score in situ
+#' @name FCSin
+#' @description This function calculates the average of the three in situ conservation metrics and
+#' assigns a priority category based on the results
 #'
 #' @param taxon
+#'
 #' @param srsin
 #' @param grsin
 #' @param ersin
 #'
 #' @return
-#' @export
 #'
 #' @examples
+#'
+#'
+#' @references
+#' Khoury et al. (2019) Ecological Indicators 98:420-429. doi: 10.1016/j.ecolind.2018.11.016
+#' Carver et al. (2021) GapAnalysis: an R package to calculate conservation indicators using spatial information
 FCSin <- function(taxon, srsin, grsin, ersin){
   # define variables
   srs <- srsin$results$`SRS insitu`
