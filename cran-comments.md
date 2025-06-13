@@ -2,7 +2,7 @@
 
 0 errors | 0 warnings | 1 note
 
-* This is a new release.
+*This is a version update of an existing library 
 
 Thank you for your efforts :) 
 
