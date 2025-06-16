@@ -1,14 +1,95 @@
-#' @title Download datasets from Dataverse
-#' @name GetDataSets
+#' @title Final Conservation Score measure
+#' @name FCSc_mean
 #' @description
-#' A short description...
+#' Compiles all tabular data from the individual metrics and generate the final results
 #'
-#' @param
+#' @param taxon A character object that defines the name of the species as listed in the occurrence dataset
+#' @param fcsin A data frame containing summary results from the fcsin function
+#' @param fcsex A data frame containing summary results from the fcsex function
 #'
-#' @return
+#' @return data_comb : a data frame which aggreates final result summaries
 #'
 #' @examples
+#' ##Obtaining occurrences from example
+#' load("data/CucurbitaData.rda")
+#' ##Obtaining Raster_list
+#' load("data/CucurbitaRasts.rda")
+#' ##Obtaining protected areas raster
+#' load("data/protectAreasRast.rda")
+#' ## ecoregion features
+#' load("data/ecoExample.rda")
 #'
+#' # convert the dataset for function
+#' taxon <- "Cucurbita_cordata"
+#' sdm <- terra::unwrap(CucurbitaRasts)$cordata
+#' occurrenceData <- CucurbitaData
+#' protectedAreas <- terra::unwrap(protectArea)
+#' ecoregions <- terra::vect(eco1)
+#'
+#'
+#' # generate exsitu conservation summaries
+#' srs_exsitu <- SRSex(taxon = Cucurbita_splist,
+#'                     sdm = CucurbitaData,
+#'                     occurrenceData = CucurbitaData,
+#'                     protectedAreas = protectedAreas
+#'                     )
+#'
+#' gBuffer <- generateGBuffers(taxon = taxon,
+#'                     occurrenceData = occurrenceData,
+#'                     bufferDistM = 50000
+#'                     )#'
+#'
+#' grs_exsitu <- GRSex(taxon = taxon,
+#'                     sdm = sdm,
+#'                     gBuffer = gBuffer
+#'                     )
+#'
+#' ers_exsitu <- ERSex(taxon = taxon,
+#'                     sdm = sdm,
+#'                     occurrenceData = occurrenceData,
+#'                     protectedAreas = protectedAreas,
+#'                     ecoregions = ecoregions,
+#'                     idColumn = "ECO_NAME"
+#'                     )
+#'
+#' #Running fcsin
+#' fcs_exsitu <- FSCex(taxon = taxon,
+#'                     srsex = srs_exsitu,
+#'                     grsex = grs_exsitu,
+#'                     ersex = ers_exsitu
+#'                     )
+#'
+#'
+#' # generate insitu conservation summaries
+#' srs_insitu <- SRSin(taxon = Cucurbita_splist,
+#'                     sdm = CucurbitaData,
+#'                     occurrenceData = CucurbitaData,
+#'                     protectedAreas = ProtectedAreas
+#'                     )
+#'
+#' grs_insitu <- GRSin(taxon = taxon,
+#'                     sdm = sdm,
+#'                     protectedAreas = protectedAreas
+#'                     )
+#'
+#' ers_insitu <- ERSin(taxon = taxon,
+#'                     sdm = sdm,
+#'                     occurrenceData = occurrenceData,
+#'                     protectedAreas = protectedAreas,
+#'                     ecoregions = ecoregions,
+#'                     idColumn = "ECO_NAME"
+#'                     )
+#'
+#' #Running fcsin
+#' fcs_insitu <- FSCin(taxon = taxon,
+#'                     srsin = srs_insitu,
+#'                     grsin = grs_insitu,
+#'                     ersin = ers_insitu
+#'                     )
+#'
+#' fsc_combine <- FCSc_mean(taxon = taxon,
+#'                          fcsin = fcs_insitu,
+#'                          fcsex = fcs_exsitu)
 #'
 #' @references
 #' Khoury et al. (2019) Ecological Indicators 98:420-429. doi: 10.1016/j.ecolind.2018.11.016

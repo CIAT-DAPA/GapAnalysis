@@ -2,13 +2,47 @@
 % Please edit documentation in R/generateEcoSelection.R
 \name{generateEcoSelection}
 \alias{generateEcoSelection}
-\title{Title}
+\title{Select relivent ecoregions}
 \usage{
-generateEcoSelection(taxon, ococcurrence_Data, ecoregions, idColumn)
+generateEcoSelection(taxon, occurrenceData, ecoregions, idColumn)
 }
 \arguments{
-\item{idColumn}{}
+\item{taxon}{A character object that defines the name of the species as listed in the occurrence dataset}
+
+\item{occurrenceData}{a data frame of values containing columns for the taxon, latitude, longitude, and type}
+
+\item{ecoregions}{A terra vect object the contains spatial information on all ecoregions of interests}
+
+\item{idColumn}{A character vector that notes what column within the ecoregions object should be used as a unique ID}
+}
+\value{
+selectedEcos : a terra vect that contains the selected ecoregion features
 }
 \description{
-Title
+Utilizes the occurrence data location to select all ecoregions that intersect with thoses points. Helpful as it
+reduces the overall file size of the ecoregion object.
+}
+\examples{
+##Obtaining occurrences from example
+load("data/CucurbitaData.rda")
+## ecoregion features
+load("data/ecoExample.rda")
+
+# convert the dataset for function
+taxon <- "Cucurbita_cordata"
+occurrenceData <- CucurbitaData
+ecoregions <- terra::vect(eco1)
+
+#Running generateEcoSelection
+selectedEcos <- generateEcoSelection(taxon = Cucurbita_splist,
+                    occurrenceData = occurrenceData,
+                    ecoregions = ecoregions,
+                    idColumn = "ECO_NAME"
+                    )
+
+
+}
+\references{
+Khoury et al. (2019) Ecological Indicators 98:420-429. doi: 10.1016/j.ecolind.2018.11.016
+Carver et al. (2021) GapAnalysis: an R package to calculate conservation indicators using spatial information
 }

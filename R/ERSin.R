@@ -1,5 +1,3 @@
-
-#'
 #' @title Ecological representativeness score in situ
 #' @name ERSin
 #' @description The ERSin process provides an ecological measurement of the proportion of a species range
@@ -8,23 +6,52 @@
 #'  within the total area of the distribution model, considering comprehensive conservation to have been accomplished
 #'  only when every ecoregion potentially inhabited by a species is included within the distribution of the species
 #'  located within a protected area.
-#' @param taxon
 #'
-#' @param sdm
-#' @param occurrence_Data
-#' @param protectedAreas
-#' @param ecoregions
-#' @param idColumn
+#' @param taxon A character object that defines the name of the species as listed in the occurrence dataset
+#' @param sdm a terra rast object that represented the expected distribution of the species
+#' @param occurrenceData a data frame of values containing columns for the taxon, latitude, longitude, and type
+#' @param protectedAreas A terra rast object the contian spatial location of protected areas.
+#' @param gBuffer A terra vect which encompases a specific buffer distance around all G points
+#' @param ecoregions A terra vect object the contains spatial information on all ecoregions of interests
+#' @param idColumn A character vector that notes what column within the ecoregions object should be used as a unique ID
 #'
-#' @return
+#'#' @return A list object containing
+#' 1. results : a data frames of values summarizing the results of the function
+#' 2. missingEcos : a terra vect object showing all the ecoregions within the distribution with no protected areas present
+#' 3. map : a leaflet object showing the spatial results of the function
+#'
 #'
 #' @examples
+#' ##Obtaining occurrences from example
+#' load("data/CucurbitaData.rda")
+#' ##Obtaining Raster_list
+#' load("data/CucurbitaRasts.rda")
+#' ##Obtaining protected areas raster
+#' load("data/protectAreasRast.rda")
+#' ## ecoregion features
+#' load("data/ecoExample.rda")
+#'
+#' # convert the dataset for function
+#' taxon <- "Cucurbita_cordata"
+#' sdm <- terra::unwrap(CucurbitaRasts)$cordata
+#' occurrenceData <- CucurbitaData
+#' protectedAreas <- terra::unwrap(protectArea)
+#' ecoregions <- terra::vect(eco1)
+#'
+#' #Running ERSin
+#' ers_insitu <- ERSin(taxon = taxon,
+#'                     sdm = sdm,
+#'                     occurrenceData = occurrenceData,
+#'                     protectedAreas = protectedAreas,
+#'                     ecoregions = ecoregions,
+#'                     idColumn = "ECO_NAME"
+#'                     )
 #'
 #'
 #' @references
 #' Khoury et al. (2019) Ecological Indicators 98:420-429. doi: 10.1016/j.ecolind.2018.11.016
 #' Carver et al. (2021) GapAnalysis: an R package to calculate conservation indicators using spatial information
-ERSin <- function(taxon, sdm, occurrence_Data, protectedAreas, ecoregions, idColumn) {
+ERSin <- function(taxon, sdm, occurrenceData, protectedAreas, ecoregions, idColumn) {
   # crop protected areas to sdm
   pro <- terra::crop(protectedAreas, sdm)
   # mask to model

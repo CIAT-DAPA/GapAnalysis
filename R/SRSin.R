@@ -3,28 +3,52 @@
 #' @name SRSin
 #' @description The SRSin process calculates the proportion of all occurrences of a taxon falling within
 #' the distribution model that also fall within a protected area
-#' @param taxon
 #'
-#' @param sdm
-#' @param occurrence_Data
-#' @param protectedAreas
+#' @param taxon A character object that defines the name of the species as listed in the occurrence dataset
 #'
-#' @return
+#'
+#' @param sdm a terra rast object that
+#'
+#' @param occurrenceData a data frame of values containing columns for the taxon, latitude, longitude, and type
+#'
+#' @param protectedAreas A terra rast object the contian spatial location of protected areas.
+#'
+#' @return A list object containing
+#' 1. results : a data frames of values summarizing the results of the function
+#' 2. points : a terra vect object showing all the points present within protected areas
+#' 3. map : a leaflet object showing the spatial results of the function
 #'
 #' @examples
+#' ##Obtaining occurrences from example
+#' load("data/CucurbitaData.rda")
+#' ##Obtaining Raster_list
+#' load("data/CucurbitaRasts.rda")
+#' ##Obtaining protected areas raster
+#' load("data/protectAreasRast.rda")
 #'
+#' # convert the dataset for function
+#' taxon <- "Cucurbita_cordata"
+#' sdm <- terra::unwrap(CucurbitaRasts)$cordata
+#' occurrenceData <- CucurbitaData
+#' protectedAreas <- terra::unwrap(protectArea)
+#' #Running SRSin
+#' srs_insitu <- SRSin(taxon = Cucurbita_splist,
+#'                     sdm = CucurbitaData,
+#'                     occurrenceData = CucurbitaData,
+#'                     protectedAreas = ProtectedAreas
+#'                     )
 #'
 #' @references
 #' Khoury et al. (2019) Ecological Indicators 98:420-429. doi: 10.1016/j.ecolind.2018.11.016
 #' Carver et al. (2021) GapAnalysis: an R package to calculate conservation indicators using spatial information
-SRSin <- function(taxon, sdm, occurrence_Data,  protectedAreas){
+SRSin <- function(taxon, sdm, occurrenceData,  protectedAreas){
   # remove all points not inside of the sdm
   # then test those for presence in protected areas
   # return the proportion and the visualization of points
 
 
   # filter the occurrence data to the species of interest
-  d1 <- occurrence_Data |>
+  d1 <- occurrenceData |>
     dplyr::filter(species == taxon) |>
     terra::vect(geom=c("longitude", "latitude"), crs="+proj=longlat +datum=WGS84")
   # extract values from the sdm

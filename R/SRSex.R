@@ -6,15 +6,25 @@
 #'  making use of all compiled records, regardless of whether they include coordinates, with an ideal (i.e., comprehensive) conservation
 #'  ratio of 1:1. In this and in the subsequent measurements, if no G or H records exist, taxa are automatically considered
 #'  to be of high priority for further conservation action and assigned a value of 0. If there are more G than H records,
-#' SRSex is set to 100.
-#' @param taxon
+#'  SRSex is set to 100.
 #'
-#' @param occurrence_Data
+#' @param taxon A character object that defines the name of the species as listed in the occurrence dataset
 #'
-#' @return
+#' @param occurrenceData a data frame of values containing columns for the taxon, latitude, longitude, and type
+#'
+#' @return out_df :  a data frames of values summarizing the results of the function
 #'
 #' @examples
+#' ##Obtaining occurrences from example
+#' load("data/CucurbitaData.rda")
 #'
+#' # convert the dataset for function
+#' taxon <- "Cucurbita_cordata"
+#' occurrenceData <- CucurbitaData
+#'
+#' #Running SRSex
+#' srs_exsitu <- SRSex(taxon = Cucurbita_splist,
+#'                     occurrenceData = CucurbitaData,
 #'
 #' @references
 #' Khoury et al. (2019) Ecological Indicators 98:420-429. doi: 10.1016/j.ecolind.2018.11.016

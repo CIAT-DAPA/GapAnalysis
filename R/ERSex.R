@@ -6,18 +6,47 @@
 #'  proportion of terrestrial ecoregions (The Nature Conservancy Geospatial Conservation Atlas 2019)
 #'  represented within the G buffered areas out of the total number of ecoregions occupied by the distribution model.
 #'
-#' @param taxon
 #'
-#' @param sdm
-#' @param occurrence_Data
-#' @param gBuffer
-#' @param ecoregions
-#' @param idColumn
+#' @param taxon A character object that defines the name of the species as listed in the occurrence dataset
+#' @param sdm a terra rast object that represented the expected distribution of the species
+#' @param occurrenceData a data frame of values containing columns for the taxon, latitude, longitude, and type
+#' @param gBuffer A terra vect which encompases a specific buffer distance around all G points
+#' @param ecoregions A terra vect object the contains spatial information on all ecoregions of interests
+#' @param idColumn A character vector that notes what column within the ecoregions object should be used as a unique ID
 #'
 #'
-#' @return
+#'
+#' @return A list object containing
+#' 1. results : a data frames of values summarizing the results of the function
+#' 2. ecogaps : a terra vect object showing the ecoregions with no area within the g buffer objects
+#' 3. map : a leaflet object showing the spatial results of the function
+#'
 #'
 #' @examples
+#' ##Obtaining occurrences from example
+#' load("data/CucurbitaData.rda")
+#' ##Obtaining Raster_list
+#' load("data/CucurbitaRasts.rda")
+#' ##Obtaining protected areas raster
+#' load("data/protectAreasRast.rda")
+#' ## ecoregion features
+#' load("data/ecoExample.rda")
+#'
+#' # convert the dataset for function
+#' taxon <- "Cucurbita_cordata"
+#' sdm <- terra::unwrap(CucurbitaRasts)$cordata
+#' occurrenceData <- CucurbitaData
+#' protectedAreas <- terra::unwrap(protectArea)
+
+
+#' #Running SRSin
+#' srs_insitu <- SRSin(taxon = taxon,
+#'                     sdm = sdm,
+#'                     occurrenceData = occurrenceData,
+#'                     gBuffer = gBuffer
+#'                     ecoregions = ecoregions,
+#'                     idColumn = "ECO_NAME"
+#'                     )
 #'
 #'
 #' @references

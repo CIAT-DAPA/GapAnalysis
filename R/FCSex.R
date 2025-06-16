@@ -2,15 +2,62 @@
 #' @name FCSex
 #' @description This function calculates the average of the three ex situ conservation metrics
 #'   returning a final conservation score summary table. It also assigns conservation priority categories
-#' @param taxon
 #'
-#' @param srsex
-#' @param grsex
-#' @param ersex
+#' @param taxon A character object that defines the name of the species as listed in the occurrence dataset
+#' @param srsex A dataframe contain the results from the srsex function
+#' @param grsex A dataframe contain the results from the grsex function
+#' @param ersex A dataframe contain the results from the ersex function
 #'
-#' @return
+#' @return out_df : a data frames of values summarizing the results of the function
 #'
 #' @examples
+#' ##Obtaining occurrences from example
+#' load("data/CucurbitaData.rda")
+#' ##Obtaining Raster_list
+#' load("data/CucurbitaRasts.rda")
+#' ##Obtaining protected areas raster
+#' load("data/protectAreasRast.rda")
+#' ## ecoregion features
+#' load("data/ecoExample.rda")
+#'
+#' # convert the dataset for function
+#' taxon <- "Cucurbita_cordata"
+#' sdm <- terra::unwrap(CucurbitaRasts)$cordata
+#' occurrenceData <- CucurbitaData
+#' protectedAreas <- terra::unwrap(protectArea)
+#'
+#' # generate exsitu conservation summaries
+#' srs_exsitu <- SRSex(taxon = Cucurbita_splist,
+#'                     sdm = CucurbitaData,
+#'                     occurrenceData = CucurbitaData,
+#'                     protectedAreas = protectedAreas
+#'                     )
+#'
+#' gBuffer <- generateGBuffers(taxon = taxon,
+#'                     occurrenceData = occurrenceData,
+#'                     bufferDistM = 50000
+#'                     )#'
+#'
+#' grs_exsitu <- GRSex(taxon = taxon,
+#'                     sdm = sdm,
+#'                     gBuffer = gBuffer
+#'                     )
+#'
+#' ers_exsitu <- ERSex(taxon = taxon,
+#'                     sdm = sdm,
+#'                     occurrenceData = occurrenceData,
+#'                     protectedAreas = protectedAreas,
+#'                     ecoregions = ecoregions,
+#'                     idColumn = "ECO_NAME"
+#'                     )
+#'
+#' #Running fcsin
+#' fcs_exsitu <- FSCex(taxon = taxon,
+#'                     srsex = srs_exsitu,
+#'                     grsex = grs_exsitu,
+#'                     ersex = ers_exsitu
+#'                     )
+#'
 #'
 #'
 #' @references

@@ -5,15 +5,44 @@
 #'  that can be considered to be conserved in ex situ repositories. The GRSex uses buffers (default 50 km radius)
 #'  created around each G coordinate point to estimate geographic areas already well collected within the distribution
 #'  models of each taxon, and then calculates the proportion of the distribution model covered by these buffers.
-#' @param taxon
 #'
-#' @param sdm
-#' @param gBuffer
+#' @param taxon A character object that defines the name of the species as listed in the occurrence dataset
+#' @param sdm a terra rast object that represented the expected distribution of the species
+#' @param gBuffer A terra vect which encompases a specific buffer distance around all G points
+#'
+#' @return A list object containing
+#' 1. results : a data frames of values summarizing the results of the function
+#' 2. gGaps : a terra vect object showing buffered area about g points
+#' 3. map : a leaflet object showing the spatial results of the function
 #'
 #'
-#' @return
-#'
+
 #' @examples
+#' ##Obtaining occurrences from example
+#' load("data/CucurbitaData.rda")
+#' ##Obtaining Raster_list
+#' load("data/CucurbitaRasts.rda")
+#' ##Obtaining protected areas raster
+#' load("data/protectAreasRast.rda")
+#' ## ecoregion features
+#' load("data/ecoExample.rda")
+#'
+#' # convert the dataset for function
+#' taxon <- "Cucurbita_cordata"
+#' sdm <- terra::unwrap(CucurbitaRasts)$cordata
+#' occurrenceData <- CucurbitaData
+#'
+#' # generate the g buffer object
+#' gBuffer <- generateGBuffers(taxon = taxon,
+#'                             occurrenceData = occurrenceData,
+#'                             bufferDistM = 50000)
+#'
+#' #Running GRSex
+#' grs_exsitu <- GRSex(taxon = taxon,
+#'                     sdm = sdm,
+#'                     gBuffer = gBuffer
+#'                     )
+#'
 #'
 #'
 #' @references

@@ -2,13 +2,20 @@
 % Please edit documentation in R/FCSin.R
 \name{FCSin}
 \alias{FCSin}
-\title{Title}
+\title{Final conservation score in situ}
 \usage{
 FCSin(taxon, srsin, grsin, ersin)
 }
 \arguments{
+\item{taxon}{}
+
 \item{ersin}{}
 }
 \description{
-Title
+This function calculates the average of the three in situ conservation metrics and
+assigns a priority category based on the results
+}
+\references{
+Khoury et al. (2019) Ecological Indicators 98:420-429. doi: 10.1016/j.ecolind.2018.11.016
+Carver et al. (2021) GapAnalysis: an R package to calculate conservation indicators using spatial information
 }

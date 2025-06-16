@@ -2,13 +2,24 @@
 % Please edit documentation in R/ERSin.R
 \name{ERSin}
 \alias{ERSin}
-\title{Title}
+\title{Ecological representativeness score in situ}
 \usage{
 ERSin(taxon, sdm, occurrence_Data, protectedAreas, ecoregions, idColumn)
 }
 \arguments{
+\item{taxon}{}
+
 \item{idColumn}{}
 }
 \description{
-Title
+The ERSin process provides an ecological measurement of the proportion of a species range
+ that can be considered to be conserved in protected areas. The ERSin calculates the proportion of ecoregions
+ encompassed within the range of the taxon located inside protected areas to the ecoregions encompassed
+ within the total area of the distribution model, considering comprehensive conservation to have been accomplished
+ only when every ecoregion potentially inhabited by a species is included within the distribution of the species
+ located within a protected area.
+}
+\references{
+Khoury et al. (2019) Ecological Indicators 98:420-429. doi: 10.1016/j.ecolind.2018.11.016
+Carver et al. (2021) GapAnalysis: an R package to calculate conservation indicators using spatial information
 }

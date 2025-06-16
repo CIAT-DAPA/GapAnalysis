@@ -1,22 +1,40 @@
-#' @title Download datasets from Dataverse
-#' @name GetDataSets
+#' @title Generate buffer of G type occurrences
+#' @name generateGBuffers
 #' @description
-#' A short description...
+#' Produces a terra vect object representing the area around the G type occurrences
 #'
-#' @param
+#' @param taxon A character object that defines the name of the species as listed in the occurrence dataset
+#' @param occurrenceData a data frame of values containing columns for the taxon, latitude, longitude, and type
+#' @param bufferDistM Distance in meters. Used to set the size of the buffered objects.
 #'
-#' @return
+#' @return A list object containing
+#' 1. data : a terra vect object showing all the buffered areas around the G type occurrences
+#' 2. map : a leaflet object showing the spatial results of the function
 #'
+
 #' @examples
+#' ##Obtaining occurrences from example
+#' load("data/CucurbitaData.rda")
+#'
+#' # convert the dataset for function
+#' taxon <- "Cucurbita_cordata"
+#' occurrenceData <- CucurbitaData
+#'
+#' #Running generateGBuffers
+#' gBuffer <- generateGBuffers(taxon = taxon,
+#'                     occurrenceData = occurrenceData,
+#'                     bufferDistM = 50000
+#'                     )
+#'
 #'
 #'
 #' @references
 #' Khoury et al. (2019) Ecological Indicators 98:420-429. doi: 10.1016/j.ecolind.2018.11.016
 #' Carver et al. (2021) GapAnalysis: an R package to calculate conservation indicators using spatial information
-generateGBuffers <- function(taxon, occurrence_Data, bufferDistM){
+generateGBuffers <- function(taxon, occurrenceData, bufferDistM){
 
   # filter the occurrence data to the species of interest
-  d1 <- occurrence_Data |>
+  d1 <- occurrenceData |>
     dplyr::filter(species == taxon & type == "G") |>
     terra::vect(geom=c("longitude", "latitude"))
   terra::crs(d1) <- "epsg:4326"

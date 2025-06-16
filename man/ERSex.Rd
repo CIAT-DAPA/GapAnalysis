@@ -2,13 +2,22 @@
 % Please edit documentation in R/ERSex.R
 \name{ERSex}
 \alias{ERSex}
-\title{Title}
+\title{Download datasets from Dataverse}
 \usage{
 ERSex(taxon, sdm, occurrence_Data, gBuffer, ecoregions, idColumn)
 }
 \arguments{
+\item{taxon}{}
+
 \item{idColumn}{}
 }
 \description{
-Title
+The ERSex process provides an ecological measurement of the proportion of a species
+ range that can be considered to be conserved in ex situ repositories. The ERSex calculates the
+ proportion of terrestrial ecoregions (The Nature Conservancy Geospatial Conservation Atlas 2019)
+ represented within the G buffered areas out of the total number of ecoregions occupied by the distribution model.
+}
+\references{
+Khoury et al. (2019) Ecological Indicators 98:420-429. doi: 10.1016/j.ecolind.2018.11.016
+Carver et al. (2021) GapAnalysis: an R package to calculate conservation indicators using spatial information
 }

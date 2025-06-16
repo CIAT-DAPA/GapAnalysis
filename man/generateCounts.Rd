@@ -2,13 +2,39 @@
 % Please edit documentation in R/generateCounts.R
 \name{generateCounts}
 \alias{generateCounts}
-\title{Title}
+\title{Generate initial counts of the occurrence data}
 \usage{
 generateCounts(taxon, occurrence_Data)
 }
 \arguments{
-\item{occurrence_Data}{}
+\item{taxon}{A character object that defines the name of the species as listed in the occurrence dataset}
+
+\item{occurrenceData}{a data frame of values containing columns for the taxon, latitude, longitude, and type}
+}
+\value{
+countsData : a data frames of values summarizing the results of the function
 }
 \description{
-Title
+Performs data cleaning to generate a summary of all input occurrence data. These values area
+used in the SRSex function.
+}
+\examples{
+##Obtaining occurrences from example
+load("data/CucurbitaData.rda")
+
+# convert the dataset for function
+taxon <- "Cucurbita_cordata"
+occurrenceData <- CucurbitaData
+
+#Running generateCounts
+counts <- generateCounts(taxon = taxon,
+                    occurrenceData = occurrenceData
+                    )
+
+
+
+}
+\references{
+Khoury et al. (2019) Ecological Indicators 98:420-429. doi: 10.1016/j.ecolind.2018.11.016
+Carver et al. (2021) GapAnalysis: an R package to calculate conservation indicators using spatial information
 }

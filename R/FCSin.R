@@ -5,15 +5,57 @@
 #' @description This function calculates the average of the three in situ conservation metrics and
 #' assigns a priority category based on the results
 #'
-#' @param taxon
+#' @param taxon A character object that defines the name of the species as listed in the occurrence dataset
+#' @param srsin A dataframe contain the results from the srsin function
+#' @param grsin A dataframe contain the results from the grsin function
+#' @param ersin A dataframe contain the results from the ersin function
 #'
-#' @param srsin
-#' @param grsin
-#' @param ersin
-#'
-#' @return
+#' @return out_df : a data frames of values summarizing the results of the function
 #'
 #' @examples
+#' ##Obtaining occurrences from example
+#' load("data/CucurbitaData.rda")
+#' ##Obtaining Raster_list
+#' load("data/CucurbitaRasts.rda")
+#' ##Obtaining protected areas raster
+#' load("data/protectAreasRast.rda")
+#' ## ecoregion features
+#' load("data/ecoExample.rda")
+#'
+#' # convert the dataset for function
+#' taxon <- "Cucurbita_cordata"
+#' sdm <- terra::unwrap(CucurbitaRasts)$cordata
+#' occurrenceData <- CucurbitaData
+#' protectedAreas <- terra::unwrap(protectArea)
+#' ecoregions <- terra::vect(eco1)
+#'
+#' # generate insitu conservation summaries
+#' srs_insitu <- SRSin(taxon = Cucurbita_splist,
+#'                     sdm = CucurbitaData,
+#'                     occurrenceData = CucurbitaData,
+#'                     protectedAreas = ProtectedAreas
+#'                     )
+#'
+#' grs_insitu <- GRSin(taxon = taxon,
+#'                     sdm = sdm,
+#'                     protectedAreas = protectedAreas
+#'                     )
+#'
+#' ers_insitu <- ERSin(taxon = taxon,
+#'                     sdm = sdm,
+#'                     occurrenceData = occurrenceData,
+#'                     protectedAreas = protectedAreas,
+#'                     ecoregions = ecoregions,
+#'                     idColumn = "ECO_NAME"
+#'                     )
+#'
+#' #Running fcsin
+#' fcs_insitu <- FSCin(taxon = taxon,
+#'                     srsin = srs_insitu,
+#'                     grsin = grs_insitu,
+#'                     ersin = ers_insitu
+#'                     )
+#'
 #'
 #'
 #' @references

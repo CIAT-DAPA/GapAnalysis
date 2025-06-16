@@ -3,7 +3,7 @@ Title: Conservation Indicators using Spatial Information
 Version: 2.0.0
 Authors@R: c(person("Dan", "Carver", role = c("aut","cph"), comment = c(ORCID = "0000-0002-1344-6357"),
                     email= "carver.dan1@gmail.com"),
-             person("Sarah", "Gore",role = c("aut","cph"), comment = c(ORCID = "0000-0003-0511-7884")
+             person("Sarah", "Gore",role = c("aut","cph"), comment = c(ORCID = "0000-0003-0511-7884"),
                     email= "sarahluciagora@gmail.com"),
              person("Chrystian", "Sosa",role = c("aut","cph"), comment = c(ORCID = "0000-0002-3734-3248"),
                     email= "chrystiam.sossa@gmail.com"),
