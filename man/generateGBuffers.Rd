@@ -29,8 +29,8 @@ load("data/CucurbitaData.rda")
 taxon <- "Cucurbita_cordata"
 occurrenceData <- CucurbitaData
 
-#Running SRSin
-srs_insitu <- SRSin(taxon = taxon,
+#Running generateGBuffers
+gBuffer <- generateGBuffers(taxon = taxon,
                     occurrenceData = occurrenceData,
                     bufferDistM = 50000
                     )

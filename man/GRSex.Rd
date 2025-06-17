@@ -45,8 +45,8 @@ gBuffer <- generateGBuffers(taxon = taxon,
                             occurrenceData = occurrenceData,
                             bufferDistM = 50000)
 
-#Running SRSin
-srs_insitu <- SRSin(taxon = taxon,
+#Running GRSex
+grs_exsitu <- GRSex(taxon = taxon,
                     sdm = sdm,
                     gBuffer = gBuffer
                     )

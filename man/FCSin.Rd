@@ -7,13 +7,67 @@
 FCSin(taxon, srsin, grsin, ersin)
 }
 \arguments{
-\item{taxon}{}
+\item{taxon}{A character object that defines the name of the species as listed in the occurrence dataset}
 
-\item{ersin}{}
+\item{srsin}{A dataframe contain the results from the srsin function}
+
+\item{grsin}{A dataframe contain the results from the grsin function}
+
+\item{ersin}{A dataframe contain the results from the ersin function}
+}
+\value{
+out_df : a data frames of values summarizing the results of the function
 }
 \description{
 This function calculates the average of the three in situ conservation metrics and
 assigns a priority category based on the results
+}
+\examples{
+##Obtaining occurrences from example
+load("data/CucurbitaData.rda")
+##Obtaining Raster_list
+load("data/CucurbitaRasts.rda")
+##Obtaining protected areas raster
+load("data/protectAreasRast.rda")
+## ecoregion features
+load("data/ecoExample.rda")
+
+# convert the dataset for function
+taxon <- "Cucurbita_cordata"
+sdm <- terra::unwrap(CucurbitaRasts)$cordata
+occurrenceData <- CucurbitaData
+protectedAreas <- terra::unwrap(protectArea)
+ecoregions <- terra::vect(eco1)
+
+# generate insitu conservation summaries
+srs_insitu <- SRSin(taxon = Cucurbita_splist,
+                    sdm = CucurbitaData,
+                    occurrenceData = CucurbitaData,
+                    protectedAreas = ProtectedAreas
+                    )
+
+grs_insitu <- GRSin(taxon = taxon,
+                    sdm = sdm,
+                    protectedAreas = protectedAreas
+                    )
+
+ers_insitu <- ERSin(taxon = taxon,
+                    sdm = sdm,
+                    occurrenceData = occurrenceData,
+                    protectedAreas = protectedAreas,
+                    ecoregions = ecoregions,
+                    idColumn = "ECO_NAME"
+                    )
+
+#Running fcsin
+fcs_insitu <- FSCin(taxon = taxon,
+                    srsin = srs_insitu,
+                    grsin = grs_insitu,
+                    ersin = ers_insitu
+                    )
+
+
+
 }
 \references{
 Khoury et al. (2019) Ecological Indicators 98:420-429. doi: 10.1016/j.ecolind.2018.11.016

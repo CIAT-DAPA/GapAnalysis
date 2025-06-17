@@ -7,15 +7,55 @@
 ERSex(taxon, sdm, occurrence_Data, gBuffer, ecoregions, idColumn)
 }
 \arguments{
-\item{taxon}{}
+\item{taxon}{A character object that defines the name of the species as listed in the occurrence dataset}
 
-\item{idColumn}{}
+\item{sdm}{a terra rast object that represented the expected distribution of the species}
+
+\item{gBuffer}{A terra vect which encompases a specific buffer distance around all G points}
+
+\item{ecoregions}{A terra vect object the contains spatial information on all ecoregions of interests}
+
+\item{idColumn}{A character vector that notes what column within the ecoregions object should be used as a unique ID}
+
+\item{occurrenceData}{a data frame of values containing columns for the taxon, latitude, longitude, and type}
+}
+\value{
+A list object containing
+1. results : a data frames of values summarizing the results of the function
+2. ecogaps : a terra vect object showing the ecoregions with no area within the g buffer objects
+3. map : a leaflet object showing the spatial results of the function
 }
 \description{
 The ERSex process provides an ecological measurement of the proportion of a species
  range that can be considered to be conserved in ex situ repositories. The ERSex calculates the
  proportion of terrestrial ecoregions (The Nature Conservancy Geospatial Conservation Atlas 2019)
  represented within the G buffered areas out of the total number of ecoregions occupied by the distribution model.
+}
+\examples{
+##Obtaining occurrences from example
+load("data/CucurbitaData.rda")
+##Obtaining Raster_list
+load("data/CucurbitaRasts.rda")
+##Obtaining protected areas raster
+load("data/protectAreasRast.rda")
+## ecoregion features
+load("data/ecoExample.rda")
+
+# convert the dataset for function
+taxon <- "Cucurbita_cordata"
+sdm <- terra::unwrap(CucurbitaRasts)$cordata
+occurrenceData <- CucurbitaData
+protectedAreas <- terra::unwrap(protectArea)
+#Running SRSin
+srs_insitu <- SRSin(taxon = taxon,
+                    sdm = sdm,
+                    occurrenceData = occurrenceData,
+                    gBuffer = gBuffer
+                    ecoregions = ecoregions,
+                    idColumn = "ECO_NAME"
+                    )
+
+
 }
 \references{
 Khoury et al. (2019) Ecological Indicators 98:420-429. doi: 10.1016/j.ecolind.2018.11.016

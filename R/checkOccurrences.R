@@ -1,18 +1,35 @@
 
 #'
-#' @title Download datasets from Dataverse
-#' @name GetDataSets
+#' @title Quality check on occurrences data
+#' @name checkOccurrences
 #' @description
-#' A short description...
+#' Checks the column names, column data types, valid lat lon, and can optionally remove any duplicated lat lon records per species.
+#' The cleaned and formated dataframe is returned as well as a map object show a quick reference of the points in space.
 #'
-#' @param csv
+#' @param csv A dataframe holding the occurrence data
+#' @param taxon A character object that defines the name of the species as listed in the occurrence dataset
+#' @param removeDuplicated : Binary parameter. TRUE == duplication values are remove. Set to FALSE as default
 #'
-#' @param taxon
-#' @param removeDuplicated
+#' @return A list object containing
+#' 1. data : a data frames of values of occurrence data in the required format
+#' 2. map : a leaflet object showing the spatial results of the function
 #'
-#' @return
 #'
+#'
+
 #' @examples
+#' ##Obtaining occurrences from example
+#' load("data/CucurbitaData.rda")
+#'
+#' # convert the dataset for function
+#' taxon <- "Cucurbita_cordata"
+#' occurrenceData <- CucurbitaData
+#' #Running checkOccurrences
+#' occurrences <- checkOccurrences(csv = occurrenceData
+#'                     taxon = taxon,
+#'                     removeDuplicated = FALSE
+#'                     )
+#'
 #'
 #'
 #' @references

@@ -1,56 +1,59 @@
-#' @param eco
-#'
-#' @param sdm
-#' @param uniqueID
-#'
-#' @title Download datasets from Dataverse
-#' @name GetDataSets
+#' @title Quality check of ecoregion dataset
+#' @name checkEcoregion
 #' @description
-#' A short description...
-#' @param eco
+#' Checks the class, crs, if the idColumn is a unique ID,
+#' @param ecoregions A terra vect object the contains spatial information on all ecoregions of interests
+#' @param sdm a terra rast object that represented the expected distribution of the species
+#' @param idColumn A character vector that notes what column within the ecoregions object should be used as a unique ID
 #'
-#' @param sdm
-#' @param uniqueID
-#'
-#' @return
+#' @return ecoregions : A terra vect object the contains spatial information on all ecoregions of interests
 #'
 #' @examples
+#' ##Obtaining Raster_list
+#' load("data/CucurbitaRasts.rda")
+#' ## ecoregion features
+#' load("data/ecoExample.rda")
+#'
+#' # convert the dataset for function
+#' sdm <- terra::unwrap(CucurbitaRasts)$cordata
+#' ecoregions <- terra::vect(eco1)
+#' #Running checkEcoregion
+#' ecoregions <- checkEcoregion(ecoregion = ecoregions,
+#'                     sdm = sdm,
+#'                     idColumn = "ECO_NAME"
+#'                     )
 #'
 #'
 #' @references
 #' Khoury et al. (2019) Ecological Indicators 98:420-429. doi: 10.1016/j.ecolind.2018.11.016
 #' Carver et al. (2021) GapAnalysis: an R package to calculate conservation indicators using spatial information
-checkEcoregion <- function(eco, sdm, uniqueID){
+checkEcoregion <- function(ecoregion, sdm, idColumn){
   # check class and convert if needed
-  c1 <- class(eco)
+  c1 <- class(ecoregion)
   if(c1[1] !="SpatVector"){
-    eco <- terra::vect(eco)
+    ecoregion <- terra::vect(ecoregion)
     message(paste("Changed the object type from ", c1,
                   " to the required object terra vector"  ))
   }
 
-  crs <- terra::crs(ecos)
+  crs <- terra::crs(ecoregions)
   # crs
   if(!terra::same.crs(crs, terra::crs("epsg:4326"))){
-    ecos<- terra::project(x = ecos, y = "epsg:4326" )
+    ecoregions<- terra::project(x = ecoregions, y = "epsg:4326" )
     message(paste("Changed the crs from ", crs,
                   " to the required epsg:4326"  ))
   }
 
   # test the unique ID column
-  rows <- nrow(eco)
-  unID <- length(eco[,uniqueID])
+  rows <- nrow(ecoregion)
+  unID <- length(ecoregion[,uniqueID])
   if(rows != unID){
     message(paste("The total rows of your ecoregion object is", rows,
                   " the unique values fo the ", uniqueID, " column is ", unID,
                   "these should match. Please try a new column or you may get some unexpected results"))
   }
-  # extent
-  ## not going to worry about the extent here
-  ## basically it can be limited by either the points, the buffered points, or
-  ## the sdm. Because of that variabily it's better to handle this in the specific
-  ## functions
+
   message(paste("All checks completed"))
 
-  return(ecos)
+  return(ecoregions)
 }

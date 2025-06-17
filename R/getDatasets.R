@@ -1,20 +1,19 @@
 
-#' @title Download datasets from Dataverse
-#' @name GetDataSets
+#' @title Download datasets from the harvard dataverse repo
+#' @name getDatasets
 #' @description
-#' A short description...
+#' Ecoregions and protected area data base are stored on a harvard dataverse repository. This functions check to see if
+#' those datasets have been download and will download them if not present.
 #'
-#' @param
 #'
-#' @return
 #'
 #' @examples
-#'
+#' getDatasets()
 #'
 #' @references
 #' Khoury et al. (2019) Ecological Indicators 98:420-429. doi: 10.1016/j.ecolind.2018.11.016
 #' Carver et al. (2021) GapAnalysis: an R package to calculate conservation indicators using spatial information
-GetDatasets <- function(){
+getDatasets <- function(){
   #LOADING FOLDER PARAMETERS
   out_dir <- system.file(package = "GapAnalysis")#"E:/EG3TC"#system.file("", package = "GapAnalysis")
   example_dir <- paste0(out_dir,"/","data","/","preloaded_data");if(!file.exists(example_dir)){dir.create(example_dir)}
