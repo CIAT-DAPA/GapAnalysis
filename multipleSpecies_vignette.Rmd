@@ -40,12 +40,12 @@ for (f in files) source(f)
 # Load data
 load("data/CucurbitaData.rda")      # Occurrence data
 load("data/CucurbitaRasts.rda")     # Raster list
-load("data/protectAreasRast.rda")   # Protected areas raster
-load("data/ecoExample.rda")         # Ecoregions data
+load("data/ProtectedAreas.rda")   # Protected areas raster
+load("data/ecoregions.rda")         # Ecoregions data
 
 # Prepare ecoregion and protected area layers
-ecos <- terra::vect(eco1)
-proAreas <- terra::unwrap(protectAreasRast)
+ecos <- terra::vect(ecoregions)
+proAreas <- terra::unwrap(ProtectedAreas)
 
 # Standardize the CRS across all spatial layers to prevent mismatch warnings
 target_crs <- "+proj=longlat +datum=WGS84"
@@ -95,8 +95,7 @@ for (i in seq_along(taxa)) {
   if (!inherits(sdm, "SpatRaster")) stop("sdm is not a SpatRaster")
   sdm_checked <- checksdm(sdm)
   proArea_checked <- checkProtectedAreas(protectedArea = proAreas, sdm = sdm_checked)
-  #eco_checked <- checkEcoregion(eco = ecos, sdm = sdm_checked, uniqueID = "ECO_ID_U")
-
+  
   # ---- PATCH: skip species if SDM raster has no values ----
   if (all(is.na(terra::values(sdm_checked)))) {
     message("Skipping ", taxon, ": SDM raster has no values.")
@@ -114,15 +113,15 @@ for (i in seq_along(taxa)) {
   grsex <- GRSex(
     taxon = taxon,
     sdm = sdm_checked,
-    gBuffer = gBuffer$data
+    gBuffer = gBuffer
   )
   ersex <- ERSex(
     taxon = taxon,
     sdm = sdm_checked,
     occurrence_Data = occurrences$data,
-    gBuffer = gBuffer$data,
+    gBuffer = gBuffer,
     ecoregions = ecos,
-    idColumn = "ECO_ID_U"
+    idColumn = "ECO_NAME"
   )
   fcsex <- FCSex(
     taxon = taxon,
@@ -135,7 +134,7 @@ for (i in seq_along(taxa)) {
   srsin <- SRSin(
     taxon = taxon,
     sdm = sdm_checked,
-    occurrence_Data = occurrences$data,
+    occurrenceData = occurrences$data,
     protectedAreas = proAreas
   )
   grsin <- GRSin(
@@ -146,10 +145,10 @@ for (i in seq_along(taxa)) {
   ersin <- ERSin(
     taxon = taxon,
     sdm = sdm_checked,
-    occurrence_Data = occurrences$data,
+    occurrenceData = occurrences$data,
     protectedAreas = proAreas,
     ecoregions = ecos,
-    idColumn = "ECO_ID_U"
+    idColumn = "ECO_NAME"
   )
   fcsin <- FCSin(
     taxon = taxon,
@@ -171,7 +170,7 @@ for (i in seq_along(taxa)) {
     occurrences = occurrences,
     sdm_checked = sdm_checked,
     proArea_checked = proArea_checked,
-    eco_checked = eco_checked,
+    eco_checked = ecoregions,
     grsex = grsex,
     ersex = ersex,
     fcsex = fcsex,
@@ -190,10 +189,8 @@ Each `ersex` result contains an **interactive leaflet map** in `ersex$map`.
 To display the map for each species in an R Markdown document, print the `$ersex$map` object for the species of interest.  
 For example, to show the map for the first species:
 
-````markdown
 ```{r}
 # Show the ERSex interactive map for the first species (if available)
 if (!is.null(results_list[[1]])) results_list[[1]]$ersex$map
-```
 ```
 

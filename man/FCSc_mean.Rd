@@ -60,12 +60,13 @@ ers_exsitu <- ERSex(taxon = taxon,
                     idColumn = "ECO_NAME"
                     )
 
-#Running fcsin
+#Running fcsex
 fcs_exsitu <- FCSex(taxon = taxon,
                     srsex = srs_exsitu,
                     grsex = grs_exsitu,
                     ersex = ers_exsitu
                     )
+
 
 
 # generate insitu conservation summaries
