@@ -15,26 +15,30 @@
 #' 2. map : a leaflet object showing the spatial results of the function
 #'
 #'
-#'
-
 #' @examples
+#' # example code
+#'
 #' ##Obtaining occurrences from example
-#' load("data/CucurbitaData.rda")
-#'
-#' # convert the dataset for function
-#' taxon <- "Cucurbita_cordata"
-#' occurrenceData <- CucurbitaData
-#' #Running checkOccurrences
-#' occurrences <- checkOccurrences(csv = occurrenceData
-#'                     taxon = taxon,
-#'                     removeDuplicated = FALSE
-#'                     )
-#'
+# data(CucurbitaData)
+#
+# # convert the dataset for function
+# taxon <- "Cucurbita_cordata"
+# #Running checkOccurrences
+# occurrences <- checkOccurrences(csv = CucurbitaData,
+#                     taxon = taxon,
+#                     removeDuplicated = FALSE
+#                     )
 #'
 #'
 #' @references
 #' Khoury et al. (2019) Ecological Indicators 98:420-429. doi: 10.1016/j.ecolind.2018.11.016
 #' Carver et al. (2021) GapAnalysis: an R package to calculate conservation indicators using spatial information
+#' @importFrom dplyr mutate select
+#' @importFrom terra vect
+#' @importFrom leaflet leaflet addTiles addCircleMarkers addControl
+#' @importFrom magrittr %>%
+#' @export
+
 checkOccurrences <- function(csv, taxon, removeDuplicated = FALSE){
 
   # check column names
@@ -63,22 +67,22 @@ checkOccurrences <- function(csv, taxon, removeDuplicated = FALSE){
   # change the data type of the columns
   colTypes <- lapply(df, class)
   # check and change columns as needed
-  if(class(colTypes$species) != "character"){
+  if(!is.character(colTypes$character)){
     df$species <- as.character(df$species)
     message(paste("Changed the data type from ", colTypes$species,
                   " to the required character" ))
   }
-  if(class(colTypes$latitude) != "character"){
+  if(!is.character(colTypes$latitude)){
     df$latitude <- as.numeric(df$latitude)
     message(paste("Changed the data type from ", colTypes$latitude,
                   " to the required character" ))
   }
-  if(class(colTypes$longitude) != "character"){
+  if(!is.character(colTypes$longitude)){
     df$longitude <- as.numeric(df$longitude)
     message(paste("Changed the data type from ", colTypes$longitude,
                   " to the required character" ))
   }
-  if(class(colTypes$type) != "character"){
+  if(!is.character(colTypes$type)){
     df$type <- as.character(df$type)
     message(paste("Changed the data type from ", colTypes$type,
                   " to the required character" ))
@@ -120,9 +124,9 @@ checkOccurrences <- function(csv, taxon, removeDuplicated = FALSE){
   map_title <- "<h3 style='text-align:center; background-color:rgba(255,255,255,0.7); padding:2px;'>Quality Points for Gap Analysis</h3>"
   df$color <- ifelse(df$type == "G", yes = "#6300f0", no = "#1184d4")
   # Create the Leaflet map
-  map <- leaflet(data = df) %>%
-    addTiles() %>%  # Adds default OpenStreetMap map tiles
-    addCircleMarkers(
+  map <- leaflet::leaflet(data = df) %>%
+    leaflet::addTiles() %>%  # Adds default OpenStreetMap map tiles
+    leaflet::addCircleMarkers(
       lng = ~longitude,
       lat = ~latitude,
       popup = ~paste("Point type:", ~type), # Optional: add popups
@@ -131,7 +135,7 @@ checkOccurrences <- function(csv, taxon, removeDuplicated = FALSE){
       color = ~color,
       fillOpacity = 0.8
     ) |>
-    addControl(html = map_title, position = "bottomleft") #
+    leaflet::addControl(html = map_title, position = "bottomleft") #
 
   message(paste("All checks completed"))
 

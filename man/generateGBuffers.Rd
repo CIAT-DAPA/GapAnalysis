@@ -23,7 +23,7 @@ Produces a terra vect object representing the area around the G type occurrences
 }
 \examples{
 ##Obtaining occurrences from example
-load("data/CucurbitaData.rda")
+data(CucurbitaData)
 
 # convert the dataset for function
 taxon <- "Cucurbita_cordata"

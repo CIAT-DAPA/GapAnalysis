@@ -16,14 +16,14 @@
 #'
 #' @examples
 #' ##Obtaining Raster_list
-#' load("data/CucurbitaRasts.rda")
+#' data(CucurbitaRasts)
 #' ##Obtaining protected areas raster
-#' load("data/protectAreasRast.rda")
+#' data(ProtectedAreas)
 #'
 #' # convert the dataset for function
 #' taxon <- "Cucurbita_cordata"
 #' sdm <- terra::unwrap(CucurbitaRasts)$cordata
-#' protectedAreas <- terra::unwrap(protectArea)
+#' protectedAreas <- terra::unwrap(ProtectedAreas)
 #'
 #' #Running GRSin
 #' grs_insitu <- GRSin(taxon = taxon,
@@ -36,6 +36,12 @@
 #' @references
 #' Khoury et al. (2019) Ecological Indicators 98:420-429. doi: 10.1016/j.ecolind.2018.11.016
 #' Carver et al. (2021) GapAnalysis: an R package to calculate conservation indicators using spatial information
+#' @importFrom terra crop expanse
+#' @importFrom dplyr tibble
+#' @importFrom leaflet addTiles addPolygons addLegend addRasterImage addCircleMarkers
+#' @importFrom magrittr %>%
+#' @export
+
 GRSin <- function(taxon, sdm, protectedAreas){
   # total area of the SDM inside protected areas over
   # total aras of the SDM
@@ -62,24 +68,24 @@ GRSin <- function(taxon, sdm, protectedAreas){
                    "GRS insitu" = grs)
 
   map_title <- "<h3 style='text-align:center; background-color:rgba(255,255,255,0.7); padding:2px;'>Protect areas within the SDM</h3>"
-  map <- leaflet() |>
-    addTiles() |>
-    addRasterImage(
+  map <- leaflet::leaflet() |>
+    leaflet::addTiles() |>
+    leaflet::addRasterImage(
       x = sdm,
       colors = "#47ae24"
     )|>
-    addRasterImage(
+    leaflet::addRasterImage(
       x = proMask,
       colors = "#746fae"
     )|>
-    addLegend(
+    leaflet::addLegend(
       position = "topright",
       title = "GRS in situ",
       colors = c("#47ae24","#746fae"),
       labels = c("Distribution","Protected Areas"),
       opacity = 1
     )|>
-    addControl(html = map_title, position = "bottomleft")
+    leaflet::addControl(html = map_title, position = "bottomleft")
 
   # create output data
   output <- list(

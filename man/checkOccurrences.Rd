@@ -23,18 +23,9 @@ Checks the column names, column data types, valid lat lon, and can optionally re
 The cleaned and formated dataframe is returned as well as a map object show a quick reference of the points in space.
 }
 \examples{
+# example code
+
 ##Obtaining occurrences from example
-load("data/CucurbitaData.rda")
-
-# convert the dataset for function
-taxon <- "Cucurbita_cordata"
-occurrenceData <- CucurbitaData
-#Running checkOccurrences
-occurrences <- checkOccurrences(csv = occurrenceData
-                    taxon = taxon,
-                    removeDuplicated = FALSE
-                    )
-
 
 
 }

@@ -19,17 +19,8 @@ Checks the class, values, crs, and cell size of the protected areas raster to en
 these elements match those required by gap analysis functions.
 }
 \examples{
+
 ##Obtaining Raster_list
-load("data/CucurbitaRasts.rda")
-##Obtaining protected areas raster
-load("data/protectAreasRast.rda")
-
-sdm <- terra::unwrap(CucurbitaRasts)$cordata
-protectedAreas <- terra::unwrap(protectArea)
-
-#Running checkProtectedAreas
-protectedAreas <- checkProtectedAreas(protectedAreas = protectedAreas,
-                    sdm = sdm)
 
 }
 \references{

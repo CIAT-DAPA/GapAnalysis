@@ -24,26 +24,26 @@ assigns a priority category based on the results
 }
 \examples{
 ##Obtaining occurrences from example
-load("data/CucurbitaData.rda")
+data(CucurbitaData)
 ##Obtaining Raster_list
-load("data/CucurbitaRasts.rda")
+data(CucurbitaRasts)
 ##Obtaining protected areas raster
-load("data/protectAreasRast.rda")
+data(ProtectedAreas)
 ## ecoregion features
-load("data/ecoExample.rda")
+data(ecoregions)
 
 # convert the dataset for function
 taxon <- "Cucurbita_cordata"
 sdm <- terra::unwrap(CucurbitaRasts)$cordata
 occurrenceData <- CucurbitaData
-protectedAreas <- terra::unwrap(protectArea)
-ecoregions <- terra::vect(eco1)
+protectedAreas <- terra::unwrap(ProtectedAreas)
+ecoregions <- terra::vect(ecoregions)
 
 # generate insitu conservation summaries
-srs_insitu <- SRSin(taxon = Cucurbita_splist,
-                    sdm = CucurbitaData,
-                    occurrenceData = CucurbitaData,
-                    protectedAreas = ProtectedAreas
+srs_insitu <- SRSin(taxon = taxon,
+                    sdm = sdm,
+                    occurrenceData = occurrenceData,
+                    protectedAreas = protectedAreas
                     )
 
 grs_insitu <- GRSin(taxon = taxon,
@@ -60,7 +60,7 @@ ers_insitu <- ERSin(taxon = taxon,
                     )
 
 #Running fcsin
-fcs_insitu <- FSCin(taxon = taxon,
+FCSin <- FCSin(taxon = taxon,
                     srsin = srs_insitu,
                     grsin = grs_insitu,
                     ersin = ers_insitu

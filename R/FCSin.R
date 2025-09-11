@@ -1,4 +1,3 @@
-
 #'
 #' @title Final conservation score in situ
 #' @name FCSin
@@ -14,26 +13,26 @@
 #'
 #' @examples
 #' ##Obtaining occurrences from example
-#' load("data/CucurbitaData.rda")
+#' data(CucurbitaData)
 #' ##Obtaining Raster_list
-#' load("data/CucurbitaRasts.rda")
+#' data(CucurbitaRasts)
 #' ##Obtaining protected areas raster
-#' load("data/protectAreasRast.rda")
+#' data(ProtectedAreas)
 #' ## ecoregion features
-#' load("data/ecoExample.rda")
+#' data(ecoregions)
 #'
 #' # convert the dataset for function
 #' taxon <- "Cucurbita_cordata"
 #' sdm <- terra::unwrap(CucurbitaRasts)$cordata
 #' occurrenceData <- CucurbitaData
-#' protectedAreas <- terra::unwrap(protectArea)
-#' ecoregions <- terra::vect(eco1)
+#' protectedAreas <- terra::unwrap(ProtectedAreas)
+#' ecoregions <- terra::vect(ecoregions)
 #'
 #' # generate insitu conservation summaries
-#' srs_insitu <- SRSin(taxon = Cucurbita_splist,
-#'                     sdm = CucurbitaData,
-#'                     occurrenceData = CucurbitaData,
-#'                     protectedAreas = ProtectedAreas
+#' srs_insitu <- SRSin(taxon = taxon,
+#'                     sdm = sdm,
+#'                     occurrenceData = occurrenceData,
+#'                     protectedAreas = protectedAreas
 #'                     )
 #'
 #' grs_insitu <- GRSin(taxon = taxon,
@@ -50,7 +49,7 @@
 #'                     )
 #'
 #' #Running fcsin
-#' fcs_insitu <- FSCin(taxon = taxon,
+#' FCSin <- FCSin(taxon = taxon,
 #'                     srsin = srs_insitu,
 #'                     grsin = grs_insitu,
 #'                     ersin = ers_insitu
@@ -61,6 +60,9 @@
 #' @references
 #' Khoury et al. (2019) Ecological Indicators 98:420-429. doi: 10.1016/j.ecolind.2018.11.016
 #' Carver et al. (2021) GapAnalysis: an R package to calculate conservation indicators using spatial information
+#' @importFrom dplyr tibble
+#' @export
+
 FCSin <- function(taxon, srsin, grsin, ersin){
   # define variables
   srs <- srsin$results$`SRS insitu`

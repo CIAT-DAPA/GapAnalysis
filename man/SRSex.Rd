@@ -9,7 +9,7 @@ SRSex(taxon, occurrence_Data)
 \arguments{
 \item{taxon}{A character object that defines the name of the species as listed in the occurrence dataset}
 
-\item{occurrenceData}{a data frame of values containing columns for the taxon, latitude, longitude, and type}
+\item{occurrence_Data}{a data frame of values containing columns for the taxon, latitude, longitude, and type}
 }
 \value{
 out_df :  a data frames of values summarizing the results of the function
@@ -24,15 +24,15 @@ The SRSex process provides a general indication of the completeness of ex situ c
 }
 \examples{
 ##Obtaining occurrences from example
-load("data/CucurbitaData.rda")
+data(CucurbitaData)
 
 # convert the dataset for function
 taxon <- "Cucurbita_cordata"
-occurrenceData <- CucurbitaData
 
 #Running SRSex
-srs_exsitu <- SRSex(taxon = Cucurbita_splist,
-                    occurrenceData = CucurbitaData,
+srs_exsitu <- SRSex(taxon = taxon,
+                    occurrence_Data = CucurbitaData
+                    )
 
 }
 \references{

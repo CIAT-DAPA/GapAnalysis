@@ -11,13 +11,13 @@ ERSex(taxon, sdm, occurrence_Data, gBuffer, ecoregions, idColumn)
 
 \item{sdm}{a terra rast object that represented the expected distribution of the species}
 
+\item{occurrence_Data}{a data frame of values containing columns for the taxon, latitude, longitude, and type}
+
 \item{gBuffer}{A terra vect which encompases a specific buffer distance around all G points}
 
 \item{ecoregions}{A terra vect object the contains spatial information on all ecoregions of interests}
 
 \item{idColumn}{A character vector that notes what column within the ecoregions object should be used as a unique ID}
-
-\item{occurrenceData}{a data frame of values containing columns for the taxon, latitude, longitude, and type}
 }
 \value{
 A list object containing
@@ -33,27 +33,30 @@ The ERSex process provides an ecological measurement of the proportion of a spec
 }
 \examples{
 ##Obtaining occurrences from example
-load("data/CucurbitaData.rda")
+data(CucurbitaData)
 ##Obtaining Raster_list
-load("data/CucurbitaRasts.rda")
-##Obtaining protected areas raster
-load("data/protectAreasRast.rda")
+data(CucurbitaRasts)
 ## ecoregion features
-load("data/ecoExample.rda")
+data(ecoregions)
 
 # convert the dataset for function
 taxon <- "Cucurbita_cordata"
 sdm <- terra::unwrap(CucurbitaRasts)$cordata
-occurrenceData <- CucurbitaData
-protectedAreas <- terra::unwrap(protectArea)
-#Running SRSin
-srs_insitu <- SRSin(taxon = taxon,
-                    sdm = sdm,
-                    occurrenceData = occurrenceData,
-                    gBuffer = gBuffer
-                    ecoregions = ecoregions,
-                    idColumn = "ECO_NAME"
+require(sf)
+ecoregions <- terra::vect(ecoregions)
+#Running generateGBuffers
+gBuffer <- generateGBuffers(taxon = taxon,
+                    occurrenceData = CucurbitaData,
+                    bufferDistM = 50000
                     )
+#Running ERSex
+ers_exsitu <- ERSex(taxon = taxon,
+                    sdm = sdm,
+                    occurrence_Data = CucurbitaData,
+                   gBuffer = gBuffer,
+                   ecoregions = ecoregions,
+                   idColumn = "ECO_NAME"
+                   )
 
 
 }

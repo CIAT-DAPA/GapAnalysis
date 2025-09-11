@@ -9,7 +9,7 @@ generateCounts(taxon, occurrence_Data)
 \arguments{
 \item{taxon}{A character object that defines the name of the species as listed in the occurrence dataset}
 
-\item{occurrenceData}{a data frame of values containing columns for the taxon, latitude, longitude, and type}
+\item{occurrence_Data}{a data frame of values containing columns for the taxon, latitude, longitude, and type}
 }
 \value{
 countsData : a data frames of values summarizing the results of the function
@@ -20,7 +20,7 @@ used in the SRSex function.
 }
 \examples{
 ##Obtaining occurrences from example
-load("data/CucurbitaData.rda")
+data(CucurbitaData)
 
 # convert the dataset for function
 taxon <- "Cucurbita_cordata"
@@ -28,7 +28,7 @@ occurrenceData <- CucurbitaData
 
 #Running generateCounts
 counts <- generateCounts(taxon = taxon,
-                    occurrenceData = occurrenceData
+                    occurrence_Data = occurrenceData
                     )
 
 }

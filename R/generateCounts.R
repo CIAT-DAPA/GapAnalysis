@@ -5,13 +5,13 @@
 #' used in the SRSex function.
 #'
 #' @param taxon A character object that defines the name of the species as listed in the occurrence dataset
-#' @param occurrenceData a data frame of values containing columns for the taxon, latitude, longitude, and type
+#' @param occurrence_Data a data frame of values containing columns for the taxon, latitude, longitude, and type
 #'
 #' @return countsData : a data frames of values summarizing the results of the function
 #'
 #' @examples
 #' ##Obtaining occurrences from example
-#' load("data/CucurbitaData.rda")
+#' data(CucurbitaData)
 #'
 #' # convert the dataset for function
 #' taxon <- "Cucurbita_cordata"
@@ -19,12 +19,15 @@
 #'
 #' #Running generateCounts
 #' counts <- generateCounts(taxon = taxon,
-#'                     occurrenceData = occurrenceData
+#'                     occurrence_Data = occurrenceData
 #'                     )
 #'
 #' @references
 #' Khoury et al. (2019) Ecological Indicators 98:420-429. doi: 10.1016/j.ecolind.2018.11.016
 #' Carver et al. (2021) GapAnalysis: an R package to calculate conservation indicators using spatial information
+#' @importFrom dplyr filter select mutate group_by summarize n
+#' @export
+
 generateCounts <- function(taxon, occurrence_Data){
 
   # define presence of usable lat long values
@@ -41,7 +44,7 @@ generateCounts <- function(taxon, occurrence_Data){
   # summarize data
   tbl <- dataThin |>
     dplyr::group_by(type, hasLatLong )|>
-    dplyr::summarize(total = n())
+    dplyr::summarize(total = dplyr::n())
 
   # generate counts df
   countsData <- data.frame(matrix(NA, nrow = 1, ncol = 9))

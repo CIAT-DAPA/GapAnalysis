@@ -14,7 +14,7 @@
 
 #' @examples
 #' ##Obtaining occurrences from example
-#' load("data/CucurbitaData.rda")
+#' data(CucurbitaData)
 #'
 #' # convert the dataset for function
 #' taxon <- "Cucurbita_cordata"
@@ -31,6 +31,11 @@
 #' @references
 #' Khoury et al. (2019) Ecological Indicators 98:420-429. doi: 10.1016/j.ecolind.2018.11.016
 #' Carver et al. (2021) GapAnalysis: an R package to calculate conservation indicators using spatial information
+#' @importFrom dplyr filter
+#' @importFrom terra vect crs buffer
+#' @importFrom leaflet addTiles addPolygons addLegend addRasterImage addCircleMarkers
+#' @export
+
 generateGBuffers <- function(taxon, occurrenceData, bufferDistM){
 
   # filter the occurrence data to the species of interest
@@ -53,20 +58,20 @@ generateGBuffers <- function(taxon, occurrenceData, bufferDistM){
 
   # leaflet map of
   map_title <- "<h3 style='text-align:center; background-color:rgba(255,255,255,0.7); padding:2px;'>Buffered G Occurrences</h3>"
-  map <- leaflet(d2) |>
-    addTiles() |>
-    addPolygons(color = "#444444",
+  map <- leaflet::leaflet(d2) |>
+    leaflet::addTiles() |>
+    leaflet::addPolygons(color = "#444444",
                 weight = 1,
                 opacity = 1.0,
                 fillOpacity = 0.5,
                 fillColor = "#6300f0")|>
-    addCircleMarkers(
+    leaflet::addCircleMarkers(
       data = d1,
       color = "#000",
       radius = 2,
       opacity = 1
     )|>
-    addControl(html = map_title, position = "bottomleft")
+    leaflet::addControl(html = map_title, position = "bottomleft")
 
 
   return(list(

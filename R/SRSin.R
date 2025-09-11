@@ -20,27 +20,32 @@
 #'
 #' @examples
 #' ##Obtaining occurrences from example
-#' load("data/CucurbitaData.rda")
+#' data(CucurbitaData)
 #' ##Obtaining Raster_list
-#' load("data/CucurbitaRasts.rda")
+#' data(CucurbitaRasts)
 #' ##Obtaining protected areas raster
-#' load("data/protectAreasRast.rda")
+#' data(ProtectedAreas)
 #'
 #' # convert the dataset for function
 #' taxon <- "Cucurbita_cordata"
 #' sdm <- terra::unwrap(CucurbitaRasts)$cordata
 #' occurrenceData <- CucurbitaData
-#' protectedAreas <- terra::unwrap(protectArea)
+#' protectedAreas <- terra::unwrap(ProtectedAreas)
 #' #Running SRSin
-#' srs_insitu <- SRSin(taxon = Cucurbita_splist,
-#'                     sdm = CucurbitaData,
-#'                     occurrenceData = CucurbitaData,
-#'                     protectedAreas = ProtectedAreas
+#' srs_insitu <- SRSin(taxon = taxon,
+#'                     sdm = sdm,
+#'                     occurrenceData = occurrenceData,
+#'                     protectedAreas = protectedAreas
 #'                     )
 #'
 #' @references
 #' Khoury et al. (2019) Ecological Indicators 98:420-429. doi: 10.1016/j.ecolind.2018.11.016
 #' Carver et al. (2021) GapAnalysis: an R package to calculate conservation indicators using spatial information
+#' @importFrom terra vect extract
+#' @importFrom dplyr filter tibble
+#' @importFrom leaflet addTiles addPolygons addLegend addRasterImage addCircleMarkers addControl
+#' @export
+
 SRSin <- function(taxon, sdm, occurrenceData,  protectedAreas){
   # remove all points not inside of the sdm
   # then test those for presence in protected areas
@@ -73,26 +78,26 @@ SRSin <- function(taxon, sdm, occurrenceData,  protectedAreas){
   p1$color <- ifelse(is.na(p1$inPro), "#444444", "#746fae")
 
   map_title <- "<h3 style='text-align:center; background-color:rgba(255,255,255,0.7); padding:2px;'>Points within SDM inside of protected areas</h3>"
-  map <- leaflet() |>
-    addTiles() |>
-    addRasterImage(
+  map <- leaflet::leaflet() |>
+    leaflet::addTiles() |>
+    leaflet::addRasterImage(
       x = sdm,
       colors = "#47ae24"
     )|>
-    addCircleMarkers(
+    leaflet::addCircleMarkers(
       data = p1,
       color = ~color,
       radius = 1,
       opacity = 1
     )|>
-    addLegend(
+    leaflet::addLegend(
       position = "topright",
       title = "SRS in situ",
       colors = c("#47ae24","#746fae", "#444444"),
       labels = c("Distribution","Protected Occurrences", "Non Protected Occurrences"),
       opacity = 1
     )|>
-    addControl(html = map_title, position = "bottomleft")
+    leaflet::addControl(html = map_title, position = "bottomleft")
 
 
 

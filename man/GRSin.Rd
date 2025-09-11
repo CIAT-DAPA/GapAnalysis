@@ -27,14 +27,14 @@ occurs within protected areas.
 }
 \examples{
 ##Obtaining Raster_list
-load("data/CucurbitaRasts.rda")
+data(CucurbitaRasts)
 ##Obtaining protected areas raster
-load("data/protectAreasRast.rda")
+data(ProtectedAreas)
 
 # convert the dataset for function
 taxon <- "Cucurbita_cordata"
 sdm <- terra::unwrap(CucurbitaRasts)$cordata
-protectedAreas <- terra::unwrap(protectArea)
+protectedAreas <- terra::unwrap(ProtectedAreas)
 
 #Running GRSin
 grs_insitu <- GRSin(taxon = taxon,

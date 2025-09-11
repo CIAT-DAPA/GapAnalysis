@@ -23,8 +23,6 @@ ERSin(taxon, sdm, occurrenceData, protectedAreas, ecoregions, idColumn)
 1. results : a data frames of values summarizing the results of the function
 2. missingEcos : a terra vect object showing all the ecoregions within the distribution with no protected areas present
 3. map : a leaflet object showing the spatial results of the function}
-
-\item{gBuffer}{A terra vect which encompases a specific buffer distance around all G points}
 }
 \description{
 The ERSin process provides an ecological measurement of the proportion of a species range
@@ -36,25 +34,24 @@ The ERSin process provides an ecological measurement of the proportion of a spec
 }
 \examples{
 ##Obtaining occurrences from example
-load("data/CucurbitaData.rda")
+data(CucurbitaData)
 ##Obtaining Raster_list
-load("data/CucurbitaRasts.rda")
+data(CucurbitaRasts)
 ##Obtaining protected areas raster
-load("data/protectAreasRast.rda")
+data(ProtectedAreas)
 ## ecoregion features
-load("data/ecoExample.rda")
+data(ecoregions)
 
 # convert the dataset for function
 taxon <- "Cucurbita_cordata"
 sdm <- terra::unwrap(CucurbitaRasts)$cordata
-occurrenceData <- CucurbitaData
-protectedAreas <- terra::unwrap(protectArea)
-ecoregions <- terra::vect(eco1)
+protectedAreas <- terra::unwrap(ProtectedAreas)
+ecoregions <- terra::vect(ecoregions)
 
 #Running ERSin
 ers_insitu <- ERSin(taxon = taxon,
                     sdm = sdm,
-                    occurrenceData = occurrenceData,
+                    occurrenceData = CucurbitaData,
                     protectedAreas = protectedAreas,
                     ecoregions = ecoregions,
                     idColumn = "ECO_NAME"

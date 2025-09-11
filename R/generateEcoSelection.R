@@ -17,17 +17,17 @@
 #'
 #' @examples
 #' ##Obtaining occurrences from example
-#' load("data/CucurbitaData.rda")
+#' data(CucurbitaData)
 #' ## ecoregion features
-#' load("data/ecoExample.rda")
+#' data(ecoregions)
 #'
 #' # convert the dataset for function
 #' taxon <- "Cucurbita_cordata"
 #' occurrenceData <- CucurbitaData
-#' ecoregions <- terra::vect(eco1)
+#' ecoregions <- terra::vect(ecoregions)
 #'
 #' #Running generateEcoSelection
-#' selectedEcos <- generateEcoSelection(taxon = Cucurbita_splist,
+#' selectedEcos <- generateEcoSelection(taxon = taxon,
 #'                     occurrenceData = occurrenceData,
 #'                     ecoregions = ecoregions,
 #'                     idColumn = "ECO_NAME"
@@ -37,6 +37,10 @@
 #' @references
 #' Khoury et al. (2019) Ecological Indicators 98:420-429. doi: 10.1016/j.ecolind.2018.11.016
 #' Carver et al. (2021) GapAnalysis: an R package to calculate conservation indicators using spatial information
+#' @importFrom dplyr filter
+#' @importFrom terra vect intersect as.data.frame
+#' @export
+
 generateEcoSelection <- function(taxon, occurrenceData, ecoregions, idColumn){
 
   # filter the occurrence data to the species of interest

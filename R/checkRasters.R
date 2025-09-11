@@ -8,22 +8,23 @@
 #' @return sdm : a terra rast object that is in the correct CRS
 #'
 #' @examples
-#'#' @examples
 #' ##Obtaining Raster_list
-#' load("data/CucurbitaRasts.rda")
-#'
-#' # convert the dataset for function
-#' sdm <- terra::unwrap(CucurbitaRasts)$cordata
-#' #Running checksdm
-#' sdm <- checksdm(sdm = sdm)
-#'
+# data(CucurbitaRasts)
+#
+# # convert the dataset for function
+# sdm <- terra::unwrap(CucurbitaRasts)$cordata
+# #Running checksdm
+# sdm <- checksdm(sdm = sdm)
+
 #' @references
 #' Khoury et al. (2019) Ecological Indicators 98:420-429. doi: 10.1016/j.ecolind.2018.11.016
 #' Carver et al. (2021) GapAnalysis: an R package to calculate conservation indicators using spatial information
+#' @importFrom terra rast values crs same.crs res project
+#' @export
 checksdm <- function(sdm){
   # check class and convert if needed
   c1 <- class(sdm)
-  if(c1[1]!="Spatsdm"){
+  if(c1[1]!="SpatRaster"){
     sdm <- terra::rast(sdm)
     message(paste("Changed the object type from ", c1,
                   " to the required object terra rast"  ))

@@ -7,11 +7,11 @@
 checkEcoregion(ecoregion, sdm, idColumn)
 }
 \arguments{
+\item{ecoregion}{A terra vect object the contains spatial information on all ecoregions of interests}
+
 \item{sdm}{a terra rast object that represented the expected distribution of the species}
 
 \item{idColumn}{A character vector that notes what column within the ecoregions object should be used as a unique ID}
-
-\item{ecoregions}{A terra vect object the contains spatial information on all ecoregions of interests}
 }
 \value{
 ecoregions : A terra vect object the contains spatial information on all ecoregions of interests
@@ -21,19 +21,6 @@ Checks the class, crs, if the idColumn is a unique ID,
 }
 \examples{
 ##Obtaining Raster_list
-load("data/CucurbitaRasts.rda")
-## ecoregion features
-load("data/ecoExample.rda")
-
-# convert the dataset for function
-sdm <- terra::unwrap(CucurbitaRasts)$cordata
-ecoregions <- terra::vect(eco1)
-#Running checkEcoregion
-ecoregions <- checkEcoregion(ecoregion = ecoregions,
-                    sdm = sdm,
-                    idColumn = "ECO_NAME"
-                    )
-
 
 }
 \references{

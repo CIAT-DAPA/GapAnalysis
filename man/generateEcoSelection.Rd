@@ -24,17 +24,17 @@ reduces the overall file size of the ecoregion object.
 }
 \examples{
 ##Obtaining occurrences from example
-load("data/CucurbitaData.rda")
+data(CucurbitaData)
 ## ecoregion features
-load("data/ecoExample.rda")
+data(ecoregions)
 
 # convert the dataset for function
 taxon <- "Cucurbita_cordata"
 occurrenceData <- CucurbitaData
-ecoregions <- terra::vect(eco1)
+ecoregions <- terra::vect(ecoregions)
 
 #Running generateEcoSelection
-selectedEcos <- generateEcoSelection(taxon = Cucurbita_splist,
+selectedEcos <- generateEcoSelection(taxon = taxon,
                     occurrenceData = occurrenceData,
                     ecoregions = ecoregions,
                     idColumn = "ECO_NAME"

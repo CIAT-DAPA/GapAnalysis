@@ -9,7 +9,7 @@
 #'
 #' @param taxon A character object that defines the name of the species as listed in the occurrence dataset
 #' @param sdm a terra rast object that represented the expected distribution of the species
-#' @param occurrenceData a data frame of values containing columns for the taxon, latitude, longitude, and type
+#' @param occurrence_Data a data frame of values containing columns for the taxon, latitude, longitude, and type
 #' @param gBuffer A terra vect which encompases a specific buffer distance around all G points
 #' @param ecoregions A terra vect object the contains spatial information on all ecoregions of interests
 #' @param idColumn A character vector that notes what column within the ecoregions object should be used as a unique ID
@@ -24,41 +24,50 @@
 #'
 #' @examples
 #' ##Obtaining occurrences from example
-#' load("data/CucurbitaData.rda")
+#' data(CucurbitaData)
 #' ##Obtaining Raster_list
-#' load("data/CucurbitaRasts.rda")
-#' ##Obtaining protected areas raster
-#' load("data/protectAreasRast.rda")
+#' data(CucurbitaRasts)
 #' ## ecoregion features
-#' load("data/ecoExample.rda")
+#' data(ecoregions)
 #'
 #' # convert the dataset for function
 #' taxon <- "Cucurbita_cordata"
 #' sdm <- terra::unwrap(CucurbitaRasts)$cordata
-#' occurrenceData <- CucurbitaData
-#' protectedAreas <- terra::unwrap(protectArea)
-
-
-#' #Running SRSin
-#' srs_insitu <- SRSin(taxon = taxon,
-#'                     sdm = sdm,
-#'                     occurrenceData = occurrenceData,
-#'                     gBuffer = gBuffer
-#'                     ecoregions = ecoregions,
-#'                     idColumn = "ECO_NAME"
+#' require(sf)
+#' ecoregions <- terra::vect(ecoregions)
+#' #Running generateGBuffers
+#' gBuffer <- generateGBuffers(taxon = taxon,
+#'                     occurrenceData = CucurbitaData,
+#'                     bufferDistM = 50000
 #'                     )
+#' #Running ERSex
+#' ers_exsitu <- ERSex(taxon = taxon,
+#'                     sdm = sdm,
+#'                     occurrence_Data = CucurbitaData,
+#'                    gBuffer = gBuffer,
+#'                    ecoregions = ecoregions,
+#'                    idColumn = "ECO_NAME"
+#'                    )
 #'
 #'
 #' @references
 #' Khoury et al. (2019) Ecological Indicators 98:420-429. doi: 10.1016/j.ecolind.2018.11.016
 #' Carver et al. (2021) GapAnalysis: an R package to calculate conservation indicators using spatial information
+#' @importFrom dplyr filter mutate tibble summarise case_when
+#' @importFrom terra vect crop aggregate zonal rasterize as.data.frame
+#' @importFrom leaflet addTiles addPolygons addLegend addRasterImage addCircleMarkers
+#' @importFrom magrittr %>%
+#' @export
+
 ERSex <- function(taxon, sdm, occurrence_Data, gBuffer, ecoregions, idColumn){
   # filter the occurrence data to the species of interest
   d1 <- occurrence_Data |>
-    dplyr::filter(species == taxon) |>
+    dplyr::filter(occurrence_Data$species == taxon) |>
     terra::vect(geom=c("longitude", "latitude"), crs="+proj=longlat +datum=WGS84")
+  # add color
+  d1$color <- ifelse(d1$type == "H", yes = "#1184d4", no = "#6300f0")
   # set id column for easier indexing
-  ecoregions$id_column <- as.data.frame(ecoregions)[,idColumn]
+  ecoregions$id_column <- as.data.frame(ecoregions)[[idColumn]]
   # aggregates spatial features
   ecoregions <- terra::aggregate(x = ecoregions, by = "id_column")
 
@@ -75,18 +84,18 @@ ERSex <- function(taxon, sdm, occurrence_Data, gBuffer, ecoregions, idColumn){
     dplyr::select(ecoID = id_column, count = sdmSum)
 
   # condition for no G points
-  if(class(gBuffer) == "Character"){
+  if(is.character(gBuffer$data)){
     ers <- 0
     gEco <- NA
     missingEcos <- eco2$ecoID
   }else{
     # rasterize the buffer object
-    b1 <- terra::rasterize(x = gBuffer, y = sdm) |> terra::mask(sdm)
+    b1 <- terra::rasterize(x = gBuffer$data, y = sdm) |> terra::mask(sdm)
     # determine ecoregions in ga50 area
     eco2$bufferEcos <- terra::zonal(x = b1,z = ecoSelect,fun="sum",na.rm=TRUE) |> unlist()
     # group by data to get single value per ecoregion
     ecoGrouped <- eco2 |>
-        dplyr::mutate(bufferEcos = case_when(
+        dplyr::mutate(bufferEcos = dplyr::case_when(
           is.na(bufferEcos) ~ 0,
           is.nan(bufferEcos)~ 0,
           TRUE ~ bufferEcos)
@@ -117,42 +126,42 @@ ERSex <- function(taxon, sdm, occurrence_Data, gBuffer, ecoregions, idColumn){
   map_title <- "<h3 style='text-align:center; background-color:rgba(255,255,255,0.7); padding:2px;'>Ecoregions outside of the G Buffer areas</h3>"
   # base map element
   map <- leaflet() |>
-    addTiles() |>
-    addPolygons(data = ecoSelect,
+    leaflet::addTiles() |>
+    leaflet::addPolygons(data = ecoSelect,
                 color = "#444444",
                 weight = 1,
                 opacity = 1.0,
                 fillOpacity = 0.1,
                 popup = ~ECO_NAME,
                 fillColor = NA)|>
-    addLegend(
+    leaflet::addLegend(
       position = "topright",
       title = "ERS ex situ",
       colors = c("#47ae24", "#746fae", "#f0a01f", "#44444440"),
       labels = c("Distribution", "G buffer",  "Eco gaps", "All Ecos"),
       opacity = 1
     )|>
-    addControl(html = map_title, position = "bottomleft")
+    leaflet::addControl(html = map_title, position = "bottomleft")
 
   if(ers > 0){
     # add additional map elements
     map <- map |>
-      addPolygons(data = missingEcos,
+      leaflet::addPolygons(data = missingEcos,
                   color = "#444444",
                   weight = 1,
                   opacity = 1.0,
                   popup = ~ECO_NAME,
                   fillOpacity = 0.5,
                   fillColor = "#f0a01f")|>
-      addRasterImage(
+      leaflet::addRasterImage(
         x = sdm,
         colors = "#47ae24"
-      )|>
-      addRasterImage(
+      ) |>
+      leaflet::addRasterImage(
         x = b1,
         colors = "#746fae"
       )|>
-      addCircleMarkers(
+      leaflet::addCircleMarkers(
         data = d1,
         color = ~color,
         radius = 2,
@@ -160,7 +169,7 @@ ERSex <- function(taxon, sdm, occurrence_Data, gBuffer, ecoregions, idColumn){
       )
   }else{
     map <- map |>
-      addCircleMarkers(
+      leaflet::addCircleMarkers(
         data = d1,
         color = ~color,
         radius = 2,

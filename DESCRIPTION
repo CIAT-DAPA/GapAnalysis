@@ -26,16 +26,16 @@ BugReports: https://github.com/CIAT-DAPA/GapAnalysis/issues
 Depends:
   R (>= 4.3.0),
 Imports:
-    base,
+	  magrittr,
     dataverse,
     dplyr,
     leaflet,
-    terra,
-    utils
+    terra
 License: GPL-3
 LazyData: true
 Encoding: UTF-8
 RoxygenNote: 7.3.2
 Suggests: 
-    testthat (>= 3.0.0)
+    testthat (>= 3.0.0),
+	sf
 Config/testthat/edition: 3

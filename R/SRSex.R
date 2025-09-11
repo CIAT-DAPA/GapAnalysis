@@ -10,29 +10,32 @@
 #'
 #' @param taxon A character object that defines the name of the species as listed in the occurrence dataset
 #'
-#' @param occurrenceData a data frame of values containing columns for the taxon, latitude, longitude, and type
+#' @param occurrence_Data a data frame of values containing columns for the taxon, latitude, longitude, and type
 #'
 #' @return out_df :  a data frames of values summarizing the results of the function
 #'
 #' @examples
 #' ##Obtaining occurrences from example
-#' load("data/CucurbitaData.rda")
+#' data(CucurbitaData)
 #'
 #' # convert the dataset for function
 #' taxon <- "Cucurbita_cordata"
-#' occurrenceData <- CucurbitaData
 #'
 #' #Running SRSex
-#' srs_exsitu <- SRSex(taxon = Cucurbita_splist,
-#'                     occurrenceData = CucurbitaData,
+#' srs_exsitu <- SRSex(taxon = taxon,
+#'                     occurrence_Data = CucurbitaData
+#'                     )
 #'
 #' @references
 #' Khoury et al. (2019) Ecological Indicators 98:420-429. doi: 10.1016/j.ecolind.2018.11.016
 #' Carver et al. (2021) GapAnalysis: an R package to calculate conservation indicators using spatial information
+#' @importFrom dplyr tibble n
+#' @export
+
 SRSex <- function(taxon, occurrence_Data) {
   # generarte the counts data for species
   sp_counts <- generateCounts(taxon = taxon,
-                       occurrence_Data = occurrence_Data)
+               occurrence_Data = occurrence_Data)
   # caluse for no h points
   if(sp_counts$totalGRecords >= 1 & sp_counts$totalHRecords == 0){
     srs <-100

@@ -8,11 +8,15 @@
 #'
 #'
 #' @examples
-#' getDatasets()
+#  getDatasets()
 #'
 #' @references
 #' Khoury et al. (2019) Ecological Indicators 98:420-429. doi: 10.1016/j.ecolind.2018.11.016
 #' Carver et al. (2021) GapAnalysis: an R package to calculate conservation indicators using spatial information
+#' @importFrom dataverse get_file
+#' @importFrom terra rast writeRaster
+#' @export
+
 getDatasets <- function(){
   #LOADING FOLDER PARAMETERS
   out_dir <- system.file(package = "GapAnalysis")#"E:/EG3TC"#system.file("", package = "GapAnalysis")
@@ -25,7 +29,7 @@ getDatasets <- function(){
   proAreaPath <- paste0(prot_dir,"/wdpa_rasterize_all.tif")
   if(!file.exists(proAreaPath)){
     # raw protected areas data
-    raw_tif_data <- get_file(
+    raw_tif_data <- dataverse::get_file(
       file ="wdpa_rasterized_all.tif",
       dataset = "wdpa_rasterized_all.tif",
       server = "https://dataverse.harvard.edu/dataverse/GapAnalysis"
@@ -48,7 +52,7 @@ getDatasets <- function(){
   ecoRegionPath <- paste0(prot_dir,"/tnc_terr_ecoregions.gpkg")
   if(!file.exists(ecoRegionPath)){
     # raw data
-    raw_eco_data <- get_file(
+    raw_eco_data <- dataverse::get_file(
       file ="tnc_terr_ecoregions.gpkg",
       dataset = "doi:10.7910/DVN/WTLNRG",
       server = "https://dataverse.harvard.edu/dataverse/GapAnalysis"

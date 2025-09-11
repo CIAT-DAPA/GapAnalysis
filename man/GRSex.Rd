@@ -27,13 +27,13 @@ The GRSex process provides a geographic measurement of the proportion of a speci
 }
 \examples{
 ##Obtaining occurrences from example
-load("data/CucurbitaData.rda")
+data(CucurbitaData)
 ##Obtaining Raster_list
-load("data/CucurbitaRasts.rda")
+data(CucurbitaRasts)
 ##Obtaining protected areas raster
-load("data/protectAreasRast.rda")
+data(ProtectedAreas)
 ## ecoregion features
-load("data/ecoExample.rda")
+data(ecoregions)
 
 # convert the dataset for function
 taxon <- "Cucurbita_cordata"

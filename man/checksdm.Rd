@@ -16,15 +16,7 @@ sdm : a terra rast object that is in the correct CRS
 Evaluates the class, crs, and values are standardizes to what the following gap analysis functions are required.
 }
 \examples{
-#' @examples
 ##Obtaining Raster_list
-load("data/CucurbitaRasts.rda")
-
-# convert the dataset for function
-sdm <- terra::unwrap(CucurbitaRasts)$cordata
-#Running checksdm
-sdm <- checksdm(sdm = sdm)
-
 }
 \references{
 Khoury et al. (2019) Ecological Indicators 98:420-429. doi: 10.1016/j.ecolind.2018.11.016
