@@ -38,10 +38,10 @@ checkEcoregion <- function(ecoregion, sdm, idColumn){
                   " to the required object terra vector"  ))
   }
 
-  crs <- terra::crs(ecoregions)
+  crs <- terra::crs(ecoregion)
   # crs
   if(!terra::same.crs(crs, terra::crs("epsg:4326"))){
-    ecoregions<- terra::project(x = ecoregions, y = "epsg:4326" )
+    ecoregion<- terra::project(x = ecoregion, y = "epsg:4326" )
     message(paste("Changed the crs from ", crs,
                   " to the required epsg:4326"  ))
   }
@@ -57,5 +57,5 @@ checkEcoregion <- function(ecoregion, sdm, idColumn){
 
   message(paste("All checks completed"))
 
-  return(ecoregions)
+  return(ecoregion)
 }

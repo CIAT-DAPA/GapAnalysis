@@ -106,8 +106,8 @@ checkOccurrences <- function(csv, taxon, removeDuplicated = FALSE){
 
   # Check for duplicated records (all rows)
   if(removeDuplicated == TRUE){
-    dups <- duplicated(df[, requiredCols])
-    nrows <- nrows(dups)
+    dups <- !duplicated(df[, requiredCols])
+    nrows <- length(dups[isFALSE(dups)])
     df <- df[dups, ]
     removedDups <- size - nrow(df)
     # message
