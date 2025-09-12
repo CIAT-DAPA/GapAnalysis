@@ -46,7 +46,7 @@ Please note this example is provided at 10 arc minutes resolution for efficient 
 
 
 
-```{r}
+```r
 ##Load package
 library(GapAnalysis)
 
