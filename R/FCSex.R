@@ -49,19 +49,19 @@
 #'                     idColumn = "ECO_NAME"
 #'                     )
 #'
-#' #Running fcsin
+#' #Running fcsex
 #' fcs_exsitu <- FCSex(taxon = taxon,
 #'                     srsex = srs_exsitu,
 #'                     grsex = grs_exsitu,
-#'                     ersex = ers_exsitu
-#'                     )
+#'                     ersex = ers_exsitu)
 #'
 #'
 #'
 #' @references
 #' Khoury et al. (2019) Ecological Indicators 98:420-429. doi: 10.1016/j.ecolind.2018.11.016
 #' Carver et al. (2021) GapAnalysis: an R package to calculate conservation indicators using spatial information
-
+#' @export
+#'
 FCSex <- function(taxon, srsex, grsex, ersex){
 
   # calculate the mean across the three measures

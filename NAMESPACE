@@ -3,6 +3,7 @@
 export(ERSex)
 export(ERSin)
 export(FCSc_mean)
+export(FCSex)
 export(FCSin)
 export(GRSex)
 export(GRSin)

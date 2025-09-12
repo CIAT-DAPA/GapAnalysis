@@ -31,9 +31,10 @@ getDatasets <- function(){
     # raw protected areas data
     raw_tif_data <- dataverse::get_file(
       file ="wdpa_rasterized_all.tif",
-      dataset = "wdpa_rasterized_all.tif",
+      dataset = "doi:10.7910/DVN/KQVOSW",
       server = "https://dataverse.harvard.edu/dataverse/GapAnalysis"
     )
+
     # Write the raw data to a temporary file on your disk
     temp_file_path <- tempfile(fileext = ".tif")
     writeBin(raw_tif_data, temp_file_path)
@@ -42,9 +43,10 @@ getDatasets <- function(){
     # The 'rast()' function from the terra package reads the raster data.
     raster_data <- terra::rast(temp_file_path)
     terra::writeRaster(x = raster_data, filename = proAreaPath)
+    message("Protected areas files have been downloaded from the dataverse","\n")
 
   } else {
-    message("Protected areas file has been downloaded","\n")
+    message("Protected areas file are already downloaded","\n")
   }
 
 
@@ -64,10 +66,11 @@ getDatasets <- function(){
     # Step 5: Read the temporary TIFF file into R using terra
     # The 'rast()' function from the terra package reads the raster data.
     vect_data <- terra::vect(temp_file_path)
-    terra::writeRaster(x = vect_data, filename = ecoRegionPath)
+    terra::writeVector(x = vect_data, filename = ecoRegionPath)
+    message("Ecoregions files have been downloaded from the dataverse","\n")
 
   } else {
-    message("Ecoregions files have been downloaded","\n")
+    message("Ecoregions files are already downloaded","\n")
   }
   return(message("DATASETS WERE DOWNLOADED!"))
 }
