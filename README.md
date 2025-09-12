@@ -1,26 +1,22 @@
 # GapAnalysis R package
 
-## hot fix for dependency issue with rgeos. 
-- please see worked example in the doc for how to get around the error being thown by the FCSex function 
-```r
-Error in explodePolygons(x, ...) : 
-  package rgeos is needed to relate holes to their corresponding polygons
-```
-This involves directly source a few files from this repo to replace the functions use in gapanalysis. 
-#### changes 
-gbuffer has been revamped to use terra. This still returns a sp object so it's not package wide alternation. 
+document updated 2025-09 
 
-FCSex, ERSex, GRSex functions have remove name space funciton calls when calling (gBuffer, ERSex, GRSex) to allow these replacement function to be source directly from this repo. 
-
+## Version 2 Changes 
+Conceptually the results and methods of the gap analysis approach have not changed with the second versions of the tool. This current release integrates the 
+[terra](https://rspatial.github.io/terra/index.html) and [sf](https://r-spatial.github.io/sf/) spatial data libraries. Also, additional map visualizations are provided
+as objects with the outputs from the gap analysis metric functions (ex. ERSex, GRSin). 
+More additions are expected in the future based on end user requests and feedback.
 
 
 
 ## Description
 The GapAnalysis R package evaluates the ex situ and in situ conservation status of taxa, combines these metrics into an integrated  assessment, and calculates an indicator metric across taxa. GapAnalysis generates quantitative and spatial outputs which demonstrate the state of conservation as well as where gaps in protection exist. The methods are fully described in Carver et al. (2021). Articles by Ramirez-Villegas et al. (2010), Castañeda-Álvarez and Khoury et al. (2016), and Khoury et al. (2019a, b; 2020) describe the main steps toward the current methodology.
 
-The GapAnalysis functions require the user to provide two inputs: a `data.frame` of species occurrences, and a `raster` object of the predicted habitat (species distribution model) for each assessed taxon.
+The GapAnalysis functions require the user to provide two inputs: a `data.frame` of species occurrences, and a `rast` object of the predicted habitat (species distribution model) for each assessed taxon.
 
-This library consists of 12 functions within 4 families: pre-analysis, ex situ conservation gap analysis, in situ conservation gap analysis, and summary evaluations. In short, the pre-analysis process establishes the file structure and prepares the input data. The ex situ and in situ processes perform the respective conservation strategy gap analyses and produce both quantitative and spatial results. The combined assessment merges the individual assessments, summarizes the results across taxa, calculates the indicator, and generates a summary html document for each taxon, which can be used to evaluate outputs and aid conservation planning.
+This library consists of 17 functions within 3 families: data checks and gathering, ex situ conservation gap analysi and in situ conservation gap analysis. In short, the data checks and gather process establishes gives the option to download protected areas and ecoregion datasets or enables users to run quality checks on their own data.
+The ex situ and in situ processes perform the respective conservation strategy gap analyses and produce both quantitative and spatial results.
 
 ## Installation
 GapAnalysis can be installed as follows
@@ -31,143 +27,112 @@ install.packages("GapAnalysis")
 library(devtools)
 remotes::install_github("CIAT-DAPA/GapAnalysis")
 ```
+
 A full list of libraries needed for the package is included below.
-
-**Dependencies:** `raster`
-
-**Imports:** `base, utils, sp, tmap, data.table, sf, methods, geosphere, data.table, fasterize, rmarkdown`
-
-**Suggests:** `knitr, rgdal, rgeos, kableExtra, DT`
+**Depends:** 
+  R (>= 4.3.0),
+**Imports:**
+	  magrittr,
+    dataverse,
+    dplyr,
+    leaflet,
+    terra
 
 
 ## Usage
-We provide the below reproducible example (also available in the package documentation). Please note this example is provided at 10 arc minutes resolution for efficient processing time; the results in the associated published article (Khoury et al. 2019c) and described in the associated R package article (Carver et al. 2021) differ as the analysis was conducted at 2.5 arc minutes resolution. For more details on accessing and utilizing the 2.5 arc minutes dataset see [ecoregions and protected areas](#ecolink).
+We provide the below reproducible example (also available in the package documentation).
+Please note this example is provided at 10 arc minutes resolution for efficient processing time; the results in the associated published article (Khoury et al. 2019c) and described in the associated R package article (Carver et al. 2021) differ as the analysis was conducted at 2.5 arc minutes resolution. For more details on accessing and utilizing the 2.5 arc minutes dataset see [ecoregions and protected areas](#ecolink).
 
-```r
+
+
+
+```{r}
 ##Load package
-library(raster)
 library(GapAnalysis)
-
-
-# temp fix --- source the ersex,grsex,and gbuffer function from the library folder
-# rather then the gapanalysis:: call. this  has a terra implimentation on the buffer process
-# so it works 
-# adjust this path to where ever these files are realtive to your current wd()
-source("R/ERSex.R")
-source("R/GRSex.R")
-source("R/Gbuffer.R")
-source("R/FCSex.R")
-
-
 
 ##Obtaining occurrences from example
 data(CucurbitaData)
 
-##Obtaining species names from the data
-speciesList <- unique(CucurbitaData$species)
-
-##Obtaining raster_list
-data(CucurbitaRasters)
-CucurbitaRasters <- raster::unstack(CucurbitaRasters)
+##Obtaining Raster_list
+data(CucurbitaRasts)
 
 ##Obtaining protected areas raster
 data(ProtectedAreas)
-
-##Obtaining ecoregions shapefile
+## ecoregion features
 data(ecoregions)
 
-#Running all three ex situ gap analysis steps using FCSex function
-FCSex_df <- FCSex(Species_list=speciesList,
-                  Occurrence_data=CucurbitaData,
-                  Raster_list=CucurbitaRasters,
-                  Buffer_distance=50000,
-                  Ecoregions_shp=ecoregions
-)
+# convert the dataset for function
+taxon <- "Cucurbita_cordata"
+sdm <- terra::unwrap(CucurbitaRasts)$cordata
+occurrenceData <- CucurbitaData
+protectedAreas <- terra::unwrap(ProtectedAreas)
+ecoregions <- terra::vect(ecoregions)
 
-#Running all three in situ gap analysis steps using FCSin function
-FCSin_df <- FCSin(Species_list=speciesList,
-                  Occurrence_data=CucurbitaData,
-                  Raster_list=CucurbitaRasters,
-                  Ecoregions_shp=ecoregions,
-                  Pro_areas=ProtectedAreas)
+# generate exsitu conservation summaries
+## sample representativeness score exsitu 
+srs_exsitu <- SRSex(taxon = taxon,
+                occurrence_Data  = CucurbitaData)
 
-## Combine gap analysis metrics
-FCSc_mean_df <- FCSc_mean(FCSex_df = FCSex_df,FCSin_df = FCSin_df)
+## Generate buffer objects        
+gBuffer <- generateGBuffers(taxon = taxon,
+ occurrenceData = occurrenceData,
+ bufferDistM = 50000 )
 
-##Running Conservation indicator across taxa
-indicator_df  <- indicator(FCSc_mean_df)
+## geographic representativeness score  exsitu
+grs_exsitu <- GRSex(taxon = taxon,
+ sdm = sdm,
+ gBuffer = gBuffer )
 
-## Generate summary HTML file with all result
-GetDatasets()
-summaryHTML_file <- SummaryHTML(Species_list=speciesList,
-                                Occurrence_data = CucurbitaData,
-                                Raster_list=CucurbitaRasters,
-                                Buffer_distance=50000,
-                                Ecoregions_shp=ecoregions,
-                                Pro_areas=ProtectedAreas,
-                                Output_Folder=".",
-                                writeRasters=FALSE)
+## Ecological representativeness score exsitu 
+ers_exsitu <- ERSex(taxon = taxon,
+ sdm = sdm,
+ occurrence_Data = occurrenceData,
+ gBuffer = gBuffer,
+ ecoregions = ecoregions,
+ idColumn = "ECO_NAME" )
+ 
+# Running final conservation score exsitu 
+fcs_exsitu <- FCSex(taxon = taxon,
+ srsex = srs_exsitu,
+ grsex = grs_exsitu,
+ ersex = ers_exsitu
+ )
+ 
+# generate insitu conservation summaries
+## sample representativeness score insitu
+srs_insitu <- SRSin(taxon = taxon,
+ sdm = sdm,
+ occurrenceData = CucurbitaData,
+ protectedAreas = protectedAreas)
+ 
+## Geographic representativeness score insitu
+ grs_insitu <- GRSin(taxon = taxon,
+   sdm = sdm,
+   protectedAreas = protectedAreas)
+  
+## ecological representativeness score insitu 
+ers_insitu <- ERSin(taxon = taxon,
+ sdm = sdm,
+ occurrenceData = occurrenceData,
+ protectedAreas = protectedAreas,
+ ecoregions = ecoregions,
+ idColumn = "ECO_NAME" )
+
+## final representativeness score insitu 
+fcs_insitu <- FCSin(taxon = taxon,
+ srsin = srs_insitu,
+ grsin = grs_insitu,
+ ersin = ers_insitu
+ )
+## combine conservation score 
+fsc_combine <- FCSc_mean(taxon = taxon,
+ fcsin = fcs_insitu,
+ fcsex = fcs_exsitu)
+ 
 ```
 
-## Usage with different buffer distances for _ex situ_ gap analysis
+For an example with mutliple species see the file `multipleSpecies_vignette.RMD` 
 
-```r
-#Buffer distances for 5, 10, and 20 km respectively
-
-buffer_distances <- c(5000,10000,20000)
-
-SRSex_df <- SRSex(Species_list = speciesList,
-                  Occurrence_data = CucurbitaData)
-
-FCSex_df_list <- list()
-
-
-#Running all three ex situ gap analysis steps using FCSex function
-
-#Choose if gap maps are calculated for ex situ gap analysis using diferent buffer size
-Gap_Map=FALSE
-
-for(i in 1:length(speciesList)){
-
-  FCSex_df_list[[i]] <- FCSex(Species_list=speciesList[i],
-                    Occurrence_data=CucurbitaData,
-                    Raster_list=CucurbitaRasters[i],
-                    Buffer_distance=buffer_distances[i],
-                    Ecoregions_shp=ecoregions,
-                    Gap_Map=Gap_Map)
-
-
-
-};rm(i)
-
-#Returning FCSex object
-if(Gap_Map==TRUE){
-  FCSex_df <- list(FCSex=do.call(rbind,lapply(FCSex_df_list, `[[`, 1)),
-                 GRSex_maps=do.call(c,lapply(FCSex_df_list, `[[`, 2)),
-                 ERSex_maps=do.call(c,lapply(FCSex_df_list, `[[`, 3))
-                 )
-} else {
-  FCSex_df <- do.call(rbind,FCSex_df_list)
-}
-
-
-#Running all three in situ gap analysis steps using FCSin function
-
-FCSin_df <- FCSin(Species_list=speciesList,
-                  Occurrence_data=CucurbitaData,
-                  Raster_list=CucurbitaRasters,
-                  Ecoregions_shp=ecoregions,
-                  Pro_areas=ProtectedAreas,
-                  Gap_Map = NULL)
-
-
-## Combine gap analysis metrics
-FCSc_mean_df <- FCSc_mean(FCSex_df = FCSex_df,FCSin_df = FCSin_df)
-
-
-##Running Conservation indicator across taxa
-indicator_df  <- indicator(FCSc_mean_df)
-```
 
 The below sub-sections provide further details on the input data and GapAnalysis steps.
 
@@ -205,14 +170,18 @@ The original datasets can be found here([ecoregions](http://maps.tnc.org/gis_dat
 
 **_Predicted Habitat_**
 
-The `raster` representing the predicted extent of suitable habitat (species distribution model) is used by multiple functions to represent the maximum potential range of a taxon. This is then compared to what is conserved _ex situ_ or _in situ_. Although a required input, the generation of species distribution models is not included in GapAnalysis because a number of R packages for this process already exist (e.g. packages `sdm`, `wallace`, `dismo` and `maxnet`).
+The `rast` representing the predicted extent of suitable habitat (species distribution model) is used by multiple functions to represent the maximum potential range of a taxon. This is then compared to what is conserved _ex situ_ or _in situ_. Although a required input, the generation of species distribution models is not included in GapAnalysis because a number of R packages for this process already exist (e.g. packages `sdm`, `wallace`, `dismo` and `maxnet`).
 
 
 ### Workflow
 The recommended workflow is as follows:
 
 **Pre-analysis**
- - `GetDatasets` downloads the protected areas and ecoregions datasets from our data repository
+ - `getDatasets` downloads the protected areas and ecoregions datasets from our data repository
+ - `checkEcoregions` provides a quality check of the ecoregion file -- optional  
+ - `checkRasters` provides a quality check of the sdm data -- recommended 
+ - `checkProtectedAreas` provides a quality check of the protected areas file -- recommended 
+ - `checkOccurrences` provides a quality check of the input species data -- recommended 
 
 **Ex-situ Analysis**
  - `SRSex` calculates the Sampling Representativeness Score for _ex situ_ conservation
@@ -228,18 +197,16 @@ The recommended workflow is as follows:
 
 **Summary evaluations**   
  - `FCSc_mean` computes the mean as well as minimum and maximum of the _ex situ_ and _in situ_ Final Conservation Scores. It also assigns taxa to priority categories based on final conservation scores (high priority (HP) for further conservation action assigned when FCS < 25, medium priority (MP) where 25 ≤ FCS < 50, low priority (LP) where 50 ≤ FCS < 75, and sufficiently conserved (SC) for taxa whose FCS ≥75)
-- `indicator` calculates an indicator across assessed taxa, which can be applied at national, regional, global, or any other scale (Khoury et al., 2019). The indicator is calculated separately with regard to ex situ, in situ, min, max, and combined (mean) conservation, by deriving the proportion of taxa categorized as SC or LP out of all taxa.
- - `SummaryHTML` produces a summary HTML output with taxon specific quantitative and spatial results
-
+ 
 **Internal functions**
- - `OccurrenceCounts` creates a `data.frame` with counts of G, H, and those record types with coordinates for all taxa, based on input occurrence data
- - `Gbuffer` is an internal function that creates a circular buffer of user-defined size (default is 50 km radius) around each G point for each taxon, which represents the geographic areas already considered to be sufficiently collected for ex situ conservation. The output of this process is a raster. Since this is not an exported function to use it you will need to type `GapAnalysis:::Gbuffer` in R. This is a modified version of [geobuffer_pts.R](https://github.com/valentinitnelav/geobuffer).
- - `ParamTest` checks if occurrence data and distribution models exist for each species and sets the conservation scores to zero if there are no occurrences with coordinates or no model.
-
+ - `generateCounts` creates a `data.frame` with counts of G, H, and those record types with coordinates for all taxa, based on input occurrence data
+ - `generateEcoSelection` helper funtion utilized by both the ERSex and ERSin functions 
+ - `generateGBuffers` produces buffer vect object of the G point features 
+ 
 Each function can be run as a standalone method and in any order. However, we recommend following this workflow as it will ensure dependencies for individual functions are in place and that the variables are stored correctly to successfully produce the final summary document. For more details on each of these calculations, see the list of references below.
 
 ## Authors
-Main: Daniel Carver, Chrystian C. Sosa, Colin K. Khoury, and Julian Ramirez-Villegas
+Main: Daniel Carver, Chrystian C. Sosa, Sarah Gore,  Colin K. Khoury, and Julian Ramirez-Villegas
 
 Other contributors: Harold A. Achicanoy, Maria Victoria Diaz, Steven Sotelo, Nora P. Castaneda-Alvarez
 
