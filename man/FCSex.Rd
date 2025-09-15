@@ -4,43 +4,19 @@
 \alias{FCSex}
 \title{Final conservation score ex situ}
 \usage{
-FCSex(
-  Species_list,
-  Occurrence_data,
-  Raster_list,
-  Buffer_distance = 50000,
-  Ecoregions_shp = NULL,
-  Gap_Map = FALSE
-)
+FCSex(taxon, srsex, grsex, ersex)
 }
 \arguments{
-\item{Species_list}{A vector of characters with the species names to calculate the GRSex metrics.}
+\item{taxon}{A character object that defines the name of the species as listed in the occurrence dataset}
 
-\item{Occurrence_data}{A data frame object with the species name, geographical coordinates,
-and type of records (G or H) for a given species}
+\item{srsex}{A dataframe contain the results from the srsex function}
 
-\item{Raster_list}{A list of rasters representing the species distribution models for the species list provided
-in \var{Species_list}. The order of rasters in this list must match the same order as \var{Species_list}.}
+\item{grsex}{A dataframe contain the results from the grsex function}
 
-\item{Buffer_distance}{Geographical distance used to create circular buffers around germplasm.
-Default: 50000 (50 km) around germplasm accessions (CA50)}
-
-\item{Ecoregions_shp}{A shapefile representing Ecoregions information with a field ECO_ID_U representing Ecoregions Ids.
-If Ecoregions=NULL the function will use a shapefile provided for use after running GetDatasets()}
-
-\item{Gap_Map}{logical, if \code{TRUE} the function will calculate gap maps for each species analyzed and will return a list
-with three slots: FCSex, GRSex_maps,and ERSex_maps}
+\item{ersex}{A dataframe contain the results from the ersex function}
 }
 \value{
-This function returns a data frame summarizing the ex-situ gap analysis scores:
-
-\tabular{lcc}{
-species \tab Species name \cr
-SRSex \tab Sampling representativeness score ex situ \cr
-GRSex \tab Geographical representativeness score ex situ \cr
-ERSex \tab Ecological representativeness score ex situ \cr
-FCSex \tab Final conservation score ex situ  \cr
-}
+out_df : a data frames of values summarizing the results of the function
 }
 \description{
 This function calculates the average of the three ex situ conservation metrics
@@ -49,22 +25,52 @@ This function calculates the average of the three ex situ conservation metrics
 \examples{
 ##Obtaining occurrences from example
 data(CucurbitaData)
-##Obtaining species names from the data
-Cucurbita_splist <- unique(CucurbitaData$species)
-##Obtaining raster_list
-data(CucurbitaRasters)
-CucurbitaRasters <- raster::unstack(CucurbitaRasters)
-##Obtaining ecoregions shapefile
+##Obtaining Raster_list
+data(CucurbitaRasts)
+##Obtaining protected areas raster
+data(ProtectedAreas)
+## ecoregion features
 data(ecoregions)
-#Running all three Ex-situ gap analysis steps using a unique function
-FCSex_df <- FCSex(Species_list=Cucurbita_splist,
-                                      Occurrence_data=CucurbitaData,
-                                      Raster_list=CucurbitaRasters,
-                                      Buffer_distance=50000,
-                                      Ecoregions_shp=ecoregions,
-                                      Gap_Map=TRUE)
+
+# convert the dataset for function
+taxon <- "Cucurbita_cordata"
+sdm <- terra::unwrap(CucurbitaRasts)$cordata
+occurrenceData <- CucurbitaData
+protectedAreas <- terra::unwrap(ProtectedAreas)
+ecoregions <- terra::unwrap(ecoregions)
+# generate exsitu conservation summaries
+srs_exsitu <- SRSex(taxon = taxon,
+                    occurrence_Data = CucurbitaData
+                    )
+
+gBuffer <- generateGBuffers(taxon = taxon,
+                    occurrenceData = occurrenceData,
+                    bufferDistM = 50000
+                    )#'
+
+grs_exsitu <- GRSex(taxon = taxon,
+                    sdm = sdm,
+                    gBuffer = gBuffer
+                    )
+
+ers_exsitu <- ERSex(taxon = taxon,
+                    sdm = sdm,
+                    occurrence_Data = occurrenceData,
+                    gBuffer = gBuffer,
+                    ecoregions = ecoregions,
+                    idColumn = "ECO_NAME"
+                    )
+
+#Running fcsex
+fcs_exsitu <- FCSex(taxon = taxon,
+                    srsex = srs_exsitu,
+                    grsex = grs_exsitu,
+                    ersex = ers_exsitu)
+
+
 
 }
 \references{
 Khoury et al. (2019) Ecological Indicators 98:420-429. doi: 10.1016/j.ecolind.2018.11.016
+Carver et al. (2021) GapAnalysis: an R package to calculate conservation indicators using spatial information
 }

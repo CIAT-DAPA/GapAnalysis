@@ -3,15 +3,16 @@
 \docType{data}
 \name{CucurbitaRasters}
 \alias{CucurbitaRasters}
+\alias{CucurbitaRasts}
 \title{Cucurbita species distribution models dataset}
 \format{
-raster files
+terra rast object stored as a PackedSpatRaster
 }
 \source{
 \url{https://dataverse.harvard.edu/dataverse/GapAnalysis}
 }
 \usage{
-CucurbitaRasters
+CucurbitaRasts
 }
 \description{
 This dataset is a subset of species distribution models for:

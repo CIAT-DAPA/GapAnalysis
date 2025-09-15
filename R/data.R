@@ -1,9 +1,10 @@
+
 #' @title Cucurbita occurrences dataset
 #' @name CucurbitaData
 #' @docType data
 #' @description This dataset is a subset of the original dataset for:
 #'  C. cordata, C. digitata and C. palmata used in Khoury et al. (2019)
-#' @format A data frame with 1184 rows and 4 variables:
+#' @format A data frame with 1203 rows and 4 variables:
 #' \describe{
 #'   \item{species}{character: Species name}
 #'   \item{latitude}{numeric:Latitude in decimal format}
@@ -18,27 +19,29 @@
 #' @title Cucurbita species distribution models dataset
 #' @name CucurbitaRasters
 #' @docType data
-#' @format raster files
+#' @format terra rast object stored as a PackedSpatRaster
 #' @description This dataset is a subset of species distribution models for:
 #'  C. cordata, C. digitata and C. palmata used in Khoury et al., 2020
 #' @references
 #' Khoury et al. (2019) Diversity and Distributions 26(2):209-225. doi: 10.1111/DDI.1300
 #' @source \url{https://dataverse.harvard.edu/dataverse/GapAnalysis}
-"CucurbitaRasters"
+"CucurbitaRasts"
 
-#' @title Ecoregions shapefile
+
+#' @title Ecoregions vector
 #' @name ecoregions
 #' @docType data
-#' @format Shapefile
-#' @description This dataset is a subset of the Terrestrial Ecoregions
-#'  shapefile made by the Nature Conservancy
-#' @source \url{http://maps.tnc.org/gis_data.html}
+#' @format SpatVector
+#' @description This dataset is a subset of the Terrestrial Ecoregions of the World
+#'  shapefile made available by the world wildlife foundation
+#' @source \url{https://www.worldwildlife.org/publications/terrestrial-ecoregions-of-the-world}
 "ecoregions"
+
 
 #' @title Protected areas dataset in raster format
 #' @name  ProtectedAreas
 #' @docType data
-#' @format Raster file
+#' @format terra rast object
 #' @description This dataset is a raster version of the world protected areas dataset
 #'  used in Khoury et al., (2019)
 #' @references

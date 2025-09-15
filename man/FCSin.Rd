@@ -4,44 +4,19 @@
 \alias{FCSin}
 \title{Final conservation score in situ}
 \usage{
-FCSin(
-  Species_list,
-  Occurrence_data,
-  Raster_list,
-  Ecoregions_shp = NULL,
-  Pro_areas = NULL,
-  Gap_Map = FALSE
-)
+FCSin(taxon, srsin, grsin, ersin)
 }
 \arguments{
-\item{Species_list}{A vector of characters with the species names to calculate the GRSex metrics.}
+\item{taxon}{A character object that defines the name of the species as listed in the occurrence dataset}
 
-\item{Occurrence_data}{A data frame object with the species name, geographical coordinates,
-and type of records (G or H) for a given species}
+\item{srsin}{A dataframe contain the results from the srsin function}
 
-\item{Raster_list}{A list of rasters representing the species distribution models for the species list provided
-in \var{Species_list}. The order of rasters in this list must match the same order as \var{Species_list}.}
+\item{grsin}{A dataframe contain the results from the grsin function}
 
-\item{Ecoregions_shp}{A shapefile representing Ecoregions_shp information with a field ECO_NUM
-representing Ecoregions_shp Ids.If Ecoregions_shp=NULL the funtion will use
-an ecoregions shapefile provided for your use}
-
-\item{Pro_areas}{A raster file representing protected areas information.If Pro_areas=NULL the funtion will use
-a protected area raster file provided for your use
-after run GetDatasets()}
-
-\item{Gap_Map}{logical, if \code{TRUE} the function will calculate gap maps for each species analyzed and will return a list
-with four slots FCSin, SRSin_maps,GRSin_maps,and ERSin_maps}
+\item{ersin}{A dataframe contain the results from the ersin function}
 }
 \value{
-This function returns a data frame summarizing the in situ gap analysis scores:
-\tabular{lcc}{
-species \tab Species name \cr
-SRSin \tab Sampling representativeness score in situ  \cr
-GRSin \tab Geographical representativeness score in situ \cr
-ERSin \tab Ecological representativeness score in situ \cr
-FCSin \tab Final conservation score in situ  \cr
-}
+out_df : a data frames of values summarizing the results of the function
 }
 \description{
 This function calculates the average of the three in situ conservation metrics and
@@ -50,24 +25,51 @@ assigns a priority category based on the results
 \examples{
 ##Obtaining occurrences from example
 data(CucurbitaData)
-##Obtaining species names from the data
-Cucurbita_splist <- unique(CucurbitaData$species)
 ##Obtaining Raster_list
-data(CucurbitaRasters)
-CucurbitaRasters <- raster::unstack(CucurbitaRasters)
+data(CucurbitaRasts)
 ##Obtaining protected areas raster
 data(ProtectedAreas)
-##Obtaining Ecoregions_shpions shapefile
+## ecoregion features
 data(ecoregions)
-#Running all three In-situ gap analysis steps using a unique function
-FCSin_df <- FCSin(Species_list=Cucurbita_splist,
-                                      Occurrence_data=CucurbitaData,
-                                      Raster_list=CucurbitaRasters,
-                                      Ecoregions_shp=ecoregions,
-                                      Pro_areas=ProtectedAreas,
-                                      Gap_Map=FALSE)
+
+# convert the dataset for function
+taxon <- "Cucurbita_cordata"
+sdm <- terra::unwrap(CucurbitaRasts)$cordata
+occurrenceData <- CucurbitaData
+protectedAreas <- terra::unwrap(ProtectedAreas)
+ecoregions <- terra::vect(ecoregions)
+
+# generate insitu conservation summaries
+srs_insitu <- SRSin(taxon = taxon,
+                    sdm = sdm,
+                    occurrenceData = occurrenceData,
+                    protectedAreas = protectedAreas
+                    )
+
+grs_insitu <- GRSin(taxon = taxon,
+                    sdm = sdm,
+                    protectedAreas = protectedAreas
+                    )
+
+ers_insitu <- ERSin(taxon = taxon,
+                    sdm = sdm,
+                    occurrenceData = occurrenceData,
+                    protectedAreas = protectedAreas,
+                    ecoregions = ecoregions,
+                    idColumn = "ECO_NAME"
+                    )
+
+#Running fcsin
+FCSin <- FCSin(taxon = taxon,
+                    srsin = srs_insitu,
+                    grsin = grs_insitu,
+                    ersin = ers_insitu
+                    )
+
+
 
 }
 \references{
-Khoury et al. (2019) Diversity and Distributions 26(2):209-225. doi: 10.1111/DDI.13008
+Khoury et al. (2019) Ecological Indicators 98:420-429. doi: 10.1016/j.ecolind.2018.11.016
+Carver et al. (2021) GapAnalysis: an R package to calculate conservation indicators using spatial information
 }

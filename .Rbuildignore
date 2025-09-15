@@ -34,3 +34,7 @@ visual_test
 ^README.Rmd
 ^.*\.log$
 ^.Rhistory$
+^multipleSpecies_vignette.Rmd$
+^delete_oldversion_vignette$
+^standard metadata elements$
+^cran-comments$

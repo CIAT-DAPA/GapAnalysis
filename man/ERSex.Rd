@@ -2,42 +2,28 @@
 % Please edit documentation in R/ERSex.R
 \name{ERSex}
 \alias{ERSex}
-\title{Ecological representativeness score ex situ}
+\title{Download datasets from Dataverse}
 \usage{
-ERSex(
-  Species_list,
-  Occurrence_data,
-  Raster_list,
-  Buffer_distance = 50000,
-  Ecoregions_shp = NULL,
-  Gap_Map = FALSE
-)
+ERSex(taxon, sdm, occurrence_Data, gBuffer, ecoregions, idColumn)
 }
 \arguments{
-\item{Species_list}{A vector of characters with the species names to calculate the GRSex metrics.}
+\item{taxon}{A character object that defines the name of the species as listed in the occurrence dataset}
 
-\item{Occurrence_data}{A data frame object with the species name, geographical coordinates,
-and type of records (G or H) for a given species}
+\item{sdm}{a terra rast object that represented the expected distribution of the species}
 
-\item{Raster_list}{A list of rasters representing the species distribution models for the species list provided
-in \var{Species_list}. The order of rasters in this list must match the same order as \var{Species_list}.}
+\item{occurrence_Data}{a data frame of values containing columns for the taxon, latitude, longitude, and type}
 
-\item{Buffer_distance}{Geographical distance used to create circular buffers around germplasm.
-Default: 50000 (50 km) around germplasm accessions (CA50)}
+\item{gBuffer}{A terra vect which encompases a specific buffer distance around all G points}
 
-\item{Ecoregions_shp}{A shapefile representing Ecoregions information with a field ECO_ID_U representing Ecoregions Ids.
-If Ecoregions=NULL the function will use a shapefile provided for use after running GetDatasets()}
+\item{ecoregions}{A terra vect object the contains spatial information on all ecoregions of interests}
 
-\item{Gap_Map}{logical, if \code{TRUE} the function will calculate gap maps for each species analyzed and
-will return a list with with two slots ERSex and gap_maps, or three slots ERSex, buffer_list, and gap_maps}
+\item{idColumn}{A character vector that notes what column within the ecoregions object should be used as a unique ID}
 }
 \value{
-This function returns a dataframe as main result with two columns:
-
-\tabular{lcc}{
-species \tab Species name \cr
-ERSex \tab ERSex value calculated\cr
-}
+A list object containing
+1. results : a data frames of values summarizing the results of the function
+2. ecogaps : a terra vect object showing the ecoregions with no area within the g buffer objects
+3. map : a leaflet object showing the spatial results of the function
 }
 \description{
 The ERSex process provides an ecological measurement of the proportion of a species
@@ -48,23 +34,33 @@ The ERSex process provides an ecological measurement of the proportion of a spec
 \examples{
 ##Obtaining occurrences from example
 data(CucurbitaData)
-Cucurbita_splist <- unique(CucurbitaData$species)
-## Obtaining rasterList object. ##
-data(CucurbitaRasters)
-CucurbitaRasters <- raster::unstack(CucurbitaRasters)
-##Obtaining ecoregions shapefile
+##Obtaining Raster_list
+data(CucurbitaRasts)
+## ecoregion features
 data(ecoregions)
+
+# convert the dataset for function
+taxon <- "Cucurbita_cordata"
+sdm <- terra::unwrap(CucurbitaRasts)$cordata
+require(sf)
+ecoregions <- terra::vect(ecoregions)
+#Running generateGBuffers
+gBuffer <- generateGBuffers(taxon = taxon,
+                    occurrenceData = CucurbitaData,
+                    bufferDistM = 50000
+                    )
 #Running ERSex
-ERSex_df <- ERSex(Species_list = Cucurbita_splist,
-                    Occurrence_data = CucurbitaData,
-                    Raster_list = CucurbitaRasters,
-                    Buffer_distance = 50000,
-                    Ecoregions_shp=ecoregions,
-                    Gap_Map=FALSE)
+ers_exsitu <- ERSex(taxon = taxon,
+                    sdm = sdm,
+                    occurrence_Data = CucurbitaData,
+                   gBuffer = gBuffer,
+                   ecoregions = ecoregions,
+                   idColumn = "ECO_NAME"
+                   )
+
 
 }
 \references{
-Castaneda-Alvarez et al. (2016) Nature Plants 2(4):16022. doi: 10.1038/nplants.2016.22
 Khoury et al. (2019) Ecological Indicators 98:420-429. doi: 10.1016/j.ecolind.2018.11.016
-The Nature Conservancy Geospatial Conservation Atlas. 2019. Terrestrial Ecoregions
+Carver et al. (2021) GapAnalysis: an R package to calculate conservation indicators using spatial information
 }

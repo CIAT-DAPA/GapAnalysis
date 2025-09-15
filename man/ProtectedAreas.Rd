@@ -5,7 +5,7 @@
 \alias{ProtectedAreas}
 \title{Protected areas dataset in raster format}
 \format{
-Raster file
+terra rast object
 }
 \source{
 \url{https://www.protectedplanet.net/}

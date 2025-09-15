@@ -1,0 +1,196 @@
+---
+title: "Gap Analysis Workflow for Multiple Species"
+output: 
+  html_document:
+    css: styles.css
+vignette: >
+  %\VignetteIndexEntry{Gap Analysis Workflow for Multiple Species}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+## Gap Analysis Workflow for Multiple Species
+
+This workflow demonstrates how to import your own point data (occurrences) and SDMs (rasters), check all inputs, and run the full gap analysis for **multiple species**.  
+We provide three general approaches for processing and storing results for multiple species:
+
+- Using a named list and for-loop (classic)
+- Row-binding to a data frame
+- Functional programming with `{purrr}`
+
+For each species, the workflow:
+1. Runs SRSex on all records.
+2. Checks inputs (occurrences, rasters, protected areas, ecoregions).
+3. Runs gap analysis metrics.
+4. Stores results.
+5. **Creates an interactive leaflet map for the ERSex result, accessible as `ersex$map` for each species.**
+
+---
+
+## Data Preparation
+
+```{r}
+# Load packages
+pacman::p_load(dplyr, terra, sf, leaflet, purrr)
+
+# Source R functions
+files <- list.files("R", pattern = "\\.[rR]$", full.names = TRUE)
+for (f in files) source(f)
+
+# Load data
+load("data/CucurbitaData.rda")      # Occurrence data
+load("data/CucurbitaRasts.rda")     # Raster list
+load("data/ProtectedAreas.rda")   # Protected areas raster
+load("data/ecoregions.rda")         # Ecoregions data
+
+# Prepare ecoregion and protected area layers
+ecos <- terra::vect(ecoregions)
+proAreas <- terra::unwrap(ProtectedAreas)
+
+# Standardize the CRS across all spatial layers to prevent mismatch warnings
+target_crs <- "+proj=longlat +datum=WGS84"
+ecos <- terra::project(ecos, target_crs)
+proAreas <- terra::project(proAreas, target_crs)
+
+# Get unique species names and SDM rasters as a list
+taxa <- unique(CucurbitaData$species)
+sdms <- terra::unwrap(CucurbitaRasts)
+sdmList <- lapply(seq_along(taxa), function(i) {
+  r <- sdms[[i]]
+  # Compare CRS as character strings
+  if (terra::crs(r, proj=TRUE) != terra::crs(ecos, proj=TRUE)) {
+    r <- terra::project(r, terra::crs(ecos))
+  }
+  # Convert 0 to NA, keeping only 1 and NA in the dataset
+  r <- terra::subst(r, 0, NA)
+  r[!(is.na(r) | r == 1)] <- NA
+  r
+})
+names(sdmList) <- taxa
+```
+
+---
+
+## Example 1: Using a Named List and for-loop (with raster value check)
+
+```{r}
+results_list <- list()
+
+for (i in seq_along(taxa)) {
+  taxon <- taxa[i]
+  occurrenceData <- CucurbitaData[CucurbitaData$species == taxon, ]
+  sdm <- sdms[[i]]
+  if (terra::crs(sdm, proj=TRUE) != terra::crs(ecos, proj=TRUE)) {
+    sdm <- terra::project(sdm, terra::crs(ecos))
+  }
+  sdm <- terra::subst(sdm, 0, NA)
+  sdm[!(is.na(sdm) | sdm == 1)] <- NA
+
+  # 1. Run SRSex first (on all records)
+  srsex <- SRSex(taxon = taxon, occurrence_Data = occurrenceData)
+
+  # 2. Run check functions on inputs
+  occurrences <- checkOccurrences(csv = occurrenceData, taxon = taxon)
+
+  if (!inherits(sdm, "SpatRaster")) stop("sdm is not a SpatRaster")
+  sdm_checked <- checksdm(sdm)
+  proArea_checked <- checkProtectedAreas(protectedArea = proAreas, sdm = sdm_checked)
+  
+  # ---- PATCH: skip species if SDM raster has no values ----
+  if (all(is.na(terra::values(sdm_checked)))) {
+    message("Skipping ", taxon, ": SDM raster has no values.")
+    next
+  }
+
+  # 3. Continue with main gap analysis
+  gBuffer <- generateGBuffers(
+    taxon = taxon,
+    occurrenceData = occurrences$data, # fixed argument name
+    bufferDistM = 50000
+  )
+
+  # Ex-situ analysis
+  grsex <- GRSex(
+    taxon = taxon,
+    sdm = sdm_checked,
+    gBuffer = gBuffer
+  )
+  ersex <- ERSex(
+    taxon = taxon,
+    sdm = sdm_checked,
+    occurrence_Data = occurrences$data,
+    gBuffer = gBuffer,
+    ecoregions = ecos,
+    idColumn = "ECO_NAME"
+  )
+  fcsex <- FCSex(
+    taxon = taxon,
+    srsex = srsex,
+    grsex = grsex,
+    ersex = ersex
+  )
+
+  # In-situ analysis
+  srsin <- SRSin(
+    taxon = taxon,
+    sdm = sdm_checked,
+    occurrenceData = occurrences$data,
+    protectedAreas = proAreas
+  )
+  grsin <- GRSin(
+    taxon = taxon,
+    sdm = sdm_checked,
+    protectedAreas = proAreas
+  )
+  ersin <- ERSin(
+    taxon = taxon,
+    sdm = sdm_checked,
+    occurrenceData = occurrences$data,
+    protectedAreas = proAreas,
+    ecoregions = ecos,
+    idColumn = "ECO_NAME"
+  )
+  fcsin <- FCSin(
+    taxon = taxon,
+    srsin = srsin,
+    grsin = grsin,
+    ersin = ersin
+  )
+
+  # Final combined FCS score
+  fcsmean <- FCSc_mean(
+    taxon = taxon,
+    fcsin = fcsin,
+    fcsex = fcsex
+  )
+
+  # Store results for this taxon in the named list
+  results_list[[taxon]] <- list(
+    srsex = srsex,
+    occurrences = occurrences,
+    sdm_checked = sdm_checked,
+    proArea_checked = proArea_checked,
+    eco_checked = ecoregions,
+    grsex = grsex,
+    ersex = ersex,
+    fcsex = fcsex,
+    srsin = srsin,
+    grsin = grsin,
+    ersin = ersin,
+    fcsin = fcsin,
+    fcsmean = fcsmean
+  )
+}
+```
+
+### Visualizing Results
+
+Each `ersex` result contains an **interactive leaflet map** in `ersex$map`.  
+To display the map for each species in an R Markdown document, print the `$ersex$map` object for the species of interest.  
+For example, to show the map for the first species:
+
+```{r}
+# Show the ERSex interactive map for the first species (if available)
+if (!is.null(results_list[[1]])) results_list[[1]]$ersex$map
+```
+
