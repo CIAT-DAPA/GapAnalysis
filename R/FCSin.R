@@ -90,63 +90,6 @@ FCSin <- function(taxon, srsin, grsin, ersin){
   } else {
     score <- "LP"
   }
-
-<<<<<<< HEAD
-
-  # call SRSin
-  SRSin_df <- SRSin(Species_list = Species_list,
-                                 Occurrence_data = Occurrence_data,
-                                 Raster_list = Raster_list,
-                                 Pro_areas=Pro_areas,
-                                 Gap_Map = Gap_Map)
-
-  GRSin_df <- GRSin(Species_list = Species_list,
-                                 Occurrence_data = Occurrence_data,
-                                 Raster_list = Raster_list,
-                                 Pro_areas=Pro_areas,
-                                 Gap_Map = Gap_Map)
-
-  ERSin_df <- ERSin(Species_list = Species_list,
-                                 Occurrence_data =Occurrence_data,
-                                 Raster_list = Raster_list,
-                                 Pro_areas=Pro_areas,
-                                 Ecoregions_shp=Ecoregions_shp,
-                                 Gap_Map = Gap_Map)
-
-
-  if(isFALSE(Gap_Map) | is.null(Gap_Map)){
-    # join the dataframes based on species
-  FCSin_df <- merge(SRSin_df, GRSin_df, by ="species",all.x=TRUE)
-  FCSin_df <- merge(FCSin_df, ERSin_df, by = "species",all.x=TRUE)
-      #dplyr::select("species","SRSin", "GRSin", "ERSin")
-  } else {
-    FCSin_df <- merge(SRSin_df$SRSin, GRSin_df$GRSin, by ="species",all.x=TRUE)
-    FCSin_df <- merge(FCSin_df, ERSin_df$ERSin, by = "species",all.x=TRUE)
-
-  }
-    # calculate the mean value for each row to determine fcs per species
-  FCSin_df$FCSin <- rowMeans(FCSin_df[, c("SRSin", "GRSin", "ERSin")])
-
-
-
-   #assign classes (exsitu)
-
-  FCSin_df$FCSin_class <- with(FCSin_df, ifelse(FCSin < 25, "HP",
-                                                ifelse(FCSin >= 25 & FCSin < 50, "MP",
-                                                       ifelse(FCSin >= 50 & FCSin < 75, "LP",
-                                                              "SC"))))
-
-
-
-  if(isTRUE(Gap_Map)){
-    FCSin_df <- list(FCSin=FCSin_df,SRSin_maps=SRSin_df$gap_maps,GRSin_maps=GRSin_df$GapMapIn_list,ERSin_maps=ERSin_df$gap_maps)
-  } else{
-    FCSin_df <- FCSin_df
-  }
-  return(FCSin_df)
-  }
-=======
-  out_df$`FCS insitu score` <- score
+  out_df$"FCS insitu score" <- score
   return(out_df)
 }
->>>>>>> bb609833d354c8ad2031cc8bef8e0b8292110387
