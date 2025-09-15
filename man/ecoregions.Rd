@@ -3,18 +3,18 @@
 \docType{data}
 \name{ecoregions}
 \alias{ecoregions}
-\title{Ecoregions shapefile}
+\title{Ecoregions vector}
 \format{
-Shapefile
+SpatVector
 }
 \source{
-\url{http://maps.tnc.org/gis_data.html}
+\url{https://www.worldwildlife.org/publications/terrestrial-ecoregions-of-the-world}
 }
 \usage{
 ecoregions
 }
 \description{
-This dataset is a subset of the Terrestrial Ecoregions
- shapefile made by the Nature Conservancy
+This dataset is a subset of the Terrestrial Ecoregions of the World
+ shapefile made available by the world wildlife foundation
 }
 \keyword{datasets}

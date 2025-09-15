@@ -4,37 +4,20 @@
 \alias{GRSex}
 \title{Geographical representativeness score ex situ}
 \usage{
-GRSex(
-  Species_list,
-  Occurrence_data,
-  Raster_list,
-  Buffer_distance = 50000,
-  Gap_Map = FALSE
-)
+GRSex(taxon, sdm, gBuffer)
 }
 \arguments{
-\item{Species_list}{A vector of characters with the species names to calculate the GRSex metrics.}
+\item{taxon}{A character object that defines the name of the species as listed in the occurrence dataset}
 
-\item{Occurrence_data}{A data frame object with the species name, geographical coordinates,
-and type of records (G or H) for a given species}
+\item{sdm}{a terra rast object that represented the expected distribution of the species}
 
-\item{Raster_list}{A list of rasters representing the species distribution models for the species list provided
-in \var{Species_list}. The order of rasters in this list must match the same order as \var{Species_list}.}
-
-\item{Buffer_distance}{Geographical distance used to create circular buffers around germplasm.
-Default: 50000 (50 km) around germplasm accessions (CA50)}
-
-\item{Gap_Map}{logical, if \code{TRUE} the function will calculate gap maps for each species analyzed and
-will return a list with two slots GRSex and gap_maps. If any value is provided, the function will assume that
-Gap_Map = TRUE}
+\item{gBuffer}{A terra vect which encompases a specific buffer distance around all G points}
 }
 \value{
-This function returns a data frame with two columns:
-
-\tabular{lcc}{
-species \tab Species name \cr
-GRSex \tab GRSex value calculated\cr
-}
+A list object containing
+1. results : a data frames of values summarizing the results of the function
+2. gGaps : a terra vect object showing buffered area about g points
+3. map : a leaflet object showing the spatial results of the function
 }
 \description{
 The GRSex process provides a geographic measurement of the proportion of a species’ range
@@ -45,19 +28,33 @@ The GRSex process provides a geographic measurement of the proportion of a speci
 \examples{
 ##Obtaining occurrences from example
 data(CucurbitaData)
-Cucurbita_splist <- unique(CucurbitaData$species)
-## Obtaining rasterList object. ##
-data(CucurbitaRasters)
-CucurbitaRasters <- raster::unstack(CucurbitaRasters)
+##Obtaining Raster_list
+data(CucurbitaRasts)
+##Obtaining protected areas raster
+data(ProtectedAreas)
+## ecoregion features
+data(ecoregions)
+
+# convert the dataset for function
+taxon <- "Cucurbita_cordata"
+sdm <- terra::unwrap(CucurbitaRasts)$cordata
+occurrenceData <- CucurbitaData
+
+# generate the g buffer object
+gBuffer <- generateGBuffers(taxon = taxon,
+                            occurrenceData = occurrenceData,
+                            bufferDistM = 50000)
+
 #Running GRSex
-GRSex_df <- GRSex(Species_list = Cucurbita_splist,
-                    Occurrence_data = CucurbitaData,
-                    Raster_list = CucurbitaRasters,
-                    Buffer_distance = 50000,
-                    Gap_Map = TRUE)
+grs_exsitu <- GRSex(taxon = taxon,
+                    sdm = sdm,
+                    gBuffer = gBuffer
+                    )
+
+
 
 }
 \references{
-Ramirez-Villegas et al. (2010) PLOS ONE, 5(10), e13497. doi: 10.1371/journal.pone.0013497
 Khoury et al. (2019) Ecological Indicators 98:420-429. doi: 10.1016/j.ecolind.2018.11.016
+Carver et al. (2021) GapAnalysis: an R package to calculate conservation indicators using spatial information
 }

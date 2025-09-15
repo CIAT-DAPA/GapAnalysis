@@ -1,108 +1,97 @@
+#'
 #' @title Final conservation score in situ
 #' @name FCSin
 #' @description This function calculates the average of the three in situ conservation metrics and
 #' assigns a priority category based on the results
-#' @param Occurrence_data A data frame object with the species name, geographical coordinates,
-#'  and type of records (G or H) for a given species
-#' @param Species_list A vector of characters with the species names to calculate the GRSex metrics.
-#' @param Raster_list A list of rasters representing the species distribution models for the species list provided
-#'  in \var{Species_list}. The order of rasters in this list must match the same order as \var{Species_list}.
-#' @param Ecoregions_shp A shapefile representing Ecoregions_shp information with a field ECO_NUM
-#'  representing Ecoregions_shp Ids.If Ecoregions_shp=NULL the funtion will use
-#'  an ecoregions shapefile provided for your use
-#' @param Pro_areas A raster file representing protected areas information.If Pro_areas=NULL the funtion will use
-#'  a protected area raster file provided for your use
-#'  after run GetDatasets()
-#' @param Gap_Map logical, if \code{TRUE} the function will calculate gap maps for each species analyzed and will return a list
-#'  with four slots FCSin, SRSin_maps,GRSin_maps,and ERSin_maps
-#' @return This function returns a data frame summarizing the in situ gap analysis scores:
-#' \tabular{lcc}{
-#' species \tab Species name \cr
-#' SRSin \tab Sampling representativeness score in situ  \cr
-#' GRSin \tab Geographical representativeness score in situ \cr
-#' ERSin \tab Ecological representativeness score in situ \cr
-#' FCSin \tab Final conservation score in situ  \cr
-#' }
+#'
+#' @param taxon A character object that defines the name of the species as listed in the occurrence dataset
+#' @param srsin A dataframe contain the results from the srsin function
+#' @param grsin A dataframe contain the results from the grsin function
+#' @param ersin A dataframe contain the results from the ersin function
+#'
+#' @return out_df : a data frames of values summarizing the results of the function
+#'
 #' @examples
 #' ##Obtaining occurrences from example
 #' data(CucurbitaData)
-#' ##Obtaining species names from the data
-#' Cucurbita_splist <- unique(CucurbitaData$species)
 #' ##Obtaining Raster_list
-#' data(CucurbitaRasters)
-#' CucurbitaRasters <- raster::unstack(CucurbitaRasters)
+#' data(CucurbitaRasts)
 #' ##Obtaining protected areas raster
 #' data(ProtectedAreas)
-#' ##Obtaining Ecoregions_shpions shapefile
+#' ## ecoregion features
 #' data(ecoregions)
-#' #Running all three In-situ gap analysis steps using a unique function
-#' FCSin_df <- FCSin(Species_list=Cucurbita_splist,
-#'                                       Occurrence_data=CucurbitaData,
-#'                                       Raster_list=CucurbitaRasters,
-#'                                       Ecoregions_shp=ecoregions,
-#'                                       Pro_areas=ProtectedAreas,
-#'                                       Gap_Map=FALSE)
+#'
+#' # convert the dataset for function
+#' taxon <- "Cucurbita_cordata"
+#' sdm <- terra::unwrap(CucurbitaRasts)$cordata
+#' occurrenceData <- CucurbitaData
+#' protectedAreas <- terra::unwrap(ProtectedAreas)
+#' ecoregions <- terra::vect(ecoregions)
+#'
+#' # generate insitu conservation summaries
+#' srs_insitu <- SRSin(taxon = taxon,
+#'                     sdm = sdm,
+#'                     occurrenceData = occurrenceData,
+#'                     protectedAreas = protectedAreas
+#'                     )
+#'
+#' grs_insitu <- GRSin(taxon = taxon,
+#'                     sdm = sdm,
+#'                     protectedAreas = protectedAreas
+#'                     )
+#'
+#' ers_insitu <- ERSin(taxon = taxon,
+#'                     sdm = sdm,
+#'                     occurrenceData = occurrenceData,
+#'                     protectedAreas = protectedAreas,
+#'                     ecoregions = ecoregions,
+#'                     idColumn = "ECO_NAME"
+#'                     )
+#'
+#' #Running fcsin
+#' FCSin <- FCSin(taxon = taxon,
+#'                     srsin = srs_insitu,
+#'                     grsin = grs_insitu,
+#'                     ersin = ers_insitu
+#'                     )
+#'
+#'
 #'
 #' @references
-#'
-#' Khoury et al. (2019) Diversity and Distributions 26(2):209-225. doi: 10.1111/DDI.13008
-#'
+#' Khoury et al. (2019) Ecological Indicators 98:420-429. doi: 10.1016/j.ecolind.2018.11.016
+#' Carver et al. (2021) GapAnalysis: an R package to calculate conservation indicators using spatial information
+#' @importFrom dplyr tibble
 #' @export
 
-#' @importFrom raster overlay crop raster extent
-
-FCSin <- function(Species_list, Occurrence_data, Raster_list,Ecoregions_shp=NULL,Pro_areas=NULL,Gap_Map=FALSE) {
-  SRSin_df <- NULL
-  GRSin_df <- NULL
-  ERSin_df <- NULL
-  FCSIn_df <- NULL
+FCSin <- function(taxon, srsin, grsin, ersin){
+  # define variables
+  srs <- srsin$results$`SRS insitu`
+  grs <- grsin$results$`GRS insitu`
+  ers <- ersin$results$`ERS insitu`
 
 
-  #Checking Occurrence_data format
-  par_names <- c("species","latitude","longitude","type")
+  # calculate the mean across the three measures
+  sp_fcs <- mean(c(srs,grs,ers), na.rm=T)
 
+  out_df <- dplyr::tibble(Taxon=taxon,
+                       "SRS insitu" = srs,
+                       "GRS insitu"= grs,
+                       "ERS insitu" = ers,
+                       "FCS insitu" = sp_fcs,
+                       "FCS insitu score" = NA)
 
-  if(missing(Occurrence_data)){
-    stop("Please add a valid data frame with columns: species, latitude, longitude, type")
-  }
-
-  if(isFALSE(identical(names(Occurrence_data),par_names))){
-    stop("Please format the column names in your dataframe as species, latitude, longitude, type")
-  }
-
-  # load in protected area raster
-  if(is.null(Pro_areas) | missing(Pro_areas)){
-    if(file.exists(system.file("data/preloaded_data/protectedArea/wdpa_reclass.tif",
-                               package = "GapAnalysis"))){
-      Pro_areas <- raster::raster(system.file("data/preloaded_data/protectedArea/wdpa_reclass.tif",
-                                              package = "GapAnalysis"))
-    } else {
-      stop("Protected areas file is not available yet. Please run the function GetDatasets()  and try again")
-    }
-  } else{
-    Pro_areas <- Pro_areas
-  }
-  # Load in ecoregions shp
-  if(is.null(Ecoregions_shp) | missing(Ecoregions_shp)){
-    if(file.exists(system.file("data/preloaded_data/ecoRegion/tnc_terr_ecoregions.shp",
-                               package = "GapAnalysis"))){
-      Ecoregions_shp <- raster::shapefile(system.file("data/preloaded_data/ecoRegion/tnc_terr_ecoregions.shp",
-                                                      package = "GapAnalysis"),encoding = "UTF-8")
-    } else {
-      stop("Ecoregions file is not available yet. Please run the function GetDatasets() and try again")
-    }
-  } else{
-    Ecoregions_shp <- Ecoregions_shp
-  }
-
-  #Checking if Gap_Map option is a boolean or if the parameter is missing left Gap_Map as FALSE
-  if(is.null(Gap_Map) | missing(Gap_Map)){ Gap_Map <- FALSE
-  } else if(isTRUE(Gap_Map) | isFALSE(Gap_Map)){
-    Gap_Map <- Gap_Map
+  #assign classes (min)
+  if (sp_fcs < 25) {
+    score <- "UP"
+  } else if (sp_fcs >= 25 & sp_fcs < 50) {
+    score <- "HP"
+  } else if (sp_fcs >= 50 & sp_fcs < 75) {
+    score <- "MP"
   } else {
-    stop("Choose a valid option for GapMap (TRUE or FALSE)")
+    score <- "LP"
   }
 
+<<<<<<< HEAD
 
   # call SRSin
   SRSin_df <- SRSin(Species_list = Species_list,
@@ -156,3 +145,8 @@ FCSin <- function(Species_list, Occurrence_data, Raster_list,Ecoregions_shp=NULL
   }
   return(FCSin_df)
   }
+=======
+  out_df$`FCS insitu score` <- score
+  return(out_df)
+}
+>>>>>>> bb609833d354c8ad2031cc8bef8e0b8292110387

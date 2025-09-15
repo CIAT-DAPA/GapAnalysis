@@ -2,65 +2,106 @@
 % Please edit documentation in R/FCSc_mean.R
 \name{FCSc_mean}
 \alias{FCSc_mean}
-\title{Combining ex situ and in situ gap analyses}
+\title{Final Conservation Score measure}
 \usage{
-FCSc_mean(FCSex_df, FCSin_df)
+FCSc_mean(taxon, fcsin, fcsex)
 }
 \arguments{
-\item{FCSex_df}{A data frame or a list object result of the function FCSex}
+\item{taxon}{A character object that defines the name of the species as listed in the occurrence dataset}
 
-\item{FCSin_df}{A data frameor a list  object result of the function FCSin}
+\item{fcsin}{A data frame containing summary results from the fcsin function}
+
+\item{fcsex}{A data frame containing summary results from the fcsex function}
 }
 \value{
-This function returns a data frame object with the following columns:
-
-\tabular{lcc}{
- species \tab Species name \cr
- FCSex \tab Final conservation score ex situ  \cr
- FCSin \tab Final conservation score in situ  \cr
- FCS_min \tab Final conservation score (mininum value among FCSin and FCSex) \cr
- FCS_max \tab Final conservation score (maximum value among FCSin and FCSex) \cr
- FCSc_mean \tab Final conservation score combined (average value between FCSin and FCSex) \cr
- FCS_min_class \tab Final conservation category using FCS_min value \cr
- FCS_max_class \tab Final conservation category using FCS_max value \cr
- FCSc_mean_class \tab Final conservation category using FCSc_mean value \cr
-}
+data_comb : a data frame which aggreates final result summaries
 }
 \description{
-This function creates a final combined conservation score by averaging the FCSex and FCSin
- It also assigns priority categories based on quantitative results
+Compiles all tabular data from the individual metrics and generate the final results
 }
 \examples{
 ##Obtaining occurrences from example
 data(CucurbitaData)
-##Obtaining species names from the data
-Cucurbita_splist <- unique(CucurbitaData$species)
-##Obtaining raster_list
-data(CucurbitaRasters)
-CucurbitaRasters <- raster::unstack(CucurbitaRasters)
+##Obtaining Raster_list
+data(CucurbitaRasts)
 ##Obtaining protected areas raster
 data(ProtectedAreas)
-##Obtaining ecoregions shapefile
+## ecoregion features
 data(ecoregions)
-#Running all three ex situ gap analysis steps using FCSex function
-FCSex_df <- FCSex(Species_list=Cucurbita_splist,
-                                      Occurrence_data=CucurbitaData,
-                                      Raster_list=CucurbitaRasters,
-                                      Buffer_distance=50000,
-                                      Ecoregions_shp=ecoregions,
-                                      Gap_Map=FALSE)
 
-#Running all three in situ gap analysis steps using FCSin function
-FCSin_df <- FCSin(Species_list=Cucurbita_splist,
-                                      Occurrence_data=CucurbitaData,
-                                      Raster_list=CucurbitaRasters,
-                                      Ecoregions_shp=ecoregions,
-                                      Pro_areas=ProtectedAreas,
-                                      Gap_Map=FALSE)
-## Combine gap analysis metrics
-FCSc_mean_df <- FCSc_mean(FCSex_df = FCSex_df,FCSin_df = FCSin_df)
+# convert the dataset for function
+taxon <- "Cucurbita_cordata"
+sdm <- terra::unwrap(CucurbitaRasts)$cordata
+occurrenceData <- CucurbitaData
+protectedAreas <- terra::unwrap(ProtectedAreas)
+ecoregions <- terra::vect(ecoregions)
+
+
+# generate exsitu conservation summaries
+srs_exsitu <- SRSex(taxon = taxon,
+                    occurrence_Data  = CucurbitaData
+                    )
+
+gBuffer <- generateGBuffers(taxon = taxon,
+                    occurrenceData = occurrenceData,
+                    bufferDistM = 50000
+                    )#'
+
+grs_exsitu <- GRSex(taxon = taxon,
+                    sdm = sdm,
+                    gBuffer = gBuffer
+                    )
+
+ers_exsitu <- ERSex(taxon = taxon,
+                    sdm = sdm,
+                    occurrence_Data = occurrenceData,
+                    gBuffer = gBuffer,
+                    ecoregions = ecoregions,
+                    idColumn = "ECO_NAME"
+                    )
+
+#Running fcsex
+fcs_exsitu <- FCSex(taxon = taxon,
+                    srsex = srs_exsitu,
+                    grsex = grs_exsitu,
+                    ersex = ers_exsitu
+                    )
+
+
+
+# generate insitu conservation summaries
+srs_insitu <- SRSin(taxon = taxon,
+                    sdm = sdm,
+                    occurrenceData = CucurbitaData,
+                    protectedAreas = protectedAreas
+                    )
+
+grs_insitu <- GRSin(taxon = taxon,
+                    sdm = sdm,
+                    protectedAreas = protectedAreas
+                    )
+
+ers_insitu <- ERSin(taxon = taxon,
+                    sdm = sdm,
+                    occurrenceData = occurrenceData,
+                    protectedAreas = protectedAreas,
+                    ecoregions = ecoregions,
+                    idColumn = "ECO_NAME"
+                    )
+
+#Running fcsin
+fcs_insitu <- FCSin(taxon = taxon,
+                    srsin = srs_insitu,
+                    grsin = grs_insitu,
+                    ersin = ers_insitu
+                    )
+
+fsc_combine <- FCSc_mean(taxon = taxon,
+                         fcsin = fcs_insitu,
+                         fcsex = fcs_exsitu)
 
 }
 \references{
-Khoury et al. (2019) Diversity and Distributions 26(2): 209-225. doi: 10.1111/DDI.13008
+Khoury et al. (2019) Ecological Indicators 98:420-429. doi: 10.1016/j.ecolind.2018.11.016
+Carver et al. (2021) GapAnalysis: an R package to calculate conservation indicators using spatial information
 }

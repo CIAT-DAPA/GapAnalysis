@@ -4,37 +4,22 @@
 \alias{SRSin}
 \title{Sampling representativeness score in situ}
 \usage{
-SRSin(
-  Species_list,
-  Occurrence_data,
-  Raster_list,
-  Pro_areas = NULL,
-  Gap_Map = FALSE
-)
+SRSin(taxon, sdm, occurrenceData, protectedAreas)
 }
 \arguments{
-\item{Species_list}{A vector of characters with the species names to calculate the GRSex metrics.}
+\item{taxon}{A character object that defines the name of the species as listed in the occurrence dataset}
 
-\item{Occurrence_data}{A data frame object with the species name, geographical coordinates,
-and type of records (G or H) for a given species}
+\item{sdm}{a terra rast object that}
 
-\item{Raster_list}{A list of rasters representing the species distribution models for the species list provided
-in \var{Species_list}. The order of rasters in this list must match the same order as \var{Species_list}.}
+\item{occurrenceData}{a data frame of values containing columns for the taxon, latitude, longitude, and type}
 
-\item{Pro_areas}{A raster file representing protected areas information.
-If Pro_areas=NULL the function will use a protected area raster file
-provided for your use after run GetDatasets()}
-
-\item{Gap_Map}{logical, if \code{TRUE} the function will calculate gap maps for each species analyzed and will return a list
-with two slots SRSin and gap_maps}
+\item{protectedAreas}{A terra rast object the contian spatial location of protected areas.}
 }
 \value{
-This function returns a data frame with two columns:
-
-\tabular{lcc}{
-species \tab Species name \cr
-SRSin \tab SRSin value calculated\cr
-}
+A list object containing
+1. results : a data frames of values summarizing the results of the function
+2. points : a terra vect object showing all the points present within protected areas
+3. map : a leaflet object showing the spatial results of the function
 }
 \description{
 The SRSin process calculates the proportion of all occurrences of a taxon falling within
@@ -43,21 +28,25 @@ the distribution model that also fall within a protected area
 \examples{
 ##Obtaining occurrences from example
 data(CucurbitaData)
-##Obtaining species names from the data
-Cucurbita_splist <- unique(CucurbitaData$species)
 ##Obtaining Raster_list
-data(CucurbitaRasters)
-CucurbitaRasters <- raster::unstack(CucurbitaRasters)
+data(CucurbitaRasts)
 ##Obtaining protected areas raster
 data(ProtectedAreas)
+
+# convert the dataset for function
+taxon <- "Cucurbita_cordata"
+sdm <- terra::unwrap(CucurbitaRasts)$cordata
+occurrenceData <- CucurbitaData
+protectedAreas <- terra::unwrap(ProtectedAreas)
 #Running SRSin
-SRSin_df <- SRSin(Species_list = Cucurbita_splist,
-                    Occurrence_data = CucurbitaData,
-                    Raster_list=CucurbitaRasters,
-                    Pro_areas=ProtectedAreas,
-                    Gap_Map=FALSE)
+srs_insitu <- SRSin(taxon = taxon,
+                    sdm = sdm,
+                    occurrenceData = occurrenceData,
+                    protectedAreas = protectedAreas
+                    )
 
 }
 \references{
-Khoury et al. (2019) Diversity and Distributions 26(2):209-225. doi: 10.1111/DDI.13008.
+Khoury et al. (2019) Ecological Indicators 98:420-429. doi: 10.1016/j.ecolind.2018.11.016
+Carver et al. (2021) GapAnalysis: an R package to calculate conservation indicators using spatial information
 }

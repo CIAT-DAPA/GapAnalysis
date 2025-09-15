@@ -4,20 +4,15 @@
 \alias{SRSex}
 \title{Sampling representativeness score ex situ}
 \usage{
-SRSex(Species_list, Occurrence_data)
+SRSex(taxon, occurrence_Data)
 }
 \arguments{
-\item{Species_list}{A species list to calculate the SRSex metrics.}
+\item{taxon}{A character object that defines the name of the species as listed in the occurrence dataset}
 
-\item{Occurrence_data}{A data frame object with the species name, geographical coordinates,
-and type of records (G or H) for a given species}
+\item{occurrence_Data}{a data frame of values containing columns for the taxon, latitude, longitude, and type}
 }
 \value{
-This function returns a data frame with two columns:
-\tabular{lcc}{
-species \tab Species name \cr
-SRSex \tab SRSex value calculated\cr
-}
+out_df :  a data frames of values summarizing the results of the function
 }
 \description{
 The SRSex process provides a general indication of the completeness of ex situ conservation collections,
@@ -25,18 +20,22 @@ The SRSex process provides a general indication of the completeness of ex situ c
  making use of all compiled records, regardless of whether they include coordinates, with an ideal (i.e., comprehensive) conservation
  ratio of 1:1. In this and in the subsequent measurements, if no G or H records exist, taxa are automatically considered
  to be of high priority for further conservation action and assigned a value of 0. If there are more G than H records,
-SRSex is set to 100.
+ SRSex is set to 100.
 }
 \examples{
 ##Obtaining occurrences from example
 data(CucurbitaData)
-##Obtaining species names from the data
-Cucurbita_splist <- unique(CucurbitaData$species)
+
+# convert the dataset for function
+taxon <- "Cucurbita_cordata"
+
 #Running SRSex
-SRSex_df <- SRSex(Species_list = Cucurbita_splist,
-                    Occurrence_data = CucurbitaData)
+srs_exsitu <- SRSex(taxon = taxon,
+                    occurrence_Data = CucurbitaData
+                    )
 
 }
 \references{
 Khoury et al. (2019) Ecological Indicators 98:420-429. doi: 10.1016/j.ecolind.2018.11.016
+Carver et al. (2021) GapAnalysis: an R package to calculate conservation indicators using spatial information
 }
