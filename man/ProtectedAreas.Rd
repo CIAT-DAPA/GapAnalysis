@@ -8,7 +8,7 @@
 terra rast object
 }
 \source{
-\url{https://www.protectedplanet.net/}
+\url{https://www.protectedplanet.net/en}
 }
 \usage{
 ProtectedAreas

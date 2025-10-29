@@ -39,7 +39,6 @@
 #' @importFrom terra crop expanse
 #' @importFrom dplyr tibble
 #' @importFrom leaflet addTiles addPolygons addLegend addRasterImage addCircleMarkers
-#' @importFrom magrittr %>%
 #' @export
 
 GRSin <- function(taxon, sdm, protectedAreas){

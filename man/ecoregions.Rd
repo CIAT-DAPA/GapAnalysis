@@ -8,13 +8,13 @@
 SpatVector
 }
 \source{
-\url{https://www.worldwildlife.org/publications/terrestrial-ecoregions-of-the-world}
+\url{https://dataverse.harvard.edu/dataverse/GapAnalysis}
 }
 \usage{
 ecoregions
 }
 \description{
 This dataset is a subset of the Terrestrial Ecoregions of the World
- shapefile made available by the world wildlife foundation
+ shapefile was made available by the world wildlife foundation
 }
 \keyword{datasets}

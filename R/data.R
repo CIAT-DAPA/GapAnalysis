@@ -33,8 +33,8 @@
 #' @docType data
 #' @format SpatVector
 #' @description This dataset is a subset of the Terrestrial Ecoregions of the World
-#'  shapefile made available by the world wildlife foundation
-#' @source \url{https://www.worldwildlife.org/publications/terrestrial-ecoregions-of-the-world}
+#'  shapefile was made available by the world wildlife foundation
+#' @source \url{https://dataverse.harvard.edu/dataverse/GapAnalysis}
 "ecoregions"
 
 
@@ -46,5 +46,5 @@
 #'  used in Khoury et al., (2019)
 #' @references
 #' Khoury et al. (2019) Ecological Indicators 98:420-429. doi: 10.1016/j.ecolind.2018.11.016
-#' @source \url{https://www.protectedplanet.net/}
+#' @source \url{https://www.protectedplanet.net/en}
 "ProtectedAreas"

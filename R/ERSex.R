@@ -56,7 +56,6 @@
 #' @importFrom dplyr filter mutate tibble summarise case_when
 #' @importFrom terra vect crop aggregate zonal rasterize as.data.frame
 #' @importFrom leaflet addTiles addPolygons addLegend addRasterImage addCircleMarkers
-#' @importFrom magrittr %>%
 #' @export
 
 ERSex <- function(taxon, sdm, occurrence_Data, gBuffer, ecoregions, idColumn){

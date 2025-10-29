@@ -52,7 +52,6 @@
 #' @importFrom dplyr tibble pull
 #' @importFrom terra crop aggregate zonal
 #' @importFrom leaflet addTiles addPolygons addLegend addRasterImage addCircleMarkers
-#' @importFrom magrittr %>%
 #' @export
 
 ERSin <- function(taxon, sdm, occurrenceData, protectedAreas, ecoregions, idColumn) {

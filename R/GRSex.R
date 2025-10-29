@@ -51,7 +51,6 @@
 #' @importFrom terra cellSize rasterize mask
 #' @importFrom leaflet leaflet addTiles addPolygons addLegend addRasterImage addCircleMarkers
 #' @importFrom dplyr tibble
-#' @importFrom magrittr %>%
 #' @export
 
 GRSex <- function(taxon, sdm, gBuffer) {
