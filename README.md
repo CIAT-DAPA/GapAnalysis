@@ -209,7 +209,7 @@ The recommended workflow is as follows:
 Each function can be run as a standalone method and in any order. However, we recommend following this workflow as it will ensure dependencies for individual functions are in place and that the variables are stored correctly to successfully produce the final summary document. For more details on each of these calculations, see the list of references below.
 
 ## Authors
-Main: Daniel Carver, Chrystian C. Sosa, Sarah Gore,  Colin K. Khoury, and Julian Ramirez-Villegas
+Main: Daniel Carver, Chrystian C. Sosa, Sarah Gora,  Colin K. Khoury, and Julian Ramirez-Villegas
 
 Other contributors: Harold A. Achicanoy, Maria Victoria Diaz, Steven Sotelo, Nora P. Castaneda-Alvarez
 
