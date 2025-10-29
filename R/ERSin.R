@@ -73,7 +73,7 @@ ERSin <- function(taxon, sdm, occurrenceData, protectedAreas, ecoregions, idColu
   selectedEcos <- eco[eco$totEco > 0 , ]
   nEcoModel <- nrow(selectedEcos)
   # Get ecoregions in pro areas
-  eco$totPro <- terra::zonal(x = sdm , z = eco, fun = "sum",na.rm=TRUE) |> dplyr::pull()
+  eco$totPro <- terra::zonal(x = proMask , z = eco, fun = "sum",na.rm=TRUE) |> dplyr::pull()
   protectedEcos <- eco[eco$totPro > 0 , ]
   nProModel <- nrow(protectedEcos)
   # get missing ecos
