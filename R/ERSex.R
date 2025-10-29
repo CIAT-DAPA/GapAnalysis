@@ -33,7 +33,6 @@
 #' # convert the dataset for function
 #' taxon <- "Cucurbita_cordata"
 #' sdm <- terra::unwrap(CucurbitaRasts)$cordata
-#' require(sf)
 #' ecoregions <- terra::vect(ecoregions)
 #' #Running generateGBuffers
 #' gBuffer <- generateGBuffers(taxon = taxon,
