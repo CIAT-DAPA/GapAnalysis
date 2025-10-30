@@ -4,7 +4,6 @@
 
 *This is a version update of an existing library 
 
-Thank you for your efforts :) 
 
 The previous version of this package utilized the `sp` and `raster` libraries. 
 
@@ -13,6 +12,11 @@ This update is primary to transition all spatial data workflows to the currently
 As it's a major update we've also taken the time to add some quality of life projects to the primary functions to give end users more evaluatory outputs, i.e. maps. 
 
 
-NOTE 
-- the note defined from the devtools::check(cran=TRUE) is related to no visible binding for global variable. This appears in multiple functions and is related to the use of column/object names within the piping structures, generally connected to the dplyr functions. 
+CRAN Incoming Feasibility (Invalid URLs)
 
+Regarding the `NOTE` for an invalid URL (`Status: 202` for `https://dataverse.harvard.edu/dataverse/GapAnalysis`):
+
+I verified that this URL is correct and leads to the intended public datasets. 
+
+
+Thank you for your efforts :) 
