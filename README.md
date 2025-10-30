@@ -4,7 +4,7 @@ document updated 2025-09
 
 ## Version 2 Changes 
 Conceptually the results and methods of the gap analysis approach have not changed with the second versions of the tool. This current release integrates the 
-[terra](https://rspatial.github.io/terra/index.html) and [sf](https://r-spatial.github.io/sf/) spatial data libraries. Also, additional map visualizations are provided
+[terra](https://rspatial.github.io/terra/index.html) spatial data libraries. Also, additional map visualizations are provided
 as objects with the outputs from the gap analysis metric functions (ex. ERSex, GRSin). 
 More additions are expected in the future based on end user requests and feedback.
 

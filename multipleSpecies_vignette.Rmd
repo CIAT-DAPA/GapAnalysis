@@ -31,7 +31,7 @@ For each species, the workflow:
 
 ```{r}
 # Load packages
-pacman::p_load(dplyr, terra, sf, leaflet, purrr)
+pacman::p_load(dplyr, terra, leaflet, purrr)
 
 # Source R functions
 files <- list.files("R", pattern = "\\.[rR]$", full.names = TRUE)
