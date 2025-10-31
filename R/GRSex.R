@@ -1,4 +1,3 @@
-
 #' @title Geographical representativeness score ex situ
 #' @name GRSex
 #' @description The GRSex process provides a geographic measurement of the proportion of a species’ range
@@ -55,16 +54,18 @@
 
 GRSex <- function(taxon, sdm, gBuffer) {
   ## all the areas of the cells
-  r1 <- terra::cellSize(sdm,unit="km")
+  r1 <- terra::cellSize(sdm, unit = "km")
   ## mutliple by origin. values of 1 will retain area measures
   r2 <- r1 * sdm
   totalArea <- sum(values(r2), na.rm = TRUE)
 
   # clause to see if any g points exist
-  if(is.character(gBuffer$data)){
+  if (is.character(gBuffer$data)) {
     grs <- 0
     gArea <- 0
-  }else{
+    gMap <- sdm
+    map <- leaflet::leaflet()
+  } else {
     ## rasterize the object
     b1 <- terra::rasterize(x = gBuffer$data, y = sdm)
     c2 <- r1 * b1 * sdm
@@ -73,46 +74,65 @@ GRSex <- function(taxon, sdm, gBuffer) {
     # gap map
     ## reclass from NA to 0
     b2 <- b1 * -1
-    gMap <- terra::mask(x = sdm, b1, inverse=TRUE )
+    gMap <- terra::mask(x = sdm, b1, inverse = TRUE)
 
     # clause to determine if any of the buffered area falls within predicted area
-    if(gArea == 0){
+    if (gArea == 0) {
       grs <- 0
       gArea <- 0
-    }else{
+    } else {
       #calculate GRS
-      grs <- min(c(100, gArea/totalArea*100))
+      grs <- min(c(100, gArea / totalArea * 100))
+    }
+    # leaflet map of results
+    map_title <- "<h3 style='text-align:center; background-color:rgba(255,255,255,0.7); padding:2px;'>SDM areas outside of the G Buffer zone</h3>"
+    map <- leaflet::leaflet() |>
+      leaflet::addTiles() |>
+      leaflet::addRasterImage(gMap, colors = "#47b322") |>
+      leaflet::addLegend(
+        position = "topright",
+        title = "GRS ex situ",
+        colors = c("#47ae24", "#746fae"),
+        labels = c("Distribution", "Buffer G Occurrences"),
+        opacity = 1
+      ) |>
+      leaflet::addControl(html = map_title, position = "bottomleft")
+    if (grs > 0) {
+      map <- map |>
+        leaflet::addRasterImage(
+          x = b1,
+          colors = "#746fae"
+        )
     }
   }
 
   # create data.frame with output
-  out_df <- dplyr::tibble(Taxon=taxon,
-                       'Area of model km2'=totalArea,
-                       'G buffer areas in model km2' =gArea,
-                       "GRS exsitu" =grs)
-  # leaflet map of
-  map_title <- "<h3 style='text-align:center; background-color:rgba(255,255,255,0.7); padding:2px;'>SDM areas outside of the G Buffer zone</h3>"
-  map <- leaflet::leaflet() |>
-    leaflet::addTiles() |>
-    leaflet::addRasterImage(gMap,
-                   colors = "#47b322")|>
-    leaflet::addLegend(
-      position = "topright",
-      title = "GRS ex situ",
-      colors = c("#47ae24","#746fae"),
-      labels = c("Distribution","Buffer G Occurrences"),
-      opacity = 1
-    )|>
-    leaflet::addControl(html = map_title, position = "bottomleft")
-  if(grs >0 ){
-    map <- map |>
-      leaflet::addRasterImage(
-        x = b1,
-        colors = "#746fae"
-      )
-  }
-
-
+  out_df <- dplyr::tibble(
+    Taxon = taxon,
+    'Area of model km2' = totalArea,
+    'G buffer areas in model km2' = gArea,
+    "GRS exsitu" = grs
+  )
+  # # leaflet map of results
+  # map_title <- "<h3 style='text-align:center; background-color:rgba(255,255,255,0.7); padding:2px;'>SDM areas outside of the G Buffer zone</h3>"
+  # map <- leaflet::leaflet() |>
+  #   leaflet::addTiles() |>
+  #   leaflet::addRasterImage(gMap, colors = "#47b322") |>
+  #   leaflet::addLegend(
+  #     position = "topright",
+  #     title = "GRS ex situ",
+  #     colors = c("#47ae24", "#746fae"),
+  #     labels = c("Distribution", "Buffer G Occurrences"),
+  #     opacity = 1
+  #   ) |>
+  #   leaflet::addControl(html = map_title, position = "bottomleft")
+  # if (grs > 0) {
+  #   map <- map |>
+  #     leaflet::addRasterImage(
+  #       x = b1,
+  #       colors = "#746fae"
+  #     )
+  # }
 
   #
   output <- list(
@@ -122,4 +142,3 @@ GRSex <- function(taxon, sdm, gBuffer) {
   )
   return(output)
 }
-
