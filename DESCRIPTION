@@ -1,22 +1,22 @@
 Package: GapAnalysis
 Title: Conservation Indicators using Spatial Information
-Version: 2.0.0
-Authors@R: c(person("Dan", "Carver", role = c("aut","cph"), comment = c(ORCID = "0000-0002-1344-6357"),
-                    email= "carver.dan1@gmail.com"),
-             person("Sarah", "Gore",role = c("aut","cph"), comment = c(ORCID = "0000-0003-0511-7884"),
-                    email= "sarahluciagora@gmail.com"),
-             person("Chrystian", "Sosa",role = c("aut","cph"), comment = c(ORCID = "0000-0002-3734-3248"),
-                    email= "chrystiam.sossa@gmail.com"),
-             person("Colin", "Khoury", role = c("aut","cph"), comment = c(ORCID = "0000-0001-7893-5744"),
-                    email= "c.khoury@cgiar.org"),
-             person("Julian", "Ramirez-Villegas",role = c("aut","cre","cph"), comment = c(ORCID = "0000-0002-8044-583X"),
-                    email = "J.R.Villegas@cgiar.org"),
-             person("Valentin", "Stefan",role = c("ctb"), email = "valentin.stefan@ufz.de"),
-             person("Harold", "Achicanoy",role = c("ctb","cph"), email = "h.a.achicanoy@cgiar.org"),
-             person("Maria Victoria", "Diaz",role = c("ctb","cph"), email = "m.v.diaz@cgiar.org"),
-             person("Steven", "Sotelo",role = c("ctb","cph"), email = "h.sotelo@cgiar.org"),
-             person("Nora", "Castaneda-Alvarez",role = c("ctb","cph"), email = "nora.castaneda@croptrust.org"),
-             person("Kaue", "De Sousa",role = c("ctb"), email = "k.desousa@cgiar.org"))
+Version: 2.0.1
+Package: GapAnalysis
+Title: Conservation Indicators using Spatial Information
+Version: 2.0.1
+Authors@R: c(
+    person("Dan", "Carver", role = c("aut","cph"), email= "carver.dan1@gmail.com", comment = c(ORCID = "0000-0002-1344-6357")),
+    person("Sarah", "Gore",role = c("aut","cph"), email= "sarahluciagora@gmail.com", comment = c(ORCID = "0000-0003-0511-7884")),
+    person("Chrystian", "Sosa",role = c("aut","cph"), email= "chrystiam.sossa@gmail.com", comment = c(ORCID = "0000-0002-3734-3248")),
+    person("Colin", "Khoury", role = c("aut","cph"), email= "c.khoury@cgiar.org", comment = c(ORCID = "0000-0001-7893-5744")),
+    person("Julian", "Ramirez-Villegas",role = c("aut","cre","cph"), email = "J.R.Villegas@cgiar.org", comment = c(ORCID = "0IS-0002-8044-583X")),
+    person("Valentin", "Stefan",role = c("ctb"), email = "valentin.stefan@ufz.de"),
+    person("Harold", "Achicanoy",role = c("ctb","cph"), email = "h.a.achicanoy@cgiar.org"),
+    person("Maria Victoria", "Diaz",role = c("ctb","cph"), email = "m.v.diaz@cgiar.org"),
+    person("Steven", "Sotelo",role = c("ctb","cph"), email = "h.sotelo@cgiar.org"),
+    person("Nora", "Castaneda-Alvarez",role = c("ctb","cph"), email = "nora.castaneda@croptrust.org"),
+    person("Kaue", "De Sousa",role = c("ctb"), email = "k.desousa@cgiar.org")
+  )
 Description: Supports the assessment of the degree of conservation of taxa 
     in conservation systems, both in ex situ (in genebanks, 
     botanical gardens, and other repositories), and in situ 
