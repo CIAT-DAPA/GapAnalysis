@@ -1,6 +1,6 @@
 # GapAnalysis 2.0.0
 
-* Initial CRAN submission.
+* Major update and re-submission to CRAN addressing previous archival issues.
 
 Fundamentally the gap analysis functions will produce the same quantitative results as the first version of the package
 
@@ -10,7 +10,7 @@ Specific changes
 
 - Individuals functions produce leaflet maps to visualize outputs 
 
-- removed the `summaryHTML` function for the intial release. This should be added again in later updates. 
+- removed the `summaryHTML` function for the initial release. This should be added again in later updates. 
 
 
 

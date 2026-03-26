@@ -44,12 +44,12 @@ GapAnalysis package is not currently available on CRAN. Install package via GitH
 - If prompted to update CRAN packages, input 1= ALL.
 - If prompted "Do you want to install/source package that needs compilation?", select YES.
 
-```{r load-helper-package}
+```{r load-helper-package, eval=FALSE}
 # Load installation helper package
 library(devtools)
 ```
 
-```{r install-GapAnalysis-R-package}
+```{r install-GapAnalysis-R-package, eval=FALSE}
 # Install GapAnalysis using remotes from devtools
 remotes::install_github("CIAT-DAPA/GapAnalysis")
 ```
@@ -64,17 +64,16 @@ If you downloaded repository locally, your specific path to source functions and
 
 ```{r load-packages-and-data}
 # Load packages
-pacman::p_load(dplyr, terra, leaflet, GapAnalysis)
+library(dplyr)
+library(terra)
+library(leaflet)
+library(GapAnalysis)
 
-# Source R functions
-files <- list.files("R", pattern = "\\.[rR]$", full.names = TRUE)
-for (f in files) source(f)
-
-# Load example data
-load("data/CucurbitaData.rda")      # Occurrence data
-load("data/CucurbitaRasts.rda")     # Raster list
-load("data/ProtectedAreas.rda")   # Protected areas raster
-load("data/ecoregions.rda")         # Ecoregions data
+# Load example data provided by the package
+data("CucurbitaData")      # Occurrence data
+data("CucurbitaRasts")     # Raster list
+data("ProtectedAreas")     # Protected areas raster
+data("ecoregions")         # Ecoregions data
 
 # Example species (3): 
 # 1. Cucurbita_cordata
