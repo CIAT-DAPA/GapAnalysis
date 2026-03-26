@@ -29,7 +29,7 @@
 #'
 #' # generate exsitu conservation summaries
 #' srs_exsitu <- SRSex(taxon = taxon,
-#'                     occurrence_Data  = CucurbitaData
+#'                     occurrenceData  = CucurbitaData
 #'                     )
 #'
 #' gBuffer <- generateGBuffers(taxon = taxon,
@@ -44,7 +44,7 @@
 #'
 #' ers_exsitu <- ERSex(taxon = taxon,
 #'                     sdm = sdm,
-#'                     occurrence_Data = occurrenceData,
+#'                     occurrenceData = occurrenceData,
 #'                     gBuffer = gBuffer,
 #'                     ecoregions = ecoregions,
 #'                     idColumn = "ECO_NAME"
@@ -104,9 +104,9 @@ FCSc_mean <- function(taxon, fcsin, fcsex) {
                           "FCS insitu" = fcsin$`FCS insitu`)
 
 
-  data_comb$FCSc_min <- min(c(data_comb$`FCS exsitu`,data_comb$`FCS insitu`),na.rm=T)
-  data_comb$FCSc_max <- max(c(data_comb$`FCS exsitu`,data_comb$`FCS insitu`),na.rm=T)
-  data_comb$FCSc_mean <- mean(c(data_comb$`FCS exsitu`,data_comb$`FCS insitu`),na.rm=T)
+  data_comb$FCSc_min <- min(c(data_comb$`FCS exsitu`,data_comb$`FCS insitu`),na.rm=TRUE)
+  data_comb$FCSc_max <- max(c(data_comb$`FCS exsitu`,data_comb$`FCS insitu`),na.rm=TRUE)
+  data_comb$FCSc_mean <- mean(c(data_comb$`FCS exsitu`,data_comb$`FCS insitu`),na.rm=TRUE)
 
   #assign classes (min)
   if (data_comb$FCSc_min < 25) {

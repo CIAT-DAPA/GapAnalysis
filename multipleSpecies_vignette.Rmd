@@ -1,5 +1,5 @@
 ---
-title: "Gap Analysis Workflow for Multiple Species"
+title: "Gap analysis workflow for multiple species"
 output: 
   html_document:
     css: styles.css
@@ -9,39 +9,77 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-## Gap Analysis Workflow for Multiple Species
 
-This workflow demonstrates how to import your own point data (occurrences) and SDMs (rasters), check all inputs, and run the full gap analysis for **multiple species**.  
-We provide three general approaches for processing and storing results for multiple species:
+##
 
-- Using a named list and for-loop (classic)
-- Row-binding to a data frame
-- Functional programming with `{purrr}`
+This workflow demonstrates how to import your own point data (occurrences) and SDMs (rasters), check all inputs, and run the full gap analysis for **multiple species** using GapAnalysis R package.
+We provide a general approach using a for-loop for processing and storing results for multiple species. Example *Cucurbita* data provided within package library.
 
 For each species, the workflow:
+
 1. Runs SRSex on all records.
+
 2. Checks inputs (occurrences, rasters, protected areas, ecoregions).
+
 3. Runs gap analysis metrics.
+
 4. Stores results.
+
 5. **Creates an interactive leaflet map for the ERSex result, accessible as `ersex$map` for each species.**
 
----
 
-## Data Preparation
+***
+#### Download GapAnalysis repository (*OPTIONAL*)
+Copy the GapAnalysis GitHub repository locally as an alternative method to source functions and load example data **if GapAnalysis R package does not install properly in workflow below**. See [GitHub resource page](https://docs.github.com/en/get-started/start-your-journey/downloading-files-from-github) on copying a repository.
 
-```{r}
+Easiest method: Download and extract the following [GapAnalysis repository](https://github.com/CIAT-DAPA/GapAnalysis/tree/master). Select green "Code" button on main page to download ZIP.
+
+Can also clone the repository (if you have a GitHub account).
+
+***
+## Install GapAnalysis R package
+GapAnalysis package is not currently available on CRAN. Install package via GitHub (if not installed already).
+
+- If prompted to restart R, select YES.
+- If prompted to update CRAN packages, input 1= ALL.
+- If prompted "Do you want to install/source package that needs compilation?", select YES.
+
+```{r load-helper-package}
+# Load installation helper package
+library(devtools)
+```
+
+```{r install-GapAnalysis-R-package}
+# Install GapAnalysis using remotes from devtools
+remotes::install_github("CIAT-DAPA/GapAnalysis")
+```
+
+
+***
+
+
+## Data preparation
+If you downloaded repository locally, your specific path to source functions and load data will differ based on your current working directly and the relative path to the downloaded repository.
+
+
+```{r load-packages-and-data}
 # Load packages
-pacman::p_load(dplyr, terra, leaflet, purrr)
+pacman::p_load(dplyr, terra, leaflet, GapAnalysis)
 
 # Source R functions
 files <- list.files("R", pattern = "\\.[rR]$", full.names = TRUE)
 for (f in files) source(f)
 
-# Load data
+# Load example data
 load("data/CucurbitaData.rda")      # Occurrence data
 load("data/CucurbitaRasts.rda")     # Raster list
 load("data/ProtectedAreas.rda")   # Protected areas raster
 load("data/ecoregions.rda")         # Ecoregions data
+
+# Example species (3): 
+# 1. Cucurbita_cordata
+# 2. Cucurbita_digitata
+# 3. Cucurbita_palmata
 
 # Prepare ecoregion and protected area layers
 ecos <- terra::vect(ecoregions)
@@ -69,11 +107,13 @@ sdmList <- lapply(seq_along(taxa), function(i) {
 names(sdmList) <- taxa
 ```
 
----
 
-## Example 1: Using a Named List and for-loop (with raster value check)
+***
 
-```{r}
+## Gap analysis for multiple species example usage
+Example gap analysis workflow using a named list and for-loop (with raster value check) to process and store results.
+
+```{r run-gap-analysis}
 results_list <- list()
 
 for (i in seq_along(taxa)) {
@@ -87,7 +127,7 @@ for (i in seq_along(taxa)) {
   sdm[!(is.na(sdm) | sdm == 1)] <- NA
 
   # 1. Run SRSex first (on all records)
-  srsex <- SRSex(taxon = taxon, occurrence_Data = occurrenceData)
+  srsex <- SRSex(taxon = taxon, occurrenceData = occurrenceData)
 
   # 2. Run check functions on inputs
   occurrences <- checkOccurrences(csv = occurrenceData, taxon = taxon)
@@ -105,7 +145,7 @@ for (i in seq_along(taxa)) {
   # 3. Continue with main gap analysis
   gBuffer <- generateGBuffers(
     taxon = taxon,
-    occurrenceData = occurrences$data, # fixed argument name
+    occurrenceData = occurrences$data,
     bufferDistM = 50000
   )
 
@@ -118,7 +158,7 @@ for (i in seq_along(taxa)) {
   ersex <- ERSex(
     taxon = taxon,
     sdm = sdm_checked,
-    occurrence_Data = occurrences$data,
+    occurrenceData = occurrences$data,
     gBuffer = gBuffer,
     ecoregions = ecos,
     idColumn = "ECO_NAME"
@@ -164,7 +204,7 @@ for (i in seq_along(taxa)) {
     fcsex = fcsex
   )
 
-  # Store results for this taxon in the named list
+  # 4. Store results for this taxon in the named list
   results_list[[taxon]] <- list(
     srsex = srsex,
     occurrences = occurrences,
@@ -172,7 +212,7 @@ for (i in seq_along(taxa)) {
     proArea_checked = proArea_checked,
     eco_checked = ecoregions,
     grsex = grsex,
-    ersex = ersex,
+    ersex = ersex,     # 5. Map created and stored
     fcsex = fcsex,
     srsin = srsin,
     grsin = grsin,
@@ -183,14 +223,84 @@ for (i in seq_along(taxa)) {
 }
 ```
 
-### Visualizing Results
+***
+## Visualizing gap analysis results - Summary metrics tables
+
+Results of gap analysis are organized as a selectable list, allowing for review of individual metrics. The tables below summarize the main metrics for the example species.
+
+```{r results-tables}
+# Ex-situ metrics
+exsitu_table <- do.call(rbind, lapply(names(results_list), function(taxon) {
+  r <- results_list[[taxon]]
+  data.frame(
+    Species          = taxon,
+    SRS_exsitu       = r$srsex$`SRS exsitu`,
+    GRS_exsitu       = r$fcsex$`GRS exsitu`,
+    ERS_exsitu       = r$fcsex$`ERS exsitu`,
+    FCS_exsitu       = r$fcsex$`FCS exsitu`,
+    FCS_exsitu_score = r$fcsex$`FCS existu score`
+  )
+}))
+
+# In-situ metrics
+insitu_table <- do.call(rbind, lapply(names(results_list), function(taxon) {
+  r <- results_list[[taxon]]
+  data.frame(
+    Species          = taxon,
+    SRS_insitu       = r$fcsin$`SRS insitu`,
+    GRS_insitu       = r$fcsin$`GRS insitu`,
+    ERS_insitu       = r$fcsin$`ERS insitu`,
+    FCS_insitu       = r$fcsin$`FCS insitu`,
+    FCS_insitu_score = r$fcsin$`FCS insitu score`
+  )
+}))
+
+# Combined metrics
+combined_table <- do.call(rbind, lapply(names(results_list), function(taxon) {
+  r <- results_list[[taxon]]
+  data.frame(
+    Species         = taxon,
+    FCSc_min        = r$fcsmean$FCSc_min,
+    FCSc_max        = r$fcsmean$FCSc_max,
+    FCSc_mean       = r$fcsmean$FCSc_mean,
+    FCSc_min_class  = r$fcsmean$FCSc_min_class,
+    FCSc_max_class  = r$fcsmean$FCSc_max_class,
+    FCSc_mean_class = r$fcsmean$FCSc_mean_class
+  )
+}))
+
+knitr::kable(exsitu_table,   digits = 2, caption = "Ex-situ Gap Analysis metrics")
+knitr::kable(insitu_table,   digits = 2, caption = "In-situ Gap Analysis metrics")
+knitr::kable(combined_table, digits = 2, caption = "Combined Gap Analysis metrics")
+```
+
+
+***
+
+## Visualizing gap analysis results - Maps
 
 Each `ersex` result contains an **interactive leaflet map** in `ersex$map`.  
 To display the map for each species in an R Markdown document, print the `$ersex$map` object for the species of interest.  
-For example, to show the map for the first species:
+Examples provided below to show maps for example species:
 
-```{r}
+```{r map-cucurbita-cordata}
 # Show the ERSex interactive map for the first species (if available)
+# Example species 1: Cucurbita cordata
 if (!is.null(results_list[[1]])) results_list[[1]]$ersex$map
 ```
 
+
+```{r map-cucurbita-digitata}
+# Show the ERSex interactive map for the second species (if available)
+# Example species 2: Cucurbita digitata
+if (!is.null(results_list[[2]])) results_list[[2]]$ersex$map
+```
+
+
+```{r map-cucurbita-palmata}
+# Show the ERSex interactive map for the third species (if available)
+# Example species 3: Cucurbita palmata
+if (!is.null(results_list[[3]])) results_list[[3]]$ersex$map
+```
+
+***

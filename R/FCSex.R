@@ -28,7 +28,7 @@
 #' ecoregions <- terra::unwrap(ecoregions)
 #' # generate exsitu conservation summaries
 #' srs_exsitu <- SRSex(taxon = taxon,
-#'                     occurrence_Data = CucurbitaData
+#'                     occurrenceData = CucurbitaData
 #'                     )
 #'
 #' gBuffer <- generateGBuffers(taxon = taxon,
@@ -43,7 +43,7 @@
 #'
 #' ers_exsitu <- ERSex(taxon = taxon,
 #'                     sdm = sdm,
-#'                     occurrence_Data = occurrenceData,
+#'                     occurrenceData = occurrenceData,
 #'                     gBuffer = gBuffer,
 #'                     ecoregions = ecoregions,
 #'                     idColumn = "ECO_NAME"
@@ -72,7 +72,7 @@ FCSex <- function(taxon, srsex, grsex, ersex){
   # generate the mean exsitu score
   sp_fcs <- mean(c(srs,
                    ers,
-                   grs), na.rm=T)
+                   grs), na.rm=TRUE)
 
   out_df <- dplyr::tibble(Taxon = taxon,
                          "SRS exsitu"= srs,

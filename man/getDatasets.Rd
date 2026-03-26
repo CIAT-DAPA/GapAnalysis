@@ -6,6 +6,9 @@
 \usage{
 getDatasets()
 }
+\value{
+A message confirming the datasets were downloaded, along with saving the files to the package's data directory.
+}
 \description{
 Ecoregions and protected area data base are stored on a harvard dataverse repository. This functions check to see if
 those datasets have been download and will download them if not present.

@@ -5,6 +5,7 @@
 #' Ecoregions and protected area data base are stored on a harvard dataverse repository. This functions check to see if
 #' those datasets have been download and will download them if not present.
 #'
+#' @return A message confirming the datasets were downloaded, along with saving the files to the package's data directory.
 #'
 #' @references
 #' Khoury et al. (2019) Ecological Indicators 98:420-429. doi: 10.1016/j.ecolind.2018.11.016
@@ -15,10 +16,14 @@
 
 getDatasets <- function(){
   #LOADING FOLDER PARAMETERS
-  out_dir <- system.file(package = "GapAnalysis")#"E:/EG3TC"#system.file("", package = "GapAnalysis")
-  example_dir <- paste0(out_dir,"/","data","/","preloaded_data");if(!file.exists(example_dir)){dir.create(example_dir)}
-  prot_dir <- paste0(example_dir,"/","protectedArea");if(!file.exists(prot_dir)){dir.create(prot_dir)}
-  ecoRegion_dir <- paste0(example_dir,"/","ecoRegion");if(!file.exists(ecoRegion_dir)){dir.create(ecoRegion_dir)}
+  out_dir <- tools::R_user_dir("GapAnalysis", which = "data")
+  if(!file.exists(out_dir)){dir.create(out_dir, recursive = TRUE)}
+  
+  prot_dir <- paste0(out_dir, "/protectedArea")
+  if(!file.exists(prot_dir)){dir.create(prot_dir, recursive = TRUE)}
+  
+  ecoRegion_dir <- paste0(out_dir, "/ecoRegion")
+  if(!file.exists(ecoRegion_dir)){dir.create(ecoRegion_dir, recursive = TRUE)}
 
 
   # WDPA file  --------------------------------------------------------------

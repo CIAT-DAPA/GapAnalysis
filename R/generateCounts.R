@@ -5,7 +5,7 @@
 #' used in the SRSex function.
 #'
 #' @param taxon A character object that defines the name of the species as listed in the occurrence dataset
-#' @param occurrence_Data a data frame of values containing columns for the taxon, latitude, longitude, and type
+#' @param occurrenceData a data frame of values containing columns for the taxon, latitude, longitude, and type
 #'
 #' @return countsData : a data frames of values summarizing the results of the function
 #'
@@ -19,7 +19,7 @@
 #'
 #' #Running generateCounts
 #' counts <- generateCounts(taxon = taxon,
-#'                     occurrence_Data = occurrenceData
+#'                     occurrenceData = occurrenceData
 #'                     )
 #'
 #' @references
@@ -28,10 +28,10 @@
 #' @importFrom dplyr filter select mutate group_by summarize n
 #' @export
 
-generateCounts <- function(taxon, occurrence_Data){
+generateCounts <- function(taxon, occurrenceData){
 
   # define presence of usable lat long values
-  dataThin <- occurrence_Data |>
+  dataThin <- occurrenceData |>
     dplyr::filter(species == taxon) |>
     dplyr::select(c("species", "latitude", "longitude", "type")) |>
     dplyr::mutate(hasLat = !is.na(latitude) & latitude != "\\N" & latitude != "" & !is.null(latitude) & latitude != "NULL") |>

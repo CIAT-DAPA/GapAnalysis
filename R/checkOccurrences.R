@@ -36,7 +36,6 @@
 #' @importFrom dplyr mutate select
 #' @importFrom terra vect
 #' @importFrom leaflet leaflet addTiles addCircleMarkers addControl
-#' @importFrom magrittr %>%
 #' @export
 
 checkOccurrences <- function(csv, taxon, removeDuplicated = FALSE){
@@ -67,22 +66,22 @@ checkOccurrences <- function(csv, taxon, removeDuplicated = FALSE){
   # change the data type of the columns
   colTypes <- lapply(df, class)
   # check and change columns as needed
-  if(!is.character(colTypes$character)){
+  if(colTypes$species != "character"){
     df$species <- as.character(df$species)
     message(paste("Changed the data type from ", colTypes$species,
                   " to the required character" ))
   }
-  if(!is.character(colTypes$latitude)){
+  if(colTypes$latitude != "numeric"){
     df$latitude <- as.numeric(df$latitude)
     message(paste("Changed the data type from ", colTypes$latitude,
-                  " to the required character" ))
+                  " to the required numeric" ))
   }
-  if(!is.character(colTypes$longitude)){
+  if(colTypes$longitude != "numeric"){
     df$longitude <- as.numeric(df$longitude)
     message(paste("Changed the data type from ", colTypes$longitude,
-                  " to the required character" ))
+                  " to the required numeric" ))
   }
-  if(!is.character(colTypes$type)){
+  if(colTypes$type != "character"){
     df$type <- as.character(df$type)
     message(paste("Changed the data type from ", colTypes$type,
                   " to the required character" ))
@@ -124,8 +123,8 @@ checkOccurrences <- function(csv, taxon, removeDuplicated = FALSE){
   map_title <- "<h3 style='text-align:center; background-color:rgba(255,255,255,0.7); padding:2px;'>Quality Points for Gap Analysis</h3>"
   df$color <- ifelse(df$type == "G", yes = "#6300f0", no = "#1184d4")
   # Create the Leaflet map
-  map <- leaflet::leaflet(data = df) %>%
-    leaflet::addTiles() %>%  # Adds default OpenStreetMap map tiles
+  map <- leaflet::leaflet(data = df) |>
+    leaflet::addTiles() |>  # Adds default OpenStreetMap map tiles
     leaflet::addCircleMarkers(
       lng = ~longitude,
       lat = ~latitude,

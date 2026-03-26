@@ -39,7 +39,7 @@ ecoregions <- terra::vect(ecoregions)
 
 # generate exsitu conservation summaries
 srs_exsitu <- SRSex(taxon = taxon,
-                    occurrence_Data  = CucurbitaData
+                    occurrenceData  = CucurbitaData
                     )
 
 gBuffer <- generateGBuffers(taxon = taxon,
@@ -54,7 +54,7 @@ grs_exsitu <- GRSex(taxon = taxon,
 
 ers_exsitu <- ERSex(taxon = taxon,
                     sdm = sdm,
-                    occurrence_Data = occurrenceData,
+                    occurrenceData = occurrenceData,
                     gBuffer = gBuffer,
                     ecoregions = ecoregions,
                     idColumn = "ECO_NAME"

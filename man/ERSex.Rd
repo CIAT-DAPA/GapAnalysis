@@ -4,14 +4,14 @@
 \alias{ERSex}
 \title{Download datasets from Dataverse}
 \usage{
-ERSex(taxon, sdm, occurrence_Data, gBuffer, ecoregions, idColumn)
+ERSex(taxon, sdm, occurrenceData, gBuffer, ecoregions, idColumn)
 }
 \arguments{
 \item{taxon}{A character object that defines the name of the species as listed in the occurrence dataset}
 
 \item{sdm}{a terra rast object that represented the expected distribution of the species}
 
-\item{occurrence_Data}{a data frame of values containing columns for the taxon, latitude, longitude, and type}
+\item{occurrenceData}{a data frame of values containing columns for the taxon, latitude, longitude, and type}
 
 \item{gBuffer}{A terra vect which encompases a specific buffer distance around all G points}
 
@@ -42,7 +42,6 @@ data(ecoregions)
 # convert the dataset for function
 taxon <- "Cucurbita_cordata"
 sdm <- terra::unwrap(CucurbitaRasts)$cordata
-require(sf)
 ecoregions <- terra::vect(ecoregions)
 #Running generateGBuffers
 gBuffer <- generateGBuffers(taxon = taxon,
@@ -52,7 +51,7 @@ gBuffer <- generateGBuffers(taxon = taxon,
 #Running ERSex
 ers_exsitu <- ERSex(taxon = taxon,
                     sdm = sdm,
-                    occurrence_Data = CucurbitaData,
+                    occurrenceData = CucurbitaData,
                    gBuffer = gBuffer,
                    ecoregions = ecoregions,
                    idColumn = "ECO_NAME"

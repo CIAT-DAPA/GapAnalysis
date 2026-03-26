@@ -10,7 +10,7 @@
 #'
 #' @param taxon A character object that defines the name of the species as listed in the occurrence dataset
 #'
-#' @param occurrence_Data a data frame of values containing columns for the taxon, latitude, longitude, and type
+#' @param occurrenceData a data frame of values containing columns for the taxon, latitude, longitude, and type
 #'
 #' @return out_df :  a data frames of values summarizing the results of the function
 #'
@@ -23,7 +23,7 @@
 #'
 #' #Running SRSex
 #' srs_exsitu <- SRSex(taxon = taxon,
-#'                     occurrence_Data = CucurbitaData
+#'                     occurrenceData = CucurbitaData
 #'                     )
 #'
 #' @references
@@ -32,10 +32,10 @@
 #' @importFrom dplyr tibble n
 #' @export
 
-SRSex <- function(taxon, occurrence_Data) {
+SRSex <- function(taxon, occurrenceData) {
   # generarte the counts data for species
   sp_counts <- generateCounts(taxon = taxon,
-               occurrence_Data = occurrence_Data)
+               occurrenceData = occurrenceData)
   # caluse for no h points
   if(sp_counts$totalGRecords >= 1 & sp_counts$totalHRecords == 0){
     srs <-100

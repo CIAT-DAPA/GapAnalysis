@@ -14,7 +14,7 @@
 #' @param ecoregions A terra vect object the contains spatial information on all ecoregions of interests
 #' @param idColumn A character vector that notes what column within the ecoregions object should be used as a unique ID
 #'
-#'#' @return A list object containing
+#' @return A list object containing
 #' 1. results : a data frames of values summarizing the results of the function
 #' 2. missingEcos : a terra vect object showing all the ecoregions within the distribution with no protected areas present
 #' 3. map : a leaflet object showing the spatial results of the function

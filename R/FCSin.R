@@ -71,7 +71,7 @@ FCSin <- function(taxon, srsin, grsin, ersin){
 
 
   # calculate the mean across the three measures
-  sp_fcs <- mean(c(srs,grs,ers), na.rm=T)
+  sp_fcs <- mean(c(srs,grs,ers), na.rm=TRUE)
 
   out_df <- dplyr::tibble(Taxon=taxon,
                        "SRS insitu" = srs,

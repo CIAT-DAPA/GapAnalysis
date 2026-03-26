@@ -4,12 +4,12 @@
 \alias{SRSex}
 \title{Sampling representativeness score ex situ}
 \usage{
-SRSex(taxon, occurrence_Data)
+SRSex(taxon, occurrenceData)
 }
 \arguments{
 \item{taxon}{A character object that defines the name of the species as listed in the occurrence dataset}
 
-\item{occurrence_Data}{a data frame of values containing columns for the taxon, latitude, longitude, and type}
+\item{occurrenceData}{a data frame of values containing columns for the taxon, latitude, longitude, and type}
 }
 \value{
 out_df :  a data frames of values summarizing the results of the function
@@ -31,7 +31,7 @@ taxon <- "Cucurbita_cordata"
 
 #Running SRSex
 srs_exsitu <- SRSex(taxon = taxon,
-                    occurrence_Data = CucurbitaData
+                    occurrenceData = CucurbitaData
                     )
 
 }

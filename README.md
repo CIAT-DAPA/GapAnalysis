@@ -32,7 +32,6 @@ A full list of libraries needed for the package is included below.
 **Depends:** 
   R (>= 4.3.0),
 **Imports:**
-	  magrittr,
     dataverse,
     dplyr,
     leaflet,

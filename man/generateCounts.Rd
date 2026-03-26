@@ -4,12 +4,12 @@
 \alias{generateCounts}
 \title{Generate initial counts of the occurrence data}
 \usage{
-generateCounts(taxon, occurrence_Data)
+generateCounts(taxon, occurrenceData)
 }
 \arguments{
 \item{taxon}{A character object that defines the name of the species as listed in the occurrence dataset}
 
-\item{occurrence_Data}{a data frame of values containing columns for the taxon, latitude, longitude, and type}
+\item{occurrenceData}{a data frame of values containing columns for the taxon, latitude, longitude, and type}
 }
 \value{
 countsData : a data frames of values summarizing the results of the function
@@ -28,7 +28,7 @@ occurrenceData <- CucurbitaData
 
 #Running generateCounts
 counts <- generateCounts(taxon = taxon,
-                    occurrence_Data = occurrenceData
+                    occurrenceData = occurrenceData
                     )
 
 }

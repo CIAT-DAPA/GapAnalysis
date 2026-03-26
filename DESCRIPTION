@@ -1,7 +1,7 @@
 Package: GapAnalysis
-Title: Conservation Indicators using Spatial Information
+Title: Conservation Indicators Using Spatial Information
 Version: 2.0.0
-Authors@R: c(person("Dan", "Carver", role = c("aut","cph"), comment = c(ORCID = "0000-0002-1344-6357"),
+Authors@R: c(person("Dan", "Carver", role = c("aut","cre","cph"), comment = c(ORCID = "0000-0002-1344-6357"),
                     email= "carver.dan1@gmail.com"),
              person("Sarah", "Gore",role = c("aut","cph"), comment = c(ORCID = "0000-0003-0511-7884"),
                     email= "sarahluciagora@gmail.com"),
@@ -9,7 +9,7 @@ Authors@R: c(person("Dan", "Carver", role = c("aut","cph"), comment = c(ORCID = 
                     email= "chrystiam.sossa@gmail.com"),
              person("Colin", "Khoury", role = c("aut","cph"), comment = c(ORCID = "0000-0001-7893-5744"),
                     email= "c.khoury@cgiar.org"),
-             person("Julian", "Ramirez-Villegas",role = c("aut","cre","cph"), comment = c(ORCID = "0000-0002-8044-583X"),
+             person("Julian", "Ramirez-Villegas",role = c("aut","cph"), comment = c(ORCID = "0000-0002-8044-583X"),
                     email = "J.R.Villegas@cgiar.org"),
              person("Valentin", "Stefan",role = c("ctb"), email = "valentin.stefan@ufz.de"),
              person("Harold", "Achicanoy",role = c("ctb","cph"), email = "h.a.achicanoy@cgiar.org"),
@@ -30,13 +30,12 @@ Description: Supports the assessment of the degree of conservation of taxa
 URL: https://github.com/CIAT-DAPA/GapAnalysis
 BugReports: https://github.com/CIAT-DAPA/GapAnalysis/issues
 Depends:
-  R (>= 4.3.0),
+  R (>= 4.3.0)
 Imports:
     dataverse,
     dplyr,
     leaflet,
-    terra,
-    magrittr
+    terra
 License: GPL-3
 LazyData: true
 Encoding: UTF-8
