@@ -33,10 +33,10 @@
 #' @export
 
 SRSex <- function(taxon, occurrenceData) {
-  # generarte the counts data for species
+  # generate the counts data for species
   sp_counts <- generateCounts(taxon = taxon,
                occurrenceData = occurrenceData)
-  # caluse for no h points
+  # clause for no h points
   if(sp_counts$totalGRecords >= 1 & sp_counts$totalHRecords == 0){
     srs <-100
   }
