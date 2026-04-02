@@ -8,6 +8,13 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+# Check for pandoc and knitr status
+has_pandoc <- rmarkdown::pandoc_available()
+save_outputs <- !isTRUE(getOption('knitr.in.progress')) && has_pandoc
+```
+
 
 ---
 
@@ -30,33 +37,6 @@ a for-loop for processing and storing results for multiple species. Example
 
 At script end, the user is prompted to save the workflow by knitting to output HTML.
 
-
----
-
-
-## Install GapAnalysis R package
-
-GapAnalysis is not currently available on CRAN. Install the package via GitHub.
-Installation from a remote GitHub repository requires an active internet connection.
-
-- If prompted via pop-up to restart R, select **YES**.
-- If prompted via pop-up to install packages, select **YES**.
-- If prompted via console to update CRAN packages, input **1 = ALL**.
-- If prompted via pop-up *"Do you want to install from sources the package that needs compilation?"*, select **YES**.
-
-```{r install-all-packages, message=FALSE, warning=FALSE, include=FALSE}
-# Install packages and dependencies
-list.of.packages <- c("remotes", "dataverse", "dplyr", "tidyr", "stringr", "terra", 
-                      "leaflet", "openxlsx", "ggplot2", "ggtext", "cowplot", 
-                      "htmltools", "htmlwidgets", "kableExtra", "knitr")
-new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
-if(length(new.packages)) install.packages(new.packages, dependencies=c("Depends", "Imports"))
-```
-
-```{r install-GapAnalysis-R-package, message=FALSE, warning=FALSE, include=FALSE}
-# Install GapAnalysis using remotes
-remotes::install_github("CIAT-DAPA/GapAnalysis")
-```
 
 ---
 

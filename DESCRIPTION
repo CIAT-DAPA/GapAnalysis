@@ -45,6 +45,15 @@ Suggests:
     knitr,
     rmarkdown,
     devtools,
-    remotes
+    remotes,
+    tidyr,
+    stringr,
+    openxlsx,
+    ggplot2,
+    ggtext,
+    cowplot,
+    htmltools,
+    htmlwidgets,
+    kableExtra
 VignetteBuilder: knitr
 
