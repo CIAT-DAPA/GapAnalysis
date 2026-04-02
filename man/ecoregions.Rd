@@ -8,7 +8,7 @@
 SpatVector
 }
 \source{
-\url{https://dataverse.harvard.edu/dataverse/GapAnalysis}
+\url{https://doi.org/10.7910/DVN/B8YOQL}
 }
 \usage{
 ecoregions

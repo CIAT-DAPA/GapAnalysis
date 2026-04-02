@@ -2,7 +2,7 @@
 % Please edit documentation in R/ERSex.R
 \name{ERSex}
 \alias{ERSex}
-\title{Download datasets from Dataverse}
+\title{Ecological representativeness score ex situ}
 \usage{
 ERSex(taxon, sdm, occurrenceData, gBuffer, ecoregions, idColumn)
 }

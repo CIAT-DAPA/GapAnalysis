@@ -13,7 +13,7 @@ As it's a major update we've also taken the time to add some quality of life pro
 
 CRAN Incoming Feasibility (Invalid URLs)
 
-Regarding the `NOTE` for an invalid URL (`Status: 202` for `https://dataverse.harvard.edu/dataverse/GapAnalysis`):
+I have updated the outdated Dataverse URL with the specific dataset DOI (https://doi.org/10.7910/DVN/B8YOQL) throughout the package.
 
 I verified that this URL is correct and leads to the intended public datasets. 
 

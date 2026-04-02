@@ -33,7 +33,7 @@ getDatasets <- function(){
     raw_tif_data <- dataverse::get_file(
       file ="wdpa_rasterized_all.tif",
       dataset = "doi:10.7910/DVN/KQVOSW",
-      server = "https://dataverse.harvard.edu/dataverse/GapAnalysis"
+      server = "https://dataverse.harvard.edu"
     )
 
     # Write the raw data to a temporary file on your disk
@@ -58,7 +58,7 @@ getDatasets <- function(){
     raw_eco_data <- dataverse::get_file(
       file ="tnc_terr_ecoregions.gpkg",
       dataset = "doi:10.7910/DVN/WTLNRG",
-      server = "https://dataverse.harvard.edu/dataverse/GapAnalysis"
+      server = "https://dataverse.harvard.edu"
     )
     # Write the raw data to a temporary file on your disk
     temp_file_path <- tempfile(fileext = ".gpkg")

@@ -166,7 +166,7 @@ The ecoregion and protected areas datasets are provide through the package via t
 system.file("data/preloaded_data/ecoRegion/tnc_terr_ecoregions.shp",package = "GapAnalysis")
 ```
 
-These files can be found accessed directly at the [Dataverse repository](https://dataverse.harvard.edu/dataverse/GapAnalysis) associated with this package.
+These files can be found accessed directly at the [Dataverse repository](https://doi.org/10.7910/DVN/B8YOQL) associated with this package.
 The original datasets can be found here [ecoregions](http://maps.tnc.org/gis_data.html), 
 [world database of protected areas](https://www.protectedplanet.net/en/thematic-areas/wdpa?tab=WDPA)). The ecoregion dataset is provided in its native vector data type. The package's WDPA layer has been transformed from a vector to a binary raster at 2.5 arc minutes resolution raster.
 

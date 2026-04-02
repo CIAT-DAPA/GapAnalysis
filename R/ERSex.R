@@ -1,4 +1,4 @@
-#' @title Download datasets from Dataverse
+#' @title Ecological representativeness score ex situ
 #' @name ERSex
 #' @description The ERSex process provides an ecological measurement of the proportion of a species
 #'  range that can be considered to be conserved in ex situ repositories. The ERSex calculates the
@@ -131,7 +131,7 @@ ERSex <- function(taxon, sdm, occurrenceData, gBuffer, ecoregions, idColumn) {
   }
 
   # generate filter
-  out_df = dplyr::tibble(
+    out_df = dplyr::tibble(
     Taxon = taxon,
     `Ecoregions with records` = totalEcosCount,
     `Ecoregions within G buffer` = gEcoCounts,

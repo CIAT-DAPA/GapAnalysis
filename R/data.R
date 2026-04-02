@@ -13,7 +13,7 @@
 #' }
 #' @references
 #' Khoury et al. (2019) Plants, People, Planet 2(3):269-283. doi: 10.1002/ppp3.10085.
-#' @source \url{https://dataverse.harvard.edu/dataverse/GapAnalysis}
+#' @source \url{https://doi.org/10.7910/DVN/B8YOQL}
 "CucurbitaData"
 
 #' @title Cucurbita species distribution models dataset
@@ -24,7 +24,7 @@
 #'  C. cordata, C. digitata and C. palmata used in Khoury et al., 2020
 #' @references
 #' Khoury et al. (2019) Diversity and Distributions 26(2):209-225. doi: 10.1111/DDI.1300
-#' @source \url{https://dataverse.harvard.edu/dataverse/GapAnalysis}
+#' @source \url{https://doi.org/10.7910/DVN/B8YOQL}
 "CucurbitaRasts"
 
 
@@ -34,7 +34,7 @@
 #' @format SpatVector
 #' @description This dataset is a subset of the Terrestrial Ecoregions of the World
 #'  shapefile was made available by the world wildlife foundation
-#' @source \url{https://dataverse.harvard.edu/dataverse/GapAnalysis}
+#' @source \url{https://doi.org/10.7910/DVN/B8YOQL}
 "ecoregions"
 
 
