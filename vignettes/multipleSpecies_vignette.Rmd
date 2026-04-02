@@ -62,10 +62,6 @@ If you downloaded the repository locally, source functions and load data by
 removing the hashes below. Your specific path will differ based on your working
 directory and the relative path to the downloaded repository.
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-save_outputs <- !isTRUE(getOption('knitr.in.progress'))
-```
 
 ```{r load-libraries-and-data}
 # ── Load libraries ─────────────────────────────────────────────────────────────
