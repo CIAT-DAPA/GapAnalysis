@@ -37,4 +37,6 @@ visual_test
 ^multipleSpecies_vignette.html$
 ^delete_oldversion_vignette$
 ^standard metadata elements$
-^cran-comments$^outputs/
+^cran-comments$
+^outputs/
+^outputs$
