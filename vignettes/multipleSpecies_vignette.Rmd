@@ -293,7 +293,7 @@ knitr::kable(combined_table, digits = 2, caption = "<span style='text-align:left
 
 <!-- ## Conservation priority figure -->
 
-```{r gap-analysis-figure, include=FALSE, eval=save_outputs}
+```{r gap-analysis-figure, include=FALSE, eval=exists("save_outputs") && save_outputs}
 plot_data <- do.call(rbind, lapply(names(results_list), function(taxon) {
   r <- results_list[[taxon]]
   data.frame(
@@ -464,7 +464,7 @@ message("Saved: ",
 
 <!-- ## Save metrics to Excel -->
 
-```{r save-metrics-excel, include=FALSE, eval=save_outputs}
+```{r save-metrics-excel, include=FALSE, eval=exists("save_outputs") && save_outputs}
 # ── Build table (1 row per species, all metrics as columns) ───────
 all_metrics <- do.call(rbind, lapply(names(results_list), function(taxon) {
   r <- results_list[[taxon]]
@@ -700,7 +700,7 @@ for (taxon in names(results_list)) {
 
 <!-- ## Save maps as HTML files -->
 
-```{r save-maps-as-html, include=FALSE, eval=save_outputs}
+```{r save-maps-as-html, include=FALSE, eval=exists("save_outputs") && save_outputs}
 outputs_abs <- normalizePath(outputs_folder)
 tmp_lib     <- file.path(outputs_abs, "lib_tmp")
 
