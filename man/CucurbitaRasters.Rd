@@ -9,7 +9,7 @@
 terra rast object stored as a PackedSpatRaster
 }
 \source{
-\url{https://doi.org/10.7910/DVN/B8YOQL}
+\doi{10.7910/DVN/B8YOQL}
 }
 \usage{
 CucurbitaRasts
