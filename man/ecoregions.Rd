@@ -8,7 +8,7 @@
 SpatVector
 }
 \source{
-\doi{10.7910/DVN/B8YOQL}
+\url{doi:10.7910/DVN/B8YOQL}
 }
 \usage{
 ecoregions

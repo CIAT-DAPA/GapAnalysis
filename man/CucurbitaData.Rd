@@ -14,7 +14,7 @@ A data frame with 1203 rows and 4 variables:
 }
 }
 \source{
-\doi{10.7910/DVN/B8YOQL}
+\url{doi:10.7910/DVN/B8YOQL}
 }
 \usage{
 CucurbitaData
