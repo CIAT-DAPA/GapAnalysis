@@ -54,7 +54,7 @@ GRSin <- function(taxon, sdm, protectedAreas){
   sdmArea <- terra::expanse(sdm,unit = "km")[,2]
   proArea <- terra::expanse(proMask,unit = "km")[,2]
 
-  # calcualte the total area
+  # calculate the total area
   if(proArea == 0){
     grs <- 0
   }else{
