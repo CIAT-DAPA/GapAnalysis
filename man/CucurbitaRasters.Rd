@@ -9,7 +9,7 @@
 terra rast object stored as a PackedSpatRaster
 }
 \source{
-\url{doi:10.7910/DVN/B8YOQL}
+\doi{10.7910/DVN/B8YOQL}
 }
 \usage{
 CucurbitaRasts
@@ -19,6 +19,6 @@ This dataset is a subset of species distribution models for:
  C. cordata, C. digitata and C. palmata used in Khoury et al., 2020
 }
 \references{
-Khoury et al. (2019) Diversity and Distributions 26(2):209-225. doi: 10.1111/DDI.1300
+Khoury et al. (2019) Diversity and Distributions 26(2):209-225. \doi{10.1111/DDI.13008}
 }
 \keyword{datasets}

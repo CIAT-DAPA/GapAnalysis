@@ -39,7 +39,6 @@ Imports:
 License: GPL-3
 LazyData: true
 Encoding: UTF-8
-RoxygenNote: 7.3.3
 Suggests: 
     sf,
     knitr,
@@ -56,4 +55,3 @@ Suggests:
     htmlwidgets,
     kableExtra
 VignetteBuilder: knitr
-

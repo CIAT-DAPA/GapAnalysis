@@ -19,6 +19,6 @@ Evaluates the class, crs, and values are standardizes to what the following gap 
 ##Obtaining Raster_list
 }
 \references{
-Khoury et al. (2019) Ecological Indicators 98:420-429. doi: 10.1016/j.ecolind.2018.11.016
+Khoury et al. (2019) Ecological Indicators 98:420-429. \doi{10.1016/j.ecolind.2018.11.016}
 Carver et al. (2021) GapAnalysis: an R package to calculate conservation indicators using spatial information
 }

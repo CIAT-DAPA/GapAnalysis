@@ -45,7 +45,7 @@
 #'
 #'
 #' @references
-#' Khoury et al. (2019) Ecological Indicators 98:420-429. doi: 10.1016/j.ecolind.2018.11.016
+#' Khoury et al. (2019) Ecological Indicators 98:420-429. \doi{10.1016/j.ecolind.2018.11.016}
 #' Carver et al. (2021) GapAnalysis: an R package to calculate conservation indicators using spatial information
 #' @importFrom terra cellSize rasterize mask
 #' @importFrom leaflet leaflet addTiles addPolygons addLegend addRasterImage addCircleMarkers

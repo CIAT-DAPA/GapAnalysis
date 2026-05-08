@@ -153,7 +153,7 @@ Cucurbita_digitata |  | | H
 
 Digital repositories such as GBIF, EDDmaps, and IDIGBIO contain observed locations of a taxon considered “H” type occurrences in GapAnalysis. From our experience there can be duplication within and between such databases and care should be taken to reduce duplication where possible.
 
-The major sources for G occurrence data that the authors have used in GapAnalysis include [USDA GRIN](https://npgsweb.ars-grin.gov/gringlobal/search.aspx), [GENESYS](https://www.genesys-pgr.org/), [FAO WIEWS](http://www.fao.org/wiews/en/), [PlantSearch](https://tools.bgci.org/plant_search.php), and [GBIF](https://www.gbif.org/) (records designated as 'living specimen'). Generally, data from these sources would be considered a G type if it is still an active and living accession. Duplication between these sources may exist.
+The major sources for G occurrence data that the authors have used in GapAnalysis include [USDA GRIN](https://npgsweb.ars-grin.gov/gringlobal/search.aspx), [GENESYS](https://www.genesys-pgr.org/), [FAO WIEWS](https://www.fao.org/wiews/en/), [PlantSearch](https://tools.bgci.org/plant_search.php), and [GBIF](https://www.gbif.org/) (records designated as 'living specimen'). Generally, data from these sources would be considered a G type if it is still an active and living accession. Duplication between these sources may exist.
 
 More information and examples of how to make the distinction between “H” and “G” points can be found [here](https://doi.org/10.1111/DDI.13008).
 
@@ -167,7 +167,7 @@ system.file("data/preloaded_data/ecoRegion/tnc_terr_ecoregions.shp",package = "G
 ```
 
 These files can be found accessed directly at the [Dataverse repository](https://doi.org/10.7910/DVN/B8YOQL) associated with this package.
-The original datasets can be found here [ecoregions](http://maps.tnc.org/gis_data.html), 
+The original datasets can be found here [ecoregions](https://geospatial.tnc.org/datasets/ecoregion-boundaries), 
 [world database of protected areas](https://www.protectedplanet.net/en/thematic-areas/wdpa?tab=WDPA)). The ecoregion dataset is provided in its native vector data type. The package's WDPA layer has been transformed from a vector to a binary raster at 2.5 arc minutes resolution raster.
 
 **_Predicted Habitat_**
@@ -216,7 +216,7 @@ Other contributors: Harold A. Achicanoy, Maria Victoria Diaz, Steven Sotelo, Nor
 
 Carver D, Sosa CC, Khoury CK, Achicanoy HA, Diaz MV, Sotelo S, Castañeda-Álvarez NP, and Ramírez-Villegas JR (2021) GapAnalysis: an R package to calculate conservation indicators using spatial information. Ecography. doi: 10.1111/ecog.05430. (https://doi.org/10.1111/ecog.05430)
 
-Castañeda-Álvarez NP, Khoury CK, Achicanoy HA, Bernau V, Dempewolf H, Eastwood RJ, Guarino L, Harker RH, Jarvis A, Maxted N, Mueller JV, Ramirez-Villegas J, Sosa CC, Struik PC, Vincent H, and Toll J (2016) Global conservation priorities for crop wild relatives. Nature Plants 2(4): 16022. doi: [10.1038/nplants.2016.22](http://www.nature.com/articles/nplants201622)
+Castañeda-Álvarez NP, Khoury CK, Achicanoy HA, Bernau V, Dempewolf H, Eastwood RJ, Guarino L, Harker RH, Jarvis A, Maxted N, Mueller JV, Ramirez-Villegas J, Sosa CC, Struik PC, Vincent H, and Toll J (2016) Global conservation priorities for crop wild relatives. Nature Plants 2(4): 16022. doi: [10.1038/nplants.2016.22](https://www.nature.com/articles/nplants201622)
 
 Khoury CK, Amariles D, Soto JS, Diaz MV, Sotelo S, Sosa CC, Ramirez-Villegas J, Achicanoy HA, Velásquez-Tibata J, Guarino L, Leon B, Navarro-Racines C, Castañeda-Álvarez NP, Dempewolf H, Wiersema JH, and Jarvis A (2019a) Comprehensiveness of conservation of useful wild plants: an operational indicator for biodiversity and sustainable development targets. Ecological Indicators 98: 420-429. doi: [10.1016/j.ecolind.2018.11.016](https://doi.org/10.1016/j.ecolind.2018.11.016)
 
@@ -226,7 +226,7 @@ Khoury CK, Carver D, Greene SL, Williams KA, Achicanoy HA, Schori M, León B, Wi
 
 Khoury CK, Carver D, Kates HR, Achicanoy HA, van Zonneweld M, Thomas E, Heinitz C, Jarret R, Labate JA, Reitsma K, Nabhan GP, and Greene SL (2019c) Distributions, conservation status, and abiotic stress tolerance potential of wild cucurbits (Cucurbita L.). Plants, People, Planet 2(3): 269-283. doi: 10.1002/ppp3.10085. https://doi.org/10.1002/ppp3.10085
 
-Ramirez-Villegas J, Khoury CK, Jarvis A, Debouck DG, Guarino L (2010) A gap analysis methodology for collecting crop genepools: a case study with Phaseolus beans. PLoS One 5, e13497. [doi:10.1371/journal.pone.0013497](http://dx.doi.org/10.1371%2Fjournal.pone.0013497)
+Ramirez-Villegas J, Khoury CK, Jarvis A, Debouck DG, Guarino L (2010) A gap analysis methodology for collecting crop genepools: a case study with Phaseolus beans. PLoS One 5, e13497. [doi:10.1371/journal.pone.0013497](https://doi.org/10.1371/journal.pone.0013497)
 
 ## License
 GNU GENERAL PUBLIC LICENSE Version 3

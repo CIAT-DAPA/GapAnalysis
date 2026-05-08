@@ -8,7 +8,7 @@
 #' @return A message confirming the datasets were downloaded, along with saving the files to the package's data directory.
 #'
 #' @references
-#' Khoury et al. (2019) Ecological Indicators 98:420-429. doi: 10.1016/j.ecolind.2018.11.016
+#' Khoury et al. (2019) Ecological Indicators 98:420-429. \doi{10.1016/j.ecolind.2018.11.016}
 #' Carver et al. (2021) GapAnalysis: an R package to calculate conservation indicators using spatial information
 #' @importFrom dataverse get_file
 #' @importFrom terra rast writeRaster

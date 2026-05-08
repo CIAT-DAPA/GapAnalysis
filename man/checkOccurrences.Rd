@@ -30,6 +30,6 @@ The cleaned and formated dataframe is returned as well as a map object show a qu
 
 }
 \references{
-Khoury et al. (2019) Ecological Indicators 98:420-429. doi: 10.1016/j.ecolind.2018.11.016
+Khoury et al. (2019) Ecological Indicators 98:420-429. \doi{10.1016/j.ecolind.2018.11.016}
 Carver et al. (2021) GapAnalysis: an R package to calculate conservation indicators using spatial information
 }
