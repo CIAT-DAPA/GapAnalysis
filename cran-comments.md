@@ -1,21 +1,12 @@
 ## R CMD check results
 
-0 errors | 0 warnings | 1 note
+0 errors | 0 warnings | 1 note (HTML Tidy, depending on system configuration)
 
-*This is a major version update of an existing library that was archived on 2023-06-09.
+*This is a patch release for version 2.0.0.*
 
-This update directly addresses the issues that led to the archival. Specifically, the previous version of this package utilized the `sp` and `raster` libraries, which have been retired. 
+This update addresses the minor formatting notes raised by the CRAN team during the 2.0.0 submission:
+- Converted all DOI references in `.R` and `.Rd` files to use the `\doi{}` macro instead of `\url{doi:}`.
+- Converted insecure `http://` URLs in the README to `https://`.
+- Replaced a broken dataset link with the current functional one.
 
-This update transitions all spatial data workflows to the currently supported `terra` and `sf` libraries.
-
-As it's a major update we've also taken the time to add some quality of life projects to the primary functions to give end users more evaluatory outputs, i.e. maps. 
-
-
-CRAN Incoming Feasibility (Invalid URLs)
-
-I have updated the outdated Dataverse URL with the specific dataset DOI (https://doi.org/10.7910/DVN/B8YOQL) throughout the package.
-
-I verified that this URL is correct and leads to the intended public datasets. 
-
-
-Thank you for your efforts :) 
+Thank you for your efforts :)

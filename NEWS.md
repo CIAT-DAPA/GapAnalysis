@@ -1,3 +1,8 @@
+# GapAnalysis 2.0.1
+
+* Fixed CRAN notes regarding insecure URLs by updating `http:` links to `https:`.
+* Fixed CRAN notes regarding DOI formatting by replacing plain text or `\url{doi:...}` formats with the proper `\doi{...}` macro in all documentation.
+
 # GapAnalysis 2.0.0
 
 * Major update and re-submission to CRAN addressing previous archival issues.
