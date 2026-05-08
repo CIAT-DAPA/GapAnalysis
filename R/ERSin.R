@@ -60,7 +60,7 @@ ERSin <- function(taxon, sdm, occurrenceData, protectedAreas, ecoregions, idColu
   # mask to model
   proMask <- pro * sdm
   # set id column for easier indexing
-  ecoregions$id_column <- as.data.frame(ecoregions)[,idColumn]
+  ecoregions$id_column <- as.data.frame(ecoregions)[[idColumn]]
   # aggregates spatial features
   ecoregions <- terra::aggregate(x = ecoregions, by = "id_column")
 
@@ -93,21 +93,31 @@ ERSin <- function(taxon, sdm, occurrenceData, protectedAreas, ecoregions, idColu
   # generate the base map
   map_title <- "<h3 style='text-align:center; background-color:rgba(255,255,255,0.7); padding:2px;'>Ecoregions within the SDM without Protected Area</h3>"
   map <- leaflet::leaflet() |>
-    leaflet::addTiles() |>
-    leaflet::addPolygons(data = selectedEcos,
-                color = "#444444",
-                weight = 1,
-                opacity = 1.0,
-                popup = ~ECO_NAME,
-                fillOpacity = 0.5,
-                fillColor = "#44444420")|>
-    leaflet::addPolygons(data = missingEcos,
-                color = "#444444",
-                weight = 1,
-                opacity = 1.0,
-                popup = ~ECO_NAME,
-                fillOpacity = 0.5,
-                fillColor = "#f0a01f")|>
+    leaflet::addTiles()
+
+  if (nrow(selectedEcos) > 0) {
+    map <- map |>
+      leaflet::addPolygons(data = selectedEcos,
+                  color = "#444444",
+                  weight = 1,
+                  opacity = 1.0,
+                  popup = ~id_column,
+                  fillOpacity = 0.5,
+                  fillColor = "#44444420")
+  }
+
+  if (nrow(missingEcos) > 0) {
+    map <- map |>
+      leaflet::addPolygons(data = missingEcos,
+                  color = "#444444",
+                  weight = 1,
+                  opacity = 1.0,
+                  popup = ~id_column,
+                  fillOpacity = 0.5,
+                  fillColor = "#f0a01f")
+  }
+
+  map <- map |>
     leaflet::addRasterImage(
       x = sdm,
       colors = "#47ae24"

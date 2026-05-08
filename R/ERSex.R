@@ -142,16 +142,22 @@ ERSex <- function(taxon, sdm, occurrenceData, gBuffer, ecoregions, idColumn) {
   map_title <- "<h3 style='text-align:center; background-color:rgba(255,255,255,0.7); padding:2px;'>Ecoregions outside of the G Buffer areas</h3>"
   # base map element
   map <- leaflet() |>
-    leaflet::addTiles() |>
-    leaflet::addPolygons(
-      data = ecoSelect,
-      color = "#444444",
-      weight = 1,
-      opacity = 1.0,
-      fillOpacity = 0.1,
-      popup = ~ECO_NAME,
-      fillColor = NA
-    ) |>
+    leaflet::addTiles()
+
+  if (nrow(ecoSelect) > 0) {
+    map <- map |>
+      leaflet::addPolygons(
+        data = ecoSelect,
+        color = "#444444",
+        weight = 1,
+        opacity = 1.0,
+        fillOpacity = 0.1,
+        popup = ~id_column,
+        fillColor = NA
+      )
+  }
+
+  map <- map |>
     leaflet::addLegend(
       position = "topright",
       title = "ERS ex situ",
@@ -163,16 +169,20 @@ ERSex <- function(taxon, sdm, occurrenceData, gBuffer, ecoregions, idColumn) {
 
   if (ers > 0) {
     # add additional map elements
+    if (nrow(missingEcos) > 0) {
+      map <- map |>
+        leaflet::addPolygons(
+          data = missingEcos,
+          color = "#444444",
+          weight = 1,
+          opacity = 1.0,
+          popup = ~id_column,
+          fillOpacity = 0.5,
+          fillColor = "#f0a01f"
+        )
+    }
+
     map <- map |>
-      leaflet::addPolygons(
-        data = missingEcos,
-        color = "#444444",
-        weight = 1,
-        opacity = 1.0,
-        popup = ~ECO_NAME,
-        fillOpacity = 0.5,
-        fillColor = "#f0a01f"
-      ) |>
       leaflet::addRasterImage(
         x = sdm,
         colors = "#47ae24"
@@ -180,14 +190,10 @@ ERSex <- function(taxon, sdm, occurrenceData, gBuffer, ecoregions, idColumn) {
       leaflet::addRasterImage(
         x = b1,
         colors = "#746fae"
-      ) |>
-      leaflet::addCircleMarkers(
-        data = d1,
-        color = ~color,
-        radius = 2,
-        opacity = 1
       )
-  } else {
+  }
+
+  if (nrow(d1) > 0) {
     map <- map |>
       leaflet::addCircleMarkers(
         data = d1,

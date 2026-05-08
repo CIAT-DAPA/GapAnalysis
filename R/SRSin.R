@@ -83,13 +83,19 @@ SRSin <- function(taxon, sdm, occurrenceData,  protectedAreas){
     leaflet::addRasterImage(
       x = sdm,
       colors = "#47ae24"
-    )|>
-    leaflet::addCircleMarkers(
-      data = p1,
-      color = ~color,
-      radius = 1,
-      opacity = 1
-    )|>
+    )
+
+  if (nrow(p1) > 0) {
+    map <- map |>
+      leaflet::addCircleMarkers(
+        data = p1,
+        color = ~color,
+        radius = 1,
+        opacity = 1
+      )
+  }
+
+  map <- map |>
     leaflet::addLegend(
       position = "topright",
       title = "SRS in situ",
