@@ -253,9 +253,7 @@ exsitu_table <- do.call(rbind, lapply(names(results_list), function(taxon) {
     GRS_exsitu       = r$fcsex$`GRS exsitu`,
     ERS_exsitu       = r$fcsex$`ERS exsitu`,
     FCS_exsitu       = r$fcsex$`FCS exsitu`,
-    # NOTE: "FCS existu score" is a known typo in the GapAnalysis package.
-    # Update to "FCS exsitu score" when fixed upstream.
-    FCS_exsitu_score = r$fcsex$`FCS existu score`
+    FCS_exsitu_score = r$fcsex$`FCS exsitu score`
   )
 }))
 
@@ -502,7 +500,7 @@ for (col in names(all_metrics)) {
 # ── Clean column names ────────────────────────────────────────────────────────
 names(all_metrics) <- gsub("\\.", " ", names(all_metrics))
 
-insert_pos  <- which(names(all_metrics) == "Area in protected ares km2")
+insert_pos  <- which(names(all_metrics) == "Area in protected areas km2")
 all_metrics <- cbind(
   all_metrics[, seq_len(insert_pos), drop = FALSE],
   "Area of model km2" = all_metrics[["Area of model km2"]],
@@ -510,9 +508,7 @@ all_metrics <- cbind(
 )
 
 names(all_metrics) <- dplyr::recode(names(all_metrics),
-  "FCS existu score"                = "FCS exsitu score",
   "Total records in SDM"            = "Total records in model",
-  "Area in protected ares km2"      = "Area in protected areas km2",
   "FCSc_min"                        = "FCS minimum",
   "FCSc_max"                        = "FCS maximum",
   "FCSc_mean"                       = "FCSc mean",
@@ -524,7 +520,7 @@ names(all_metrics) <- dplyr::recode(names(all_metrics),
 
 # ── Reorder columns ───────────────────────────────────────────────────────────
 col_order <- c(
-  "Taxon", "Total records", "Total with cooordinates",
+  "Taxon", "Total records", "Total with coordinates",
   "Total G records", "G records with coordinates",
   "Total H records", "H records with coordinates",
   "SRS exsitu", "G buffer areas in model km2", "Area of model km2",

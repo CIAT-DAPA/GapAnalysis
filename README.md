@@ -1,6 +1,6 @@
 # GapAnalysis R package
 
-document updated 2025-09 
+document updated 2026-05 
 
 ## Version 2 Changes 
 Conceptually the results and methods of the gap analysis approach have not changed with the second versions of the tool. This current release integrates the 
@@ -15,7 +15,7 @@ The GapAnalysis R package evaluates the ex situ and in situ conservation status 
 
 The GapAnalysis functions require the user to provide two inputs: a `data.frame` of species occurrences, and a `rast` object of the predicted habitat (species distribution model) for each assessed taxon.
 
-This library consists of 17 functions within 3 families: data checks and gathering, ex situ conservation gap analysi and in situ conservation gap analysis. In short, the data checks and gather process establishes gives the option to download protected areas and ecoregion datasets or enables users to run quality checks on their own data.
+This library consists of 17 functions within 3 families: data checks and gathering, ex situ conservation gap analysis and in situ conservation gap analysis. In short, the data checks and gather process gives the option to download protected areas and ecoregion datasets or enables users to run quality checks on their own data.
 The ex situ and in situ processes perform the respective conservation strategy gap analyses and produce both quantitative and spatial results.
 
 ## Installation
@@ -160,13 +160,9 @@ More information and examples of how to make the distinction between “H” and
 <a name="ecolink">
 <b><i>Ecoregions and Protected Area </b></i>
 </a>
-The ecoregion and protected areas datasets are provide through the package via the `GetDatasets()` functions. The files will be downloaded and store at
+The ecoregion and protected areas datasets are provided through the package via the `getDatasets()` function. The files will be downloaded and stored in the user's data directory (see `?tools::R_user_dir`).
 
-```r
-system.file("data/preloaded_data/ecoRegion/tnc_terr_ecoregions.shp",package = "GapAnalysis")
-```
-
-These files can be found accessed directly at the [Dataverse repository](https://doi.org/10.7910/DVN/B8YOQL) associated with this package.
+These files can be accessed directly at the [Dataverse repository](https://doi.org/10.7910/DVN/B8YOQL) associated with this package.
 The original datasets can be found here [ecoregions](https://geospatial.tnc.org/datasets/ecoregion-boundaries), 
 [world database of protected areas](https://www.protectedplanet.net/en/thematic-areas/wdpa?tab=WDPA)). The ecoregion dataset is provided in its native vector data type. The package's WDPA layer has been transformed from a vector to a binary raster at 2.5 arc minutes resolution raster.
 

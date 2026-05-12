@@ -24,6 +24,6 @@ This dataset is a subset of the original dataset for:
  C. cordata, C. digitata and C. palmata used in Khoury et al. (2019)
 }
 \references{
-Khoury et al. (2019) Plants, People, Planet 2(3):269-283. \doi{10.1002/ppp3.10085}.
+Khoury et al. (2019) Plants, People, Planet 2(3):269-283. \doi{10.1002/ppp3.10085}
 }
 \keyword{datasets}

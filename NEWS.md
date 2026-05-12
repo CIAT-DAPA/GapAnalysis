@@ -1,3 +1,9 @@
+# GapAnalysis 2.0.2
+
+* Fixed several typos in exported data frames (`FCS existu score` to `FCS exsitu score`, `Area in protected ares km2` to `Area in protected areas km2`, and `Total with cooordinates` to `Total with coordinates`).
+* Updated vignette and README to reflect these fixes and clarify data storage locations.
+* Bumped version for CRAN resubmission.
+
 # GapAnalysis 2.0.1
 
 * Fixed CRAN notes regarding insecure URLs by updating `http:` links to `https:`.

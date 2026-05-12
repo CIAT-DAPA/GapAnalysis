@@ -63,7 +63,7 @@ GRSin <- function(taxon, sdm, protectedAreas){
   # return objects
   df_output <- dplyr::tibble(Taxon = taxon,
                    'Area of model km2' = round(sdmArea, digits = 0),
-                   'Area in protected ares km2' = round(proArea, digits = 0),
+                   'Area in protected areas km2' = round(proArea, digits = 0),
                    "GRS insitu" = grs)
 
   map_title <- "<h3 style='text-align:center; background-color:rgba(255,255,255,0.7); padding:2px;'>Protect areas within the SDM</h3>"
