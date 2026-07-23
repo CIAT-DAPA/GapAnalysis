@@ -6,7 +6,7 @@
 #' Checks the column names, column data types, valid lat lon, and can optionally remove any duplicated lat lon records per species.
 #' The cleaned and formated dataframe is returned as well as a map object show a quick reference of the points in space.
 #'
-#' @param csv A dataframe holding the occurrence data
+#' @param csv A dataframe holding the occurrence data. Coordinates (latitude, longitude) are assumed to be in the WGS84 (EPSG:4326) coordinate reference system.
 #' @param taxon A character object that defines the name of the species as listed in the occurrence dataset
 #' @param removeDuplicated : Binary parameter. TRUE == duplication values are remove. Set to FALSE as default
 #'

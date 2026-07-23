@@ -9,7 +9,7 @@
 #'
 #' @param sdm a terra rast object that
 #'
-#' @param occurrenceData a data frame of values containing columns for the taxon, latitude, longitude, and type
+#' @param occurrenceData a data frame of values containing columns for the taxon, latitude, longitude, and type. Coordinates are assumed to be in the WGS84 (EPSG:4326) coordinate reference system.
 #'
 #' @param protectedAreas A terra rast object the contian spatial location of protected areas.
 #'

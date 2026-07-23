@@ -9,7 +9,7 @@
 #'
 #' @param taxon A character object that defines the name of the species as listed in the occurrence dataset
 #' @param sdm a terra rast object that represented the expected distribution of the species
-#' @param occurrenceData a data frame of values containing columns for the taxon, latitude, longitude, and type
+#' @param occurrenceData a data frame of values containing columns for the taxon, latitude, longitude, and type. Coordinates are assumed to be in the WGS84 (EPSG:4326) coordinate reference system.
 #' @param protectedAreas A terra rast object the contian spatial location of protected areas.
 #' @param ecoregions A terra vect object the contains spatial information on all ecoregions of interests
 #' @param idColumn A character vector that notes what column within the ecoregions object should be used as a unique ID

@@ -7,7 +7,7 @@
 checkOccurrences(csv, taxon, removeDuplicated = FALSE)
 }
 \arguments{
-\item{csv}{A dataframe holding the occurrence data}
+\item{csv}{A dataframe holding the occurrence data. Coordinates (latitude, longitude) are assumed to be in the WGS84 (EPSG:4326) coordinate reference system.}
 
 \item{taxon}{A character object that defines the name of the species as listed in the occurrence dataset}
 

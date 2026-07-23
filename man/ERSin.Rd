@@ -19,7 +19,7 @@ ERSin(
 
 \item{sdm}{a terra rast object that represented the expected distribution of the species}
 
-\item{occurrenceData}{a data frame of values containing columns for the taxon, latitude, longitude, and type}
+\item{occurrenceData}{a data frame of values containing columns for the taxon, latitude, longitude, and type. Coordinates are assumed to be in the WGS84 (EPSG:4326) coordinate reference system.}
 
 \item{protectedAreas}{A terra rast object the contian spatial location of protected areas.}
 

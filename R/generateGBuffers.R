@@ -4,7 +4,7 @@
 #' Produces a terra vect object representing the area around the G type occurrences
 #'
 #' @param taxon A character object that defines the name of the species as listed in the occurrence dataset
-#' @param occurrenceData a data frame of values containing columns for the taxon, latitude, longitude, and type
+#' @param occurrenceData a data frame of values containing columns for the taxon, latitude, longitude, and type. Coordinates are assumed to be in the WGS84 (EPSG:4326) coordinate reference system.
 #' @param bufferDistM Distance in meters. Used to set the size of the buffered objects.
 #'
 #' @return A list object containing
@@ -40,8 +40,7 @@ generateGBuffers <- function(taxon, occurrenceData, bufferDistM) {
   # filter the occurrence data to the species of interest
   d1 <- occurrenceData |>
     dplyr::filter(species == taxon & type == "G") |>
-    terra::vect(geom = c("longitude", "latitude"))
-  terra::crs(d1) <- "epsg:4326"
+    terra::vect(geom = c("longitude", "latitude"), crs = "+proj=longlat +datum=WGS84")
   # test to see if g points are present
   if (nrow(d1) > 0) {
     # Buffer object

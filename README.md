@@ -149,7 +149,7 @@ Cucurbita_digitata |  | | H
 
 **species:** this value will be the key for all functions in this library. Ensure it is consistent for all records and is included in the file name of your predicted potential habitat `raster` as well.
 
-**latitude** and **longitude** must be in decimal degrees, preferably with the highest accuracy possible.
+**latitude** and **longitude** must be in decimal degrees, preferably with the highest accuracy possible. Coordinates are assumed to be in the WGS84 (EPSG:4326) coordinate reference system.
 
 **type:** All records must be classified as either a reference observation (typically the main presence data input into the species distribution modeling, labeled H as most records in our previous research source from herbaria), or as a “site of collection” location of an existing ex situ accession from a conservation repository (labeled G, as most records in our previous research source from genebanks). This distinction is significant for multiple evaluations and effort must be taken to ensure the correct assignment of these values.
 

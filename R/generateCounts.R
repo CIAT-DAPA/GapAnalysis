@@ -5,7 +5,7 @@
 #' used in the SRSex function.
 #'
 #' @param taxon A character object that defines the name of the species as listed in the occurrence dataset
-#' @param occurrenceData a data frame of values containing columns for the taxon, latitude, longitude, and type
+#' @param occurrenceData a data frame of values containing columns for the taxon, latitude, longitude, and type. Coordinates are assumed to be in the WGS84 (EPSG:4326) coordinate reference system.
 #'
 #' @return countsData : a data frames of values summarizing the results of the function
 #'

@@ -9,7 +9,7 @@ generateEcoSelection(taxon, occurrenceData, ecoregions, idColumn)
 \arguments{
 \item{taxon}{A character object that defines the name of the species as listed in the occurrence dataset}
 
-\item{occurrenceData}{a data frame of values containing columns for the taxon, latitude, longitude, and type}
+\item{occurrenceData}{a data frame of values containing columns for the taxon, latitude, longitude, and type. Coordinates are assumed to be in the WGS84 (EPSG:4326) coordinate reference system.}
 
 \item{ecoregions}{A terra vect object the contains spatial information on all ecoregions of interests}
 
