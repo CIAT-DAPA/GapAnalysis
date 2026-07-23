@@ -70,7 +70,7 @@ ecoregions <- terra::vect(ecoregions)
 # generate exsitu conservation summaries
 ## sample representativeness score exsitu 
 srs_exsitu <- SRSex(taxon = taxon,
-                occurrence_Data  = CucurbitaData)
+                occurrenceData  = CucurbitaData)
 
 ## Generate buffer objects        
 gBuffer <- generateGBuffers(taxon = taxon,
@@ -85,7 +85,7 @@ grs_exsitu <- GRSex(taxon = taxon,
 ## Ecological representativeness score exsitu 
 ers_exsitu <- ERSex(taxon = taxon,
  sdm = sdm,
- occurrence_Data = occurrenceData,
+ occurrenceData = occurrenceData,
  gBuffer = gBuffer,
  ecoregions = ecoregions,
  idColumn = "ECO_NAME" )
