@@ -1,6 +1,9 @@
 # GapAnalysis 2.1.0
 
 * Minor method addition: Added the `limitByPoints` parameter to `ERSin` and `ERSex`. This allows filtering of ecoregions considered in the metrics to only those containing at least one observation. This change was implemented to prevent edge effects where pixels from the distribution extend into neighboring ecoregions as a product of differences in raster/vector geometry rather than being predicted there directly.
+* Documentation: Clarified throughout the function documentation (e.g., `@param occurrenceData` and `@param csv`) and in the `README.md` that all input coordinates are assumed to be in the WGS84 (EPSG:4326) coordinate reference system.
+* Bug fix: Resolved a recurrent `[vect] guessed crs` warning in `generateGBuffers` by explicitly defining the CRS during spatial vector creation.
+* Infrastructure: Introduced a comprehensive `testthat` suite to automatically test the full ex-situ and in-situ workflows and ensure ongoing backwards compatibility.
 
 # GapAnalysis 2.0.2
 
