@@ -1,3 +1,7 @@
+# GapAnalysis 2.1.0
+
+* Minor method addition: Added the `limitByPoints` parameter to `ERSin` and `ERSex`. This allows filtering of ecoregions considered in the metrics to only those containing at least one observation. This change was implemented to prevent edge effects where pixels from the distribution extend into neighboring ecoregions as a product of differences in raster/vector geometry rather than being predicted there directly.
+
 # GapAnalysis 2.0.2
 
 * Fixed several typos in exported data frames (`FCS existu score` to `FCS exsitu score`, `Area in protected ares km2` to `Area in protected areas km2`, and `Total with cooordinates` to `Total with coordinates`).

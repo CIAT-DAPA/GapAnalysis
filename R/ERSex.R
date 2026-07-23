@@ -12,8 +12,10 @@
 #' @param gBuffer A terra vect which encompases a specific buffer distance around all G points
 #' @param ecoregions A terra vect object the contains spatial information on all ecoregions of interests
 #' @param idColumn A character vector that notes what column within the ecoregions object should be used as a unique ID
-#' @param limitByPoints A TRUE/FALSE parameter to determine if you want to limit the ecoregions considered to those with observations present.
-#' TRUE will exclude all ecoregions with no points within. False will include all ecoregions
+#' @param limitByPoints A boolean parameter (TRUE/FALSE) to determine if you want to limit the ecoregions considered to those with observations present.
+#' TRUE will exclude all ecoregions with no points within. FALSE will include all ecoregions.
+#' This was implemented to prevent edge effects where pixels from the distribution extend into
+#' neighboring ecoregions as a product of differences in raster/vector geometry rather than being predicted there directly.
 #'
 #'
 #' @return A list object containing
@@ -45,7 +47,8 @@
 #'                     occurrenceData = CucurbitaData,
 #'                    gBuffer = gBuffer,
 #'                    ecoregions = ecoregions,
-#'                    idColumn = "ECO_NAME"
+#'                    idColumn = "ECO_NAME",
+#'                    limitByPoints = FALSE
 #'                    )
 #'
 #'
@@ -64,7 +67,7 @@ ERSex <- function(
   gBuffer,
   ecoregions,
   idColumn,
-  limitByPoints
+  limitByPoints = FALSE
 ) {
   # filter the occurrence data to the species of interest
   d1 <- occurrenceData |>

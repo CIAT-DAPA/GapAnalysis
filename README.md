@@ -88,7 +88,8 @@ ers_exsitu <- ERSex(taxon = taxon,
  occurrenceData = occurrenceData,
  gBuffer = gBuffer,
  ecoregions = ecoregions,
- idColumn = "ECO_NAME" )
+ idColumn = "ECO_NAME",
+ limitByPoints = FALSE)
  
 # Running final conservation score exsitu 
 fcs_exsitu <- FCSex(taxon = taxon,
@@ -115,7 +116,8 @@ ers_insitu <- ERSin(taxon = taxon,
  occurrenceData = occurrenceData,
  protectedAreas = protectedAreas,
  ecoregions = ecoregions,
- idColumn = "ECO_NAME" )
+ idColumn = "ECO_NAME",
+ limitByPoints = FALSE)
 
 ## final representativeness score insitu 
 fcs_insitu <- FCSin(taxon = taxon,
@@ -184,13 +186,13 @@ The recommended workflow is as follows:
 **Ex-situ Analysis**
  - `SRSex` calculates the Sampling Representativeness Score for _ex situ_ conservation
  - `GRSex` calculates the Geographic Representativeness Score for _ex situ_ conservation. During this process, an ex situ geographic gap map is also created for each species by subtracting the G buffered areas out of the distribution model of each taxon, leaving only those areas considered not sufficiently sampled for ex situ conservation
- - `ERSex` calculates the Ecological Representativeness Score for _ex situ_ conservation. During this process, an ex situ ecological gap map is also created for each species by mapping only the spatial areas within the distribution model of each taxon which are occupied by ecoregions not represented by G buffers
+ - `ERSex` calculates the Ecological Representativeness Score for _ex situ_ conservation. During this process, an ex situ ecological gap map is also created for each species by mapping only the spatial areas within the distribution model of each taxon which are occupied by ecoregions not represented by G buffers. Setting `limitByPoints = TRUE` allows filtering of ecoregions to only those with observations to prevent edge effects.
  - `FCSex` calculates the Final Conservation Score for _ex situ_ conservation as an average of the above 3 scores and assigns a priority category for each taxon based on the final conservation score
 
 **In-situ Analysis**
  - `SRSin` calculates the Sampling Representativeness Score for _in situ_ conservation
  - `GRSin` calculates the Geographic Representativeness Score for _in situ_ conservation. During this process, an in situ geographic gap map is also created for each species by subtracting the protected areas out of the distribution model of each taxon, revealing those areas in the model not currently in protected areas
- - `ERSin` calculates the Ecological Representativeness Score for _in situ_ conservation. During this process, an in situ ecological gap map is also created for each species by by mapping only the spatial areas within the distribution model of each taxon which are occupied by ecoregions not represented at all in protected areas
+ - `ERSin` calculates the Ecological Representativeness Score for _in situ_ conservation. During this process, an in situ ecological gap map is also created for each species by by mapping only the spatial areas within the distribution model of each taxon which are occupied by ecoregions not represented at all in protected areas. Setting `limitByPoints = TRUE` allows filtering of ecoregions to only those with observations to prevent edge effects.
  - `FCSin` calculates the Final Conservation Score for _in situ_ conservation as an average of the above 3 scores and assigns a priority category for each taxon based on the final conservation score
 
 **Summary evaluations**   
