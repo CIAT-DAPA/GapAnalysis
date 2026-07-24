@@ -63,24 +63,38 @@
 #' @importFrom dplyr tibble
 #' @export
 
-FCSin <- function(taxon, srsin, grsin, ersin){
+
+FCSin <- function(taxon, srsin, grsin, ersin, noModel = FALSE){
   # define variables
   srs <- srsin$results$`SRS insitu`
-  grs <- grsin$results$`GRS insitu`
-  ers <- ersin$results$`ERS insitu`
 
+  if(noModel == TRUE){
+    # No lat/lon: GRS and ERS cannot be computed
+    # FCS is SRS/3 to remain on the same 0-100 scale as a full 3-metric mean
+    out_df <- dplyr::tibble(Taxon = taxon,
+                            "SRS insitu" = srs,
+                            "GRS insitu" = NA,
+                            "ERS insitu" = NA,
+                            "FCS insitu" = srs / 3,
+                            "FCS insitu score" = NA)
+  } else {
+    grs <- grsin$results$`GRS insitu`
+    ers <- ersin$results$`ERS insitu`
 
-  # calculate the mean across the three measures
-  sp_fcs <- mean(c(srs,grs,ers), na.rm=TRUE)
+    # calculate the mean across the three measures
+    sp_fcs <- mean(c(srs, grs, ers), na.rm = TRUE)
 
-  out_df <- dplyr::tibble(Taxon=taxon,
-                       "SRS insitu" = srs,
-                       "GRS insitu"= grs,
-                       "ERS insitu" = ers,
-                       "FCS insitu" = sp_fcs,
-                       "FCS insitu score" = NA)
+    out_df <- dplyr::tibble(Taxon = taxon,
+                            "SRS insitu" = srs,
+                            "GRS insitu" = grs,
+                            "ERS insitu" = ers,
+                            "FCS insitu" = sp_fcs,
+                            "FCS insitu score" = NA)
+  }
 
-  #assign classes (min)
+  sp_fcs <- out_df$"FCS insitu"
+
+  # assign classes
   if (sp_fcs < 25) {
     score <- "UP"
   } else if (sp_fcs >= 25 & sp_fcs < 50) {
@@ -90,6 +104,7 @@ FCSin <- function(taxon, srsin, grsin, ersin){
   } else {
     score <- "LP"
   }
+
   out_df$"FCS insitu score" <- score
   return(out_df)
 }

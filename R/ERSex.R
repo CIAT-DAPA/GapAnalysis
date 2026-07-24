@@ -71,80 +71,114 @@ ERSex <- function(
 ) {
   # filter the occurrence data to the species of interest
   d1 <- occurrenceData |>
-    dplyr::filter(occurrenceData$species == taxon) |>
+    dplyr::filter(.data$species == taxon) |>
     terra::vect(
       geom = c("longitude", "latitude"),
       crs = "+proj=longlat +datum=WGS84"
     )
+
   # add color
   d1$color <- ifelse(d1$type == "H", yes = "#1184d4", no = "#6300f0")
   # limit ecoregions to point locations
   if (isTRUE(limitByPoints)) {
     ecoregions <- ecoregions[d1, ]
   }
+
   # set id column for easier indexing
   ecoregions$id_column <- as.data.frame(ecoregions)[[idColumn]]
-  # determine the eco regions present in the
-  ## crop ecos
-  ecoregions <- terra::crop(ecoregions, sdm)
-  ecoregions$sdmSum <- terra::zonal(
-    x = sdm,
-    z = ecoregions,
-    fun = "sum",
-    na.rm = TRUE
-  )
-  # subset ecoregions to feautres with greated then 0
-  ecoSelect <- ecoregions[ecoregions$sdmSum > 0, ]
-  # # index with selection
-  # ## conver to table for easier indexing
-  eco2 <- terra::as.data.frame(ecoSelect) |>
-    dplyr::select(ecoID = id_column, count = sdmSum)
 
-  # condition for no G points
-  if (is.character(gBuffer$data)) {
+  # aggregates spatial features
+  ecoregions <- terra::aggregate(x = ecoregions, by = "id_column")
+
+  # detect no-model case:
+  # if there is no valid raster model, return ERS = 0 and mark all
+  # considered ecoregions as missing
+  noModel <- !inherits(sdm, "SpatRaster") || terra::nlyr(sdm) == 0
+
+  if (noModel) {
+    ecoSelect <- ecoregions
+    eco2 <- terra::as.data.frame(ecoSelect) |>
+      dplyr::select(ecoID = id_column)
+
     ers <- 0
     gEco <- NA
-    gEcoCounts <- 0
+    gEcoCounts <- NA
     totalEcosCount <- nrow(ecoSelect)
-    missingEcos <- eco2$ecoID
+    missingEcos <- ecoSelect
   } else {
-    # rasterize the buffer object
-    b1 <- terra::rasterize(x = gBuffer$data, y = sdm) |> terra::mask(sdm)
-    # determine ecoregions in ga50 area
-    eco2$bufferEcos <- terra::zonal(
-      x = b1,
-      z = ecoSelect,
+    # determine the eco regions present in the model
+    ecoregions <- terra::crop(ecoregions, sdm)
+    ecoregions$sdmSum <- terra::zonal(
+      x = sdm,
+      z = ecoregions,
       fun = "sum",
       na.rm = TRUE
-    ) |>
-      unlist()
-    # group by data to get single value per ecoregion
-    ecoGrouped <- eco2 |>
-      dplyr::mutate(
-        bufferEcos = dplyr::case_when(
-          is.na(bufferEcos) ~ 0,
-          is.nan(bufferEcos) ~ 0,
-          TRUE ~ bufferEcos
-        )
+    )
+
+    # subset ecoregions to features with greater than 0
+    ecoSelect <- ecoregions[ecoregions$sdmSum > 0, ]
+
+    # convert to table for easier indexing
+    eco2 <- terra::as.data.frame(ecoSelect) |>
+      dplyr::select(ecoID = id_column, count = sdmSum)
+
+    # condition for no G points
+    if (is.character(gBuffer$data)) {
+      ers <- 0
+      gEco <- NA
+      gEcoCounts <- 0
+      totalEcosCount <- nrow(ecoSelect)
+      missingEcos <- ecoSelect
+    } else {
+      # rasterize the buffer object
+      b1 <- terra::rasterize(x = gBuffer$data, y = sdm) |>
+        terra::mask(sdm)
+
+      # determine ecoregions in buffer area
+      eco2$bufferEcos <- terra::zonal(
+        x = b1,
+        z = ecoSelect,
+        fun = "sum",
+        na.rm = TRUE
       ) |>
-      dplyr::group_by(ecoID) |>
-      dplyr::summarise(
-        inDistribution = sum(count, na.rm = TRUE),
-        inGBuffer = sum(bufferEcos, na.rm = TRUE)
-      )
-    # total eco
-    totalEcosCount <- nrow(ecoGrouped)
-    # ecoregions with coverage
-    gEcoIds <- ecoGrouped[ecoGrouped$inGBuffer > 0, "ecoID"] |> pull()
-    gEcoCounts <- length(gEcoIds)
-    # select map elements
-    missingEcos <- ecoSelect[!ecoSelect$id_column %in% gEcoIds, ]
-    # ERs calculation
-    ers <- min(c(100, (gEcoCounts / totalEcosCount) * 100))
+        unlist()
+
+      # group by data to get single value per ecoregion
+      ecoGrouped <- eco2 |>
+        dplyr::mutate(
+          bufferEcos = dplyr::case_when(
+            is.na(bufferEcos) ~ 0,
+            is.nan(bufferEcos) ~ 0,
+            TRUE ~ bufferEcos
+          )
+        ) |>
+        dplyr::group_by(ecoID) |>
+        dplyr::summarise(
+          inDistribution = sum(count, na.rm = TRUE),
+          inGBuffer = sum(bufferEcos, na.rm = TRUE),
+          .groups = "drop"
+        )
+
+      # total eco
+      totalEcosCount <- nrow(ecoGrouped)
+
+      # ecoregions with coverage
+      gEcoIds <- ecoGrouped |>
+        dplyr::filter(inGBuffer > 0) |>
+        dplyr::pull(ecoID)
+
+      gEcoCounts <- length(gEcoIds)
+
+      # select map elements
+      missingEcos <- ecoSelect[!ecoSelect$id_column %in% gEcoIds, ]
+
+      # ERs calculation
+      ers <- min(c(100, (gEcoCounts / totalEcosCount) * 100))
+    }
   }
 
   # generate filter
-    out_df = dplyr::tibble(
+  out_df <- dplyr::tibble(
     Taxon = taxon,
     `Ecoregions with records` = totalEcosCount,
     `Ecoregions within G buffer` = gEcoCounts,
@@ -153,11 +187,12 @@ ERSex <- function(
 
   # leaflet map of results
   map_title <- "<h3 style='text-align:center; background-color:rgba(255,255,255,0.7); padding:2px;'>Ecoregions outside of the G Buffer areas</h3>"
+
   # base map element
-  map <- leaflet() |>
+  map <- leaflet::leaflet() |>
     leaflet::addTiles()
 
-  if (nrow(ecoSelect) > 0) {
+  if (exists("ecoSelect") && nrow(ecoSelect) > 0) {
     map <- map |>
       leaflet::addPolygons(
         data = ecoSelect,
@@ -180,8 +215,7 @@ ERSex <- function(
     ) |>
     leaflet::addControl(html = map_title, position = "bottomleft")
 
-  if (ers > 0) {
-    # add additional map elements
+  if (!noModel && ers > 0) {
     if (nrow(missingEcos) > 0) {
       map <- map |>
         leaflet::addPolygons(
@@ -223,6 +257,5 @@ ERSex <- function(
     map = map
   )
 
-  # generate dataframe
   return(output)
 }

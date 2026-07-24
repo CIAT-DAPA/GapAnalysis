@@ -62,26 +62,49 @@
 #' Carver et al. (2021) GapAnalysis: an R package to calculate conservation indicators using spatial information
 #' @export
 #'
-FCSex <- function(taxon, srsex, grsex, ersex){
 
-  # calculate the mean across the three measures
+FCSex <- function(taxon, srsex, grsex, ersex, noModel = FALSE, gPoints){
+
+  # define variables
   srs <- srsex$`SRS exsitu`
-  grs <- grsex$results$`GRS exsitu`
-  ers <- ersex$results$`ERS exsitu`
 
-  # generate the mean exsitu score
-  sp_fcs <- mean(c(srs,
-                   ers,
-                   grs), na.rm=TRUE)
+  if(noModel == TRUE){
+    if(gPoints > 0){
+      # points are present but no model so can't generate GRS, ERS
+      out_df <- dplyr::tibble(Taxon = taxon,
+                              "SRS exsitu" = srs,
+                              "GRS exsitu" = NA,
+                              "ERS exsitu" = NA,
+                              "FCS exsitu" = srs / 3,
+                              "FCS exsitu score" = NA)
+    } else {
+      # no germplasm points so values are assigned as zero
+      out_df <- dplyr::tibble(Taxon = taxon,
+                              "SRS exsitu" = srs,
+                              "GRS exsitu" = 0,
+                              "ERS exsitu" = 0,
+                              "FCS exsitu" = srs / 3,
+                              "FCS exsitu score" = NA)
+    }
 
-  out_df <- dplyr::tibble(Taxon = taxon,
-                         "SRS exsitu"= srs,
-                         "GRS exsitu" = grs,
-                         "ERS exsitu"= ers,
-                         "FCS exsitu"=sp_fcs,
-                         "FCS exsitu score" = NA)
+  } else {
+    grs <- grsex$results$`GRS exsitu`
+    ers <- ersex$results$`ERS exsitu`
 
-  #assign classes (min)
+    # calculate the mean across the three measures
+    sp_fcs <- mean(c(srs, grs, ers), na.rm = TRUE)
+
+    out_df <- dplyr::tibble(Taxon = taxon,
+                            "SRS exsitu" = srs,
+                            "GRS exsitu" = grs,
+                            "ERS exsitu" = ers,
+                            "FCS exsitu" = sp_fcs,
+                            "FCS exsitu score" = NA)
+  }
+
+  sp_fcs <- out_df$"FCS exsitu"
+
+  # assign classes
   if (sp_fcs < 25) {
     score <- "UP"
   } else if (sp_fcs >= 25 & sp_fcs < 50) {
@@ -91,7 +114,7 @@ FCSex <- function(taxon, srsex, grsex, ersex){
   } else {
     score <- "LP"
   }
+
   out_df$"FCS exsitu score" <- score
   return(out_df)
-
 }

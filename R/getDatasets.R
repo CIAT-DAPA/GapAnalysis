@@ -14,65 +14,60 @@
 #' @importFrom terra rast writeRaster
 #' @export
 
-getDatasets <- function(){
-  #LOADING FOLDER PARAMETERS
-  out_dir <- tools::R_user_dir("GapAnalysis", which = "data")
-  if(!file.exists(out_dir)){dir.create(out_dir, recursive = TRUE)}
-  
-  prot_dir <- paste0(out_dir, "/protectedArea")
-  if(!file.exists(prot_dir)){dir.create(prot_dir, recursive = TRUE)}
-  
-  ecoRegion_dir <- paste0(out_dir, "/ecoRegion")
-  if(!file.exists(ecoRegion_dir)){dir.create(ecoRegion_dir, recursive = TRUE)}
+getDatasets <- function(out_dir = tools::R_user_dir("GapAnalysis", which = "data")){
+  if(!file.exists(out_dir)) dir.create(out_dir, recursive = TRUE)
 
+  prot_dir <- file.path(out_dir, "protectedArea")
+  if(!file.exists(prot_dir)) dir.create(prot_dir, recursive = TRUE)
 
-  # WDPA file  --------------------------------------------------------------
-  proAreaPath <- paste0(prot_dir,"/wdpa_rasterize_all.tif")
+  ecoRegion_dir <- file.path(out_dir, "ecoRegion")
+  if(!file.exists(ecoRegion_dir)) dir.create(ecoRegion_dir, recursive = TRUE)
+
+  downloaded_any <- FALSE
+
+  proAreaPath <- file.path(prot_dir, "wdpa_rasterized_all.tif")
   if(!file.exists(proAreaPath)){
-    # raw protected areas data
     raw_tif_data <- dataverse::get_file(
-      file ="wdpa_rasterized_all.tif",
+      file = "wdpa_rasterized_all.tif",
       dataset = "doi:10.7910/DVN/KQVOSW",
       server = "https://dataverse.harvard.edu"
     )
-
-    # Write the raw data to a temporary file on your disk
     temp_file_path <- tempfile(fileext = ".tif")
     writeBin(raw_tif_data, temp_file_path)
-
-    # Step 5: Read the temporary TIFF file into R using terra
-    # The 'rast()' function from the terra package reads the raster data.
     raster_data <- terra::rast(temp_file_path)
     terra::writeRaster(x = raster_data, filename = proAreaPath)
-    message("Protected areas files have been downloaded from the dataverse","\n")
-
+    downloaded_any <- TRUE
+    message("Protected areas file downloaded from Dataverse.\n")
   } else {
-    message("Protected areas file are already downloaded","\n")
+    message("Protected areas file already exists.\n")
   }
 
-
-  # ecoregion file ----------------------------------------------------------
-  ecoRegionPath <- paste0(prot_dir,"/tnc_terr_ecoregions.gpkg")
+  ecoRegionPath <- file.path(ecoRegion_dir, "tnc_terr_ecoregions.gpkg")
   if(!file.exists(ecoRegionPath)){
-    # raw data
     raw_eco_data <- dataverse::get_file(
-      file ="tnc_terr_ecoregions.gpkg",
+      file = "tnc_terr_ecoregions.gpkg",
       dataset = "doi:10.7910/DVN/WTLNRG",
       server = "https://dataverse.harvard.edu"
     )
-    # Write the raw data to a temporary file on your disk
     temp_file_path <- tempfile(fileext = ".gpkg")
     writeBin(raw_eco_data, temp_file_path)
-
-    # Step 5: Read the temporary TIFF file into R using terra
-    # The 'rast()' function from the terra package reads the raster data.
     vect_data <- terra::vect(temp_file_path)
     terra::writeVector(x = vect_data, filename = ecoRegionPath)
-    message("Ecoregions files have been downloaded from the dataverse","\n")
-
+    downloaded_any <- TRUE
+    message("Ecoregions file downloaded from Dataverse.\n")
   } else {
-    message("Ecoregions files are already downloaded","\n")
+    message("Ecoregions file already exists.\n")
   }
-  return(message("DATASETS WERE DOWNLOADED!"))
-}
 
+  if (downloaded_any) {
+    message("Datasets check complete: missing files were downloaded.")
+  } else {
+    message("Datasets check complete: all files already present; nothing downloaded.")
+  }
+
+  invisible(list(
+    out_dir = normalizePath(out_dir, mustWork = FALSE),
+    protectedArea = normalizePath(proAreaPath, mustWork = FALSE),
+    ecoRegion = normalizePath(ecoRegionPath, mustWork = FALSE)
+  ))
+}

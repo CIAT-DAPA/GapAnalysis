@@ -11,7 +11,7 @@
 #'
 #' @param occurrenceData a data frame of values containing columns for the taxon, latitude, longitude, and type. Coordinates are assumed to be in the WGS84 (EPSG:4326) coordinate reference system.
 #'
-#' @param protectedAreas A terra rast object the contian spatial location of protected areas.
+#' @param protectedAreas A terra rast object the contain spatial location of protected areas.
 #'
 #' @return A list object containing
 #' 1. results : a data frames of values summarizing the results of the function
@@ -46,44 +46,81 @@
 #' @importFrom leaflet addTiles addPolygons addLegend addRasterImage addCircleMarkers addControl
 #' @export
 
-SRSin <- function(taxon, sdm, occurrenceData,  protectedAreas){
-  # remove all points not inside of the sdm
-  # then test those for presence in protected areas
-  # return the proportion and the visualization of points
 
+SRSin <- function(taxon, sdm, occurrenceData, protectedAreas){
+  # If an SDM exists:
+  #   - keep only occurrence points inside the SDM
+  #   - test those for presence in protected areas
+  # If no SDM exists:
+  #   - use all occurrence points
+  #   - test those for presence in protected areas
+  # Return the proportion and the visualization of points
 
   # filter the occurrence data to the species of interest
   d1 <- occurrenceData |>
     dplyr::filter(species == taxon) |>
-    terra::vect(geom=c("longitude", "latitude"), crs="+proj=longlat +datum=WGS84")
-  # extract values from the sdm
-  d1$inSDM <- terra::extract(sdm, d1, ID = FALSE)
-  # points in sdm
-  p1 <- d1[d1$inSDM == 1, ]
+    terra::vect(geom = c("longitude", "latitude"), crs = "+proj=longlat +datum=WGS84")
+
+  # handle case where there is no SDM model
+  if (!inherits(sdm, "SpatRaster")) {
+    p1 <- d1
+    p1$inSDM <- NA
+  } else {
+    # extract values from the sdm
+    d1$inSDM <- terra::extract(sdm, d1, ID = FALSE)
+
+    # points in sdm
+    p1 <- d1[d1$inSDM == 1, ]
+  }
+
   # extract vals from protected layers
-  p1$inPro <- terra::extract(protectedAreas, p1, ID=FALSE)
-  # points in pro
-  protectedPoints <- p1[p1$inPro== 1, ]
+  if (nrow(p1) > 0) {
+    p1$inPro <- terra::extract(protectedAreas, p1, ID = FALSE)
+
+    # points in protected areas
+    protectedPoints <- p1[p1$inPro == 1, ]
+  } else {
+    p1$inPro <- numeric(0)
+    protectedPoints <- p1
+  }
 
   # srsin
-  srsin <- nrow(protectedPoints)/nrow(p1) *100
+  if (nrow(p1) > 0) {
+    srsin <- nrow(protectedPoints) / nrow(p1) * 100
+  } else {
+    srsin <- 0
+  }
 
   # dataframe for export
-  out_df <- dplyr::tibble(Taxon = taxon,
-                          "Total Observations" = nrow(d1),
-                          "Total records in SDM" = nrow(p1),
-                          "Records in Protected areas" = nrow(protectedPoints),
-                          "SRS insitu" = srsin)
-  # quick map
-  p1$color <- ifelse(is.na(p1$inPro), "#444444", "#746fae")
+  out_df <- dplyr::tibble(
+    Taxon = taxon,
+    "Total Observations" = nrow(d1),
+    "Total records in SDM" = if (inherits(sdm, "SpatRaster")) nrow(p1) else NA_integer_,
+    "Records in Protected areas" = nrow(protectedPoints),
+    "SRS insitu" = srsin
+  )
 
-  map_title <- "<h3 style='text-align:center; background-color:rgba(255,255,255,0.7); padding:2px;'>Points within SDM inside of protected areas</h3>"
+  # quick map
+  if (nrow(p1) > 0) {
+    p1$color <- ifelse(is.na(p1$inPro), "#444444", "#746fae")
+  }
+
+  map_title <- if (inherits(sdm, "SpatRaster")) {
+    "<h3 style='text-align:center; background-color:rgba(255,255,255,0.7); padding:2px;'>Points within SDM inside of protected areas</h3>"
+  } else {
+    "<h3 style='text-align:center; background-color:rgba(255,255,255,0.7); padding:2px;'>Occurrence points inside of protected areas (no SDM available)</h3>"
+  }
+
   map <- leaflet::leaflet() |>
-    leaflet::addTiles() |>
-    leaflet::addRasterImage(
-      x = sdm,
-      colors = "#47ae24"
-    )
+    leaflet::addTiles()
+
+  if (inherits(sdm, "SpatRaster")) {
+    map <- map |>
+      leaflet::addRasterImage(
+        x = sdm,
+        colors = "#47ae24"
+      )
+  }
 
   if (nrow(p1) > 0) {
     map <- map |>
@@ -99,20 +136,21 @@ SRSin <- function(taxon, sdm, occurrenceData,  protectedAreas){
     leaflet::addLegend(
       position = "topright",
       title = "SRS in situ",
-      colors = c("#47ae24","#746fae", "#444444"),
-      labels = c("Distribution","Protected Occurrences", "Non Protected Occurrences"),
+      colors = if (inherits(sdm, "SpatRaster")) c("#47ae24", "#746fae", "#444444") else c("#746fae", "#444444"),
+      labels = if (inherits(sdm, "SpatRaster")) {
+        c("Distribution", "Protected Occurrences", "Non Protected Occurrences")
+      } else {
+        c("Protected Occurrences", "Non Protected Occurrences")
+      },
       opacity = 1
-    )|>
+    ) |>
     leaflet::addControl(html = map_title, position = "bottomleft")
-
-
 
   # define output
   output <- list(
     results = out_df,
     points = p1,
     map = map
-    )
+  )
   return(output)
 }
-
