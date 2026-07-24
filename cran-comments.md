@@ -2,13 +2,13 @@
 
 0 errors | 0 warnings | 0 notes
 
-*This is a minor release for version 2.1.0.*
+*This is a patch release for version 2.1.1.*
 
-This update introduces a minor method addition and infrastructure improvements:
-- Added the `limitByPoints` parameter to `ERSin` and `ERSex` to optionally filter ecoregions and prevent spatial edge effects.
-- Clarified throughout the documentation that input coordinates are assumed to be in the WGS84 (EPSG:4326) coordinate reference system.
-- Fixed a recurrent `[vect] guessed crs` warning when generating spatial buffers.
-- Introduced a comprehensive `testthat` suite to ensure ongoing backwards compatibility for the gap analysis workflows.
-- Verified that the package passes `R CMD check --as-cran` with no errors, warnings, or notes.
+This update introduces several fixes and documentation improvements:
+- Integrated spelling, grammar, and style standardizations throughout the documentation and README.
+- Introduced robust handling of the "no-model" case inside `ERSex` and `ERSin` to safely return valid outputs when a species distribution model is missing.
+- Added ecoregion polygon aggregation by ID to optimize spatial intersection logic.
+- Resolved R CMD check warnings regarding undocumented arguments by updating Roxygen tags and regenerating package documentation.
+- Declared package global variables to ensure clean checks on CRAN.
 
 Thank you for your time and help in reviewing this submission.

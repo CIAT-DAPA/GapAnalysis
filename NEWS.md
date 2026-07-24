@@ -1,3 +1,10 @@
+# GapAnalysis 2.1.1
+
+* Bug fixes: Added robust handling of the "no-model" case in `ERSex` and `ERSin` to safely return valid outputs when a species distribution model is missing.
+* Infrastructure / Optimization: Added ecoregion polygon aggregation by ID to optimize spatial intersection performance.
+* Documentation: Standardized spelling, punctuation, capitalization, and formatting across the function documentation and `README.md`. Also added missing parameter documentation for `noModel`, `gPoints`, and `out_dir` to resolve CRAN warnings.
+* Package health: Added global variable declarations to ensure clean checks on CRAN.
+
 # GapAnalysis 2.1.0
 
 * Minor method addition: Added the `limitByPoints` parameter to `ERSin` and `ERSex`. This allows filtering of ecoregions considered in the metrics to only those containing at least one observation. This change was implemented to prevent edge effects where pixels from the distribution extend into neighboring ecoregions as a product of differences in raster/vector geometry rather than being predicted there directly.
