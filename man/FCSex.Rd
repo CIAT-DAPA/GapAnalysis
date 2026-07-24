@@ -4,7 +4,7 @@
 \alias{FCSex}
 \title{Final conservation score ex situ}
 \usage{
-FCSex(taxon, srsex, grsex, ersex)
+FCSex(taxon, srsex, grsex, ersex, noModel = FALSE, gPoints)
 }
 \arguments{
 \item{taxon}{A character object that defines the name of the species as listed in the occurrence dataset}
@@ -14,6 +14,10 @@ FCSex(taxon, srsex, grsex, ersex)
 \item{grsex}{A dataframe contain the results from the grsex function}
 
 \item{ersex}{A dataframe contain the results from the ersex function}
+
+\item{noModel}{A boolean parameter (TRUE/FALSE) to determine if there is a species distribution model. Default is FALSE.}
+
+\item{gPoints}{An integer representing the count of G points.}
 }
 \value{
 out_df : a data frames of values summarizing the results of the function

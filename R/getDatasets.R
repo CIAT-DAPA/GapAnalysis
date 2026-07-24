@@ -5,6 +5,9 @@
 #' Ecoregions and protected area data base are stored on a harvard dataverse repository. This functions check to see if
 #' those datasets have been download and will download them if not present.
 #'
+#' @param out_dir A character vector specifying the output directory to save download files.
+#'
+#'
 #' @return A message confirming the datasets were downloaded, along with saving the files to the package's data directory.
 #'
 #' @references

@@ -4,7 +4,10 @@
 \alias{getDatasets}
 \title{Download datasets from the harvard dataverse repo}
 \usage{
-getDatasets()
+getDatasets(out_dir = tools::R_user_dir("GapAnalysis", which = "data"))
+}
+\arguments{
+\item{out_dir}{A character vector specifying the output directory to save download files.}
 }
 \value{
 A message confirming the datasets were downloaded, along with saving the files to the package's data directory.

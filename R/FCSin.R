@@ -8,6 +8,7 @@
 #' @param srsin A dataframe contain the results from the srsin function
 #' @param grsin A dataframe contain the results from the grsin function
 #' @param ersin A dataframe contain the results from the ersin function
+#' @param noModel A boolean parameter (TRUE/FALSE) to determine if there is a species distribution model. Default is FALSE.
 #'
 #' @return out_df : a data frames of values summarizing the results of the function
 #'

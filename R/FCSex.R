@@ -7,6 +7,8 @@
 #' @param srsex A dataframe contain the results from the srsex function
 #' @param grsex A dataframe contain the results from the grsex function
 #' @param ersex A dataframe contain the results from the ersex function
+#' @param noModel A boolean parameter (TRUE/FALSE) to determine if there is a species distribution model. Default is FALSE.
+#' @param gPoints An integer representing the count of G points.
 #'
 #' @return out_df : a data frames of values summarizing the results of the function
 #'

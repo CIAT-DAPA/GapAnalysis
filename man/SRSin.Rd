@@ -13,7 +13,7 @@ SRSin(taxon, sdm, occurrenceData, protectedAreas)
 
 \item{occurrenceData}{a data frame of values containing columns for the taxon, latitude, longitude, and type. Coordinates are assumed to be in the WGS84 (EPSG:4326) coordinate reference system.}
 
-\item{protectedAreas}{A terra rast object the contian spatial location of protected areas.}
+\item{protectedAreas}{A terra rast object the contain spatial location of protected areas.}
 }
 \value{
 A list object containing
