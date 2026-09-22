@@ -222,7 +222,7 @@ Khoury CK, Carver D, Barchenger DW, Barboza G, van Zonneweld M, Jarret R, Bohs L
 
 Khoury CK, Carver D, Greene SL, Williams KA, Achicanoy HA, Schori M, León B, Wiersema JH, and Frances A (2020) Crop wild relatives of the United States require urgent conservation action. Proc Natl Acad Sci USA 117(52): 33351-33357. doi: [10.1073/pnas.2007029117](https://doi.org/10.1073/pnas.2007029117)
 
-Khoury CK, Carver D, Kates HR, Achicanoy HA, van Zonneweld M, Thomas E, Heinitz C, Jarret R, Labate JA, Reitsma K, Nabhan GP, and Greene SL (2019c) Distributions, conservation status, and abiotic stress tolerance potential of wild cucurbits (Cucurbita L.). Plants, People, Planet 2(3): 269-283. doi: [10.1002/ppp3.10085](https://doi.org/10.1002/ppp3.100850)
+Khoury CK, Carver D, Kates HR, Achicanoy HA, van Zonneweld M, Thomas E, Heinitz C, Jarret R, Labate JA, Reitsma K, Nabhan GP, and Greene SL (2019c) Distributions, conservation status, and abiotic stress tolerance potential of wild cucurbits (Cucurbita L.). Plants, People, Planet 2(3): 269-283. doi: [10.1002/ppp3.10085](https://doi.org/10.1002/ppp3.10085)
 
 Ramirez-Villegas J, Khoury CK, Jarvis A, Debouck DG, Guarino L (2010) A gap analysis methodology for collecting crop genepools: a case study with Phaseolus beans. PLoS One 5, e13497. [doi:10.1371/journal.pone.0013497](https://doi.org/10.1371/journal.pone.0013497)
 
