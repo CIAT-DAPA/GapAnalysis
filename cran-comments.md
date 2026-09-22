@@ -2,13 +2,16 @@
 
 0 errors | 0 warnings | 0 notes
 
-*This is a minor release for version 2.1.0.*
+*This is a patch release, version 2.1.1.*
 
-This update introduces a minor method addition and infrastructure improvements:
-- Added the `limitByPoints` parameter to `ERSin` and `ERSex` to optionally filter ecoregions and prevent spatial edge effects.
-- Clarified throughout the documentation that input coordinates are assumed to be in the WGS84 (EPSG:4326) coordinate reference system.
-- Fixed a recurrent `[vect] guessed crs` warning when generating spatial buffers.
-- Introduced a comprehensive `testthat` suite to ensure ongoing backwards compatibility for the gap analysis workflows.
-- Verified that the package passes `R CMD check --as-cran` with no errors, warnings, or notes.
+This update extends the workflow to taxa for which no species distribution model is available and fixes two bugs:
+
+- `SRSin`, `ERSin`, and `ERSex` accept a missing model (`sdm = NULL`) and return results consistent with the published method.
+- Added the `noModel` argument to `FCSex` and `FCSin`. When no model exists, `GRS` and `ERS` are assigned 0 and the final score is the mean of the three metrics, following Khoury et al. (2019).
+- Fixed `getDatasets`, which wrote the ecoregions file to the wrong folder and used a misspelled raster filename. The function gains an optional `out_dir` argument; the default location is unchanged.
+- Fixed an error in `ERSex` and `ERSin` when `limitByPoints = TRUE` left no ecoregions.
+- Added a `testthat` file exercising the no-model, no-coordinate, and no-G-record conditions.
+
+No changes were made to existing function signatures other than the new optional arguments with defaults.
 
 Thank you for your time and help in reviewing this submission.

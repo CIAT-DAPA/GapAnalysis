@@ -8,7 +8,8 @@
 #' @param grsex A dataframe contain the results from the grsex function
 #' @param ersex A dataframe contain the results from the ersex function
 #' @param noModel A boolean parameter (TRUE/FALSE) to determine if there is a species distribution model. Default is FALSE.
-#' @param gPoints An integer representing the count of G points.
+#'   When TRUE, GRS and ERS cannot be calculated and are assigned 0; the final score is the mean of the three metrics,
+#'   following Khoury et al. (2019).
 #'
 #' @return out_df : a data frames of values summarizing the results of the function
 #'
@@ -65,44 +66,30 @@
 #' @export
 #'
 
-FCSex <- function(taxon, srsex, grsex, ersex, noModel = FALSE, gPoints){
+FCSex <- function(taxon, srsex, grsex, ersex, noModel = FALSE){
 
   # define variables
   srs <- srsex$`SRS exsitu`
 
-  if(noModel == TRUE){
-    if(gPoints > 0){
-      # points are present but no model so can't generate GRS, ERS
-      out_df <- dplyr::tibble(Taxon = taxon,
-                              "SRS exsitu" = srs,
-                              "GRS exsitu" = NA,
-                              "ERS exsitu" = NA,
-                              "FCS exsitu" = srs / 3,
-                              "FCS exsitu score" = NA)
-    } else {
-      # no germplasm points so values are assigned as zero
-      out_df <- dplyr::tibble(Taxon = taxon,
-                              "SRS exsitu" = srs,
-                              "GRS exsitu" = 0,
-                              "ERS exsitu" = 0,
-                              "FCS exsitu" = srs / 3,
-                              "FCS exsitu score" = NA)
-    }
-
+  if (isTRUE(noModel)) {
+    # no distribution model: GRS and ERS cannot be calculated and are set to 0
+    # so the final score remains the mean of the three metrics (Khoury et al. 2019)
+    grs <- 0
+    ers <- 0
   } else {
     grs <- grsex$results$`GRS exsitu`
     ers <- ersex$results$`ERS exsitu`
-
-    # calculate the mean across the three measures
-    sp_fcs <- mean(c(srs, grs, ers), na.rm = TRUE)
-
-    out_df <- dplyr::tibble(Taxon = taxon,
-                            "SRS exsitu" = srs,
-                            "GRS exsitu" = grs,
-                            "ERS exsitu" = ers,
-                            "FCS exsitu" = sp_fcs,
-                            "FCS exsitu score" = NA)
   }
+
+  # mean across the three measures
+  sp_fcs <- mean(c(srs, grs, ers), na.rm = TRUE)
+
+  out_df <- dplyr::tibble(Taxon = taxon,
+                          "SRS exsitu" = srs,
+                          "GRS exsitu" = grs,
+                          "ERS exsitu" = ers,
+                          "FCS exsitu" = sp_fcs,
+                          "FCS exsitu score" = NA)
 
   sp_fcs <- out_df$"FCS exsitu"
 

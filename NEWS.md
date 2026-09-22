@@ -1,3 +1,12 @@
+# GapAnalysis 2.1.1
+
+* Method addition: The workflow now supports taxa for which no species distribution model is available (for example, taxa with records but no usable coordinates). `SRSin`, `ERSin`, and `ERSex` accept `sdm = NULL`; `SRSin` then evaluates all occurrence points against protected areas, and the ERS metrics return 0 with the ecoregion counts set accordingly. The results tables and leaflet maps reflect the missing model.
+* Method addition: Added the `noModel` parameter to `FCSex` and `FCSin`. When `TRUE`, `GRS` and `ERS` are assigned 0 and the final conservation score is the mean of the three metrics, consistent with the treatment of unmodelled taxa in Khoury et al. (2019) <doi:10.1016/j.ecolind.2018.11.016>. `GRSex` and `GRSin` require a model and should be skipped for these taxa.
+* Bug fix: `getDatasets` wrote the ecoregions file into the protected areas folder and used a misspelled filename for the protected areas raster. Both paths are corrected, and the function gains an `out_dir` argument (defaulting to the previous `tools::R_user_dir()` location) and returns the file paths invisibly.
+* Bug fix: `ERSex` and `ERSin` no longer error when `limitByPoints = TRUE` leaves no ecoregions to evaluate.
+* Infrastructure: Replaced data-masked column references in `ERSex` with the `.data` pronoun.
+* Infrastructure: Added a `testthat` file covering taxa with no coordinates, taxa with no model, taxa with no G records, and the `noModel` behaviour of `FCSex` and `FCSin`.
+
 # GapAnalysis 2.1.0
 
 * Minor method addition: Added the `limitByPoints` parameter to `ERSin` and `ERSex`. This allows filtering of ecoregions considered in the metrics to only those containing at least one observation. This change was implemented to prevent edge effects where pixels from the distribution extend into neighboring ecoregions as a product of differences in raster/vector geometry rather than being predicted there directly.

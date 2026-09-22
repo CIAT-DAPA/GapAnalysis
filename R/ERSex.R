@@ -88,7 +88,11 @@ ERSex <- function(
   ecoregions$id_column <- as.data.frame(ecoregions)[[idColumn]]
 
   # aggregates spatial features
-  ecoregions <- terra::aggregate(x = ecoregions, by = "id_column")
+  # guard: limitByPoints can leave no ecoregions when the taxon has no
+  # usable coordinates, and terra::aggregate errors on an empty SpatVector
+  if (nrow(ecoregions) > 0) {
+    ecoregions <- terra::aggregate(x = ecoregions, by = "id_column")
+  }
 
   # detect no-model case:
   # if there is no valid raster model, return ERS = 0 and mark all
